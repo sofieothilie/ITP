@@ -1,8 +1,6 @@
-#
+# Movie rating project
 
-**Movie rating project**
-
-*Appens funksjonalitet*
+**Appens funksjonaliteter**
 
 1. Bruker skal kunne logge seg inn.
     - Dersom bruker ikke er registrert skal den få et valg om å opprette en ny bruker.
@@ -25,13 +23,15 @@
         2. MovieRegister - her oppdateres gjennomsnittsratingen etter hvert som filmer blir ratet.
 
 
-*Mulige utvidelse*
+**Mulige utvidelse**
 
 1. Sortering av filmregisteret
     - Rating, flere nedtrekksmenyer basert på tema, år, skuespillere osv. 
 2. Oversikt over brukerens ratede filmer, sortert fra høyest rate til lavest
 3. Utvide med fysiske stjerner som rating
 
-#
 
+**Skjermbilde for å illustrere appen**
+![](screenApp.jpg)
+#
 

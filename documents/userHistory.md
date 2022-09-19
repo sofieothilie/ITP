@@ -1,6 +1,5 @@
-# 
+# Brukerhistorie
 
-`Diverse bruker scenarior`
 
 `## Basebruker`
 
@@ -24,12 +23,11 @@
 
 `## Forslag til hva som kan testes i appen for å se funksjonaliteten:`
 
+- `Prøve å søke på en film`
 - `Logge inn på en egen bruker`
-    - //`Prøve å se hvilke filmer man har ratet`
-    - `Prøve å søke opp en film`
     - `Prøve å legge til en ny rating`
         - `Prøve å rate en film man har ratet, dette skal ikke gå`
-        - `Prøve å rate en ny film, så legger den til ratingen din til filmen`
+        - `Prøve å rate en ny film, så legge den til ratingen din til filmen`
 - `Lage en nye bruker, og logge inn med denne`
     - `Prøve å rate en film`
 - `Prøve å søke opp en film for å se gjennomsnittsratingen`
