@@ -1,10 +1,15 @@
-import core.User;
+package core;
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Users {
-
     private List<User> users = new ArrayList<>();
 
-    public void registerNewUser(User user){
+    public void registerNewUser(User user) throws Exception{
         if(this.existingUser(user.getUsername(), user.getPassword())){
             throw new IllegalArgumentException("User already exists");
         }
