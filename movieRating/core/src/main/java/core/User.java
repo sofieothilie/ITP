@@ -37,10 +37,16 @@ public class User {
         movie.updateRating( myRating);
     }
 
+    public String ratedMoviesToStrong(){
+        String ratedMoviesString = "";
+        for(Movie movie : ratedMovies.keySet()){
+            ratedMoviesString +=  movie.getTitle() + ":" + movie.getGenre() + ":" + ratedMovies.get(movie) + ",";
+        }
+        return ratedMoviesString;
+    }
 
-
-
-    
-
-    
+    @Override
+    public String toString() {
+        return username + ";" + password + ";" + this.ratedMoviesToStrong();
+    }
 }
