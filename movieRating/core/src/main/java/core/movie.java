@@ -53,7 +53,7 @@ public class Movie {
         this.rating = rating;
     }
 
-    public void updateRating( Double myRating){
+    public void updateRating( int myRating){
         Double sum = ratings.stream().mapToDouble(d -> d).sum();
         this.rating  = sum/ratings.size();  
         register.addMovie(this);
