@@ -37,7 +37,7 @@ public class MovieRatingController {
     private ChoiceBox<Integer> rateBox;
     private ListView<String> movieRegisterList;
     private TextArea ratedMovie;
-    private Label loggedIn, loggedOut, usernameLabel, passwordLabel, movieLabel;
+    private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel;
 
 
 
@@ -83,6 +83,7 @@ public class MovieRatingController {
         rateButton.setVisible(value);
         movieLabel.setVisible(value);
         ratedMovie.setVisible(value);
+        rateLabel.setVisible(value);
         if (!movie.equals(null) && value == true){
             ratedMovie.setText(movie.getTitle());
         }
@@ -131,13 +132,13 @@ public class MovieRatingController {
     }
 
     @FXML
-    private void handleSearchGenre(){
+    private void handleSearchGenre(){ //MANGLER I FXML
         //Searches for movies by genre and displays them in list view.
         movieRegisterList.setItems(movieRegister.searchGenre(genreBox.getValue()));
     }
 
     @FXML
-    private void selectMovie(){
+    private void selectMovie(MouseEvent event){
         //Displays a movie when it is selected if a user is logged in. This allows for rating.
         try {
             this.user.getUsername(); //fails if user is not logged in.
@@ -147,7 +148,7 @@ public class MovieRatingController {
         }
         //Sets values for rating:
         this.movie = convertSelectedItemToMovieObject();
-        movieLabel.setText(this.movie.getTitle());
+        movieLabel.setText(": " + this.movie.getTitle());
         setRateVisibility(true, this.movie);
     }
 

@@ -9,11 +9,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="13.0" layoutY="39.0" text="Username:" />
-      <Label layoutX="15.0" layoutY="75.0" text="Password:" />
+      <Label fx:id="usernameLabel" layoutX="13.0" layoutY="39.0" text="Username:" />
+      <Label fx:id="passwordLabel" layoutX="15.0" layoutY="75.0" text="Password:" />
       <TextField fx:id="username" layoutX="86.0" layoutY="35.0" />
       <TextField fx:id="password" layoutX="86.0" layoutY="71.0" />
       <Button fx:id="logIn" layoutX="16.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleLogIn" text="Log in" />
@@ -25,19 +24,20 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="295.0" layoutY="160.0" text="Rate the movie" />
+      <Label fx:id="rateLabel" layoutX="295.0" layoutY="160.0" text="Rate the movie" />
       <Label layoutX="35.0" layoutY="256.0" text="Genre" />
       <Label layoutX="36.0" layoutY="196.0" text="Name" />
       <TextField fx:id="movieName" layoutX="36.0" layoutY="218.0" text="The Notebook" />
       <Button fx:id="searchMovie" layoutX="202.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleSearchMovie" text="Search" />
-      <ListView fx:id="movieRegisterList" layoutX="34.0" layoutY="309.0" prefHeight="99.0" prefWidth="215.0" />
       <ChoiceBox fx:id="rateBox" layoutX="291.0" layoutY="218.0" prefWidth="150.0" />
       <Label layoutX="290.0" layoutY="196.0" text="From 1 to 5 stars" />
       <Button fx:id="addMovieToRegister" layoutX="33.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleAddMovieToRegister" text="Add movie to register" />
+      <ListView fx:id="movieRegisterList" layoutX="34.0" layoutY="309.0" onMouseClicked="#selectMovie" prefHeight="99.0" prefWidth="215.0" />
       <TextArea fx:id="ratedMovie" layoutX="291.0" layoutY="254.0" prefHeight="37.0" prefWidth="215.0" />
       <Button fx:id="logOUt" layoutX="447.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleLogOut" text="Log out" />
       <Button fx:id="createUser" layoutX="86.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleCreateUser" text="Create new user" />
       <Button fx:id="rateButton" layoutX="447.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleRateButton" text="Rate" />
       <Label layoutX="228.0" layoutY="6.0" text="MovieRegister" />
+      <Label fx:id="movieLabel" layoutX="381.0" layoutY="161.0" prefHeight="17.0" prefWidth="120.0" />
    </children>
 </Pane>
