@@ -39,5 +39,7 @@
       <Button fx:id="rateButton" layoutX="447.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleRateButton" text="Rate" />
       <Label layoutX="228.0" layoutY="6.0" text="MovieRegister" />
       <Label fx:id="movieLabel" layoutX="381.0" layoutY="161.0" prefHeight="17.0" prefWidth="120.0" />
+      <Label fx:id="loggedIn" layoutX="19.0" layoutY="96.0" text="You're logged in!" textFill="#44b759" />
+      <Label fx:id="loggedOut" layoutX="19.0" layoutY="96.0" text="You're logged out!" textFill="#ce4242" />
    </children>
 </Pane>
