@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 
 
-public class testTest {
+public class MovieTest {
    
     Movie m1 = new Movie("Cinderella", "fantasy");
     User testUser = new User("user1", "password");
