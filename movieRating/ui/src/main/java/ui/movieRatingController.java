@@ -56,8 +56,8 @@ public class MovieRatingController {
     
     private void setLoginPossibility(boolean value){
         //Sets the log-in-area to desired visibility:
-        // usernameLabel.visibleProperty().set(value);
-        // passwordLabel.visibleProperty().set(value);
+        usernameLabel.visibleProperty().set(value);
+        passwordLabel.visibleProperty().set(value);
         username.visibleProperty().set(value);
         username.clear();
         password.visibleProperty().set(value);
