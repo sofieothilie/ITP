@@ -32,6 +32,12 @@
 
 
 **Skjermbilde for å illustrere appen**
-![](screenApp.jpg)
-#
 
+<img src="screenApp.jpg" width="400">
+
+
+**Brukerhistorie**
+
+<img src="brukerhistorie.png" width="600">
+
+#
