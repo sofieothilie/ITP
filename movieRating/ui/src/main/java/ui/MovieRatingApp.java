@@ -16,7 +16,7 @@ public class MovieRatingApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("MovieRatingApp");
-        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MovieRating.fxml"))));
+        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("movieRating.fxml"))));
         primaryStage.show();
     }
     

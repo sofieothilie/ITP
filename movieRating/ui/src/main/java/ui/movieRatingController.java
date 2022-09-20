@@ -8,6 +8,7 @@ import core.MovieHandler;
 import core.MovieRegister;
 import core.User;
 import core.Users;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -33,12 +34,19 @@ public class MovieRatingController {
     private ObservableList<String> observableMovie;
 
     //FXML fields
+    @FXML
     private TextField username, password, movieName;
+    @FXML
     private Button logIn, addMovieRegister, createUser, searchMovie, addMovieToRegister, logOut, rateButton;
+    @FXML
     private ChoiceBox<String> genreBox;
+    @FXML
     private ChoiceBox<Integer> rateBox;
+    @FXML
     private ListView<String> movieRegisterList;
+    @FXML
     private TextArea ratedMovie;
+    @FXML
     private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel;
 
 
@@ -48,48 +56,47 @@ public class MovieRatingController {
     @FXML
     public void initialize() {
         //Starts up the app with correct visibility:
-        setLoginPossibility(true);
-        setSearchVisibility(true);
-        setRateVisibility(false, null);
-        
+        // setLoginPossibility(true);
+        // setSearchVisibility(true);
+        // setRateVisibility(false, null);        
     }
     
-    private void setLoginPossibility(boolean value){
-        //Sets the log-in-area to desired visibility:
-        usernameLabel.visibleProperty().set(value);
-        passwordLabel.visibleProperty().set(value);
-        username.visibleProperty().set(value);
-        username.clear();
-        password.visibleProperty().set(value);
-        password.clear();
-        logIn.visibleProperty().set(value);
-        createUser.visibleProperty().set(value);
-        loggedOut.visibleProperty().set(!value);
-        loggedIn.visibleProperty().set(value);
-    }
+    // private void setLoginPossibility(boolean value){
+    //     //Sets the log-in-area to desired visibility:
+    //     usernameLabel.visibleProperty().set(value);
+    //     passwordLabel.visibleProperty().set(value);
+    //     username.visibleProperty().set(value);
+    //     username.clear();
+    //     password.visibleProperty().set(value);
+    //     password.clear();
+    //     logIn.visibleProperty().set(value);
+    //     createUser.visibleProperty().set(value);
+    //     loggedOut.visibleProperty().set(!value);
+    //     loggedIn.visibleProperty().set(value);
+    // }
 
-    private void setSearchVisibility(boolean value){
-        //Sets the search-area to desired visibility:
-        searchMovie.visibleProperty().set(true);
-        genreBox.visibleProperty().set(true);
-        movieRegisterList.visibleProperty().set(true);
-        if (!this.user.equals(null)){
-            addMovieRegister.visibleProperty().set(value);
-            //Denne må vurderes. hvordan skal den implementeres
-        }
-    }
+    // private void setSearchVisibility(boolean value){
+    //     //Sets the search-area to desired visibility:
+    //     searchMovie.visibleProperty().set(true);
+    //     genreBox.visibleProperty().set(true);
+    //     movieRegisterList.visibleProperty().set(true);
+    //     if (!this.user.equals(null)){
+    //         addMovieRegister.visibleProperty().set(value);
+    //         //Denne må vurderes. hvordan skal den implementeres
+    //     }
+    // }
 
-    private void setRateVisibility(boolean value, Movie movie){
-        //Sets the rate-area to desired visibility:
-        rateBox.visibleProperty().set(value);
-        rateButton.visibleProperty().set(value);
-        movieLabel.visibleProperty().set(value);
-        ratedMovie.visibleProperty().set(value);
-        rateLabel.visibleProperty().set(value);
-        if (!movie.equals(null) && value == true){
-            ratedMovie.setText(movie.getTitle());
-        }
-    }
+    // private void setRateVisibility(boolean value, Movie movie){
+    //     //Sets the rate-area to desired visibility:
+    //     rateBox.visibleProperty().set(value);
+    //     rateButton.visibleProperty().set(value);
+    //     movieLabel.visibleProperty().set(value);
+    //     ratedMovie.visibleProperty().set(value);
+    //     rateLabel.visibleProperty().set(value);
+    //     if (!movie.equals(null) && value == true){
+    //         ratedMovie.setText(movie.getTitle());
+    //     }
+    // }
     
     //User methods
     @FXML
@@ -101,7 +108,7 @@ public class MovieRatingController {
             errorActivation(e.getMessage());
         }
         this.user = this.users.getUser(username.getText());
-        setLoginPossibility(false);
+        //setLoginPossibility(false); TODO
     }
 
     @FXML
@@ -115,7 +122,7 @@ public class MovieRatingController {
         this.user = new User(username.getText(), password.getText());
         //TODO
         //this.users.registerNewUser(this.user);
-        setLoginPossibility(false);
+        //setLoginPossibility(false); TODO 
     }
 
 
@@ -123,8 +130,8 @@ public class MovieRatingController {
     private void handleLogOut(){
         //Logs user out. Resets desired fields and sets desired visibility.
         this.user = null;
-        setLoginPossibility(true);
-        setRateVisibility(false, null);
+        // setLoginPossibility(true); TODO
+        // setRateVisibility(false, null); TODO
     }
 
     //Movie methods
@@ -154,7 +161,7 @@ public class MovieRatingController {
         //Sets values for rating:
         this.movie = convertSelectedItemToMovieObject();
         movieLabel.setText(": " + this.movie.getTitle());
-        setRateVisibility(true, this.movie);
+        //setRateVisibility(true, this.movie); TODO
     }
 
     private Movie convertSelectedItemToMovieObject(){
