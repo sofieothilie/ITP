@@ -10,7 +10,7 @@ public class Movie {
     private String genre;
     private double rating;
     private MovieRegister register = new MovieRegister();
-    private List<Double> ratings = new ArrayList<>();
+    private List<Integer> ratings = new ArrayList<>();
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
     public Movie(String title, String genre) {
@@ -41,11 +41,11 @@ public class Movie {
         return register;
     }
 
-    public List<Double> getAllRatings(){
+    public List<Integer> getAllRatings(){
         return ratings;
     }
 
-    public void addRating(Double rating){
+    public void addRating(int rating){
         ratings.add(rating);
     }
 
