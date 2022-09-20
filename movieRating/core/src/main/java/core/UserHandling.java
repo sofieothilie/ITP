@@ -49,7 +49,7 @@ public class UserHandling {
                     String movieTitle = movieAndRatingParts[0];
                     String genre = movieAndRatingParts[1];
                     String rating = movieAndRatingParts[2];
-                    user.rateMovie(new Movie(movieTitle, genre), Double.parseDouble(rating));
+                    user.rateMovie(new Movie(movieTitle, genre), Integer.parseInt(rating));
                 }
                 users.registerNewUser(user);
 
