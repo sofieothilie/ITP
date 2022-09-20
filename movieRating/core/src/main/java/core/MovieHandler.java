@@ -26,7 +26,7 @@ public class MovieHandler {
 
             for (Movie movie : movies) {
                 StringBuilder sb = new StringBuilder();
-                for(Double rating: movie.getAllRatings()){
+                for(Integer rating: movie.getAllRatings()){
                     sb.append(rating);
                     sb.append(", ");
                 } 

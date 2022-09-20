@@ -8,6 +8,7 @@ import core.MovieHandler;
 import core.MovieRegister;
 import core.User;
 import core.Users;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -33,12 +34,19 @@ public class MovieRatingController {
     private ObservableList<String> observableMovie;
 
     //FXML fields
+    @FXML
     private TextField username, password, movieName;
+    @FXML
     private Button logIn, addMovieRegister, createUser, searchMovie, addMovieToRegister, logOut, rateButton;
+    @FXML
     private ChoiceBox<String> genreBox;
+    @FXML
     private ChoiceBox<Integer> rateBox;
+    @FXML
     private ListView<String> movieRegisterList;
+    @FXML
     private TextArea ratedMovie;
+    @FXML
     private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel;
 
 
@@ -50,8 +58,7 @@ public class MovieRatingController {
         //Starts up the app with correct visibility:
         setLoginPossibility(true);
         setSearchVisibility(true);
-        setRateVisibility(false, null);
-        
+        setRateVisibility(false, null);        
     }
     
     private void setLoginPossibility(boolean value){
@@ -113,9 +120,12 @@ public class MovieRatingController {
             errorActivation(e.getMessage());
         }
         this.user = new User(username.getText(), password.getText());
-        //TODO
-        //this.users.registerNewUser(this.user);
-        setLoginPossibility(false);
+        try {
+            this.users.registerNewUser(this.user);
+        } catch (Exception e) {
+            errorActivation(e.getMessage());
+        }
+        setLoginPossibility(false); 
     }
 
 
@@ -123,23 +133,27 @@ public class MovieRatingController {
     private void handleLogOut(){
         //Logs user out. Resets desired fields and sets desired visibility.
         this.user = null;
-        setLoginPossibility(true);
-        setRateVisibility(false, null);
+        setLoginPossibility(true); 
+        setRateVisibility(false, null); 
     }
 
     //Movie methods
     @FXML
     private void handleSearchMovie(){
         //Searches for movies by title and displays them in list view.
-        //TODO
-        //movieRegisterList.setItems(movieRegister.searchMovieTitle(searchMovie.getText()));
+        List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
+        for (Movie movie : movieList) {
+            movieRegisterList.getItems().add(movie.toString());
+        }
     }
 
     @FXML
     private void handleSearchGenre(){ //MANGLER I FXML
         //Searches for movies by genre and displays them in list view.
-        //TODO
-        //movieRegisterList.setItems(movieRegister.searchGenre(genreBox.getValue()));
+        List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
+        for (Movie movie : movieList) {
+            movieRegisterList.getItems().add(movie.toString());
+        }
     }
 
     @FXML
@@ -154,7 +168,7 @@ public class MovieRatingController {
         //Sets values for rating:
         this.movie = convertSelectedItemToMovieObject();
         movieLabel.setText(": " + this.movie.getTitle());
-        setRateVisibility(true, this.movie);
+        setRateVisibility(true, this.movie); 
     }
 
     private Movie convertSelectedItemToMovieObject(){
@@ -185,15 +199,14 @@ public class MovieRatingController {
         //Throws IllegalState if user isn't logged in.
         if (this.user.equals(null)){
             throw new IllegalStateException("User not logged in.");
-        }
+        } //TODO
     }
 
     @FXML
     private void handleRateButton(){
         //Saves new rating and writes this to file.
-        //TODO
-        // this.movie.updateRating(rateBox.getValue());
-        // this.movieHandler.updateRating(this.movie.getTitle(), rateBox.getValue());
+        this.movie.updateRating(rateBox.getValue());
+        this.movieHandler.updateRating(this.movie.getTitle(), rateBox.getValue());
         //Trengs begge? Er movieHandler rett?
 
     }
