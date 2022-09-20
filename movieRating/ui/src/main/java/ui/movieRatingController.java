@@ -17,6 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
 
 public class MovieRatingController {
     //Fields
@@ -37,7 +38,7 @@ public class MovieRatingController {
     private ChoiceBox<Integer> rateBox;
     private ListView<String> movieRegisterList;
     private TextArea ratedMovie;
-    private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel;
+    private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel;
 
 
 
@@ -88,7 +89,7 @@ public class MovieRatingController {
             ratedMovie.setText(movie.getTitle());
         }
     }
-
+    
     //User methods
     @FXML
     private void handleLogIn(){
@@ -173,7 +174,7 @@ public class MovieRatingController {
         }
         this.movie = new Movie(movieName.getText(), genreBox.getValue());
         this.movieHandler.addMovie(movie); //Denne må også lagres og skrives til fil
-        selectMovie();
+        selectMovie(null);
     }
 
     private void loggedIn(){
@@ -187,7 +188,7 @@ public class MovieRatingController {
     private void handleRateButton(){
         //Saves new rating and writes this to file.
         this.movie.updateRating(rateBox.getValue());
-        this.MovieHandler.updateRating(this.movie.getTitle(), rateBox.getValue());
+        this.movieHandler.updateRating(this.movie.getTitle(), rateBox.getValue());
         //Trengs begge? Er movieHandler rett?
 
     }
