@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class User {
     private String username;
     private String password;
-    private HashMap<Movie, Double> ratedMovies;
+    private HashMap<Movie, Integer> ratedMovies;
 
     public User(String username, String password){
         this.username = username;
@@ -21,11 +21,11 @@ public class User {
         return password;
     }
 
-    public HashMap<Movie, Double> getRatedMovies() {
+    public HashMap<Movie, Integer> getRatedMovies() {
         return ratedMovies;
     }
 
-    public void rateMovie(Movie movie, Double myRating){
+    public void rateMovie(Movie movie, Integer myRating){
         if(ratedMovies.containsKey(movie)){
             throw new IllegalArgumentException("The movie is already rated");
         }
