@@ -12,6 +12,7 @@ public class MovieRegister {
             movies.add(movie);
         }
         movies.add(movie);
+        //add comment to show git command
     }
 
     public List<Movie> getMovieRegister(){

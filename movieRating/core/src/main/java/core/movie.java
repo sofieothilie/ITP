@@ -71,9 +71,7 @@ public class Movie {
         return false;
     }
 
-
-   
-    
-
-
+    public String toString(){
+        return ""+ this.getTitle() + "\t" + this.getGenre() + "\t" + this.getRating();
+    }
 }
