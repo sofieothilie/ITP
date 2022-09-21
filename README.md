@@ -2,7 +2,7 @@
 
 # Beskrivelse 
 
-Mappen "filmrating" utgjør kodingsprosjektet. 
+Vi har delt opp vårt prosjekt movieRating i to mapper, core og ui. I core ligger klassene, mens i ui ligger appen og controlleren 
 
 
 
