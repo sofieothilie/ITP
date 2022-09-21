@@ -41,7 +41,10 @@ public class Users {
         }
     }
 
-    public boolean existingUser(String username, String password) throws Exception{
+    public boolean existingUser(String username, String password){
+        if(users.isEmpty()){
+            return false;
+        }
         for(User user : users){
             if(user.getUsername().equals(username)){
                 return true;
