@@ -55,7 +55,8 @@ public class MovieRatingController {
         setSearchVisibility(true);
         setRateVisibility(false, null);
         loggedOut.visibleProperty().set(false);
-        loggedIn.visibleProperty().set(false);       
+        loggedIn.visibleProperty().set(false); 
+        addMovieRegister.setVisible(false);      
     }
     
     private void setLoginPossibility(boolean value){
@@ -74,6 +75,7 @@ public class MovieRatingController {
     private void loggedIn(boolean value){
         loggedOut.visibleProperty().set(!value);
         loggedIn.visibleProperty().set(value);
+        addMovieRegister.setVisible(value);
     }
 
     private void setSearchVisibility(boolean value){
@@ -81,10 +83,6 @@ public class MovieRatingController {
         searchMovie.visibleProperty().set(true);
         genreBox.visibleProperty().set(true);
         movieRegisterList.visibleProperty().set(true);
-        if (this.user != (null)){
-            addMovieRegister.visibleProperty().set(value);
-            //Denne må vurderes. hvordan skal den implementeres
-        }
     }
 
     private void setRateVisibility(boolean value, Movie movie){
@@ -105,12 +103,12 @@ public class MovieRatingController {
         //Tries to log in a user. If user excists: sets correct fields and visibility status.
         try {
             this.users.validUser(username.getText(), password.getText());      
-            this.user = this.users.getUser(username.getText());
-            setLoginPossibility(false);
-            loggedIn(true);
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
+        this.user = this.users.getUser(username.getText());
+        setLoginPossibility(false);
+        loggedIn(true);
     }
 
     @FXML
@@ -128,7 +126,7 @@ public class MovieRatingController {
             errorActivation(e.getMessage());
         }
         setLoginPossibility(false); 
-        loggedIn(true);
+        loggedIn(true); 
     }
 
 
@@ -162,17 +160,12 @@ public class MovieRatingController {
 
     @FXML
     private void selectMovie(MouseEvent event){
-        //Displays a movie when it is selected if a user is logged in. This allows for rating.
-        try {
-            this.user.getUsername(); //fails if user is not logged in.
-            
-        } catch (Exception e) {
-            errorActivation(e.getMessage());
+        //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
+        if (movieRegisterList.getSelectionModel() != null && this.user != null){
+            this.movie = convertSelectedItemToMovieObject();
+            movieLabel.setText(": " + this.movie.getTitle());
+            setRateVisibility(true, this.movie);
         }
-        //Sets values for rating:
-        this.movie = convertSelectedItemToMovieObject();
-        movieLabel.setText(": " + this.movie.getTitle());
-        setRateVisibility(true, this.movie); 
     }
 
     private Movie convertSelectedItemToMovieObject(){
