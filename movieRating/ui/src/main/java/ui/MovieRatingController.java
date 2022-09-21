@@ -62,6 +62,7 @@ public class MovieRatingController {
         //Sets the log-in-area to desired visibility:
         usernameLabel.visibleProperty().set(value);
         passwordLabel.visibleProperty().set(value);
+        logOut.setVisible(!value);
         username.visibleProperty().set(value);
         username.clear();
         password.visibleProperty().set(value);
@@ -104,12 +105,12 @@ public class MovieRatingController {
         //Tries to log in a user. If user excists: sets correct fields and visibility status.
         try {
             this.users.validUser(username.getText(), password.getText());      
+            this.user = this.users.getUser(username.getText());
+            setLoginPossibility(false);
+            loggedIn(true);
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
-        this.user = this.users.getUser(username.getText());
-        setLoginPossibility(false);
-        loggedIn(true);
     }
 
     @FXML

@@ -34,7 +34,7 @@
       <Button fx:id="addMovieToRegister" layoutX="33.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleAddMovieToRegister" text="Add movie to register" />
       <ListView fx:id="movieRegisterList" layoutX="34.0" layoutY="309.0" onMouseClicked="#selectMovie" prefHeight="99.0" prefWidth="215.0" />
       <TextArea fx:id="ratedMovie" layoutX="291.0" layoutY="254.0" prefHeight="37.0" prefWidth="215.0" />
-      <Button fx:id="logOUt" layoutX="447.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleLogOut" text="Log out" />
+      <Button fx:id="logOut" layoutX="447.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleLogOut" text="Log out" />
       <Button fx:id="createUser" layoutX="86.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleCreateUser" text="Create new user" />
       <Button fx:id="rateButton" layoutX="447.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleRateButton" text="Rate" />
       <Label layoutX="228.0" layoutY="6.0" text="MovieRegister" />
