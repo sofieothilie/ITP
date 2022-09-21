@@ -102,13 +102,13 @@ public class MovieRatingController {
     private void handleLogIn(){
         //Tries to log in a user. If user excists: sets correct fields and visibility status.
         try {
-            this.users.validUser(username.getText(), password.getText());  
-            this.user = this.users.getUser(username.getText());
-            setLoginPossibility(false);
-            loggedIn(true);    
+            this.users.validUser(username.getText(), password.getText());   
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
+        this.user = this.users.getUser(username.getText());
+        setLoginPossibility(false);
+        loggedIn(true);        
     }
 
     @FXML
