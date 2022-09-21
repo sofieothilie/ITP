@@ -34,6 +34,42 @@ public class MovieHandler {
         }   
     }
 
+    public void updateMovieToRegister(Movie movie){
+        List<Movie> movies = readMovieAndRatingFromRegister();
+        if(! movies.isEmpty()){
+            for(Movie mov: movies){
+                if(mov.getTitle().equals(movie.getTitle())){
+                    movies.remove(mov);
+                }
+            }
+        }
+        movies.add(movie);
+        try {
+            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", false)));
+            for(Movie mov: movies){
+                writer.println(mov.getTitle() + "; " + mov.getGenre() + "; " + splitRatings(mov)); 
+            }
+            writer.flush();
+            writer.close();
+        }
+        catch (IOException e){
+            System.out.println("Error: " + e);
+        }
+        catch (Exception e){
+            System.out.println("Error: " + e);
+        }   
+    }
+
+    private String splitRatings(Movie movie){
+        StringBuilder sb = new StringBuilder();
+        for(Integer rating: movie.getAllRatings()){
+            sb.append(rating);
+            sb.append(";");
+        }
+        return sb.substring(0, -1);
+    }
+
+
     public List<Movie> readMovieAndRatingFromRegister(){
         List<Movie> copyList = new ArrayList<>();
         try {
@@ -64,6 +100,5 @@ public class MovieHandler {
         Movie movie = new Movie("Cinderella", "fantasy");
         movie.addRating(3);
         handler.writeMovieToRegister(movie);
-    }
-    
+    } 
 }

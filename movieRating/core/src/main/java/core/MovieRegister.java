@@ -9,18 +9,23 @@ public class MovieRegister {
 
     public void addMovie(Movie movie){
         setMovieRegister();
-        if(movies.contains(movie)){
-            movies.remove(movie);
-            movies.add(movie);
+        if(checkMovie(movie)){
+            throw new IllegalArgumentException("Filmen finnes allerede");
         }
         movies.add(movie);
         handler.writeMovieToRegister(movie);
+    }
+
+    public void updateMovie(Movie movie){
+        handler.updateMovieToRegister(movie);
     }
 
     public List<Movie> getMovieRegister(){
         setMovieRegister();
         return movies;
     }
+
+
 
     public List<Movie> searchGenre(String genre){
         setMovieRegister();
