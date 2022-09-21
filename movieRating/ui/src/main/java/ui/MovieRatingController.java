@@ -1,5 +1,6 @@
 package ui;
 
+import java.util.Arrays;
 import java.util.List;
 
 import core.Movie;
@@ -24,6 +25,7 @@ public class MovieRatingController {
     private Users users = new Users();
     private Movie movie;
     private MovieRegister movieRegister = new MovieRegister();
+    private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");  
 
     //FXML fields
     @FXML
@@ -53,9 +55,16 @@ public class MovieRatingController {
         setRateVisibility(false, null);
         loggedOut.visibleProperty().set(false);
         loggedIn.visibleProperty().set(false); 
-        addMovieRegister.setVisible(false);      
+        addMovieRegister.setVisible(false);
+        setGenres();      
     }
     
+    private void setGenres() {
+        for (String str : genresList) {
+            genreBox.getItems().add(str);
+        }
+    }
+
     private void setLoginPossibility(boolean value){
         //Sets the log-in-area to desired visibility:
         usernameLabel.visibleProperty().set(value);
@@ -146,7 +155,6 @@ public class MovieRatingController {
             movieRegisterList.getItems().add(movie.toString());
         }
     }
-
 
     @FXML
     private void handleSearchGenre(){ //MANGLER I FXML
