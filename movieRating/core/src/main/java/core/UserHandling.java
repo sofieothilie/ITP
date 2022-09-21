@@ -10,13 +10,11 @@ public class UserHandling {
 
     private Users users = new Users();
 
-    public void writeUserToRegister(String filename){
+    public void writeUserToRegister(User user){
         try {
-            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(filename, false)));
-
-            for (User user : users.getUsers()) {
-                writer.println(user.toString());
-            }
+            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("userRegister.txt", true)));
+            writer.println(user.toString());
+           
             writer.flush();
             writer.close();
         }
@@ -26,12 +24,11 @@ public class UserHandling {
         catch (Exception e){
             System.out.println("Error: " + e);
         }
-    
     }
 
-    public void readUsersFromRegister(String filename){
+    public void readUsersFromRegister(){
         try {
-            Scanner scanner = new Scanner(filename);
+            Scanner scanner = new Scanner("userRegister.txt");
             this.users = new Users();
 
             while (scanner.hasNextLine()){
