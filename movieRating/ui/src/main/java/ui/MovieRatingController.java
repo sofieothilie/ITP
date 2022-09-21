@@ -3,12 +3,10 @@ package ui;
 import java.util.List;
 
 import core.Movie;
-import core.MovieHandler;
 import core.MovieRegister;
 import core.User;
 import core.Users;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -26,7 +24,6 @@ public class MovieRatingController {
     private Users users = new Users();
     private Movie movie;
     private MovieRegister movieRegister = new MovieRegister();
-    private MovieHandler movieHandler = new MovieHandler();
 
     //FXML fields
     @FXML
@@ -176,7 +173,7 @@ public class MovieRatingController {
 
     @FXML
     private void handleAddMovieToRegister(){
-        //Adds a new movie to the register, given that the input is valid and a user is logged in:
+        //Adds a new movie to the register and writes it to file, given that the input is valid and a user is logged in:
         try {
             //Fails is user is not logged in:
             iLoggedIn();
@@ -188,7 +185,7 @@ public class MovieRatingController {
             errorActivation(e.getMessage());
         }
         this.movie = new Movie(movieName.getText(), genreBox.getValue());
-        this.movieHandler.addMovie(movie); //Denne må også lagres og skrives til fil
+        this.movieRegister.addMovie(movie); 
         selectMovie(null);
     }
 
