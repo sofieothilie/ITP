@@ -8,7 +8,7 @@ import java.io.FileWriter;
 
 public class UserHandling {
 
-    private Users users = new Users();
+    private UserRegister users = new UserRegister();
 
     public void writeUserToRegister(User user){
         try {
@@ -29,7 +29,7 @@ public class UserHandling {
     public void readUsersFromRegister(){
         try {
             Scanner scanner = new Scanner("userRegister.txt");
-            this.users = new Users();
+            this.users = new UserRegister();
 
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();

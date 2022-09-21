@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Users {
+public class UserRegister {
     private List<User> users = new ArrayList<>();
 
     public void registerNewUser(User user) throws Exception{
