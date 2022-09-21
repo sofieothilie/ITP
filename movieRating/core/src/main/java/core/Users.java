@@ -20,7 +20,7 @@ public class Users {
         return users;
     }
 
-    public User getUser(String username){
+    public User getUser(String username) throws Exception{
         for(User user : users){
             if(user.getUsername().equals(username)){
                 return user;
@@ -30,6 +30,9 @@ public class Users {
     }
 
     public void validUser(String username, String password) throws Exception{
+        if(userIsEmpty()){
+            throw new Exception("User does not exist");
+        }
         for(User user : users){
             if(!(user.getUsername().equals(username))){
                 throw new Exception("User does not exist");
@@ -37,12 +40,11 @@ public class Users {
             if(!(user.getPassword().equals(password))){
                 throw new Exception("Wrong password");
             }
-            return;
         }
     }
 
     public boolean existingUser(String username, String password){
-        if(users.isEmpty()){
+        if(userIsEmpty()){
             return false;
         }
         for(User user : users){
@@ -51,6 +53,13 @@ public class Users {
             }
         }
         return false;
+    }
+
+    public boolean userIsEmpty(){
+        if(users.isEmpty()){
+            return false;
+        }
+        return true;
     }
     
 }
