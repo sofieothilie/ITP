@@ -20,7 +20,7 @@ public class Users {
         return users;
     }
 
-    public User getUser(String username) throws Exception{
+    public User getUser(String username){
         for(User user : users){
             if(user.getUsername().equals(username)){
                 return user;
