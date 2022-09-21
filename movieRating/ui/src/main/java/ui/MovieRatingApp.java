@@ -19,6 +19,5 @@ public class MovieRatingApp extends Application {
         primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MovieRating.fxml"))));
         primaryStage.show();
     }
-    
 }
 

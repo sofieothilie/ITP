@@ -5,6 +5,7 @@ import java.util.List;
 
 public class MovieRegister {
     private List<Movie> movies = new ArrayList<>();
+    MovieHandler handler = new MovieHandler();
 
     public void addMovie(Movie movie){
         if(movies.contains(movie)){
@@ -12,11 +13,15 @@ public class MovieRegister {
             movies.add(movie);
         }
         movies.add(movie);
-        //add comment to show git command
+        handler.writeMovieToRegister(movie);
     }
 
     public List<Movie> getMovieRegister(){
         return movies;
+    }
+
+    public void setMovieRegister(List<Movie> movies){
+        this.movies = movies;
     }
 
     public List<Movie> searchGenre(String genre){
