@@ -18,9 +18,11 @@ public class MovieHandler {
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", true)));
             StringBuilder sb = new StringBuilder();
-            for(Integer rating: movie.getAllRatings()){
-                sb.append(rating);
-                sb.append(";");
+            if (movie.getAllRatings().size() > 0){
+                for(Integer rating: movie.getAllRatings()){
+                    sb.append(rating);
+                    sb.append(";");
+                }
             }
             writer.println(movie.getTitle() + "; " + movie.getGenre() + "; " + sb); 
             writer.flush();
@@ -80,11 +82,13 @@ public class MovieHandler {
                 String[] parts = line.split(";");
                 String title = parts[0];
                 String genre = parts[1];
-                String[] ratings = parts[2].split(", ");
-                Double sum = Arrays.stream(ratings).mapToDouble(d -> Double.parseDouble(d)).sum();
-                Double mean = sum/ratings.length;  
                 Movie movie = new Movie(title, genre);
-                movie.setMeanrating(mean);
+                if (parts[2].length() > 0 ){
+                    String[] ratings = parts[2].split(", ");
+                    Double sum = Arrays.stream(ratings).mapToDouble(d -> Double.parseDouble(d)).sum();
+                    Double mean = sum/ratings.length;  
+                    movie.setMeanrating(mean);
+                }
                 copyList.add(movie);
             }
             scanner.close();
