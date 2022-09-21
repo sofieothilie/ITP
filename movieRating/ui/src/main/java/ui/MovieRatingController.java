@@ -209,10 +209,8 @@ public class MovieRatingController {
     @FXML
     private void handleRateButton(){
         //Saves new rating and writes this to file.
-        this.movie.updateRating(rateBox.getValue());
-        //this.movieHandler.updateRating(this.movie.getTitle(), rateBox.getValue());
-        //Trengs begge? Er movieHandler rett?
-
+        this.movie.addRating((rateBox.getValue());
+        this.movieRegister.updateMovie(movie);
     }
 
     //Error message
