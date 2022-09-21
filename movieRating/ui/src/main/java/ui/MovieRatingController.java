@@ -23,10 +23,10 @@ import javafx.scene.input.MouseEvent;
 public class MovieRatingController {
     //Fields
     private User user;
-    private Users users;
+    private Users users = new Users();
     private Movie movie;
-    private MovieRegister movieRegister;
-    private MovieHandler movieHandler;
+    private MovieRegister movieRegister = new MovieRegister();
+    private MovieHandler movieHandler = new MovieHandler();
 
     //FXML fields
     @FXML
