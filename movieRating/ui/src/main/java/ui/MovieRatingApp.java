@@ -20,4 +20,3 @@ public class MovieRatingApp extends Application {
         primaryStage.show();
     }
 }
-

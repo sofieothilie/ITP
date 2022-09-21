@@ -36,15 +36,25 @@ public class MovieHandler {
     }
 
     public void updateMovieToRegister(Movie movie){
-        List<Movie> movies = readMovieAndRatingFromRegister();
-        if(! movies.isEmpty()){
-            for(Movie mov: movies){
-                if(mov.getTitle().equals(movie.getTitle())){
-                    movies.remove(mov);
+        List<Movie> movies = new ArrayList<>();
+        File f = new File("movieRegister.txt");
+        if (f.isFile()){
+            movies = readMovieAndRatingFromRegister();
+            if(!movies.isEmpty()){
+                for (Movie mov : movies) {
+                    if (mov.getTitle().equals(movie.getTitle())){
+                        movies.add(movie);
+                        movies.remove(mov);
+                        // for (Integer rating : mov.getAllRatings()) {
+                        //     movie.addRating(rating);
+                        // }
+                    }
                 }
             }
         }
-        movies.add(movie);
+        else{
+            movies.add(movie);
+        }
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", false)));
             for(Movie mov: movies){
@@ -63,11 +73,14 @@ public class MovieHandler {
 
     private String splitRatings(Movie movie){
         StringBuilder sb = new StringBuilder();
-        for(Integer rating: movie.getAllRatings()){
-            sb.append(rating);
-            sb.append(";");
+        if (!movie.getAllRatings().isEmpty()){
+            for(Integer rating: movie.getAllRatings()){
+                sb.append(rating);
+                sb.append("\t");
+            }
+            return sb.substring(0, sb.length()-1);
         }
-        return sb.substring(0, sb.length()-1);
+        return null;
     }
 
 
@@ -81,11 +94,16 @@ public class MovieHandler {
                 String[] parts = line.split("; ");
                 String title = parts[0];
                 String genre = parts[1];
-                String[] ratings = parts[2].split(", ");
-                Double sum = Arrays.stream(ratings).mapToDouble(d -> Double.parseDouble(d)).sum();
-                Double mean = sum/ratings.length;  
                 Movie movie = new Movie(title, genre);
-                movie.setMeanrating(mean);
+                if (parts.length > 2){
+                    String[] ratings = parts[2].split("\t");
+                    for (String str : ratings) {
+                        movie.addRating(Integer.valueOf(str));                        
+                    }
+                    Double sum = Arrays.stream(ratings).mapToDouble(d -> Double.parseDouble(d)).sum();
+                    Double mean = sum/ratings.length;  
+                    movie.setMeanrating(mean);
+                }
                 copyList.add(movie);
             }
             scanner.close();
