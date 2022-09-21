@@ -25,7 +25,8 @@ public class MovieRatingController {
     private Users users = new Users();
     private Movie movie;
     private MovieRegister movieRegister = new MovieRegister();
-    private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");  
+    private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
+    private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
 
     //FXML fields
     @FXML
@@ -56,12 +57,18 @@ public class MovieRatingController {
         loggedOut.visibleProperty().set(false);
         loggedIn.visibleProperty().set(false); 
         addMovieRegister.setVisible(false);
-        setGenres();      
+        setGenres();
+        setRating();      
     }
     
     private void setGenres() {
         for (String str : genresList) {
             genreBox.getItems().add(str);
+        }
+    }
+    private void setRating(){
+        for (Integer integer : ratingList) {
+            rateBox.getItems().add(integer);
         }
     }
 
@@ -186,7 +193,7 @@ public class MovieRatingController {
         //Adds a new movie to the register and writes it to file, given that the input is valid and a user is logged in:
         try {
             //Fails is user is not logged in:
-            iLoggedIn();
+            isLoggedIn();
 
             //Fails if not valid input to generate movie object:
             new Movie(movieName.getText(), genreBox.getValue());
@@ -195,14 +202,15 @@ public class MovieRatingController {
             errorActivation(e.getMessage());
         }
         this.movie = new Movie(movieName.getText(), genreBox.getValue());
-        this.movieRegister.addMovie(movie);
+        movieLabel.setText(": " + this.movie.getTitle());
+        setRateVisibility(true, this.movie);
     }
 
-    private void iLoggedIn(){
+    private void isLoggedIn(){
         //Throws IllegalState if user isn't logged in.
         if (this.user.equals(null)){
             throw new IllegalStateException("User not logged in.");
-        } //TODO
+        }
     }
 
     @FXML
@@ -210,6 +218,7 @@ public class MovieRatingController {
         //Saves new rating and writes this to file.
         this.movie.addRating(rateBox.getValue());
         this.movieRegister.updateMovie(movie);
+
     }
 
     //Error message
