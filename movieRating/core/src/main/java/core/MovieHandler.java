@@ -22,7 +22,7 @@ public class MovieHandler {
                 sb.append(rating);
                 sb.append(";");
             }
-            writer.println(movie.getTitle() + "; " + movie.getGenre() + "; " + sb.substring(0,-1)); 
+            writer.println(movie.getTitle() + "; " + movie.getGenre() + "; " + sb); 
             writer.flush();
             writer.close();
         }
@@ -48,7 +48,7 @@ public class MovieHandler {
                 Double sum = Arrays.stream(ratings).mapToDouble(d -> Double.parseDouble(d)).sum();
                 Double mean = sum/ratings.length;  
                 Movie movie = new Movie(title, genre);
-                movie.setRating(mean);
+                movie.setMeanrating(mean);
                 copyList.add(movie);
             }
             scanner.close();
@@ -58,6 +58,12 @@ public class MovieHandler {
         }
         return copyList;
 
+    }
+    public static void main(String[] args) {
+        MovieHandler handler = new MovieHandler();
+        Movie movie = new Movie("Cinderella", "fantasy");
+        movie.addRating(3);
+        handler.writeMovieToRegister(movie);
     }
     
 }

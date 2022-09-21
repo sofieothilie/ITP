@@ -23,7 +23,6 @@ public class UserTest {
 
     @Test
     public void testGetRatedMovies(){
-        System.out.println(m1.getMovieRegister());
         testUser.rateMovie(m1, 4);
         HashMap<Movie, Integer> compare = new HashMap<>();
         compare.put(m1, 4);

@@ -34,7 +34,6 @@ public class User {
         }
         ratedMovies.put(movie, myRating);
         movie.addRating(myRating);        
-        movie.updateRating( myRating);
     }
 
     public String ratedMoviesToStrong(){

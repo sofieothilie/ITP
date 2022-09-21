@@ -9,20 +9,18 @@ public class Movie {
     private String title;
     private String genre;
     private double rating;
-    private MovieRegister register = new MovieRegister();
     private List<Integer> ratings = new ArrayList<>();
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
     public Movie(String title, String genre) {
-        if(checkMovie()){
-            throw new IllegalArgumentException("Movie already in register");
-        }
+        // if(checkMovie()){
+        //     throw new IllegalArgumentException("Movie already in register");
+        // }
         if(! GENRES.contains(genre)){
             throw new IllegalArgumentException("Not a valid genre");
         }
         this.title = title;
         this.genre = genre;
-        register.addMovie(this);
     }
 
     public String getTitle() {
@@ -37,10 +35,6 @@ public class Movie {
         return rating;
     }
 
-    public MovieRegister getMovieRegister(){
-        return register;
-    }
-
     public List<Integer> getAllRatings(){
         return ratings;
     }
@@ -49,26 +43,12 @@ public class Movie {
         ratings.add(rating);
     }
 
-    public void setRating(Double rating){
+    public void setMeanrating(Double rating){
         this.rating = rating;
     }
 
-    public void updateRating( int myRating){
-        Double sum = ratings.stream().mapToDouble(d -> d).sum();
-        this.rating  = sum/ratings.size();  
-        register.addMovie(this);
-    }   
-
-    private boolean checkMovie(){
-        if (register.getMovieRegister().isEmpty()){
-            return false;
-        }
-        for(Movie movie: register.getMovieRegister()){
-            if (movie.getTitle().equals(this.title)){
-                return true;
-            }
-        }
-        return false;
+    public Double getMeanRating(){
+        return this.rating;
     }
 
     public String toString(){

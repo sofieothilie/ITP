@@ -54,6 +54,19 @@ public class MovieRegister {
         return null;
     }
 
+    public boolean checkMovie(Movie movie){
+        setMovieRegister();
+        if (getMovieRegister().isEmpty()){
+            return false;
+        }
+        for(Movie mov: getMovieRegister()){
+            if (mov.getTitle().equals(movie.getTitle())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void setMovieRegister(){
         this.movies = handler.readMovieAndRatingFromRegister();
     }
