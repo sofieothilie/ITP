@@ -1,6 +1,5 @@
 package ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import core.Movie;
@@ -23,15 +22,11 @@ import javafx.scene.input.MouseEvent;
 
 public class MovieRatingController {
     //Fields
-    private String userNameString;
-    private Integer newRating;
-
     private User user;
     private Users users;
     private Movie movie;
     private MovieRegister movieRegister;
     private MovieHandler movieHandler;
-    private ObservableList<String> observableMovie;
 
     //FXML fields
     @FXML
@@ -58,7 +53,9 @@ public class MovieRatingController {
         //Starts up the app with correct visibility:
         setLoginPossibility(true);
         setSearchVisibility(true);
-        setRateVisibility(false, null);        
+        setRateVisibility(false, null);
+        loggedOut.visibleProperty().set(false);
+        loggedIn.visibleProperty().set(false);       
     }
     
     private void setLoginPossibility(boolean value){
@@ -71,6 +68,9 @@ public class MovieRatingController {
         password.clear();
         logIn.visibleProperty().set(value);
         createUser.visibleProperty().set(value);
+    }
+
+    private void loggedIn(boolean value){
         loggedOut.visibleProperty().set(!value);
         loggedIn.visibleProperty().set(value);
     }
@@ -109,6 +109,7 @@ public class MovieRatingController {
         }
         this.user = this.users.getUser(username.getText());
         setLoginPossibility(false);
+        loggedIn(true);
     }
 
     @FXML
@@ -126,6 +127,7 @@ public class MovieRatingController {
             errorActivation(e.getMessage());
         }
         setLoginPossibility(false); 
+        loggedIn(true);
     }
 
 
@@ -135,6 +137,7 @@ public class MovieRatingController {
         this.user = null;
         setLoginPossibility(true); 
         setRateVisibility(false, null); 
+        loggedIn(false);
     }
 
     //Movie methods
@@ -182,7 +185,7 @@ public class MovieRatingController {
         //Adds a new movie to the register, given that the input is valid and a user is logged in:
         try {
             //Fails is user is not logged in:
-            loggedIn();
+            iLoggedIn();
 
             //Fails if not valid input to generate movie object:
             new Movie(movieName.getText(), genreBox.getValue());
@@ -195,7 +198,7 @@ public class MovieRatingController {
         selectMovie(null);
     }
 
-    private void loggedIn(){
+    private void iLoggedIn(){
         //Throws IllegalState if user isn't logged in.
         if (this.user.equals(null)){
             throw new IllegalStateException("User not logged in.");
