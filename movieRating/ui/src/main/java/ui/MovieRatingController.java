@@ -45,7 +45,17 @@ public class MovieRatingController {
     private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel, ratingscaleLabel;
 
 
+    private void clearAllSearchFields(){
+        movieRegisterList.getItems().clear();
+        movieName.clear();
+        movieLabel.setText("");
+        ratedMovie.setText(movie.toString());
+        genreBox.setValue(null);
+        rateBox.setValue(null);
 
+
+        
+    }
     // Methods
 
     @FXML
@@ -107,7 +117,7 @@ public class MovieRatingController {
         rateLabel.visibleProperty().set(value);
         ratingscaleLabel.setVisible(value);
         if (movie != (null) && value == true){
-            ratedMovie.setText(movie.getTitle());
+            ratedMovie.setText(movie.toString());
         }
     }
     
@@ -151,6 +161,7 @@ public class MovieRatingController {
         setLoginPossibility(true); 
         setRateVisibility(false, null); 
         loggedIn(false);
+        clearAllSearchFields();
     }
 
     //Movie methods
@@ -165,7 +176,7 @@ public class MovieRatingController {
     }
 
     @FXML
-    private void handleSearchGenre(){ //MANGLER I FXML
+    private void handleSearchGenre(){
         //Searches for movies by genre and displays them in list view.
         List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
         if (movieList.isEmpty()){ errorActivation("No movies with genre " + genreBox.getValue());}
@@ -177,6 +188,7 @@ public class MovieRatingController {
     @FXML
     private void selectMovie(MouseEvent event){
         //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
+        ratedMovie.setText("");
         if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null){
             this.movie = convertSelectedItemToMovieObject();
             movieLabel.setText(": " + this.movie.getTitle());
@@ -221,7 +233,8 @@ public class MovieRatingController {
         //Saves new rating and writes this to file.
         this.movie.addRating(rateBox.getValue());
         this.movieRegister.updateMovie(movie);
-
+        errorActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
+        clearAllSearchFields();
     }
 
     //Error message
@@ -232,4 +245,6 @@ public class MovieRatingController {
         alert.setContentText(message);
         alert.showAndWait();
     }   
+
+
 }
