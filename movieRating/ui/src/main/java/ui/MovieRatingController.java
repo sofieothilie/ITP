@@ -184,7 +184,8 @@ public class MovieRatingController {
 
     private Movie convertSelectedItemToMovieObject(){
         //Retrives movie object from convertObservableList:
-        String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("-");
+        System.out.println(movieRegisterList.getSelectionModel().getSelectedItem());
+        String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("\t");
         return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
     }
 
