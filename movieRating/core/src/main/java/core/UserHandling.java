@@ -54,10 +54,10 @@ public class UserHandling {
             scanner.close();
         }
         catch (IOException e){
-            System.out.println("Error: " + e);
+            throw new IllegalArgumentException("Error: " + e);
         }
         catch (Exception e){
-            System.out.println("Error: " + e);
+            throw new IllegalArgumentException("Error: " + e);
         }
     }
 
