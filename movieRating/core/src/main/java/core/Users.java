@@ -57,9 +57,9 @@ public class Users {
 
     public boolean userIsEmpty(){
         if(users.isEmpty()){
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
     
 }
