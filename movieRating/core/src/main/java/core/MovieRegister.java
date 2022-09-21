@@ -19,6 +19,10 @@ public class MovieRegister {
         return movies;
     }
 
+    public void setMovieRegister(List<Movie> movies){
+        this.movies = movies;
+    }
+
     public List<Movie> searchGenre(String genre){
         List<Movie> moviesByGenre = new ArrayList<>();
         for(Movie movie : movies){

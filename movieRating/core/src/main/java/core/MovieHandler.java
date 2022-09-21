@@ -11,28 +11,29 @@ import java.util.Scanner;
 
 public class MovieHandler {
 
-    private List<Movie> movies = new ArrayList<Movie>();
+    //private List<Movie> movies = new ArrayList<Movie>();
+    private MovieRegister movieRegister = new MovieRegister();
+    public static final String SAVE_FOLDER = "/movieRating/core/src/main/java/core/";
 
     public void addMovie(Movie movie) {
-        if (movies.contains(movie)) {
+        if (movieRegister.getMovieRegister().contains(movie)) {
             throw new IllegalArgumentException("Movie already in register");
         }
-        movies.add(movie);
+        movieRegister.getMovieRegister().add(movie);
     }
 
     public void writeMovieToRegister(String filename){
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(filename, false)));
 
-            for (Movie movie : movies) {
+            for (Movie movie : movieRegister.getMovieRegister()) {
                 StringBuilder sb = new StringBuilder();
                 for(Integer rating: movie.getAllRatings()){
                     sb.append(rating);
                     sb.append(", ");
                 } 
-                String str = sb.substring(0, sb.length() - 1);
 
-                writer.println(movie.getTitle() + ";" + movie.getGenre() + ";" + sb); // TODO ny metode i Movie
+                writer.println(movie.getTitle() + ";" + movie.getGenre() + ";" + sb); 
             }
             writer.flush();
             writer.close();
@@ -48,7 +49,7 @@ public class MovieHandler {
     public void readMovieAndRatingFromRegister(String filename){
         try {
             Scanner scanner = new Scanner(filename);
-            this.movies = new ArrayList<>();
+            List<Movie> copyList = new ArrayList<>();
 
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
@@ -60,8 +61,10 @@ public class MovieHandler {
                 Double mean = sum/ratings.length;  
                 Movie movie = new Movie(title, genre);
                 movie.setRating(mean);
-                movies.add(movie);
+                copyList.add(movie);
+                this.movieRegister.setMovieRegister(copyList);
             }
+            scanner.close();
         }
         catch (Exception e){
             System.out.println("Error: " + e);
