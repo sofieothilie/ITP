@@ -195,8 +195,7 @@ public class MovieRatingController {
             errorActivation(e.getMessage());
         }
         this.movie = new Movie(movieName.getText(), genreBox.getValue());
-        this.movieRegister.addMovie(movie); 
-        selectMovie(null);
+        this.movieRegister.addMovie(movie);
     }
 
     private void iLoggedIn(){
@@ -209,7 +208,7 @@ public class MovieRatingController {
     @FXML
     private void handleRateButton(){
         //Saves new rating and writes this to file.
-        this.movie.addRating((rateBox.getValue());
+        this.movie.addRating(rateBox.getValue());
         this.movieRegister.updateMovie(movie);
     }
 

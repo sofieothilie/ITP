@@ -27,10 +27,10 @@ public class MovieHandler {
             writer.close();
         }
         catch (IOException e){
-            System.out.println("Error: " + e);
+            throw new IllegalArgumentException("Error: " + e);
         }
         catch (Exception e){
-            System.out.println("Error: " + e);
+            throw new IllegalArgumentException("Error: " + e);
         }   
     }
 
@@ -53,10 +53,10 @@ public class MovieHandler {
             writer.close();
         }
         catch (IOException e){
-            System.out.println("Error: " + e);
+            throw new IllegalArgumentException("Error: " + e);
         }
         catch (Exception e){
-            System.out.println("Error: " + e);
+            throw new IllegalArgumentException("Error: " + e);
         }   
     }
 
@@ -90,7 +90,7 @@ public class MovieHandler {
             scanner.close();
         }
         catch (Exception e){
-            System.out.println("Error: " + e);
+            throw new IllegalArgumentException("Error: " + e);
         }
         return copyList;
 
