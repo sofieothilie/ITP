@@ -12,29 +12,11 @@ import java.util.Scanner;
 public class MovieHandler {
 
     //private List<Movie> movies = new ArrayList<Movie>();
-    private MovieRegister movieRegister = new MovieRegister();
     public static final String SAVE_FOLDER = "/movieRating/core/src/main/java/core/";
-
-    public void addMovie(Movie movie) {
-        if (movieRegister.getMovieRegister().contains(movie)) {
-            throw new IllegalArgumentException("Movie already in register");
-        }
-        movieRegister.getMovieRegister().add(movie);
-    }
 
     public void writeMovieToRegister(Movie movie){
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", true)));
-
-            // for (Movie movie : movieRegister.getMovieRegister()) {
-            //     StringBuilder sb = new StringBuilder();
-            //     for(Integer rating: movie.getAllRatings()){
-            //         sb.append(rating);
-            //         sb.append(", ");
-            //     } 
-            //
-            //    writer.println(movie.getTitle() + ";" + movie.getGenre() + ";" + sb); 
-            // }
             StringBuilder sb = new StringBuilder();
             for(Integer rating: movie.getAllRatings()){
                 sb.append(rating);
@@ -52,10 +34,10 @@ public class MovieHandler {
         }   
     }
 
-    public void readMovieAndRatingFromRegister(){
+    public List<Movie> readMovieAndRatingFromRegister(){
+        List<Movie> copyList = new ArrayList<>();
         try {
             Scanner scanner = new Scanner("movieRegister.txt");
-            List<Movie> copyList = new ArrayList<>();
 
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
@@ -70,11 +52,12 @@ public class MovieHandler {
                 copyList.add(movie);
             }
             scanner.close();
-            this.movieRegister.setMovieRegister(copyList);
         }
         catch (Exception e){
             System.out.println("Error: " + e);
         }
+        return copyList;
+
     }
     
 }

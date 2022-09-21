@@ -8,6 +8,7 @@ public class MovieRegister {
     MovieHandler handler = new MovieHandler();
 
     public void addMovie(Movie movie){
+        setMovieRegister();
         if(movies.contains(movie)){
             movies.remove(movie);
             movies.add(movie);
@@ -17,14 +18,12 @@ public class MovieRegister {
     }
 
     public List<Movie> getMovieRegister(){
+        setMovieRegister();
         return movies;
     }
 
-    public void setMovieRegister(List<Movie> movies){
-        this.movies = movies;
-    }
-
     public List<Movie> searchGenre(String genre){
+        setMovieRegister();
         List<Movie> moviesByGenre = new ArrayList<>();
         for(Movie movie : movies){
             if(movie.getGenre().equals(genre)){
@@ -35,6 +34,7 @@ public class MovieRegister {
     }
 
     public List<Movie> searchMovieTitle(String title){
+        setMovieRegister();
         List<Movie> moviesByTitle = new ArrayList<>();
         for(Movie movie : movies){
             if(movie.getTitle().equals(title)){
@@ -45,12 +45,17 @@ public class MovieRegister {
     }
 
     public Movie getMovie(String title, String genre){
+        setMovieRegister();
         for(Movie movie : movies){
             if(movie.getTitle().equals(title) && movie.getGenre().equals(genre)){
                 return movie;
             }
         }
         return null;
+    }
+
+    private void setMovieRegister(){
+        this.movies = handler.readMovieAndRatingFromRegister();
     }
 }
 
