@@ -6,7 +6,7 @@ import java.util.List;
 import core.Movie;
 import core.MovieRegister;
 import core.User;
-import core.Users;
+import core.UserRegister;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -22,7 +22,7 @@ import javafx.scene.input.MouseEvent;
 public class MovieRatingController {
     //Fields
     private User user;
-    private Users users = new Users();
+    private UserRegister usersRegister = new UserRegister();
     private Movie movie;
     private MovieRegister movieRegister = new MovieRegister();
     private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
@@ -116,8 +116,8 @@ public class MovieRatingController {
     private void handleLogIn(){
         //Tries to log in a user. If user excists: sets correct fields and visibility status.
         try {
-            this.users.validUser(username.getText(), password.getText());  
-            this.user = this.users.getUser(username.getText());
+            this.usersRegister.validUser(username.getText(), password.getText());  
+            this.user = this.usersRegister.getUser(username.getText());
             setLoginPossibility(false);
             loggedIn(true);  
         } catch (Exception e) {
@@ -129,13 +129,13 @@ public class MovieRatingController {
     private void handleCreateUser(){
         //Creates a new user and sets desired fields and visibility.
         try {
-            this.users.existingUser(username.getText(), password.getText());      
+            this.usersRegister.existingUser(username.getText(), password.getText());      
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
         this.user = new User(username.getText(), password.getText());
         try {
-            this.users.registerNewUser(this.user);
+            this.usersRegister.registerNewUser(this.user);
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
@@ -158,6 +158,7 @@ public class MovieRatingController {
     private void handleSearchMovie(){
         //Searches for movies by title and displays them in list view.
         List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
+        if (movieList.isEmpty()){ errorActivation("No movies with title " + movieName.getText());}
         for (Movie movie : movieList) {
             movieRegisterList.getItems().add(movie.toString());
         }
@@ -167,6 +168,7 @@ public class MovieRatingController {
     private void handleSearchGenre(){ //MANGLER I FXML
         //Searches for movies by genre and displays them in list view.
         List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
+        if (movieList.isEmpty()){ errorActivation("No movies with genre " + genreBox.getValue());}
         for (Movie movie : movieList) {
             movieRegisterList.getItems().add(movie.toString());
         }
@@ -175,7 +177,7 @@ public class MovieRatingController {
     @FXML
     private void selectMovie(MouseEvent event){
         //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
-        if (movieRegisterList.getSelectionModel() != null && this.user != null){
+        if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null){
             this.movie = convertSelectedItemToMovieObject();
             movieLabel.setText(": " + this.movie.getTitle());
             setRateVisibility(true, this.movie);
@@ -184,7 +186,7 @@ public class MovieRatingController {
 
     private Movie convertSelectedItemToMovieObject(){
         //Retrives movie object from convertObservableList:
-        System.out.println(movieRegisterList.getSelectionModel().getSelectedItem());
+        movieRegisterList.getSelectionModel().getSelectedItem();
         String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("\t");
         return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
     }
