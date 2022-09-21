@@ -22,19 +22,25 @@ public class MovieHandler {
         movieRegister.getMovieRegister().add(movie);
     }
 
-    public void writeMovieToRegister(String filename){
+    public void writeMovieToRegister(Movie movie){
         try {
-            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(filename, false)));
+            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", true)));
 
-            for (Movie movie : movieRegister.getMovieRegister()) {
-                StringBuilder sb = new StringBuilder();
-                for(Integer rating: movie.getAllRatings()){
-                    sb.append(rating);
-                    sb.append(", ");
-                } 
-
-                writer.println(movie.getTitle() + ";" + movie.getGenre() + ";" + sb); 
+            // for (Movie movie : movieRegister.getMovieRegister()) {
+            //     StringBuilder sb = new StringBuilder();
+            //     for(Integer rating: movie.getAllRatings()){
+            //         sb.append(rating);
+            //         sb.append(", ");
+            //     } 
+            //
+            //    writer.println(movie.getTitle() + ";" + movie.getGenre() + ";" + sb); 
+            // }
+            StringBuilder sb = new StringBuilder();
+            for(Integer rating: movie.getAllRatings()){
+                sb.append(rating);
+                sb.append(";");
             }
+            writer.println(movie.getTitle() + "; " + movie.getGenre() + "; " + sb.substring(0,-1)); 
             writer.flush();
             writer.close();
         }
@@ -46,9 +52,9 @@ public class MovieHandler {
         }   
     }
 
-    public void readMovieAndRatingFromRegister(String filename){
+    public void readMovieAndRatingFromRegister(){
         try {
-            Scanner scanner = new Scanner(filename);
+            Scanner scanner = new Scanner("movieRegister.txt");
             List<Movie> copyList = new ArrayList<>();
 
             while (scanner.hasNextLine()){
@@ -62,9 +68,9 @@ public class MovieHandler {
                 Movie movie = new Movie(title, genre);
                 movie.setRating(mean);
                 copyList.add(movie);
-                this.movieRegister.setMovieRegister(copyList);
             }
             scanner.close();
+            this.movieRegister.setMovieRegister(copyList);
         }
         catch (Exception e){
             System.out.println("Error: " + e);
