@@ -160,17 +160,12 @@ public class MovieRatingController {
 
     @FXML
     private void selectMovie(MouseEvent event){
-        //Displays a movie when it is selected if a user is logged in. This allows for rating.
-        try {
-            this.user.getUsername(); //fails if user is not logged in.
-            
-        } catch (Exception e) {
-            errorActivation(e.getMessage());
+        //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
+        if (movieRegisterList.getSelectionModel() != null && this.user != null){
+            this.movie = convertSelectedItemToMovieObject();
+            movieLabel.setText(": " + this.movie.getTitle());
+            setRateVisibility(true, this.movie);
         }
-        //Sets values for rating:
-        this.movie = convertSelectedItemToMovieObject();
-        movieLabel.setText(": " + this.movie.getTitle());
-        setRateVisibility(true, this.movie); 
     }
 
     private Movie convertSelectedItemToMovieObject(){
