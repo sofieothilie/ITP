@@ -11,7 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MovieRatingController">
    <children>
-      <Label layoutX="13.0" layoutY="39.0" text="Username:" />
+      <Label fx:id="usernameLabel" layoutX="13.0" layoutY="39.0" text="Username:" />
       <Label fx:id="passwordLabel" layoutX="15.0" layoutY="75.0" text="Password:" />
       <TextField fx:id="username" layoutX="86.0" layoutY="35.0" />
       <TextField fx:id="password" layoutX="86.0" layoutY="71.0" />

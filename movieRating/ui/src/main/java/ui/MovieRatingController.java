@@ -80,7 +80,7 @@ public class MovieRatingController {
         searchMovie.visibleProperty().set(true);
         genreBox.visibleProperty().set(true);
         movieRegisterList.visibleProperty().set(true);
-        if (!this.user.equals(null)){
+        if (this.user != (null)){
             addMovieRegister.visibleProperty().set(value);
             //Denne må vurderes. hvordan skal den implementeres
         }
@@ -93,7 +93,7 @@ public class MovieRatingController {
         movieLabel.visibleProperty().set(value);
         ratedMovie.visibleProperty().set(value);
         rateLabel.visibleProperty().set(value);
-        if (!movie.equals(null) && value == true){
+        if (movie != (null) && value == true){
             ratedMovie.setText(movie.getTitle());
         }
     }
