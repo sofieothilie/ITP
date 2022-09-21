@@ -39,7 +39,7 @@ public class MovieRatingController {
     @FXML
     private TextArea ratedMovie;
     @FXML
-    private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel;
+    private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel, ratingscaleLabel;
 
 
 
@@ -89,6 +89,7 @@ public class MovieRatingController {
         movieLabel.visibleProperty().set(value);
         ratedMovie.visibleProperty().set(value);
         rateLabel.visibleProperty().set(value);
+        ratingscaleLabel.setVisible(value);
         if (movie != (null) && value == true){
             ratedMovie.setText(movie.getTitle());
         }
@@ -145,6 +146,7 @@ public class MovieRatingController {
             movieRegisterList.getItems().add(movie.toString());
         }
     }
+
 
     @FXML
     private void handleSearchGenre(){ //MANGLER I FXML
