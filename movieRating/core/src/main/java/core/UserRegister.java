@@ -8,6 +8,7 @@ import java.util.List;
 
 public class UserRegister {
     private List<User> users = new ArrayList<>();
+    private UserHandling userHandling = new UserHandling();
 
     public void registerNewUser(User user) throws Exception{
         if(this.existingUser(user.getUsername(), user.getPassword())){
@@ -17,10 +18,11 @@ public class UserRegister {
     }
     
     public List<User> getUsers(){
-        return users;
+        return userHandling.readUsersFromRegister();
     }
 
     public User getUser(String username){
+        updateUserList();
         for(User user : users){
             if(user.getUsername().equals(username)){
                 return user;
@@ -60,6 +62,10 @@ public class UserRegister {
             return true;
         }
         return false;
+    }
+
+    private void updateUserList(){
+        this.users = userHandling.readUsersFromRegister();
     }
     
 }
