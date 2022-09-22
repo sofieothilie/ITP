@@ -13,9 +13,6 @@ public class Movie {
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
     public Movie(String title, String genre) {
-        // if(checkMovie()){
-        //     throw new IllegalArgumentException("Movie already in register");
-        // }
         if(! GENRES.contains(genre)){
             throw new IllegalArgumentException("Not a valid genre");
         }
@@ -29,10 +26,6 @@ public class Movie {
 
     public String getGenre() {
         return genre;
-    }
-
-    public double getRating() {
-        return rating;
     }
 
     public List<Integer> getAllRatings(){
@@ -52,6 +45,6 @@ public class Movie {
     }
 
     public String toString(){
-        return ""+ this.getTitle() + "\t" + this.getGenre() + "\t" + this.getRating();
+        return ""+ this.getTitle() + "\t" + this.getGenre() + "\t" + this.getMeanRating();
     }
 }

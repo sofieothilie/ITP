@@ -11,10 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MovieHandler {
-
-    //private List<Movie> movies = new ArrayList<Movie>();
-    public static final String SAVE_FOLDER = "/movieRating/core/src/main/java/core/";
-
+    
     public void writeMovieToRegister(Movie movie){
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", true)));
@@ -43,53 +40,6 @@ public class MovieHandler {
         return String.valueOf(sb);
         
     }
-
-    public void updateMovieToRegister(Movie movie){
-        List<Movie> movies = new ArrayList<>();
-        movies = readMovieAndRatingFromRegister();
-        // File f = new File("movieRegister.txt");
-        // if (f.isFile()){
-        //     movies = readMovieAndRatingFromRegister();
-        //     if(!movies.isEmpty()){
-        //         for (Movie mov : movies) {
-        //             if (mov.getTitle().equals(movie.getTitle())){
-        //                 movies.add(movie);
-        //                 movies.remove(mov);
-        //             }
-        //         }
-        //     }
-        // }
-        // else{
-        //     writeMovieToRegister(movie);
-        // }
-        try {
-            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", false)));
-            for(Movie mov: movies){
-                writer.println(mov.getTitle() + "; " + mov.getGenre() + "; " + splitRatings(mov)); 
-            }
-            writer.flush();
-            writer.close();
-        }
-        catch (IOException e){
-            throw new IllegalArgumentException("Error: " + e);
-        }
-        catch (Exception e){
-            throw new IllegalArgumentException("Error: " + e);
-        }   
-    }
-
-    private String splitRatings(Movie movie){
-        StringBuilder sb = new StringBuilder();
-        if (!movie.getAllRatings().isEmpty()){
-            for(Integer rating: movie.getAllRatings()){
-                sb.append(rating);
-                sb.append("\t");
-            }
-            return sb.substring(0, sb.length()-1);
-        }
-        return null;
-    }
-
 
     public List<Movie> readMovieAndRatingFromRegister(){
         List<Movie> copyList = new ArrayList<>();
@@ -122,18 +72,5 @@ public class MovieHandler {
 
     }
 
-    public static void main(String[] args) {
-        MovieHandler handler = new MovieHandler();
-        Movie movie = new Movie("awfdg", "fantasy");
-        movie.addRating(3);
-        movie.addRating(4);
-        
-        movie.addRating(3);
-        handler.writeMovieToRegister(movie);
-        Movie mov = new Movie("hel", "fantasy");
-        mov.addRating(4);
-        handler.writeMovieToRegister(mov);
-        Movie mos = new Movie("hajsd", "fantasy");
-        handler.writeMovieToRegister(mos);
-    } 
+
 }

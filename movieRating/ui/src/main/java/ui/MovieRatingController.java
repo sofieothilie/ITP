@@ -14,17 +14,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.MouseEvent;
 
 public class MovieRatingController {
     //Fields
     private User user;
     private UserRegister userRegister = new UserRegister();
     private Movie movie;
+    private UserHandling userHandling = new UserHandling();
     private MovieRegister movieRegister = new MovieRegister();
     private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
     private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
@@ -33,13 +32,11 @@ public class MovieRatingController {
     @FXML
     private TextField username, password, movieName;
     @FXML
-    private Button logIn, addMovieRegister, createUser, searchMovie, addMovieToRegister, logOut, rateButton;
+    private Button addMovieRegister, createUser, addMovieToRegister, logOut, rateButton;
     @FXML
     private ChoiceBox<String> genreBox;
     @FXML
     private ChoiceBox<Integer> rateBox;
-    @FXML
-    private ListView<String> movieRegisterList;
     @FXML
     private TextArea ratedMovie;
     @FXML
@@ -47,14 +44,11 @@ public class MovieRatingController {
 
 
     private void clearAllSearchFields(){
-        movieRegisterList.getItems().clear();
         movieName.clear();
         movieLabel.setText("");
         ratedMovie.setText(movie.toString());
         genreBox.setValue(null);
         rateBox.setValue(null);
-
-
         
     }
     // Methods
@@ -92,7 +86,7 @@ public class MovieRatingController {
         username.clear();
         password.visibleProperty().set(value);
         password.clear();
-        logIn.visibleProperty().set(value);
+
         createUser.visibleProperty().set(value);
     }
 
@@ -104,9 +98,7 @@ public class MovieRatingController {
 
     private void setSearchVisibility(boolean value){
         //Sets the search-area to desired visibility:
-        searchMovie.visibleProperty().set(true);
         genreBox.visibleProperty().set(true);
-        movieRegisterList.visibleProperty().set(true);
     }
 
     private void setRateVisibility(boolean value, Movie movie){
@@ -123,35 +115,17 @@ public class MovieRatingController {
     }
     
     //User methods
-    @FXML
-    private void handleLogIn(){
-        //Tries to log in a user. If user excists: sets correct fields and visibility status.
-        try {
-            this.userRegister.validUser(username.getText(), password.getText());  
-            this.user = this.userRegister.getUser(username.getText());
-            setLoginPossibility(false);
-            loggedIn(true);  
-        } catch (Exception e) {
-            errorActivation(e.getMessage());
-        }          
-    }
 
     @FXML
     private void handleCreateUser(){
         //Creates a new user and sets desired fields and visibility.
-        try {
-            this.userRegister.existingUser(username.getText(), password.getText());      
-        } catch (Exception e) {
-            errorActivation(e.getMessage());
+        if (!(this.userRegister.existingUser(username.getText(), password.getText()))){
+            this.user = new User(username.getText(), password.getText());  
+            setLoginPossibility(false); 
+            loggedIn(true); 
         }
-        this.user = new User(username.getText(), password.getText());
-        try {
-            this.userRegister.registerNewUser(this.user);
-        } catch (Exception e) {
-            errorActivation(e.getMessage());
-        }
-        setLoginPossibility(false); 
-        loggedIn(true); 
+        else{errorActivation("User already exists.");}
+        
     }
 
 
@@ -166,43 +140,6 @@ public class MovieRatingController {
     }
 
     //Movie methods
-    @FXML
-    private void handleSearchMovie(){
-        //Searches for movies by title and displays them in list view.
-        List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
-        if (movieList.isEmpty()){ errorActivation("No movies with title " + movieName.getText());}
-        for (Movie movie : movieList) {
-            movieRegisterList.getItems().add(movie.toString());
-        }
-    }
-
-    @FXML
-    private void handleSearchGenre(){
-        //Searches for movies by genre and displays them in list view.
-        List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
-        if (movieList.isEmpty()){ errorActivation("No movies with genre " + genreBox.getValue());}
-        for (Movie movie : movieList) {
-            movieRegisterList.getItems().add(movie.toString());
-        }
-    }
-
-    @FXML
-    private void selectMovie(MouseEvent event){
-        //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
-        ratedMovie.setText("");
-        if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null){
-            this.movie = convertSelectedItemToMovieObject();
-            movieLabel.setText(": " + this.movie.getTitle());
-            setRateVisibility(true, this.movie);
-        }
-    }
-
-    private Movie convertSelectedItemToMovieObject(){
-        //Retrives movie object from convertObservableList:
-        movieRegisterList.getSelectionModel().getSelectedItem();
-        String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("\t");
-        return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
-    }
 
     @FXML
     private void handleAddMovieToRegister(){
@@ -234,6 +171,8 @@ public class MovieRatingController {
         //Saves new rating and writes this to file.
         this.movie.addRating(rateBox.getValue());
         this.movieRegister.updateMovie(movie);
+        this.user.rateMovie(movie, rateBox.getValue());
+        this.userHandling.writeUserToRegister(user);
         confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
         clearAllSearchFields();
     }

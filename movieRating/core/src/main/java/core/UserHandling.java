@@ -70,10 +70,6 @@ public class UserHandling {
         return false;
     }
 
-    public static void main(String[] args) {
-        User user = new User("hei", "password");
-        UserHandling users = new UserHandling();
-        users.writeUserToRegister(user);
-    }
+
 
 }

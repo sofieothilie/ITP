@@ -17,15 +17,13 @@ public class MovieRegister {
     }
 
     public void updateMovie(Movie movie){
-        handler.updateMovieToRegister(movie);
+        handler.writeMovieToRegister(movie);
     }
 
     public List<Movie> getMovieRegister(){
         setMovieRegister();
         return movies;
     }
-
-
 
     public List<Movie> searchGenre(String genre){
         setMovieRegister();
@@ -73,7 +71,8 @@ public class MovieRegister {
     }
 
     private void setMovieRegister(){
-        this.movies = handler.readMovieAndRatingFromRegister();
+        //Denne metoden skal brukes til å oppdatere listen av filmer.
+        //Blir implementert når filhåndering er fult implementert.
     }
 }
 

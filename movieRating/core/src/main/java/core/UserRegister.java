@@ -76,9 +76,8 @@ public class UserRegister {
     }
 
     private void updateUserList(){
-        if (userHandling.fileExists()){
-            this.users = userHandling.readUsersFromRegister();
-        }
+        //Denne metoden skal brukes til å oppdatere listen av brukere.
+        //Blir implementert når filhåndering er fullt implementert.
     }
     
 }
