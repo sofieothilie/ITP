@@ -2,13 +2,15 @@ package core;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
 public class UserHandling {
 
-    private UserRegister users = new UserRegister();
+    List<User> users = new ArrayList<>();
 
     public void writeUserToRegister(User user){
         try {
@@ -26,11 +28,11 @@ public class UserHandling {
         }
     }
 
-    public void readUsersFromRegister(){
+    public List<User> readUsersFromRegister(){
         try {
             Scanner scanner = new Scanner("userRegister.txt");
-            this.users = new UserRegister();
-
+            List<User> users = new ArrayList<>();
+            
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
                 String[] parts = line.split(";");
@@ -48,13 +50,11 @@ public class UserHandling {
                     String rating = movieAndRatingParts[2];
                     user.rateMovie(new Movie(movieTitle, genre), Integer.parseInt(rating));
                 }
-                users.registerNewUser(user);
+                users.add(user);
 
             }
             scanner.close();
-        }
-        catch (IOException e){
-            throw new IllegalArgumentException("Error: " + e);
+            return users;   
         }
         catch (Exception e){
             throw new IllegalArgumentException("Error: " + e);
