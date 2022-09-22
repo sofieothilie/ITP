@@ -2,7 +2,11 @@
 
 # Beskrivelse 
 
+<<<<<<< HEAD:README.md
+Vi har delt opp vårt prosjekt movieRating i to mapper, core og ui. I core ligger klassene, mens i ui ligger appen og controlleren 
+=======
 Mappen "filmrating" utgjør kodingsprosjektet. 
+>>>>>>> origin/master:readme.md
 
 
 
