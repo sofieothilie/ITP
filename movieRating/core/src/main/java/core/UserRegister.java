@@ -11,15 +11,20 @@ public class UserRegister {
     private UserHandling userHandling = new UserHandling();
 
     public void registerNewUser(User user) throws Exception{
-        if(this.existingUser(user.getUsername(), user.getPassword())){
-            throw new IllegalArgumentException("User already exists");
+        if (userHandling.fileExists()){
+            if(this.existingUser(user.getUsername(), user.getPassword())){
+                throw new IllegalArgumentException("User already exists");
+            }
+
         }
-        users.add(user);
         userHandling.writeUserToRegister(user);
     }
     
     public List<User> getUsers(){
-        return userHandling.readUsersFromRegister();
+        if (userHandling.fileExists()){
+            return userHandling.readUsersFromRegister();
+        }
+        return List.of();
     }
 
     public User getUser(String username){
@@ -71,7 +76,9 @@ public class UserRegister {
     }
 
     private void updateUserList(){
-        this.users = userHandling.readUsersFromRegister();
+        if (userHandling.fileExists()){
+            this.users = userHandling.readUsersFromRegister();
+        }
     }
     
 }

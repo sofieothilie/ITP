@@ -30,11 +30,6 @@ public class UserHandling {
     }
 
     public List<User> readUsersFromRegister(){
-        File f = new File("userRegister.txt");
-        List<User> users = new ArrayList<>();
-        if (!f.isFile()){
-            return List.of();
-        }
         try {
             Scanner scanner = new Scanner(new File("userRegister.txt"));
             
@@ -43,17 +38,18 @@ public class UserHandling {
                 String[] parts = line.split(";");
                 String username = parts[0];
                 String password = parts[1];
-                String MovieAndRatings = parts[2];
-                String[] movieAndRatings = MovieAndRatings.split(",");
-                
                 User user = new User(username, password);
+                if (parts.length > 2){
+                    String MovieAndRatings = parts[2];
+                    String[] movieAndRatings = MovieAndRatings.split(",");
 
-                for(String movieAndRating : movieAndRatings){
-                    String[] movieAndRatingParts = movieAndRating.split(":");
-                    String movieTitle = movieAndRatingParts[0];
-                    String genre = movieAndRatingParts[1];
-                    String rating = movieAndRatingParts[2];
-                    user.rateMovie(new Movie(movieTitle, genre), Integer.parseInt(rating));
+                    for(String movieAndRating : movieAndRatings){
+                        String[] movieAndRatingParts = movieAndRating.split(":");
+                        String movieTitle = movieAndRatingParts[0];
+                        String genre = movieAndRatingParts[1];
+                        String rating = movieAndRatingParts[2];
+                        user.rateMovie(new Movie(movieTitle, genre), Integer.parseInt(rating));
+                    }
                 }
                 users.add(user);
 
@@ -64,6 +60,20 @@ public class UserHandling {
         catch (Exception e){
             throw new IllegalArgumentException("Error: " + e);
         }
+    }
+
+    public boolean fileExists(){
+        File f = new File("userRegister.txt");
+        if (f.isFile()){
+           return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        User user = new User("hei", "password");
+        UserHandling users = new UserHandling();
+        users.writeUserToRegister(user);
     }
 
 }
