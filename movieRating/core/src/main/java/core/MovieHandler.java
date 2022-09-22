@@ -18,14 +18,7 @@ public class MovieHandler {
     public void writeMovieToRegister(Movie movie){
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", true)));
-
-
-            if (movie.getAllRatings().size() > 0 ){
-                writer.println(movie.getTitle() + "; " + movie.getGenre() + "; " + sb.substring(0, sb.length()-1));                  
-            }
-            else{
-                writer.println(movie.getTitle() + "; " + movie.getGenre());
-            }
+            writer.println(this.convertMovieToString(movie));
             writer.flush();
             writer.close();
         }
@@ -40,9 +33,12 @@ public class MovieHandler {
     private String convertMovieToString(Movie movie){
         StringBuilder sb = new StringBuilder();
         sb.append(movie.getTitle() + "; " + movie.getGenre());
-        for(Integer rating: movie.getAllRatings()){
-            sb.append(rating);
-            sb.append("\t");
+        if (movie.getAllRatings().size() > 0){
+            sb.append("; ");
+            for(Integer rating: movie.getAllRatings()){
+                sb.append(rating);
+                sb.append("\t");
+            }
         }
         return String.valueOf(sb);
         

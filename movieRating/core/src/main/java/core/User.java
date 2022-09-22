@@ -36,16 +36,18 @@ public class User {
         movie.addRating(myRating);        
     }
 
-    public String ratedMoviesToStrong(){
+    public String ratedMoviesToString(){
         String ratedMoviesString = "";
-        for(Movie movie : ratedMovies.keySet()){
-            ratedMoviesString +=  movie.getTitle() + ":" + movie.getGenre() + ":" + ratedMovies.get(movie) + ",";
+        if (this.ratedMovies.keySet().size() > 0){
+            for(Movie movie : ratedMovies.keySet()){
+                ratedMoviesString +=  movie.getTitle() + ":" + movie.getGenre() + ":" + ratedMovies.get(movie) + ",";
+            }
         }
         return ratedMoviesString;
     }
 
     @Override
     public String toString() {
-        return username + ";" + password + ";" + this.ratedMoviesToStrong();
+        return username + ";" + password + ";" + this.ratedMoviesToString();
     }
 }
