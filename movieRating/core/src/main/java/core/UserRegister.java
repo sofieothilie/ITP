@@ -15,6 +15,7 @@ public class UserRegister {
             throw new IllegalArgumentException("User already exists");
         }
         users.add(user);
+        userHandling.writeUserToRegister(user);
     }
     
     public List<User> getUsers(){
@@ -23,15 +24,18 @@ public class UserRegister {
 
     public User getUser(String username){
         updateUserList();
-        for(User user : users){
-            if(user.getUsername().equals(username)){
-                return user;
+        if (!userIsEmpty()){
+            for(User user : users){
+                if(user.getUsername().equals(username)){
+                    return user;
+                }
             }
         }
         return null;
     }
 
     public void validUser(String username, String password) throws Exception{
+        updateUserList();
         if(userIsEmpty()){
             throw new Exception("User does not exist");
         }
@@ -46,6 +50,7 @@ public class UserRegister {
     }
 
     public boolean existingUser(String username, String password){
+        updateUserList();
         if(userIsEmpty()){
             return false;
         }
@@ -58,6 +63,7 @@ public class UserRegister {
     }
 
     public boolean userIsEmpty(){
+        updateUserList();
         if(users.isEmpty()){
             return true;
         }

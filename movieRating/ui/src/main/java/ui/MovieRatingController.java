@@ -6,6 +6,7 @@ import java.util.List;
 import core.Movie;
 import core.MovieRegister;
 import core.User;
+import core.UserHandling;
 import core.UserRegister;
 
 import javafx.fxml.FXML;
@@ -22,7 +23,7 @@ import javafx.scene.input.MouseEvent;
 public class MovieRatingController {
     //Fields
     private User user;
-    private UserRegister usersRegister = new UserRegister();
+    private UserRegister userRegister = new UserRegister();
     private Movie movie;
     private MovieRegister movieRegister = new MovieRegister();
     private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
@@ -126,8 +127,8 @@ public class MovieRatingController {
     private void handleLogIn(){
         //Tries to log in a user. If user excists: sets correct fields and visibility status.
         try {
-            this.usersRegister.validUser(username.getText(), password.getText());  
-            this.user = this.usersRegister.getUser(username.getText());
+            this.userRegister.validUser(username.getText(), password.getText());  
+            this.user = this.userRegister.getUser(username.getText());
             setLoginPossibility(false);
             loggedIn(true);  
         } catch (Exception e) {
@@ -139,13 +140,13 @@ public class MovieRatingController {
     private void handleCreateUser(){
         //Creates a new user and sets desired fields and visibility.
         try {
-            this.usersRegister.existingUser(username.getText(), password.getText());      
+            this.userRegister.existingUser(username.getText(), password.getText());      
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
         this.user = new User(username.getText(), password.getText());
         try {
-            this.usersRegister.registerNewUser(this.user);
+            this.userRegister.registerNewUser(this.user);
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
