@@ -234,7 +234,7 @@ public class MovieRatingController {
         //Saves new rating and writes this to file.
         this.movie.addRating(rateBox.getValue());
         this.movieRegister.updateMovie(movie);
-        errorActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
+        confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
         clearAllSearchFields();
     }
 
@@ -242,6 +242,13 @@ public class MovieRatingController {
     private void errorActivation(String message) {
         //When called, displays a warning message
         Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Movie Rating");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }   
+    private void confirmationActivation(String message) {
+        //When called, displays a warning message
+        Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Movie Rating");
         alert.setContentText(message);
         alert.showAndWait();

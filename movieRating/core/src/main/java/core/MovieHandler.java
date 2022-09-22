@@ -18,12 +18,14 @@ public class MovieHandler {
     public void writeMovieToRegister(Movie movie){
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", true)));
-            StringBuilder sb = new StringBuilder();
-            for(Integer rating: movie.getAllRatings()){
-                sb.append(rating);
-                sb.append(";");
+
+
+            if (movie.getAllRatings().size() > 0 ){
+                writer.println(movie.getTitle() + "; " + movie.getGenre() + "; " + sb.substring(0, sb.length()-1));                  
             }
-            writer.println(movie.getTitle() + "; " + movie.getGenre() + "; " + sb.substring(0, sb.length()-1)); 
+            else{
+                writer.println(movie.getTitle() + "; " + movie.getGenre());
+            }
             writer.flush();
             writer.close();
         }
@@ -35,26 +37,35 @@ public class MovieHandler {
         }   
     }
 
+    private String convertMovieToString(Movie movie){
+        StringBuilder sb = new StringBuilder();
+        sb.append(movie.getTitle() + "; " + movie.getGenre());
+        for(Integer rating: movie.getAllRatings()){
+            sb.append(rating);
+            sb.append("\t");
+        }
+        return String.valueOf(sb);
+        
+    }
+
     public void updateMovieToRegister(Movie movie){
         List<Movie> movies = new ArrayList<>();
-        File f = new File("movieRegister.txt");
-        if (f.isFile()){
-            movies = readMovieAndRatingFromRegister();
-            if(!movies.isEmpty()){
-                for (Movie mov : movies) {
-                    if (mov.getTitle().equals(movie.getTitle())){
-                        movies.add(movie);
-                        movies.remove(mov);
-                        // for (Integer rating : mov.getAllRatings()) {
-                        //     movie.addRating(rating);
-                        // }
-                    }
-                }
-            }
-        }
-        else{
-            movies.add(movie);
-        }
+        movies = readMovieAndRatingFromRegister();
+        // File f = new File("movieRegister.txt");
+        // if (f.isFile()){
+        //     movies = readMovieAndRatingFromRegister();
+        //     if(!movies.isEmpty()){
+        //         for (Movie mov : movies) {
+        //             if (mov.getTitle().equals(movie.getTitle())){
+        //                 movies.add(movie);
+        //                 movies.remove(mov);
+        //             }
+        //         }
+        //     }
+        // }
+        // else{
+        //     writeMovieToRegister(movie);
+        // }
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", false)));
             for(Movie mov: movies){
@@ -114,10 +125,19 @@ public class MovieHandler {
         return copyList;
 
     }
+
     public static void main(String[] args) {
         MovieHandler handler = new MovieHandler();
-        Movie movie = new Movie("Cinderella", "fantasy");
+        Movie movie = new Movie("awfdg", "fantasy");
+        movie.addRating(3);
+        movie.addRating(4);
+        
         movie.addRating(3);
         handler.writeMovieToRegister(movie);
+        Movie mov = new Movie("hel", "fantasy");
+        mov.addRating(4);
+        handler.writeMovieToRegister(mov);
+        Movie mos = new Movie("hajsd", "fantasy");
+        handler.writeMovieToRegister(mos);
     } 
 }
