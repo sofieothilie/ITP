@@ -16,6 +16,8 @@ public class MovieHandler {
     public static final String SAVE_FOLDER = "/movieRating/core/src/main/java/core/";
 
     public void writeMovieToRegister(Movie movie){
+        //skrive film til fil, håndtering av at den ikke eksisterer finnes i movieRegister
+        //bruker convertMovieToString for å skrive.
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", true)));
             writer.println(this.convertMovieToString(movie));
@@ -31,13 +33,14 @@ public class MovieHandler {
     }
 
     private String convertMovieToString(Movie movie){
+        //Burde muligens endre split om ; er valid i tittel.
         StringBuilder sb = new StringBuilder();
         sb.append(movie.getTitle() + "; " + movie.getGenre());
         if (movie.getAllRatings().size() > 0){
             sb.append("; ");
             for(Integer rating: movie.getAllRatings()){
                 sb.append(rating);
-                sb.append("\t");
+                sb.append("\t"); //Fjerne siste tab?
             }
         }
         return String.valueOf(sb);
@@ -45,6 +48,8 @@ public class MovieHandler {
     }
 
     public void updateMovieToRegister(Movie movie){
+        //Reads through the file, generates a list of all movies, where the new movie is updated
+        //Overwrites all these movies to file.
         List<Movie> movies = new ArrayList<>();
         movies = readMovieAndRatingFromRegister();
         // File f = new File("movieRegister.txt");
@@ -79,6 +84,7 @@ public class MovieHandler {
     }
 
     private String splitRatings(Movie movie){
+        //Fjerne, duplikat
         StringBuilder sb = new StringBuilder();
         if (!movie.getAllRatings().isEmpty()){
             for(Integer rating: movie.getAllRatings()){
@@ -92,6 +98,7 @@ public class MovieHandler {
 
 
     public List<Movie> readMovieAndRatingFromRegister(){
+        //lese og returnere en liste av alle filmer.
         List<Movie> copyList = new ArrayList<>();
         try {
             Scanner scanner = new Scanner(new File("movieRegister.txt"));

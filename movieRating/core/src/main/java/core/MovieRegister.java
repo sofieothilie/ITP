@@ -8,21 +8,23 @@ public class MovieRegister {
     MovieHandler handler = new MovieHandler();
 
     public void addMovie(Movie movie){
-        setMovieRegister();
+        setMovieRegister(); //sikre at det alltid finnes en tom fil, og dermed ikke får error pga manglende fil.
+        //Validere om filen er tom, i så fall legge til filmen uten videre sjekk fra fil.
         if(checkMovie(movie)){
             throw new IllegalArgumentException("Filmen finnes allerede");
         }
-        movies.add(movie);
+        movies.add(movie); //trenger vi å legge den til i listen, denne blir jo alltid oppdatert.
         handler.writeMovieToRegister(movie);
     }
 
     public void updateMovie(Movie movie){
+        //validere at filmen allerede fins.
         handler.updateMovieToRegister(movie);
     }
 
     public List<Movie> getMovieRegister(){
         setMovieRegister();
-        return movies;
+        return movies; //returnere kopi av listen
     }
 
 
@@ -35,7 +37,7 @@ public class MovieRegister {
                 moviesByGenre.add(movie);
             }
         }
-        return moviesByGenre;
+        return moviesByGenre; //returnere kopi av listen
     }
 
     public List<Movie> searchMovieTitle(String title){
@@ -46,7 +48,7 @@ public class MovieRegister {
                 moviesByTitle.add(movie);
             }
         }
-        return moviesByTitle;
+        return moviesByTitle; //returnere kopi av listen
     }
 
     public Movie getMovie(String title, String genre){
@@ -56,10 +58,10 @@ public class MovieRegister {
                 return movie;
             }
         }
-        return null;
+        return null; //Vurdere om denne skal ha null eller kaste unntak.
     }
 
-    public boolean checkMovie(Movie movie){
+    public boolean checkMovie(Movie movie){ //private
         setMovieRegister();
         if (getMovieRegister().isEmpty()){
             return false;

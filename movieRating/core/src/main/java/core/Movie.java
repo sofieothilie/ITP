@@ -13,9 +13,7 @@ public class Movie {
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
     public Movie(String title, String genre) {
-        // if(checkMovie()){
-        //     throw new IllegalArgumentException("Movie already in register");
-        // }
+        //Validering på tittel
         if(! GENRES.contains(genre)){
             throw new IllegalArgumentException("Not a valid genre");
         }
@@ -32,26 +30,30 @@ public class Movie {
     }
 
     public double getRating() {
+        //fjerne, duplikat
         return rating;
     }
 
     public List<Integer> getAllRatings(){
-        return ratings;
+        return ratings; //returnere kopi av listen
     }
 
     public void addRating(int rating){
+        //validering, sjekke at int
         ratings.add(rating);
     }
 
     public void setMeanrating(Double rating){
+        //fjerne, dårlig i henhold til objektorientert. 
         this.rating = rating;
     }
 
     public Double getMeanRating(){
+        //regne ut fra listen, ikke hente verdi.
         return this.rating;
     }
 
     public String toString(){
-        return ""+ this.getTitle() + "\t" + this.getGenre() + "\t" + this.getRating();
+        return ""+ this.getTitle() + "\t" + this.getGenre() + "\t" + this.getRating(); //oppdatere til getMeanRating.
     }
 }
