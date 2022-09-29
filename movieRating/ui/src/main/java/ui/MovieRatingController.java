@@ -6,7 +6,7 @@ import java.util.List;
 import core.Movie;
 import core.MovieRegister;
 import core.User;
-import core.UserHandling;
+import core.UserHandling; //må fjernes, alt går gjennom userRegister
 import core.UserRegister;
 
 import javafx.fxml.FXML;
@@ -53,9 +53,7 @@ public class MovieRatingController {
         ratedMovie.setText(movie.toString());
         genreBox.setValue(null);
         rateBox.setValue(null);
-
-
-        
+        //oppdater denne etter hvert som vi tester appen    
     }
     // Methods
 
@@ -139,6 +137,7 @@ public class MovieRatingController {
     @FXML
     private void handleCreateUser(){
         //Creates a new user and sets desired fields and visibility.
+        //prøve å putte alt inn i try-catch (fikset i master!!!)
         try {
             this.userRegister.existingUser(username.getText(), password.getText());      
         } catch (Exception e) {
@@ -169,6 +168,8 @@ public class MovieRatingController {
     @FXML
     private void handleSearchMovie(){
         //Searches for movies by title and displays them in list view.
+        //antar fungerer dersom filhåndtering funker
+        //kan legge til at delvise treff vises
         List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
         if (movieList.isEmpty()){ errorActivation("No movies with title " + movieName.getText());}
         for (Movie movie : movieList) {
@@ -179,6 +180,7 @@ public class MovieRatingController {
     @FXML
     private void handleSearchGenre(){
         //Searches for movies by genre and displays them in list view.
+        // antar funker hvis filhåndtering funker
         List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
         if (movieList.isEmpty()){ errorActivation("No movies with genre " + genreBox.getValue());}
         for (Movie movie : movieList) {
@@ -189,6 +191,7 @@ public class MovieRatingController {
     @FXML
     private void selectMovie(MouseEvent event){
         //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
+        //når handleRateButton trykkes må denne oppdateres
         ratedMovie.setText("");
         if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null){
             this.movie = convertSelectedItemToMovieObject();
@@ -199,6 +202,7 @@ public class MovieRatingController {
 
     private Movie convertSelectedItemToMovieObject(){
         //Retrives movie object from convertObservableList:
+        //når handleRateButton trykkes må denne oppdateres, lage en update metode 
         movieRegisterList.getSelectionModel().getSelectedItem();
         String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("\t");
         return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
@@ -207,6 +211,9 @@ public class MovieRatingController {
     @FXML
     private void handleAddMovieToRegister(){
         //Adds a new movie to the register and writes it to file, given that the input is valid and a user is logged in:
+       //trenger ikke nødvendigvis try-catch siden man ikke kan legge til film uten å være logget inn
+       //valdiering om filmen finnes fra før, kalles fra movieRegister
+       //validere om brukeren har ratet filem fra før, enten legge til eller oppdatere
         try {
             //Fails is user is not logged in:
             isLoggedIn();
@@ -224,6 +231,7 @@ public class MovieRatingController {
 
     private void isLoggedIn(){
         //Throws IllegalState if user isn't logged in.
+        //denne kan fjernes dersom vi fjerner try-catch i metoden over
         if (this.user.equals(null)){
             throw new IllegalStateException("User not logged in.");
         }
@@ -232,6 +240,7 @@ public class MovieRatingController {
     @FXML
     private void handleRateButton(){
         //Saves new rating and writes this to file.
+        //legge til oppdatering
         this.movie.addRating(rateBox.getValue());
         this.movieRegister.updateMovie(movie);
         confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
@@ -241,6 +250,7 @@ public class MovieRatingController {
     //Error message
     private void errorActivation(String message) {
         //When called, displays a warning message
+        //fikse på meldingene
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Movie Rating");
         alert.setContentText(message);
@@ -248,6 +258,7 @@ public class MovieRatingController {
     }   
     private void confirmationActivation(String message) {
         //When called, displays a warning message
+        //fikse på meldingene
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Movie Rating");
         alert.setContentText(message);
