@@ -6,7 +6,7 @@ import java.util.List;
 import core.Movie;
 import core.MovieRegister;
 import core.User;
-import core.UserHandling; //må fjernes, alt går gjennom userRegister
+import core.UserHandler; //må fjernes, alt går gjennom userRegister
 import core.UserRegister;
 
 import javafx.fxml.FXML;
