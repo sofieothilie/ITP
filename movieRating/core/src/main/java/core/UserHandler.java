@@ -79,7 +79,7 @@ public class UserHandler {
 
     public static void main(String[] args) {
         User user = new User("hei", "password");
-        UserHandling users = new UserHandling();
+        UserHandler users = new UserHandler();
         users.writeUserToRegister(user);
     }
 
