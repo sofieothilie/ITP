@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserRegister {
     private List<User> users = new ArrayList<>();
-    private UserHandling userHandling = new UserHandling();
+    private UserHandler userHandler = new UserHandler();
 
     //Må sikre at når en film rates, så oppdateres denne både i user- og movie-fil.
 
@@ -16,19 +16,19 @@ public class UserRegister {
         //oppdatere listen, også sjekke om brukernavn fins fra før, bruk getUser
         //hvis ikke, skriv til fil
 
-        if (userHandling.fileExists()){
+        if (userHandler.fileExists()){
             if(this.existingUser(user.getUsername(), user.getPassword())){
                 throw new IllegalArgumentException("User already exists");
             }
 
         }
-        userHandling.writeUserToRegister(user);
+        userHandler.writeUserToRegister(user);
     }
     
     public List<User> getUsers(){
         //lese fra register, returnere kopi av liste
-        if (userHandling.fileExists()){
-            return userHandling.readUsersFromRegister();
+        if (userHandler.fileExists()){
+            return userHandler.readUsersFromRegister();
         }
         return List.of();
     }
@@ -86,8 +86,8 @@ public class UserRegister {
 
     private void updateUserList(){
         //fjerne fileExists delen.
-        if (userHandling.fileExists()){
-            this.users = userHandling.readUsersFromRegister();
+        if (userHandler.fileExists()){
+            this.users = userHandler.readUsersFromRegister();
         }
     }
     
