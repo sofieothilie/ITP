@@ -9,7 +9,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-public class UserHandling {
+public class UserHandler {
     //lage hjelpemetode for convertUserToString.
 
     List<User> users = new ArrayList<>();
