@@ -34,7 +34,7 @@ public class User {
         if(ratedMovies.containsKey(movie)){
             throw new IllegalArgumentException("The movie is already rated");
         }
-        if(myRating <1.0 || myRating > 5.0){ //int
+        if(myRating <=1 || myRating >= 5){ //int
             throw new IllegalArgumentException("Rating must be an integer from 1 to 5");
         }
         ratedMovies.put(movie, myRating);
