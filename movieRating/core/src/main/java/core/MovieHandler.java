@@ -10,17 +10,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+
+
+
+
 public class MovieHandler {
 
     //private List<Movie> movies = new ArrayList<Movie>();
     public static final String SAVE_FOLDER = "/movieRating/core/src/main/java/core/";
+    JSONObject obj = new JSONObject(); 
 
     public void writeMovieToRegister(Movie movie){
         //skrive film til fil, håndtering av at den ikke eksisterer finnes i movieRegister
         //bruker convertMovieToString for å skrive.
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", true)));
-            writer.println(this.convertMovieToString(movie));
+            writer.println(this.convertMovieToJSON(movie));
             writer.flush();
             writer.close();
         }
@@ -32,7 +37,7 @@ public class MovieHandler {
         }   
     }
 
-    private String convertMovieToString(Movie movie){
+    private String convertMovieToJSON(Movie movie){
         //Burde muligens endre split om ; er valid i tittel.
         StringBuilder sb = new StringBuilder();
         sb.append(movie.getTitle() + "; " + movie.getGenre());
