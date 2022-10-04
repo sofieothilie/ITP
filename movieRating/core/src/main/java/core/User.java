@@ -8,10 +8,14 @@ public class User {
     private HashMap<Movie, Integer> ratedMovies;
 
     public User(String username, String password){
-        //validering på brukernavn og passord, bare tall og bokstaver
-        this.username = username;
-        this.password = password;
-        ratedMovies = new HashMap<>();
+        if (username.matches("[a-zA-Z0-9]+") && password.matches("[a-zA-Z0-9]+")){
+            this.username = username;
+            this.password = password;
+            ratedMovies = new HashMap<>();
+        } 
+        else {
+            throw new IllegalArgumentException("Brukernavn og passord kan bare inneholde tall og bokstaver");
+        }
     }
 
     public String getUsername() {
@@ -23,7 +27,7 @@ public class User {
     }
 
     public HashMap<Movie, Integer> getRatedMovies() {
-        return ratedMovies; //returnere kopi av hashmap
+        return new HashMap<>(ratedMovies);
     }
 
     public void rateMovie(Movie movie, Integer myRating){
@@ -37,20 +41,9 @@ public class User {
         movie.addRating(myRating);        
     }
 
-    public String ratedMoviesToString(){
-        //fjerne, hører til i userhandling.
-        String ratedMoviesString = "";
-        if (this.ratedMovies.keySet().size() > 0){
-            for(Movie movie : ratedMovies.keySet()){
-                ratedMoviesString +=  movie.getTitle() + ":" + movie.getGenre() + ":" + ratedMovies.get(movie) + ",";
-            }
-        }
-        return ratedMoviesString;
-    }
 
     @Override
     public String toString() {
-        //bytte til \t? og endre på this.ratedMoviesToString.
-        return username + ";" + password + ";" + this.ratedMoviesToString();
+        return username + "\t" + password;
     }
 }
