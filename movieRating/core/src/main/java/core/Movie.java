@@ -6,18 +6,22 @@ import java.util.List;
 
 
 public class Movie {
-    private String title;
-    private String genre;
+    private String title; //bør settes til final
+    private final String genre;
     private double rating;
     private List<Integer> ratings = new ArrayList<>();
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
     public Movie(String title, String genre) {
-        //Validering på tittel
+        if(title.matches("[a-zA-Z0-9]+")){
+            this.title = title;
+        }
+        if(title.isEmpty()){
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
         if(! GENRES.contains(genre)){
             throw new IllegalArgumentException("Not a valid genre");
         }
-        this.title = title;
         this.genre = genre;
     }
 
@@ -29,23 +33,16 @@ public class Movie {
         return genre;
     }
 
-    public double getRating() {
-        //fjerne, duplikat
-        return rating;
-    }
 
     public List<Integer> getAllRatings(){
         return ratings; //returnere kopi av listen
     }
 
     public void addRating(int rating){
-        //validering, sjekke at int
+        if(rating < 1 || rating > 5){
+            throw new IllegalArgumentException("Not a valid rating");
+        }
         ratings.add(rating);
-    }
-
-    public void setMeanrating(Double rating){
-        //fjerne, dårlig i henhold til objektorientert. 
-        this.rating = rating;
     }
 
     public Double getMeanRating(){
@@ -54,6 +51,6 @@ public class Movie {
     }
 
     public String toString(){
-        return ""+ this.getTitle() + "\t" + this.getGenre() + "\t" + this.getRating(); //oppdatere til getMeanRating.
+        return ""+ this.getTitle() + "\t" + this.getGenre() + "\t" + this.getMeanRating();
     }
 }
