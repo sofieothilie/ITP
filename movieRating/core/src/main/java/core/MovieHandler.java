@@ -91,7 +91,6 @@ public class MovieHandler {
     }
 
     private Movie convertJSONFromMovie(JSONObject jsonObject){
-        //maybe delete
         //Takes in a jsonObject, generates and returns a movie object.
         String title = String.valueOf(jsonMovie.getString("Title"));
         String genre = String.valueOf(jsonMovie.getString("Genre"));

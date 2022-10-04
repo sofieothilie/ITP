@@ -71,7 +71,7 @@ public class MovieRegister {
                 return movie;
             }
         }
-        return null; //Vurdere om denne skal ha null eller kaste unntak.
+        throw new IllegalArgumentException("No movie with title " + title + " and genre " + genre + ".");
     }
 
     private boolean movieExists(Movie movie){
