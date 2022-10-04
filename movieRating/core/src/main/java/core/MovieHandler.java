@@ -17,6 +17,7 @@ import org.json.JSONObject;
 public class MovieHandler {
 
     public static final String SAVE_FOLDER = "/movieRating/core/src/main/java/core/";
+    JSONObject obj = new JSONObject(); 
 
     public void writeMovieToRegister(Movie movie){
         //Writes movie to file with JSON.
