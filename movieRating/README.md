@@ -9,7 +9,7 @@
     - Filmen(e) som tilfredstiller søket skal dukke opp
     - Dersom man er logget inn skal det være mulig å rate filmen man trykker på
     - Dersom man ikke er logget inn gis det feedback om det. 
-    - Dersom filmen ikke er registrert skal det være mulig å legge til filmen med attributtene "title", "genre" og til slutt en "rating". Dette lagres til fil
+    - Dersom filmen ikke er registrert skal det være mulig å legge til filmen med attributtene "title", "genre" og til slutt en "rating". Dette lagres til fil.
     - Dersom brukeren allerede har ratet denne filmen, skal det gis feedback på at det ikke er mulig å rate igjen
 3. En skal kunne velge en sjanger fra en nedtrekksmeny og se en liste med filmer av den sjangeren. 
     - Dersom man er logget inn skal det være mulig å rate filmen man trykker på
@@ -19,7 +19,7 @@
     - Fra en nedtrekksmeny skal brukeren kunne gi rating til valgte film fra 1-5.
     - Deretter skal bruker få opp oppdatert rating på filmen
     - Ratingen lagres i to filer
-        1. User - her samles alle filmene en bruker har rata
+        1. User - her samles alle filmene en bruker har ratet
         2. MovieRegister - her oppdateres gjennomsnittsratingen etter hvert som filmer blir ratet.
 
 
@@ -29,6 +29,7 @@
     - Rating, flere nedtrekksmenyer basert på tema, år, skuespillere osv. 
 2. Oversikt over brukerens ratede filmer, sortert fra høyest rate til lavest
 3. Utvide med fysiske stjerner som rating
+4. Utvide slik at delvis søk kommer opp, for eksempel ved et matchende ord el.
 
 
 **Skjermbilde for å illustrere appen**
@@ -40,4 +41,4 @@
 
 <img src="brukerhistorie.png" width="600">
 
-#
+
