@@ -14,7 +14,6 @@ public class UserTest {
     Movie m1 = new Movie("Cinderella", "fantasy");
     Movie m2 = new Movie("Snowwhite", "fantasy");
     
-
     @Test
     public void testValidUsernameAndPassword(){ //test for å sjekke gyldige brukernavn og passord 
         new User("Username1234", "Password1234");
@@ -26,13 +25,13 @@ public class UserTest {
             User testUser2 = new User("username-!", "password");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            User testUser2 = new User("username", "pass#");
+            User testUser3 = new User("username", "pass#");
         });
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            User testUser3 = new User("", "password");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            User testUser4 = new User("", "password");
         });
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            User testUser2 = new User("username-!", "");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            User testUser5 = new User("username-!", "");
         });
     }
 
