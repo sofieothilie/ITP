@@ -31,7 +31,6 @@ public class Movie {
         return genre;
     }
 
-
     public List<Integer> getAllRatings(){ //returnerer en kopi av listen med alle ratings
         List <Integer> copyAllRatings = new ArrayList<Integer>(ratings);
         return copyAllRatings;
@@ -58,7 +57,11 @@ public class Movie {
     }
 
     public String toString(){ //returnerer en string med tittel og sjanger og gjennomsnittsrating
-        return ""+ this.getTitle() + "\t" + this.getGenre() + "\t" + String.format("%.2f",averageRating());
+        return ""+ this.getTitle() + "; " + this.getGenre() + "; " + String.format("%.2f",averageRating());
+    }
+
+    public String movieInfoString(){
+        return ""+ this.getTitle() + "; " + this.getGenre() + "; " + getAllRatings();
     }
 }
 
