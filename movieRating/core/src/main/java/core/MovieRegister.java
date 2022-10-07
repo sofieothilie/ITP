@@ -8,61 +8,75 @@ public class MovieRegister {
     MovieHandler handler = new MovieHandler();
 
     public void addMovie(Movie movie){
-        setMovieRegister(); //sikre at det alltid finnes en tom fil, og dermed ikke får error pga manglende fil.
-        //Validere om filen er tom, i så fall legge til filmen uten videre sjekk fra fil.
-        if(checkMovie(movie)){
+        //Adds a movie to file if it doesn't already exist in file.
+        //this.movies = getMovieRegister(); //TODO
+        if(movieExists(movie)){
             throw new IllegalArgumentException("Filmen finnes allerede");
         }
-        movies.add(movie); //trenger vi å legge den til i listen, denne blir jo alltid oppdatert.
         handler.writeMovieToRegister(movie);
     }
 
     public void updateMovie(Movie movie){
-        //validere at filmen allerede fins.
-        handler.updateMovieToRegister(movie);
+        //Updates the movie in the file if it already exists in file.
+        this.movies = getMovieRegister();
+        if (movies.isEmpty()){
+            throw new IllegalArgumentException("No registered movie yet.");
+        }
+        else if (!movies.contains(movie)){
+            throw new IllegalArgumentException("No movie with title " + movie.getTitle() + " and genre " + movie.getGenre());
+        }
+        handler.updateMovieInRegister(movie);
     }
 
     public List<Movie> getMovieRegister(){
-        setMovieRegister();
-        return movies; //returnere kopi av listen
+        //Returns a list of movies if the file exists, returns an empty list if not.
+        if (MovieHandler.fileExists()){
+            return new ArrayList<>(handler.readMovieAndRatingFromRegister());
+        }
+        else{
+            return List.of();
+        }
     }
 
 
-
     public List<Movie> searchGenre(String genre){
-        setMovieRegister();
+        //Returns a list of movies which has the given genre.
+        this.movies = getMovieRegister();
         List<Movie> moviesByGenre = new ArrayList<>();
         for(Movie movie : movies){
             if(movie.getGenre().equals(genre)){
                 moviesByGenre.add(movie);
             }
         }
-        return moviesByGenre; //returnere kopi av listen
+        return new ArrayList<>(moviesByGenre);
     }
 
     public List<Movie> searchMovieTitle(String title){
-        setMovieRegister();
+        //Returns a list of movies which has the given title.
+        this.movies = getMovieRegister();
         List<Movie> moviesByTitle = new ArrayList<>();
         for(Movie movie : movies){
             if(movie.getTitle().equals(title)){
                 moviesByTitle.add(movie);
             }
         }
-        return moviesByTitle; //returnere kopi av listen
+        return new ArrayList<>(moviesByTitle);
     }
 
     public Movie getMovie(String title, String genre){
-        setMovieRegister();
+        //Returns a movies which has the given title and genre.
+        this.movies = getMovieRegister();
         for(Movie movie : movies){
             if(movie.getTitle().equals(title) && movie.getGenre().equals(genre)){
                 return movie;
             }
         }
-        return null; //Vurdere om denne skal ha null eller kaste unntak.
+        throw new IllegalArgumentException("No movie with title " + title + " and genre " + genre + ".");
     }
 
-    public boolean checkMovie(Movie movie){ //private
-        setMovieRegister();
+    private boolean movieExists(Movie movie){
+        //Returns true if a movie exists in register, if not false.
+        this.movies = getMovieRegister();
         if (getMovieRegister().isEmpty()){
             return false;
         }
@@ -72,10 +86,6 @@ public class MovieRegister {
             }
         }
         return false;
-    }
-
-    private void setMovieRegister(){
-        this.movies = handler.readMovieAndRatingFromRegister();
     }
 }
 

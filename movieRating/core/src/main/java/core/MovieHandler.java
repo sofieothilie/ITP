@@ -2,6 +2,7 @@ package core;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,19 +11,29 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializerProvider;
+
+
 public class MovieHandler {
 
-    //private List<Movie> movies = new ArrayList<Movie>();
     public static final String SAVE_FOLDER = "/movieRating/core/src/main/java/core/";
 
+
     public void writeMovieToRegister(Movie movie){
-        //skrive film til fil, håndtering av at den ikke eksisterer finnes i movieRegister
-        //bruker convertMovieToString for å skrive.
+        //Writes movie to file with JSON.
+        //MovieRegister secures that duplicate movies aren't written to file.
         try {
-            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", true)));
-            writer.println(this.convertMovieToString(movie));
-            writer.flush();
-            writer.close();
+            ObjectMapper objectMapper = new ObjectMapper();
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("movieRegister.txt", true));
+            ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter()); 
+            objectWriter.writeValue(bufferedWriter, movie); //movie.movieinfo()
+            //writer.write(this.convertMovieToJSON(movie));
+            //bufferedWriter.flush();
+            //bufferedWriter.close();
         }
         catch (IOException e){
             throw new IllegalArgumentException("Error: " + e);
@@ -32,102 +43,89 @@ public class MovieHandler {
         }   
     }
 
-    private String convertMovieToString(Movie movie){
-        //Burde muligens endre split om ; er valid i tittel.
-        StringBuilder sb = new StringBuilder();
-        sb.append(movie.getTitle() + "; " + movie.getGenre());
-        if (movie.getAllRatings().size() > 0){
-            sb.append("; ");
-            for(Integer rating: movie.getAllRatings()){
-                sb.append(rating);
-                sb.append("\t"); //Fjerne siste tab?
-            }
-        }
-        return String.valueOf(sb);
+
+    // public void updateMovieInRegister(Movie movie){
+    //     //Takes in a movie and updates it in the register
+
+    //     //Generates a list of all movie objects in file:
+    //     List<Movie> movieList = this.readMovieAndRatingFromRegister();
+
+    //     //Writes all previous movies and the new updates movie to file:
+    //     try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("movieRegister.txt", false))) {
+    //         bufferedWriter.write(this.convertMovieToJSON(movie));
+    //         for (Movie oldMovie : movieList) {
+    //             if (!oldMovie.getTitle().equals(movie.getGenre()) || !oldMovie.getGenre().equals(movie.getGenre())){
+    //                 bufferedWriter.write(this.convertMovieToJSON(movie));
+    //             }  
+    //         }
+    //         bufferedWriter.close();
+    //     } catch (IOException e) {
+    //         System.out.println("File not found");
+    //     } catch (Exception ex) {
+    //         System.out.println("An unknown error has accoured.");
+    //     }
+    // }
+
+
+    // public List<Movie> readMovieAndRatingFromRegister(){
+    //     //Reads from file and generates a list of movies based on it.
+    //     List<Movie> movieList = new ArrayList<>();
+    //     try {
+    //         JSONParser parser = new JSONParser();
+    //         JSONArray jsonArray = (JSONArray) parser.parse(new FileReader("movieRegister.txt"));
+    //         JSONArray arr = obj.getJSONArray("Movies");
+
+    //         for(Object o : jsonArray){
+    //             JSONObject jsonMovie = (JSONObject) o;
+    //             movieList.add(this.convertJSONToMovie(o));                
+    //         }
+    //     }
+    //     catch (Exception e){
+    //         throw new IllegalArgumentException("Error: " + e);
+    //     }
+    //     return new ArrayList<>(movieList);
+    // }
+
+    // public static Boolean fileExists(){
+    //     File f = new File("movieRegister.txt");
+    //     if (f.isFile()){
+    //         return true;
+    //     }
+    //     else{
+    //         return false;
+    //     }
         
-    }
+    // }
 
-    public void updateMovieToRegister(Movie movie){
-        //Reads through the file, generates a list of all movies, where the new movie is updated
-        //Overwrites all these movies to file.
-        List<Movie> movies = new ArrayList<>();
-        movies = readMovieAndRatingFromRegister();
-        // File f = new File("movieRegister.txt");
-        // if (f.isFile()){
-        //     movies = readMovieAndRatingFromRegister();
-        //     if(!movies.isEmpty()){
-        //         for (Movie mov : movies) {
-        //             if (mov.getTitle().equals(movie.getTitle())){
-        //                 movies.add(movie);
-        //                 movies.remove(mov);
-        //             }
-        //         }
-        //     }
-        // }
-        // else{
-        //     writeMovieToRegister(movie);
-        // }
-        try {
-            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("movieRegister.txt", false)));
-            for(Movie mov: movies){
-                writer.println(mov.getTitle() + "; " + mov.getGenre() + "; " + splitRatings(mov)); 
-            }
-            writer.flush();
-            writer.close();
-        }
-        catch (IOException e){
-            throw new IllegalArgumentException("Error: " + e);
-        }
-        catch (Exception e){
-            throw new IllegalArgumentException("Error: " + e);
-        }   
-    }
+    // private Movie convertJSONFromMovie(JSONObject jsonObject){
+    //     //Takes in a jsonObject, generates and returns a movie object.
+    //     String title = String.valueOf(jsonMovie.getString("Title"));
+    //     String genre = String.valueOf(jsonMovie.getString("Genre"));
+    //     Movie movie = new Movie(title, genre);
+    //     JSONArray ratingArray = (JSONArray) jsonMovie.get("Ratings");
+    //     for (Object ratingObject : ratingArray){
+    //         Integer rating = Integer.valueOf(String.valueOf(ratingObject));
+    //         movie.addRating(rating);                    
+    //     }  
+    // }
 
-    private String splitRatings(Movie movie){
-        //Fjerne, duplikat
-        StringBuilder sb = new StringBuilder();
-        if (!movie.getAllRatings().isEmpty()){
-            for(Integer rating: movie.getAllRatings()){
-                sb.append(rating);
-                sb.append("\t");
-            }
-            return sb.substring(0, sb.length()-1);
-        }
-        return null;
-    }
+    // private String convertMovieToJSON(Movie movie){
+    //     //Generates a JSON object from a movie and returns it as a string.
+    //     JsonGe
+    //     gen.writeStartObject();
+    //     gen.writeStringField("title", movie.getTitle());
+    //     if (movie.getAllRatings().size() > 0) {
+    //         gen.writeStartArray();
+    //         for (Integer rating : movie.getAllRatings()) {
+    //             gen.writeNumber(rating);
+    //         }
+    //         gen.writeEndArray();
+    //     }
+    //     gen.writeEndObject();
+    // }
 
+    
 
-    public List<Movie> readMovieAndRatingFromRegister(){
-        //lese og returnere en liste av alle filmer.
-        List<Movie> copyList = new ArrayList<>();
-        try {
-            Scanner scanner = new Scanner(new File("movieRegister.txt"));
-
-            while (scanner.hasNextLine()){
-                String line = scanner.nextLine();
-                String[] parts = line.split("; ");
-                String title = parts[0];
-                String genre = parts[1];
-                Movie movie = new Movie(title, genre);
-                if (parts.length > 2){
-                    String[] ratings = parts[2].split("\t");
-                    for (String str : ratings) {
-                        movie.addRating(Integer.valueOf(str));                        
-                    }
-                    Double sum = Arrays.stream(ratings).mapToDouble(d -> Double.parseDouble(d)).sum();
-                    Double mean = sum/ratings.length;  
-                    movie.setMeanrating(mean);
-                }
-                copyList.add(movie);
-            }
-            scanner.close();
-        }
-        catch (Exception e){
-            throw new IllegalArgumentException("Error: " + e);
-        }
-        return copyList;
-
-    }
 
     public static void main(String[] args) {
         MovieHandler handler = new MovieHandler();
