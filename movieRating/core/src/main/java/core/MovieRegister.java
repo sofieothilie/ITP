@@ -9,7 +9,7 @@ public class MovieRegister {
 
     public void addMovie(Movie movie){
         //Adds a movie to file if it doesn't already exist in file.
-        this.movies = getMovieRegister();
+        //this.movies = getMovieRegister(); //TODO
         if(movieExists(movie)){
             throw new IllegalArgumentException("Filmen finnes allerede");
         }
