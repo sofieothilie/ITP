@@ -39,6 +39,6 @@
 
 **Brukerhistorie**
 
-<img src="brukerhistorie.png" width="600">
+<img src="brukerhistorie1.jpg" width="500">
 
 
