@@ -1,4 +1,6 @@
-package core;
+package data;
+
+import core.Movie;
 
 import java.io.BufferedWriter;
 import java.io.File;

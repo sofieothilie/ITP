@@ -1,7 +1,9 @@
-package core;
+package data;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import core.Movie;
 
 public class MovieRegister {
     private List<Movie> movies = new ArrayList<>();
@@ -25,17 +27,18 @@ public class MovieRegister {
         else if (!movies.contains(movie)){
             throw new IllegalArgumentException("No movie with title " + movie.getTitle() + " and genre " + movie.getGenre());
         }
-        handler.updateMovieInRegister(movie);
+        //handler.updateMovieInRegister(movie);
     }
 
     public List<Movie> getMovieRegister(){
         //Returns a list of movies if the file exists, returns an empty list if not.
-        if (MovieHandler.fileExists()){
-            return new ArrayList<>(handler.readMovieAndRatingFromRegister());
-        }
-        else{
-            return List.of();
-        }
+        // if (MovieHandler.fileExists()){
+        //     return new ArrayList<>(handler.readMovieAndRatingFromRegister());
+        // }
+        // else{
+        //     return List.of();
+        // }
+        return List.of();
     }
 
 

@@ -1,4 +1,7 @@
-package core;
+package data;
+
+import core.Movie;
+import core.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;

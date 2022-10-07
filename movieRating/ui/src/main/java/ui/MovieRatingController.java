@@ -4,11 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import core.Movie;
-import core.MovieRegister;
 import core.User;
-import core.UserHandler; //må fjernes, alt går gjennom userRegister
-import core.UserRegister;
-
+import data.MovieRegister;
+import data.UserRegister;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
