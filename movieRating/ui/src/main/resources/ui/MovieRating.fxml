@@ -9,12 +9,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MovieRatingController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MovieRatingController">
    <children>
       <Label fx:id="usernameLabel" layoutX="13.0" layoutY="39.0" text="Username:" />
       <Label fx:id="passwordLabel" layoutX="15.0" layoutY="75.0" text="Password:" />
       <TextField fx:id="username" layoutX="86.0" layoutY="35.0" />
       <TextField fx:id="password" layoutX="86.0" layoutY="71.0" />
+      <Button fx:id="logIn" layoutX="16.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleLogIn" text="Log in" />
       <ListView layoutX="563.0" layoutY="250.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="563.0" layoutY="204.0" text="Movies you have rated" />
       <ChoiceBox fx:id="genreBox" layoutX="33.0" layoutY="273.0" prefWidth="150.0" />
@@ -27,9 +28,11 @@
       <Label layoutX="35.0" layoutY="256.0" text="Genre" />
       <Label layoutX="36.0" layoutY="196.0" text="Name" />
       <TextField fx:id="movieName" layoutX="36.0" layoutY="218.0" />
+      <Button fx:id="searchMovie" layoutX="202.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleSearchMovie" text="Search" />
       <ChoiceBox fx:id="rateBox" layoutX="291.0" layoutY="218.0" prefWidth="150.0" />
       <Label fx:id="ratingscaleLabel" layoutX="290.0" layoutY="196.0" text="From 1 to 5 stars" />
       <Button fx:id="addMovieRegister" layoutX="33.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleAddMovieToRegister" text="Add movie to register" />
+      <ListView fx:id="movieRegisterList" layoutX="34.0" layoutY="309.0" onMouseClicked="#selectMovie" prefHeight="99.0" prefWidth="215.0" />
       <TextArea fx:id="ratedMovie" layoutX="291.0" layoutY="254.0" prefHeight="37.0" prefWidth="215.0" />
       <Button fx:id="logOut" layoutX="447.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleLogOut" text="Log out" />
       <Button fx:id="createUser" layoutX="86.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleCreateUser" text="Create new user" />
