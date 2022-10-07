@@ -1,4 +1,7 @@
-package core;
+package data;
+
+import core.Movie;
+import core.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,11 +12,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-public class UserHandling {
+public class UserHandler {
+    //lage hjelpemetode for convertUserToString.
 
     List<User> users = new ArrayList<>();
 
     public void writeUserToRegister(User user){
+        //tar inn et user object og skriver dette til fil om det ikke finnes der fra før.
         try {
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("userRegister.txt", true)));
             writer.println(user.toString());
@@ -30,6 +35,7 @@ public class UserHandling {
     }
 
     public List<User> readUsersFromRegister(){
+        //Returnerer en liste over alle users fra fil.
         try {
             Scanner scanner = new Scanner(new File("userRegister.txt"));
             
@@ -63,6 +69,7 @@ public class UserHandling {
     }
 
     public boolean fileExists(){
+        //Private, men vurdere om vi trenger denne i framtiden
         File f = new File("userRegister.txt");
         if (f.isFile()){
            return true;
@@ -71,5 +78,12 @@ public class UserHandling {
     }
 
 
+    //mangler en metode for å update user ved ny registrering av rating.
+
+    public static void main(String[] args) {
+        User user = new User("hei", "password");
+        UserHandler users = new UserHandler();
+        users.writeUserToRegister(user);
+    }
 
 }

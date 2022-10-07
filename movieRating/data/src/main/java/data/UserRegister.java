@@ -1,28 +1,36 @@
-package core;
+package data;
 
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+import core.User;
+
 
 public class UserRegister {
     private List<User> users = new ArrayList<>();
-    private UserHandling userHandling = new UserHandling();
+    private UserHandler userHandler = new UserHandler();
+
+    //Må sikre at når en film rates, så oppdateres denne både i user- og movie-fil.
 
     public void registerNewUser(User user) throws Exception{
-        if (userHandling.fileExists()){
+        //oppdatere listen, også sjekke om brukernavn fins fra før, bruk getUser
+        //hvis ikke, skriv til fil
+
+        if (userHandler.fileExists()){
             if(this.existingUser(user.getUsername(), user.getPassword())){
                 throw new IllegalArgumentException("User already exists");
             }
 
         }
-        userHandling.writeUserToRegister(user);
+        userHandler.writeUserToRegister(user);
     }
     
     public List<User> getUsers(){
-        if (userHandling.fileExists()){
-            return userHandling.readUsersFromRegister();
+        //lese fra register, returnere kopi av liste
+        if (userHandler.fileExists()){
+            return userHandler.readUsersFromRegister();
         }
         return List.of();
     }
@@ -40,6 +48,7 @@ public class UserRegister {
     }
 
     public void validUser(String username, String password) throws Exception{
+        //Se på existing user og denne, og slå de sammen.
         updateUserList();
         if(userIsEmpty()){
             throw new Exception("User does not exist");
@@ -55,6 +64,7 @@ public class UserRegister {
     }
 
     public boolean existingUser(String username, String password){
+        //fjerne
         updateUserList();
         if(userIsEmpty()){
             return false;
@@ -68,6 +78,7 @@ public class UserRegister {
     }
 
     public boolean userIsEmpty(){
+        //vurdere om denne er nødvendig, evt om den kan implementeres på en annen måte
         updateUserList();
         if(users.isEmpty()){
             return true;
@@ -76,8 +87,10 @@ public class UserRegister {
     }
 
     private void updateUserList(){
-        //Denne metoden skal brukes til å oppdatere listen av brukere.
-        //Blir implementert når filhåndering er fullt implementert.
+        //fjerne fileExists delen.
+        if (userHandler.fileExists()){
+            this.users = userHandler.readUsersFromRegister();
+        }
     }
     
 }

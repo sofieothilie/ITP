@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>it1901</groupId>
-    <artifactId>movieRating-core</artifactId>
+    <artifactId>movieRating-data</artifactId>
 
     <parent>
         <groupId>it1901</groupId>
@@ -17,6 +17,13 @@
 
 
     <dependencies>
+    
+        <dependency>
+            <groupId>it1901</groupId>
+            <artifactId>movieRating-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- junit testing with jupiter -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
