@@ -35,7 +35,7 @@ public class MovieTest {
     }
 
     @Test
-    public void testGetAllRatings(){
+    public void testGetAllRatings(){ // tester getAllRatings
         m1.addRating(3);
         m1.addRating(4);
         m1.addRating(5);
