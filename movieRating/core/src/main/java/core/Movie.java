@@ -12,7 +12,7 @@ public class Movie {
     private List<Integer> ratings = new ArrayList<>();
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
-    public Movie(String title, String genre) {
+    public Movie(String title, String genre) { // oppretter konstruktør for Movie
         if(title.isEmpty()){
             throw new IllegalArgumentException("Title cannot be empty");
         }
@@ -23,29 +23,28 @@ public class Movie {
         this.genre = genre;
     }
 
-    public String getTitle() {
+    public String getTitle() { //returnerer tittelen
         return title;
     }
 
-    public String getGenre() {
+    public String getGenre() { //returnerer sjangeren
         return genre;
     }
 
 
-    public List<Integer> getAllRatings(){
+    public List<Integer> getAllRatings(){ //returnerer en kopi av listen med alle ratings
         List <Integer> copyAllRatings = new ArrayList<Integer>(ratings);
         return copyAllRatings;
     }
 
-    public void addRating(int rating){
-        if(rating < 1 || rating > 5){
+    public void addRating(int rating){ //legger til en rating i liste over alle ratings
+        if(rating < 1 || rating > 5){ //sjekker om rating er mellom 1 og 5
             throw new IllegalArgumentException("Not a valid rating");
         }
         ratings.add(rating);
     }
 
-    private double averageRating() {
-        // beregner gjennomsnittet av alle ratinger for denne filmen
+    private double averageRating() { // beregner gjennomsnittet av alle ratinger for denne filmen
         Integer sum = 0;
         for (int rating=0; rating < ratings.size(); rating++) {
               sum += ratings.get(rating);
@@ -54,11 +53,11 @@ public class Movie {
         return average;
     }
 
-    public double getAverageRating() {
+    public double getAverageRating() { //returnerer gjennomsnittratingen
         return averageRating();
     }
 
-    public String toString(){
+    public String toString(){ //returnerer en string med tittel og sjanger og gjennomsnittsrating
         return ""+ this.getTitle() + "\t" + this.getGenre() + "\t" + String.format("%.2f",averageRating());
     }
 }
