@@ -37,7 +37,7 @@ public class Movie {
     }
 
     public void addRating(int rating){ //legger til en rating i liste over alle ratings
-        if(rating < 1 || rating > 5){ //sjekker om rating er mellom 1 og 5
+        if(rating <= 1 || rating >= 5){ //sjekker om rating er mellom 1 og 5
             throw new IllegalArgumentException("Not a valid rating");
         }
         ratings.add(rating);
