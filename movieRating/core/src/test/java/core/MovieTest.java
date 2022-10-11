@@ -58,7 +58,7 @@ public class MovieTest {
         m1.addRating(3);
         m1.addRating(4);
         m1.addRating(5);
-        assertEquals(4.0, m1.getAverageRating());
+        assertEquals(4.0, m1.averageRating());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class MovieTest {
         m1.addRating(3);
         m1.addRating(4);
         m1.addRating(5);
-        assertEquals("Cinderella; fantasy; 4.00", m1.toString());
+        assertEquals("Cinderella; fantasy; 4,00", m1.toString());
     }
 
 
