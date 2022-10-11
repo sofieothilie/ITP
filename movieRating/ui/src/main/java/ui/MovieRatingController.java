@@ -45,15 +45,6 @@ public class MovieRatingController {
     private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel, ratingscaleLabel;
 
 
-    private void clearAllSearchFields(){
-        movieRegisterList.getItems().clear();
-        movieName.clear();
-        movieLabel.setText("");
-        ratedMovie.setText(movie.toString());
-        genreBox.setValue(null);
-        rateBox.setValue(null);
-        //oppdater denne etter hvert som vi tester appen    
-    }
     // Methods
 
     @FXML
@@ -70,11 +61,13 @@ public class MovieRatingController {
     }
     
     private void setGenres() {
+        //Fills choice boxes with genres:
         for (String str : genresList) {
             genreBox.getItems().add(str);
         }
     }
     private void setRating(){
+        //Fills choice boxes with rating options from 1 to 5:
         for (Integer integer : ratingList) {
             rateBox.getItems().add(integer);
         }
@@ -94,6 +87,7 @@ public class MovieRatingController {
     }
 
     private void loggedIn(boolean value){
+        //Sets the desired visibility based on rather a user is logged in or not:
         loggedOut.visibleProperty().set(!value);
         loggedIn.visibleProperty().set(value);
         addMovieRegister.setVisible(value);
@@ -118,6 +112,18 @@ public class MovieRatingController {
             ratedMovie.setText(movie.toString());
         }
     }
+
+    private void clearAllSearchFields(){
+        //Clears all search fields when called upon:
+        movieRegisterList.getItems().clear();
+        movieName.clear();
+        movieLabel.setText("");
+        ratedMovie.setText(movie.toString());
+        genreBox.setValue(null);
+        rateBox.setValue(null);
+        //oppdater denne etter hvert som vi tester appen    
+    }
+
     
     //User methods
     @FXML
@@ -138,7 +144,9 @@ public class MovieRatingController {
         //Creates a new user and sets desired fields and visibility.
         //prøve å putte alt inn i try-catch (fikset i master!!!)
         try {
-            this.userRegister.existingUser(username.getText(), password.getText());      
+            this.userRegister.existingUser(username.getText(), password.getText()); 
+            setLoginPossibility(false); 
+            loggedIn(true);      
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
@@ -148,8 +156,6 @@ public class MovieRatingController {
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
-        setLoginPossibility(false); 
-        loggedIn(true); 
     }
 
 
