@@ -1,9 +1,11 @@
-package core;
+package data;
 
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+import core.User;
 
 
 public class UserRegister {

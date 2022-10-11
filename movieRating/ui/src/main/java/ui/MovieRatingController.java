@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import core.Movie;
-import core.MovieRegister;
+import data.MovieRegister;
 import core.User;
-import core.UserRegister;
+import data.UserRegister;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
