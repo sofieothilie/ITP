@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.RegexConversion;
 
 import core.User;
 
@@ -57,17 +56,5 @@ public class UserRegisterTest {
         
         //Test that method retursn null if the user is not registered
         assertEquals(null, register.getUser("sofie"));
-    }
-
-    @Test
-    public void testValidUser(){
-        UserRegister register = new UserRegister();
-        
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            register.validUser("sofie", "sofie123");
-        }, "User is not in register");
-
-
-
     }
 }
