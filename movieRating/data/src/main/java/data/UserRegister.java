@@ -15,9 +15,6 @@ public class UserRegister {
     //Må sikre at når en film rates, så oppdateres denne både i user- og movie-fil.
 
     public void registerNewUser(User user) throws Exception{
-        //oppdatere listen, også sjekke om brukernavn fins fra før, bruk getUser
-        //hvis ikke, skriv til fil
-
         if (userHandler.fileExists()){
             if(existingUser(user.getUsername())){
                 throw new IllegalArgumentException("User already exists");
@@ -27,9 +24,8 @@ public class UserRegister {
     }
     
     public List<User> getUsers(){
-        //lese fra register, returnere kopi av liste
         if (userHandler.fileExists()){
-            return userHandler.readUsersFromRegister();
+            return new ArrayList<>(userHandler.readUsersFromRegister());
         }
         return List.of();
     }
