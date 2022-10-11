@@ -1,5 +1,5 @@
 module movieRating.data {
-    requires movieRating.core;
+    requires transitive movieRating.core;
     exports data;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
