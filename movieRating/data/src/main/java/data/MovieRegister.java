@@ -12,6 +12,7 @@ public class MovieRegister {
     public void addMovie(Movie movie){
         //Adds a movie to file if it doesn't already exist in file.
         //this.movies = getMovieRegister(); //TODO
+        this.movies = updateMovieList();
         if(movieExists(movie)){
             throw new IllegalArgumentException("Filmen finnes allerede");
         }
@@ -20,7 +21,7 @@ public class MovieRegister {
 
     public void updateMovie(Movie movie){
         //Updates the movie in the file if it already exists in file.
-        this.movies = getMovieRegister();
+        this.movies = updateMovieList();
         if (movies.isEmpty()){
             throw new IllegalArgumentException("No registered movie yet.");
         }
@@ -30,21 +31,9 @@ public class MovieRegister {
         handler.updateMovieInRegister(movie);
     }
 
-    public List<Movie> getMovieRegister(){
-        //Returns a list of movies if the file exists, returns an empty list if not.
-        // if (MovieHandler.fileExists()){
-        //     return new ArrayList<>(handler.readMovieAndRatingFromRegister());
-        // }
-        // else{
-        //     return List.of();
-        // }
-        return List.of();
-    }
-
-
     public List<Movie> searchGenre(String genre){
         //Returns a list of movies which has the given genre.
-        this.movies = getMovieRegister();
+        this.movies = updateMovieList();
         List<Movie> moviesByGenre = new ArrayList<>();
         for(Movie movie : movies){
             if(movie.getGenre().equals(genre)){
@@ -56,7 +45,7 @@ public class MovieRegister {
 
     public List<Movie> searchMovieTitle(String title){
         //Returns a list of movies which has the given title.
-        this.movies = getMovieRegister();
+        this.movies = updateMovieList();
         List<Movie> moviesByTitle = new ArrayList<>();
         for(Movie movie : movies){
             if(movie.getTitle().equals(title)){
@@ -68,7 +57,7 @@ public class MovieRegister {
 
     public Movie getMovie(String title, String genre){
         //Returns a movies which has the given title and genre.
-        this.movies = getMovieRegister();
+        this.movies = updateMovieList();
         for(Movie movie : movies){
             if(movie.getTitle().equals(title) && movie.getGenre().equals(genre)){
                 return movie;
@@ -79,16 +68,31 @@ public class MovieRegister {
 
     private boolean movieExists(Movie movie){
         //Returns true if a movie exists in register, if not false.
-        this.movies = getMovieRegister();
-        if (getMovieRegister().isEmpty()){
+        this.movies = updateMovieList();
+        if (this.movies.isEmpty()){
             return false;
         }
-        for(Movie mov: getMovieRegister()){
+        for(Movie mov: this.movies){
             if (mov.getTitle().equals(movie.getTitle())){
                 return true;
             }
         }
         return false;
+    }
+
+    private List<Movie> updateMovieList(){
+        if(handler.fileExists()){
+            return new ArrayList<>(handler.readMovieAndRatingFromRegister());
+        }
+        else{
+            return List.of();
+        }
+        
+    }
+
+    public static void main(String[] args) {
+        MovieRegister reg = new MovieRegister();
+        reg.addMovie(new Movie("cinderella", "fantasy"));
     }
 }
 
