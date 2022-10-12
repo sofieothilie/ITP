@@ -18,7 +18,7 @@ public class UserRegisterTest {
     UserRegister register = new UserRegister();
 
     @Test
-    public void testRegisterNewUser() throws Exception{
+    public void testRegisterNewUser(){
         register.registerNewUser(user1);
         //Testing if user is registered 
         assertEquals(user1, register.getUser("ellica"));
@@ -30,7 +30,7 @@ public class UserRegisterTest {
     }
 
     @Test
-    public void testGetUsers() throws Exception{
+    public void testGetUsers() {
         UserRegister register = new UserRegister();
         register.registerNewUser(user1);
         register.registerNewUser(user2);
@@ -46,7 +46,7 @@ public class UserRegisterTest {
     }
 
     @Test
-    public void testGetUser() throws Exception{
+    public void testGetUser(){
         UserRegister register = new UserRegister();
         register.registerNewUser(user1);
         register.registerNewUser(user2);
@@ -57,4 +57,30 @@ public class UserRegisterTest {
         //Test that method retursn null if the user is not registered
         assertEquals(null, register.getUser("sofie"));
     }
+
+
+    @Test
+    public void testExistingUser(){
+        UserRegister register = new UserRegister();
+
+        //Test IllegalArgumentException if register is empty
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            register.existingUser("ellica", "ellica123");
+        }, "User register emtpy");
+
+        //Test illegalArgumentException if user is not registered
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            register.existingUser("ellica", "ellica123");;
+        }, "User not in register");
+
+        register.registerNewUser(user1);
+        //Test IllegalArgumentException if the password is invalid
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            register.existingUser("ellica", "ellica1234");;
+        }, "Invalid password");
+    }
+
+
 }
+
+
