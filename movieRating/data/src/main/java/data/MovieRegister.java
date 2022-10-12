@@ -96,10 +96,5 @@ public class MovieRegister {
         }
         
     }
-
-    public static void main(String[] args) {
-        MovieRegister reg = new MovieRegister();
-        reg.addMovie(new Movie("cinderella", "fantasy"));
-    }
 }
 
