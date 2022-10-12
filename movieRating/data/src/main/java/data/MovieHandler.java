@@ -41,10 +41,8 @@ public class MovieHandler {
             List<Movie> movies = new ArrayList<Movie>();
             if (this.fileExists()){
                 movies = readMovieAndRatingFromRegister();
-                System.out.println(movies);
             }
             movies.add(movie);
-            System.out.println(movies);
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter()); 
             objectWriter.writeValue(getFile(), movies);
@@ -84,7 +82,7 @@ public class MovieHandler {
             // create object mapper instance
             ObjectMapper mapper = new ObjectMapper();
 
-            // convert JSON array to list of books
+            // convert JSON array to list of movies
             List<Movie> movies = Arrays.asList(mapper.readValue(getFile(), Movie[].class));
             return new ArrayList<>(movies);
         }
@@ -101,24 +99,5 @@ public class MovieHandler {
         else{
             return false;
         }
-    }   
-
-
-    public static void main(String[] args) {
-        MovieHandler handler = new MovieHandler();
-        Movie movie = new Movie("awfdg", "fantasy");
-        movie.addRating(3);
-        movie.addRating(4);
-        
-        movie.addRating(3);
-        handler.writeMovieToRegister(movie);
-        Movie mov = new Movie("hel", "fantasy");
-        mov.addRating(4);
-        handler.writeMovieToRegister(mov);
-        Movie mos = new Movie("hajsd", "fantasy");
-        mos.addRating(5);
-        handler.writeMovieToRegister(mos);
-        handler.readMovieAndRatingFromRegister();
-        System.out.println(handler.readMovieAndRatingFromRegister());
-    } 
+    }      
 }
