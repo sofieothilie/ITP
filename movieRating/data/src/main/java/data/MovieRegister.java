@@ -27,7 +27,7 @@ public class MovieRegister {
         else if (!movies.contains(movie)){
             throw new IllegalArgumentException("No movie with title " + movie.getTitle() + " and genre " + movie.getGenre());
         }
-        //handler.updateMovieInRegister(movie);
+        handler.updateMovieInRegister(movie);
     }
 
     public List<Movie> getMovieRegister(){
