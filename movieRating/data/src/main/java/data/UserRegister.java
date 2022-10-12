@@ -46,9 +46,9 @@ public class UserRegister {
     }
 
     public void existingUser(String username, String password){
-        if(users.isEmpty()){
-            throw new IllegalArgumentException("User register is empty");
-        }
+        // if(users.isEmpty()){
+        //     throw new IllegalArgumentException("User register is empty");
+        // }
         User foundUser = null;
         for (User user: users){
             if(user.getUsername().equals(username)){

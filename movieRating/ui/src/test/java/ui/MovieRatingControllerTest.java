@@ -86,15 +86,15 @@ public class MovieRatingControllerTest extends ApplicationTest{
 
     @BeforeEach
     public void initeUserAndMovie() {
-        MovieRegister movieRegister = new MovieRegister();
-        List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
-        UserRegister userRegister = new UserRegister();
-        User user1 = new User("Pauline", "1234567");
-        Movie movie1 = new Movie("The Notebook", "romance");
-        movieRegister.addMovie(movie1);
-        movieList.add(movie1);
-        movie1.addRating(5);
-        user1.rateMovie(movie1, 5);
+        // MovieRegister movieRegister = new MovieRegister();
+        // List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
+        // UserRegister userRegister = new UserRegister();
+        // User user1 = new User("Pauline", "1234567");
+        // Movie movie1 = new Movie("The Notebook", "romance");
+        // movieRegister.addMovie(movie1);
+        // movieList.add(movie1);
+        // movie1.addRating(5);
+        // user1.rateMovie(movie1, 5);
     }
 
 
@@ -116,7 +116,7 @@ public class MovieRatingControllerTest extends ApplicationTest{
         //da skal dette skje
         assertFalse(logIn.isVisible());
         assertTrue(loggedIn.isVisible());
-        assertTrue(addMovieRegister.isVisible());
+        assertTrue(addMovieToRegister.isVisible());
         assertTrue(logOut.isVisible());
         //her - test som sjekker at denne brukeren blir lagt til i opprettede brukere
 
