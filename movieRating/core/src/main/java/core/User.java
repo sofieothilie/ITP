@@ -7,6 +7,17 @@ public class User {
     private String password;
     private HashMap<Movie, Integer> ratedMovies;
 
+    public User(){
+        super();
+    }
+
+    public User(String username, String password, HashMap<Movie, Integer> ratedMovies){
+        this.username = username;
+        this.password = password;
+        this.ratedMovies = ratedMovies;
+
+    }
+
     public User(String username, String password){ //konstruktør for User
         if (username.matches("[a-zA-Z0-9]+") && password.matches("[a-zA-Z0-9]+")){
             this.username = username;
