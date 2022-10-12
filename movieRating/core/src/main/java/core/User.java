@@ -44,6 +44,16 @@ public class User {
         movie.addRating(myRating);        
     }
 
+    public boolean hasRatedMovie(Movie movie){
+        boolean containsMovie = false;
+        for (Movie ratedMovie : this.getRatedMovies().keySet()) {
+            if ((ratedMovie.getTitle().equals(movie.getTitle()) && ratedMovie.getGenre().equals(movie.getGenre()))){
+                containsMovie = true;
+            }            
+        }
+        return containsMovie;
+    }
+
     @Override
     public String toString() { //returnerer en string med brukernavn og passord
         return username + "\t" + password;
