@@ -63,14 +63,12 @@ public class Movie {
         }
         double average = (sum.doubleValue() / allRatings.size());
         return average;
+        
     }
 
     public String toString(){ //returnerer en string med tittel og sjanger og gjennomsnittsrating
-        return ""+ this.getTitle() + "; " + this.getGenre() + "; " + String.format("%.2f",averageRating());
+        return ""+ this.getTitle() + "; " + this.getGenre() + "; " + String.format("%.2f",this.averageRating());
     }
 
-    public String movieInfoString(){
-        return ""+ this.getTitle() + "; " + this.getGenre() + "; " + getAllRatings();
-    }
 }
 
