@@ -7,6 +7,7 @@ import java.util.List;
 
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import core.Movie;
 import core.User;
@@ -19,20 +20,21 @@ public class MovieRegisterTest {
     Movie m3 = new Movie("The Notebook", "romance");
     Movie m4 = new Movie("Cinderella", "romance");
     
+    @DisplayName("Testing to add a movie to the register")
     @Test
     public void testAddMovie(){
-        //Testing adding a movie to register
         MovieRegister register = new MovieRegister();
         register.addMovie(m1);
 
         assertEquals(m1, register.getMovie("Cinderella", "fantasy"));
-
-        //Test IllegalArgumentException when movie exists
+     
+        //Test IllegalArgumentException when movie alreday exists
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             register.addMovie(m1);
         }, "Movie already added to the register");
     }
 
+    @DisplayName("Testing update movie method")
     @Test
     public void testUpdateMovie(){
         MovieRegister register = new MovieRegister();
@@ -55,6 +57,7 @@ public class MovieRegisterTest {
         assertEquals(4, m1.getAllRatings().get(-1));
     }
 
+    @DisplayName("Testing to search movies by genre")
     @Test
     public void testSearchGenre(){
         MovieRegister register = new MovieRegister();
@@ -69,6 +72,7 @@ public class MovieRegisterTest {
         assertEquals(testList, register.searchGenre("fantasy"));
     }
 
+    @DisplayName("Testing to search movies by title")
     @Test
     public void testSearchMovieTitle(){
         MovieRegister register = new MovieRegister();
@@ -83,6 +87,7 @@ public class MovieRegisterTest {
         assertEquals(testList, register.searchMovieTitle("Cinderella"));
     }
 
+    @DisplayName("Testing to get a movie")
     @Test
     public void testGetMovie(){
         MovieRegister register = new MovieRegister();

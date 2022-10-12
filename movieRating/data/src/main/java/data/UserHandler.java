@@ -4,86 +4,92 @@ import core.Movie;
 import core.User;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-import java.io.BufferedWriter;
+
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
 import java.io.File;
-import java.io.FileWriter;
 
 public class UserHandler {
-    //lage hjelpemetode for convertUserToString.
 
-    List<User> users = new ArrayList<>();
+    public static final String SAVE_FOLDER = "/movieRating/data/src/main/java/data/";
+    public static final String fileName = "UserRegister.json";
+
+    private static File getFile(){
+        //Returns file
+        String path = Paths.get(".").toAbsolutePath().normalize().toString();
+        return new File(path + SAVE_FOLDER + fileName);
+    }
 
     public void writeUserToRegister(User user){
-        //tar inn et user object og skriver dette til fil om det ikke finnes der fra før.
+        //Writes user to file with JSON.
+        //UserRegister secures that duplicate user aren't written to file.
         try {
-            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("userRegister.txt", true)));
-            writer.println(user.toString());
-           
-            writer.flush();
-            writer.close();
+            List<User> users = new ArrayList<User>();
+            if (this.fileExists()){
+                users = readUsersFromRegister();
+            }
+            users.add(user);
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter()); 
+            objectWriter.writeValue(getFile(), users);
         }
         catch (IOException e){
             throw new IllegalArgumentException("Error: " + e);
         }
         catch (Exception e){
             throw new IllegalArgumentException("Error: " + e);
-        }
+        }   
     }
 
     public List<User> readUsersFromRegister(){
-        //Returnerer en liste over alle users fra fil.
+        //Reads from file and generates a list of users based on it.
         try {
-            Scanner scanner = new Scanner(new File("userRegister.txt"));
-            
-            while (scanner.hasNextLine()){
-                String line = scanner.nextLine();
-                String[] parts = line.split(";");
-                String username = parts[0];
-                String password = parts[1];
-                User user = new User(username, password);
-                if (parts.length > 2){
-                    String MovieAndRatings = parts[2];
-                    String[] movieAndRatings = MovieAndRatings.split(",");
+            // create object mapper instance
+            ObjectMapper mapper = new ObjectMapper();
 
-                    for(String movieAndRating : movieAndRatings){
-                        String[] movieAndRatingParts = movieAndRating.split(":");
-                        String movieTitle = movieAndRatingParts[0];
-                        String genre = movieAndRatingParts[1];
-                        String rating = movieAndRatingParts[2];
-                        user.rateMovie(new Movie(movieTitle, genre), Integer.parseInt(rating));
-                    }
-                }
-                users.add(user);
-
-            }
-            scanner.close();
-            return users;   
+            // convert JSON array to list of users
+            List<User> users = Arrays.asList(mapper.readValue(getFile(), User[].class));
+            return new ArrayList<>(users);
         }
         catch (Exception e){
             throw new IllegalArgumentException("Error: " + e);
         }
     }
 
-    public boolean fileExists(){
-        //Private, men vurdere om vi trenger denne i framtiden
-        File f = new File("userRegister.txt");
-        if (f.isFile()){
-           return true;
+    public void updateRegister(User user){
+        //Takes in a user and a rating and updates it in the register
+
+        //Generates a list of all user objects in file:
+        List<User> userList = this.readUsersFromRegister();
+
+        //Writes all previous users and the new updates user to file:
+        if (!userList.contains(user)){
+            throw new IllegalArgumentException("no such user");
         }
-        return false;
+        else{
+            for (User oldUser : userList) {
+                if (oldUser.getUsername().equals(user.getUsername()) && oldUser.getPassword().equals(user.getPassword())){
+                    userList.remove(oldUser);
+                    userList.add(user);
+                }    
+            }
+        }
     }
 
-
-    //mangler en metode for å update user ved ny registrering av rating.
-
-    public static void main(String[] args) {
-        User user = new User("hei", "password");
-        UserHandler users = new UserHandler();
-        users.writeUserToRegister(user);
+    public boolean fileExists(){
+        File f = new File(getFile().getAbsolutePath());
+        if (f.isFile()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }
