@@ -1,4 +1,4 @@
-@startuml
+@startuml Component Diagram
 skinparam BackgroundColor transparent
 skinparam componentStyle uml2
 node core #LightGray {
