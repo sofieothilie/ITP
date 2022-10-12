@@ -14,13 +14,15 @@ public class UserRegister {
 
     //Må sikre at når en film rates, så oppdateres denne både i user- og movie-fil.
 
-    public void registerNewUser(User user) throws Exception{
+    public void registerNewUser(User newuser){
         if (userHandler.fileExists()){
-            if(existingUser(user.getUsername())){
-                throw new IllegalArgumentException("User already exists");
+            for(User user: users){
+                if(user.getUsername().equals(newuser.getUsername())){
+                    throw new IllegalArgumentException("User already exists");
+                }
             }
         }
-        userHandler.writeUserToRegister(user);
+        userHandler.writeUserToRegister(newuser);
     }
     
     public List<User> getUsers(){
@@ -43,16 +45,22 @@ public class UserRegister {
         return null;      
     }
 
-    private boolean existingUser(String username){
+    public void existingUser(String username, String password){
         if(users.isEmpty()){
-            return false;
+            throw new IllegalArgumentException("User register is empty");
         }
+        User foundUser = null;
         for (User user: users){
             if(user.getUsername().equals(username)){
-                return true;
+                foundUser = user;
             }
         }
-        return false;
+        if(foundUser == null){
+            throw new IllegalArgumentException("User not found");
+        }
+        if(! foundUser.getPassword().equals(password)){
+            throw new IllegalArgumentException("Invalid password.");
+        }      
     }
 
     private void updateUserList(){
