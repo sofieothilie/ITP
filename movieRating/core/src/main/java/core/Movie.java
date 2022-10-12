@@ -8,7 +8,6 @@ import java.util.List;
 public class Movie {
     private String title; //bør settes til final
     private String genre;
-    //private int averageRating;
     private List<Integer> allRatings = new ArrayList<>();
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
@@ -16,11 +15,17 @@ public class Movie {
         super();
     }
     public Movie(String title, String genre, List<Integer> allRatings) {
-        super();
-        this.title = title;
-        this.genre = genre;
+        this(title, genre);
         this.allRatings = allRatings;
     }
+
+    public Movie(String title, String genre, Integer rating) {
+        this(title, genre);
+        if (rating instanceof Integer){
+            this.allRatings.add(rating);
+        }
+    }
+    
 
     public Movie(String title, String genre) { // oppretter konstruktør for Movie
         if(title.isEmpty()){

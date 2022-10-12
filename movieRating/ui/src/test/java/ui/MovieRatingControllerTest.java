@@ -12,6 +12,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import core.Movie;
+import core.User;
+import data.MovieRegister;
+import data.UserRegister;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -27,6 +32,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,13 +40,14 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 
-import core.Movie;
-import core.User;
-import data.MovieRegister;
-import data.UserRegister;
-import ui.MovieRatingController;
 
 public class MovieRatingControllerTest extends ApplicationTest{
+
+    private MovieRatingController controller;
+    private Parent root;
+
+    private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
+    private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);  
 
     private TextField username, password, movieName;
     private Button logIn, addMovieRegister, createUser, searchMovie, addMovieToRegister, logOut, rateButton;
@@ -78,17 +85,17 @@ public class MovieRatingControllerTest extends ApplicationTest{
 
     @BeforeEach
     public void initeUserAndMovie() {
+        MovieRegister movieRegister = new MovieRegister();
+        List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
+        UserRegister userRegister = new UserRegister();
         User user1 = new User("Pauline", "1234567");
         Movie movie1 = new Movie("The Notebook", "romance");
+        movieRegister.addMovie(movie1);
+        movieList.add(movie1);
         movie1.addRating(5);
-        user1.rateMovie(movie1, 5);
-        List<Movie> movieRegister = new ArrayList<Movie>();
-        movieRegister.add(movie1);
-      
+        //userRegister.addUser(user1);
     }
 
-    private MovieRatingController controller;
-    private Parent root;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -105,71 +112,89 @@ public class MovieRatingControllerTest extends ApplicationTest{
         clickOn(username).write("Pauline");
         clickOn(password).write("1234567");
         clickOn(createUser);
-        loggedIn.isVisible();
-        addMovieRegister.isVisible();
+        //da skal dette skje
+        assertFalse(logIn.isVisible());
+        assertTrue(loggedIn.isVisible());
+        assertTrue(addMovieRegister.isVisible());
+        assertTrue(logOut.isVisible());
+        //her - test som sjekker at denne brukeren blir lagt til i opprettede brukere
+
+    }
+
+    @Test
+    @DisplayName("Test when typing in empty username")
+    public void testCreateNewUserFail() {
+        clickOn(username).write("");
+        clickOn(password).write("1234567");
+        clickOn(createUser);
+        // da skal errorMessage vises
+        //Assertions.assertEquals("Brukernavn og passord kan ikke være tomme",controller.errorActivation(message.getText););
     }
 
       
-    // @Test
-    // @DisplayName("Test if the user can log in")
-    // public void testLogIn() {
-    //     clickOn(username).write("Pauline");
-    //     clickOn(password).write("1234567");
-    //     clickOn(logIn);
-    //     assertTrue(loggedIn.isVisible());
+    @Test
+    @DisplayName("Test successful login")
+    public void testLogIn() {
+        clickOn(username).write("Pauline");
+        clickOn(password).write("1234567");
+        clickOn(logIn);
+        //da skal dette skje
+        assertFalse(logIn.isVisible());
+        assertTrue(loggedIn.isVisible());
+        assertTrue(addMovieRegister.isVisible());
+        assertTrue(logOut.isVisible());
+    }
+
+    @Test
+    @DisplayName("Test log out")
+    public void testLogOut() {
+        //logge inn
+        testCreateNewUser();
+        //logge ut
+        clickOn(logOut);
+        //da skal dette skje
+        assertTrue(loggedOut.isVisible());
+        assertFalse(logOut.isVisible());
+        assertTrue(logIn.isVisible());
+
+        //da skal alle disse gjøres usynlige
+
+        //hele siden hvor man kan legge til rating skal bli usynlig
+        assertFalse(addMovieRegister.isVisible());
+        assertFalse(rateLabel.isVisible());
+        assertFalse(ratingscaleLabel.isVisible());
+        assertFalse(rateBox.isVisible());
+        assertFalse(rateButton.isVisible());
+        assertFalse(ratedMovie.isVisible());
+
+        //knappen for å legge til film i registeret skal bli usynlig
+    }
 
 
+    @Test
+    @DisplayName("Sucessful search for a movie")
+    public void searchMovie() {
+        clickOn(movieName).write("The Notebook");
+        clickOn(searchMovie);
+        //assertEquals("The Notebook", ratedMovie.getText());
+    }
 
+    @Test
+    @DisplayName("Unsucessful search for a movie")
+    public void searchMovieNotFound() {
+        clickOn(movieName).write("The Notebook");
+        clickOn(searchMovie);
+        assertEquals("No movies with the title" + movieName.getText(), controller.errorActivation().getText());
+    }
 
-        // loggedIn.isVisible();
-        // addMovieRegister.isVisible();
-    //}
-
-    // @Test
-    // @DisplayName("Test if the user can log out")
-    // public void testLogOut() {
-    //     clickOn(username).write("Pauline");
-    //     clickOn(password).write("1234567");
-    //     clickOn(createUser);
-    //     loggedIn.isVisible();
-        
-    //     clickOn(logOut);
-    //     logOut.isVisible();
-
-    //     loggedIn.isVisible();;
-    //     loggedOut.isVisible();
-
-    //     //da skal alle disse gjøres usynlige
-    //     logOut.isVisible();
-
-    //     //hele siden hvor man kan legge til rating skal bli usynlig
-    //     addMovieRegister.isVisible();
-    //     rateLabel.isVisible();
-    //     ratingscaleLabel.isVisible();
-    //     rateBox.isVisible();
-    //     rateButton.isVisible();
-    //     ratedMovie.isVisible();
-
-    //     //knappen for å legge til film i registeret skal bli usynlig
-    // }
-
-
-    // @Test
-    // @DisplayName("Test to search for a movie")
-    // public void searchMovie() {
-    //     clickOn(movieName).write("The Notebook");
-    //     clickOn(searchMovie);
-    //     ratedMovie.isVisible();
-    //     assertEquals("The Notebook", ratedMovie.getText());
-    // }
-
-    // @Test
-    // @DisplayName("Test to add a movie to the register with rating")
-    // public void addMovieToRegister() {
-    //     clickOn(searchMovie).write("The Notebook");
-    //     clickOn(genreBox).clickOn("action");
-    //     clickOn(addMovieToRegister);
-    //     clickOn(rateBox).clickOn("5");
-    //     clickOn(rateButton);
-    // }
+    @Test
+    @DisplayName("Test to add a movie to the register with rating")
+    public void addMovieToRegister() {
+        clickOn(searchMovie).write("The Notebook");
+        clickOn(genreBox).clickOn("action");
+        clickOn(addMovieToRegister);
+        clickOn(rateBox).clickOn("5");
+        clickOn(rateButton);
+        assertEquals("The Notebook; action; 5", movieRegisterList.getItems());
+    }
 }
