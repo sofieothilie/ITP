@@ -7,7 +7,7 @@ import core.Movie;
 
 public class MovieRegister {
     private List<Movie> movies = new ArrayList<>();
-    MovieHandler handler = new MovieHandler();
+    private MovieHandler handler = new MovieHandler();
 
     public void addMovie(Movie movie){
         //Adds a movie to file if it doesn't already exist in file.
@@ -25,12 +25,17 @@ public class MovieRegister {
         if (movies.isEmpty()){
             throw new IllegalArgumentException("No registered movie yet.");
         }
-        else if (!movies.contains(movie)){
+        boolean foundMovie = false;
+        for(Movie mov:movies){
+            if(mov.getTitle().equals(movie.getTitle()) && mov.getGenre().equals(movie.getGenre())){
+                handler.updateMovieInRegister(movie);
+                foundMovie = true;
+            }
+        }
+        if(!foundMovie){
             throw new IllegalArgumentException("No movie with title " + movie.getTitle() + " and genre " + movie.getGenre());
         }
-        handler.updateMovieInRegister(movie);
     }
-
     public List<Movie> searchGenre(String genre){
         //Returns a list of movies which has the given genre.
         this.movies = updateMovieList();
@@ -74,7 +79,9 @@ public class MovieRegister {
         }
         for(Movie mov: this.movies){
             if (mov.getTitle().equals(movie.getTitle())){
-                return true;
+                if(mov.getGenre().equals(movie.getGenre())){
+                    return true;
+                }
             }
         }
         return false;

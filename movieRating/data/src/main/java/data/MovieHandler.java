@@ -28,9 +28,11 @@ public class MovieHandler {
     public static final String SAVE_FOLDER = "/movieRating/data/src/main/java/data/";
     public static final String fileName = "MovieRegister.json";
 
-    private static File getFile(){
+    public File getFile(){
         String path = Paths.get(".").toAbsolutePath().normalize().toString();
-        return new File(path + SAVE_FOLDER + fileName);
+        //return new File(path + SAVE_FOLDER + fileName);
+        return new File(fileName);
+
     }
 
 
@@ -61,16 +63,15 @@ public class MovieHandler {
         //Generates a list of all movie objects in file:
         List<Movie> movieList = this.readMovieAndRatingFromRegister();
 
-        //Writes all previous movies and the new updates movie to file:
-        if (!movieList.contains(movie)){
-            throw new IllegalArgumentException("no such movie");
-        }
-        else{
-            for (Movie oldMovie : movieList) {
-                if (oldMovie.getTitle().equals(movie.getTitle()) && oldMovie.getGenre().equals(movie.getGenre())){
-                    movieList.remove(oldMovie);
-                    movieList.add(movie);
-                }    
+        // //Writes all previous movies and the new updates movie to file:
+        // if (!movieList.contains(movie)){
+        //     throw new IllegalArgumentException("no such movie");
+        // }
+        //else{
+        for (Movie oldMovie : movieList) {
+            if (oldMovie.getTitle().equals(movie.getTitle()) && oldMovie.getGenre().equals(movie.getGenre())){
+                movieList.remove(oldMovie);
+                movieList.add(movie); 
             }
         }
     }
@@ -91,7 +92,7 @@ public class MovieHandler {
         }
     }
 
-    private Boolean fileExists(){
+    public Boolean fileExists(){
         File f = new File(getFile().getAbsolutePath());
         if (f.isFile()){
             return true;
