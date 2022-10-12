@@ -63,6 +63,7 @@ public class Movie {
         }
         double average = (sum.doubleValue() / allRatings.size());
         return average;
+        
     }
 
     public String toString(){ //returnerer en string med tittel og sjanger og gjennomsnittsrating
