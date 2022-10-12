@@ -2,7 +2,10 @@
 
 # Beskrivelse 
 
-Vi har delt opp vårt prosjekt movieRating i to mapper, core og ui. I core ligger klassene, mens i ui ligger appen og controlleren 
+Vårt prosjekt Movierating ligger inne i mappen movieRating. Her kjøres mvn clean install i terminalen. Inne i denne mappen ligger det tre moduler:
+- core - Her ligger klassene som er kjernen av prosjektet.
+- data - Her ligger klassene med filhåndtering.
+- ui - Her ligger alt av brukergrensesnitt. Controller, App og fxml-filen. Her kjøres mvn javafx:run og mvn test
 
 
 
