@@ -32,7 +32,7 @@ public class MovieRatingController {
     @FXML
     private TextField username, password, movieName;
     @FXML
-    private Button logIn, addMovieRegister, createUser, searchMovie, addMovieToRegister, logOut, rateButton;
+    private Button logIn, createUser, searchMovie, addMovieRegister, logOut, rateButton;
     @FXML
     private ChoiceBox<String> genreBox;
     @FXML
@@ -88,9 +88,9 @@ public class MovieRatingController {
 
     private void loggedIn(boolean value){
         //Sets the desired visibility based on rather a user is logged in or not:
-        loggedOut.visibleProperty().set(!value);
-        loggedIn.visibleProperty().set(value);
-        addMovieRegister.setVisible(value);
+        setLoginPossibility(false);
+        addMovieRegister.setVisible(true);
+        loggedIn.visibleProperty().set(true);
     }
 
     private void setSearchVisibility(boolean value){
@@ -143,18 +143,12 @@ public class MovieRatingController {
     private void handleCreateUser(){
         //Creates a new user and sets desired fields and visibility.
         //prøve å putte alt inn i try-catch (fikset i master!!!)
-        try {
-            this.userRegister.existingUser(username.getText(), password.getText()); 
-            setLoginPossibility(false); 
-            loggedIn(true);      
-        } catch (Exception e) {
-            errorActivation(e.getMessage());
-        }
         this.user = new User(username.getText(), password.getText());
         try {
             this.userRegister.registerNewUser(this.user);
+            loggedIn(true);
         } catch (Exception e) {
-            errorActivation(e.getMessage());
+            errorActivation("nei");
         }
     }
 
@@ -165,8 +159,10 @@ public class MovieRatingController {
         this.user = null;
         setLoginPossibility(true); 
         setRateVisibility(false, null); 
-        loggedIn(false);
-        clearAllSearchFields();
+        loggedIn.setVisible(false);
+        addMovieRegister.setVisible(false);
+        // loggedIn(false);
+        // clearAllSearchFields();
     }
 
     //Movie methods
@@ -220,18 +216,17 @@ public class MovieRatingController {
        //valdiering om filmen finnes fra før, kalles fra movieRegister
        //validere om brukeren har ratet filem fra før, enten legge til eller oppdatere
         try {
-            //Fails is user is not logged in:
-            isLoggedIn();
-
             //Fails if not valid input to generate movie object:
-            new Movie(movieName.getText(), genreBox.getValue());
+            //new Movie(movieName.getText(), genreBox.getValue());
+            movieRegister.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
+            this.movie = new Movie(movieName.getText(), genreBox.getValue());
+            movieLabel.setText(": " + this.movie.getTitle());
+            setRateVisibility(true, this.movie);
 
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
-        this.movie = new Movie(movieName.getText(), genreBox.getValue());
-        movieLabel.setText(": " + this.movie.getTitle());
-        setRateVisibility(true, this.movie);
+        
     }
 
     private void isLoggedIn(){
