@@ -30,7 +30,6 @@ public class MovieHandler {
 
     public File getFile(){
         String path = Paths.get(".").toAbsolutePath().normalize().toString();
-        //return new File(path + SAVE_FOLDER + fileName);
         return new File(fileName);
 
     }
@@ -64,10 +63,7 @@ public class MovieHandler {
         List<Movie> movieList = this.readMovieAndRatingFromRegister();
 
         // //Writes all previous movies and the new updates movie to file:
-        // if (!movieList.contains(movie)){
-        //     throw new IllegalArgumentException("no such movie");
-        // }
-        //else{
+       
         for (Movie oldMovie : movieList) {
             if (oldMovie.getTitle().equals(movie.getTitle()) && oldMovie.getGenre().equals(movie.getGenre())){
                 movieList.remove(oldMovie);
