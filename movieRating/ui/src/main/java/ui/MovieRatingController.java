@@ -127,7 +127,7 @@ public class MovieRatingController {
     
     //User methods
     @FXML
-    private void handleLogIn(){
+    public void handleLogIn(){
         //Tries to log in a user. If user excists: sets correct fields and visibility status.
         try {
             this.userRegister.existingUser(username.getText(), password.getText());  
