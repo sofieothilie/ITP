@@ -11,7 +11,6 @@ public class MovieRegister {
 
     public void addMovie(Movie movie){
         //Adds a movie to file if it doesn't already exist in file.
-        //this.movies = getMovieRegister(); //TODO
         this.movies = updateMovieList();
         if(movieExists(movie)){
             throw new IllegalArgumentException("Filmen finnes allerede");
