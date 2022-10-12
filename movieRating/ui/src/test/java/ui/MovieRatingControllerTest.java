@@ -12,6 +12,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import core.Movie;
+import core.User;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -27,6 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,13 +39,15 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 
-import core.Movie;
-import core.User;
-import data.MovieRegister;
-import data.UserRegister;
-import ui.MovieRatingController;
 
 public class MovieRatingControllerTest extends ApplicationTest{
+
+    private MovieRatingController controller;
+    private Parent root;
+    private static ArrayList<Movie> movieRegister = new ArrayList<Movie>();
+    private static ArrayList<User> userRegister = new ArrayList<User>();
+    private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
+    private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);  
 
     private TextField username, password, movieName;
     private Button logIn, addMovieRegister, createUser, searchMovie, addMovieToRegister, logOut, rateButton;
@@ -84,11 +91,8 @@ public class MovieRatingControllerTest extends ApplicationTest{
         user1.rateMovie(movie1, 5);
         List<Movie> movieRegister = new ArrayList<Movie>();
         movieRegister.add(movie1);
-      
     }
 
-    private MovieRatingController controller;
-    private Parent root;
 
     @Override
     public void start(Stage stage) throws IOException {
