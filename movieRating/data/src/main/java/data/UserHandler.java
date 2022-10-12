@@ -21,7 +21,7 @@ public class UserHandler {
     public static final String fileName = "UserRegister.json";
 
     private static File getFile(){
-        //Returns the file
+        //Returns file
         String path = Paths.get(".").toAbsolutePath().normalize().toString();
         return new File(path + SAVE_FOLDER + fileName);
     }
@@ -31,7 +31,7 @@ public class UserHandler {
         //UserRegister secures that duplicate user aren't written to file.
         try {
             List<User> users = new ArrayList<User>();
-            if (UserHandler.fileExists()){
+            if (this.fileExists()){
                 users = readUsersFromRegister();
             }
             users.add(user);
@@ -82,7 +82,7 @@ public class UserHandler {
         }
     }
 
-    private static Boolean fileExists(){
+    public boolean fileExists(){
         File f = new File(getFile().getAbsolutePath());
         if (f.isFile()){
             return true;
