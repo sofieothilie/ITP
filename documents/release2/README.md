@@ -1,4 +1,4 @@
-# Movie rating project
+# Movie rating release 2
 
 ## Appens funksjonaliteter
 
@@ -31,11 +31,8 @@
 3. Utvide med fysiske stjerner som rating
 4. Utvide slik at delvis søk kommer opp, for eksempel ved et matchende ord el.
 
-## Skjermbilde for å illustrere appen
-![Illustrasjon av applikasjonen](screenApp.jpg)
+## Klassediagram ved release 2
 
-<img src="screenApp.jpg" width="400">
+Viser sammenheng mellom klassene med felt, metoder og assosiasjoner slik applikasjonen er ved release 2.
 
-## Brukerhistorie
-
-<img src="brukerhistorie1.jpg" width="500">
+![Klassediagram over applikasjonen](class2release.png)
