@@ -13,7 +13,7 @@ public class User {
 
     public User(String username, String password, HashMap<Movie, Integer> ratedMovies){
         this(username, password);
-        this.ratedMovies = ratedMovies;
+        this.ratedMovies = new HashMap<>(ratedMovies);
 
     }
 

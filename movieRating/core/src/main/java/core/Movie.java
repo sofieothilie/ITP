@@ -16,14 +16,12 @@ public class Movie {
     }
     public Movie(String title, String genre, List<Integer> allRatings) {
         this(title, genre);
-        this.allRatings = allRatings;
+        this.allRatings = new ArrayList<>(allRatings);
     }
 
     public Movie(String title, String genre, Integer rating) {
         this(title, genre);
-        if (rating instanceof Integer){
-            this.allRatings.add(rating);
-        }
+        this.allRatings.add(rating);
     }
     
 
@@ -69,6 +67,10 @@ public class Movie {
 
     public String toString(){ //returnerer en string med tittel og sjanger og gjennomsnittsrating
         return ""+ this.getTitle() + "; " + this.getGenre() + "; " + String.format("%.2f",averageRating());
+    }
+
+    public String movieInfoString(){
+        return ""+ this.getTitle() + "; " + this.getGenre() + "; " + getAllRatings();
     }
 }
 
