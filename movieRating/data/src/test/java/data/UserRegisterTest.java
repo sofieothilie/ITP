@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import core.User;
@@ -17,6 +19,7 @@ public class UserRegisterTest {
 
     UserRegister register = new UserRegister();
 
+    @DisplayName("Testing to register a new user")
     @Test
     public void testRegisterNewUser(){
         register.registerNewUser(user1);
@@ -29,6 +32,7 @@ public class UserRegisterTest {
         }, "User already in register");
     }
 
+    @DisplayName("Testing to get all users")
     @Test
     public void testGetUsers() {
         UserRegister register = new UserRegister();
@@ -45,6 +49,7 @@ public class UserRegisterTest {
         assertEquals(testList, register.getUsers());
     }
 
+    @DisplayName("Testing to get a user by username")
     @Test
     public void testGetUser(){
         UserRegister register = new UserRegister();
@@ -58,7 +63,7 @@ public class UserRegisterTest {
         assertEquals(null, register.getUser("sofie"));
     }
 
-
+    @DisplayName("Testing existing user")
     @Test
     public void testExistingUser(){
         UserRegister register = new UserRegister();
@@ -79,8 +84,6 @@ public class UserRegisterTest {
             register.existingUser("ellica", "ellica1234");;
         }, "Invalid password");
     }
-
-
 }
 
 
