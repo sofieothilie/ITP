@@ -31,7 +31,7 @@ public class UserHandler {
         //UserRegister secures that duplicate user aren't written to file.
         try {
             List<User> users = new ArrayList<User>();
-            if (UserHandler.fileExists()){
+            if (this.fileExists()){
                 users = readUsersFromRegister();
             }
             users.add(user);
@@ -82,7 +82,7 @@ public class UserHandler {
         }
     }
 
-    private static Boolean fileExists(){
+    public boolean fileExists(){
         File f = new File(getFile().getAbsolutePath());
         if (f.isFile()){
             return true;
