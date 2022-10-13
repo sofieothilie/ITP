@@ -37,9 +37,11 @@ public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Int
     HashMap<Movie, Integer> ratedMovies = new HashMap<Movie, Integer>();
     for (JsonNode jsonNode : jsonNodes) {
       Map.Entry<Movie, Integer> movieRated = deserializeOneMovie(jsonNode);
-      ratedMovies.put(movieRated.getKey(), movieRated.getValue());      
+      if (movieRated != null){
+        ratedMovies.put(movieRated.getKey(), movieRated.getValue());  
+      }
     }
-    return ratedMovies; //KOPI
+    return new HashMap<>(ratedMovies);
   }
 
   private Map.Entry<Movie,Integer> deserializeOneMovie(JsonNode jsonNode) {
