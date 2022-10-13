@@ -21,10 +21,11 @@ public class UserHandler {
     public static final String SAVE_FOLDER = "/movieRating/data/src/main/java/data/";
     public static final String fileName = "UserRegister.json";
 
-    private static File getFile(){
+    public File getFile(){
         //Returns file
-        String path = Paths.get(".").toAbsolutePath().normalize().toString();
-        return new File(path + SAVE_FOLDER + fileName);
+        //String path = Paths.get(".").toAbsolutePath().normalize().toString();
+        //return new File(path + SAVE_FOLDER + fileName);
+        return new File(fileName);
     }
 
     public void writeUserToRegister(User user){
@@ -34,6 +35,10 @@ public class UserHandler {
             List<User> users = new ArrayList<User>();
             if (this.fileExists()){
                 users = readUsersFromRegister();
+            }
+            if (user.getRatedMovies().size() == 0){
+                throw new IllegalArgumentException("Cannot add user to register before a movie has been rated.");
+                
             }
             users.add(user);
             ObjectMapper objectMapper = new ObjectMapper();

@@ -94,16 +94,14 @@ public class UserRegister {
     }
 
     public static void main(String[] args) {
-        UserRegister reg = new UserRegister();
-        User u1 = new User("ellica", "ellica123");
-        User u2 = new User("sofie", "sofie123");
-        reg.registerNewUser(u1);
-        reg.registerNewUser(u2);
-        Movie m1 = new Movie("cinderella", "fantasy");
-        u1.rateMovie(m1, 3);
-        reg.updateRatedMovie(u1, m1);
+        User user3 = new User("sofie", "sofie123"); 
+        Movie movie = new Movie("Snow", "fantasy");
+        user3.rateMovie(movie, 3);
 
-    }
-    
-    
+        UserRegister userRegister = new UserRegister();
+        userRegister.registerNewUser(user3);
+        System.out.println(user3);
+        System.out.println(userRegister.getUser(user3.getUsername()));
+        System.out.println(user3.equals(userRegister.getUser(user3.getUsername())));
+    }  
 }

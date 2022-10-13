@@ -1,6 +1,7 @@
 package core;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -52,8 +53,11 @@ public class User {
     }
 
     public void rateMovie(Movie movie, Integer myRating){ //metode for å gi rating til en film
-        if(ratedMovies.containsKey(movie)){
-            throw new IllegalArgumentException("The movie is already rated");
+        //sjekker først om filmen allerede er ratet:
+        for (Entry<Movie, Integer> ratedMovie : this.getRatedMovies().entrySet()) {
+            if (ratedMovie.getKey().equals(movie)){
+                throw new IllegalArgumentException("The movie is already rated");
+            }    
         }
         if(myRating <1 || myRating > 5){ //sjekker om rating er mellom 1 og 5
             throw new IllegalArgumentException("Rating must be an integer from 1 to 5");
@@ -75,6 +79,25 @@ public class User {
     @Override
     public String toString() { //returnerer en string med brukernavn og passord
         return username + "\t" + password;
+    }
+
+    @Override
+    public boolean equals(Object object){
+        if (object instanceof User){
+            if (this.getUsername().equals(((User) object).getUsername())){
+                if (this.getPassword().equals(((User) object).getPassword())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        //SpotBugs demand override of hashCode with override of equals. 
+        //This was their own fix when it isn't to be used.
+        return 43;
     }
 
     public static void main(String[] args) {
