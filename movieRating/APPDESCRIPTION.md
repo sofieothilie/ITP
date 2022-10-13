@@ -5,7 +5,7 @@
 1. Bruker skal kunne logge seg inn eller lage ny bruker
     - Lage ny bruker
     - Dersom bruker ikke er registrert skal den få et valg om å opprette en ny bruker. (ikke implementert)
-    - Når bruker er logget inn skal det gis feedback på at login var vellykket.
+    - Når bruker er logget inn, eller har opprettet en bruker skal det gis feedback på at bruker nå er logget inn. 
 2. En skal kunne søke på filmer og se ratingen uansett om man er logget inn eller ikke.
     - Filmen(e) som tilfredstiller søket skal dukke opp (ikke implementert)
     - Dersom man er logget inn skal det være mulig å rate filmen man trykker på
@@ -30,6 +30,7 @@
 2. Oversikt over brukerens ratede filmer, sortert fra høyest rate til lavest
 3. Utvide med fysiske stjerner som rating
 4. Utvide slik at delvis søk kommer opp, for eksempel ved et matchende ord el.
+5. Vi ser at Handler og Register klassene til Movie og User har mye av det samme oppsettet. Til neste release skal derfor vi se på muligheten for å implementere arv på disse klassene.
 
 **Skjermbilde for å illustrere appen:**
 
