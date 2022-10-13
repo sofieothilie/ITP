@@ -28,6 +28,9 @@ class User
     +void rateMovie(Movie movie, Integer myRating)
     +boolean hasRatedMovie(Movie movie)
     +String toString()
+    +boolean equals(Obejct object)
+    +int HashMap()
+
 }
 class UserRegister
 {
@@ -57,6 +60,7 @@ class UserHandler
     +void writeUserToRegister(User user)
     +List<User> readUsersFromRegister()
     +void updateRegister(User user)
+    -User userExists(User user)
     +boolean fileExists()
 
 
@@ -81,7 +85,10 @@ class Movie
     +List<Integer> getAllRatings()
     +void addRating(int rating)
     +double averageRating()
-    +String toString()    
+    +String toString()  
+    +boolean equals(Object object)  
+    +int hashCode()
+
 }
 class MovieRegister
 {
@@ -96,9 +103,10 @@ class MovieRegister
     +void updateMovie(Movie movie)
     +List<Movie> searchGenre(String genre)
     +List<Movie> searchMovieTitle(String title)
-    +Movie getMovie(String title, String genre)'
-    +List<Movie> updateMovieList()
+    +Movie getMovie(String title, String genre)
     -boolean movieExists(Movie movie)
+    -List<Movie> updateMovieList()
+    
 }
 class MovieHandler
 {
