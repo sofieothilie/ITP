@@ -13,9 +13,7 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import core.Movie;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Integer>> {
@@ -45,7 +43,8 @@ public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Int
   }
 
   private Map.Entry<Movie,Integer> deserializeOneMovie(JsonNode jsonNode) {
-    if (jsonNode instanceof ObjectNode objectNode) {
+    if (jsonNode instanceof ObjectNode) {
+      ObjectNode objectNode = new ObjectNode(null);
       JsonNode titleNode = objectNode.get("title");
       JsonNode genreNode = objectNode.get("genre");
       JsonNode ratingNode = objectNode.get("rating");
@@ -56,7 +55,4 @@ public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Int
     }
     return null;
   }
-
-
-
 }
