@@ -35,9 +35,6 @@ public class UserRegister {
 
     public User getUser(String username){
         this.users = this.updateUserList();
-        if(users.isEmpty()){
-            throw new IllegalArgumentException("No users in register");
-        }
         for (User user: users){
             if (user.getUsername().equals(username)){
                 return user;
@@ -87,6 +84,16 @@ public class UserRegister {
         }
         else{
             return List.of();
+        }
+    }
+
+    public void ableToCreateNewUser(User user){
+        this.users = this.updateUserList();
+        for (User alreadyUser : users) {
+            if (user.equals(alreadyUser)){
+                throw new IllegalArgumentException("Already a user");
+            }
+            
         }
     }
 }
