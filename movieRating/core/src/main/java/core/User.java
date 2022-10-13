@@ -49,7 +49,12 @@ public class User {
     @JsonSerialize(using = MovieSerializerForUser.class)
     @JsonDeserialize(using = MovieDeserializerForUser.class)
     public HashMap<Movie, Integer> getRatedMovies() { //returnerer en hashmap med filmer og rating
-        return new HashMap<>(ratedMovies);
+        if(ratedMovies.isEmpty()){
+            return new HashMap<>();
+        }
+        else{
+            return new HashMap<>(ratedMovies);
+        }
     }
 
     public void rateMovie(Movie movie, Integer myRating){ //metode for å gi rating til en film
