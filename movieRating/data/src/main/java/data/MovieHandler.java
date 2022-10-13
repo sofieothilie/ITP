@@ -2,25 +2,14 @@ package data;
 
 import core.Movie;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializerProvider;
 
 
 public class MovieHandler {
@@ -29,7 +18,7 @@ public class MovieHandler {
     public static final String fileName = "MovieRegister.json";
 
     public File getFile(){
-        String path = Paths.get(".").toAbsolutePath().normalize().toString();
+        //String path = Paths.get(".").toAbsolutePath().normalize().toString();
         return new File(fileName);
 
     }
@@ -57,19 +46,43 @@ public class MovieHandler {
     }
 
     public void updateMovieInRegister(Movie movie){
-        //Takes in a movie and updates it in the register
+        try {
+            //Takes in a movie and updates it in the register
+            List<Movie> movieList = updateMovieListWithNewMovie(movie);
+            if (movieList.contains(movie)){
+                ObjectMapper objectMapper = new ObjectMapper();
+                ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter()); 
+                objectWriter.writeValue(getFile(), movieList);
+            }
+            else{
+                throw new IllegalStateException("Couldnt update movie in register.");
+            }
+        } catch (IOException e) {
+            throw new IllegalArgumentException("An IOException occoured with the file.");
+        }
+    }
 
+    private List<Movie> updateMovieListWithNewMovie(Movie movie){
         //Generates a list of all movie objects in file:
         List<Movie> movieList = this.readMovieAndRatingFromRegister();
-
-        // //Writes all previous movies and the new updates movie to file:
-       
+        Movie oldmovietoberemoved = null;
+        // //Writes all previous movies and the new updates movie the list:
         for (Movie oldMovie : movieList) {
             if (oldMovie.getTitle().equals(movie.getTitle()) && oldMovie.getGenre().equals(movie.getGenre())){
-                movieList.remove(oldMovie);
-                movieList.add(movie); 
+                oldmovietoberemoved = oldMovie;
             }
         }
+        if (oldmovietoberemoved != null){
+            movieList.remove(oldmovietoberemoved);
+            if (oldmovietoberemoved.getAllRatings().size() > 0){
+                for (Integer rating : oldmovietoberemoved.getAllRatings()) {
+                    movie.addRating(rating);
+                }
+            }
+            movieList.add(movie);
+        }
+        return new ArrayList<>(movieList);
+
     }
 
 
@@ -89,6 +102,7 @@ public class MovieHandler {
     }
 
     public Boolean fileExists(){
+        //Chekcs if the file exists
         File f = new File(getFile().getAbsolutePath());
         if (f.isFile()){
             return true;
@@ -96,5 +110,6 @@ public class MovieHandler {
         else{
             return false;
         }
-    }      
+    }   
+
 }
