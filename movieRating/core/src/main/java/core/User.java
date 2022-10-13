@@ -1,6 +1,7 @@
 package core;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -52,8 +53,11 @@ public class User {
     }
 
     public void rateMovie(Movie movie, Integer myRating){ //metode for å gi rating til en film
-        if(ratedMovies.containsKey(movie)){
-            throw new IllegalArgumentException("The movie is already rated");
+        //sjekker først om filmen allerede er ratet:
+        for (Entry<Movie, Integer> ratedMovie : this.getRatedMovies().entrySet()) {
+            if (ratedMovie.getKey().equals(movie)){
+                throw new IllegalArgumentException("The movie is already rated");
+            }    
         }
         if(myRating <1 || myRating > 5){ //sjekker om rating er mellom 1 og 5
             throw new IllegalArgumentException("Rating must be an integer from 1 to 5");

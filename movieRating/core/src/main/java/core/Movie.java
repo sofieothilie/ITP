@@ -73,9 +73,10 @@ public class Movie {
     @Override
     public boolean equals(Object object){
         if (object instanceof Movie){
-            if (this.getTitle().equals(((Movie) object).getTitle()) && this.getGenre().equals(((Movie) object).getGenre()));{
-                return true;
-            }
+            if (this.getTitle().equals(((Movie) object).getTitle())){
+                if (this.getGenre().equals(((Movie) object).getGenre())){
+                    return true;
+                }}
         }
         return false;
     }
@@ -83,9 +84,15 @@ public class Movie {
     @Override
     public int hashCode() {
         //SpotBugs demand override of hashCode with override of equals. 
-        //This was their fix. when it isn't to be used.
-        assert false : "hashCode not designed";
-        return 42; // any arbitrary constant will do
+        //This was their own fix when it isn't to be used.
+        return 43;
+    }
+
+    public static void main(String[] args) {
+        Movie m1 = new Movie("Cinderella", "fantasy");
+        Movie m2 = new Movie("Snowwhite", "fantasy");
+        System.out.println(m1.equals(m2));
+        //System.out.println(m1.getTitle() + m2.getTitle());
     }
 
 }
