@@ -72,10 +72,7 @@ public class MovieTest {
         m1.addRating(3);
         m1.addRating(4);
         m1.addRating(5);
-        assertEquals("Cinderella; fantasy; 4.00", m1.toString());
+        Double rating = (3.0 + 4 + 5)/3;
+        assertEquals("Cinderella; fantasy; " + String.format("%.2f",rating), m1.toString());
     }
-
-
-
-    
 }

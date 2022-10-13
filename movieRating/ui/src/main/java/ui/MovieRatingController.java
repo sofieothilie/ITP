@@ -46,7 +46,6 @@ public class MovieRatingController {
 
 
     // Methods
-
     @FXML
     public void initialize() {
         //Starts up the app with correct visibility:
@@ -66,6 +65,7 @@ public class MovieRatingController {
             genreBox.getItems().add(str);
         }
     }
+
     private void setRating(){
         //Fills choice boxes with rating options from 1 to 5:
         for (Integer integer : ratingList) {
@@ -84,6 +84,7 @@ public class MovieRatingController {
         password.clear();
         logIn.visibleProperty().set(value);
         createUser.visibleProperty().set(value);
+        loggedOut.visibleProperty().set(!value);
     }
 
     private void loggedIn(boolean value){
@@ -91,7 +92,7 @@ public class MovieRatingController {
         setLoginPossibility(false);
         addMovieRegister.setVisible(true);
         loggedIn.visibleProperty().set(true);
-        loggedOut.visibleProperty().set(false);
+        //loggedOut.visibleProperty().set(false);
     }
 
     private void setSearchVisibility(boolean value){
@@ -121,8 +122,7 @@ public class MovieRatingController {
         movieLabel.setText("");
         ratedMovie.setText(movie.toString());
         genreBox.setValue(null);
-        rateBox.setValue(null);
-        //oppdater denne etter hvert som vi tester appen    
+        rateBox.setValue(null);   
     }
 
     
@@ -144,29 +144,27 @@ public class MovieRatingController {
     @FXML
     private void handleCreateUser(){
         //Creates a new user and sets desired fields and visibility.
-        //prøve å putte alt inn i try-catch (fikset i master!!!)
         this.user = new User(username.getText(), password.getText());
         try {
-            this.userRegister.registerNewUser(this.user);
+            //this.userRegister.registerNewUser(this.user);
             loggedIn(true);
             loggedOut.visibleProperty().set(false);
         } catch (Exception e) {
-            errorActivation("nei");
+            errorActivation(e.getMessage());
         }
     }
-
 
     @FXML 
     private void handleLogOut(){
         //Logs user out. Resets desired fields and sets desired visibility.
         this.user = null;
+        //loggedIn(false); tror at man kun trenge denne og ikke den under
         setLoginPossibility(true); 
         setRateVisibility(false, null); 
         loggedIn.setVisible(false);
         addMovieRegister.setVisible(false);
         loggedOut.visibleProperty().set(true);
-        // loggedIn(false);
-        // clearAllSearchFields();
+        clearAllSearchFields();
     }
 
     //Movie methods
@@ -230,15 +228,6 @@ public class MovieRatingController {
         } catch (Exception e) {
             errorActivation(e.getMessage());
         }
-        
-    }
-
-    private void isLoggedIn(){
-        //Throws IllegalState if user isn't logged in.
-        //denne kan fjernes dersom vi fjerner try-catch i metoden over
-        if (this.user.equals(null)){
-            throw new IllegalStateException("User not logged in.");
-        }
     }
 
     @FXML
@@ -268,6 +257,4 @@ public class MovieRatingController {
         alert.setContentText(message);
         alert.showAndWait();
     }   
-
-
 }

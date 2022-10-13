@@ -1,6 +1,5 @@
 package data;
 
-import core.Movie;
 import core.User;
 
 import java.io.IOException;
@@ -9,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -20,10 +21,11 @@ public class UserHandler {
     public static final String SAVE_FOLDER = "/movieRating/data/src/main/java/data/";
     public static final String fileName = "UserRegister.json";
 
-    private static File getFile(){
+    public File getFile(){
         //Returns file
-        String path = Paths.get(".").toAbsolutePath().normalize().toString();
-        return new File(path + SAVE_FOLDER + fileName);
+        //String path = Paths.get(".").toAbsolutePath().normalize().toString();
+        //return new File(path + SAVE_FOLDER + fileName);
+        return new File(fileName);
     }
 
     public void writeUserToRegister(User user){
@@ -34,9 +36,15 @@ public class UserHandler {
             if (this.fileExists()){
                 users = readUsersFromRegister();
             }
+
+            if (user.getRatedMovies().isEmpty()){
+                throw new IllegalArgumentException("Cannot add user to register before a movie has been rated.");
+                
+            }
             users.add(user);
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter()); 
+            
             objectWriter.writeValue(getFile(), users);
         }
         catch (IOException e){
@@ -62,24 +70,48 @@ public class UserHandler {
         }
     }
 
-    public void updateRegister(User user){
+    public void updateRegister(User user){        
+        try {
+            //Takes in a user and a rating and updates it in the register
+            //Generates a list of all user objects in file:
+            User oldUserToRemove = this.userExists(user);
+            List<User> userList = this.readUsersFromRegister();
+            userList.remove(oldUserToRemove);
+            userList.add(user);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter()); 
+            objectWriter.writeValue(getFile(), userList);
+
+        } catch (JsonGenerationException e) {
+            throw new IllegalStateException("JsonGeneration Exception");
+        } catch (JsonMappingException e) {
+            throw new IllegalStateException("JsonMapping Exception");
+        } catch (IOException e) {
+            throw new IllegalStateException("IOException Exception");
+        }
+
+    }
+
+    private User userExists(User user){
         //Takes in a user and a rating and updates it in the register
 
         //Generates a list of all user objects in file:
         List<User> userList = this.readUsersFromRegister();
 
         //Writes all previous users and the new updates user to file:
-        if (!userList.contains(user)){
+        User oldUserToRemove = null;
+        for (User oldUser : userList) {
+            if (oldUser.getUsername().equals(user.getUsername()) && oldUser.getPassword().equals(user.getPassword())){
+                oldUserToRemove = oldUser;
+            }    
+        }
+        if (oldUserToRemove == null){
             throw new IllegalArgumentException("no such user");
         }
-        else{
-            for (User oldUser : userList) {
-                if (oldUser.getUsername().equals(user.getUsername()) && oldUser.getPassword().equals(user.getPassword())){
-                    userList.remove(oldUser);
-                    userList.add(user);
-                }    
-            }
-        }
+
+        return oldUserToRemove;
+
     }
 
     public boolean fileExists(){
@@ -91,5 +123,4 @@ public class UserHandler {
             return false;
         }
     }
-
 }
