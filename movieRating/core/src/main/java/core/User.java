@@ -94,9 +94,8 @@ public class User {
     @Override
     public int hashCode() {
         //SpotBugs demand override of hashCode with override of equals. 
-        //This was their fix. when it isn't to be used.
-        assert false : "hashCode not designed";
-        return 42; // any arbitrary constant will do
+        //This was their own fix when it isn't to be used.
+        return 43;
     }
 
     public static void main(String[] args) {
