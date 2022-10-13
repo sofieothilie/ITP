@@ -91,6 +91,7 @@ public class MovieRatingController {
         setLoginPossibility(false);
         addMovieRegister.setVisible(true);
         loggedIn.visibleProperty().set(true);
+        loggedOut.visibleProperty().set(false);
     }
 
     private void setSearchVisibility(boolean value){
@@ -134,6 +135,7 @@ public class MovieRatingController {
             this.user = this.userRegister.getUser(username.getText());
             setLoginPossibility(false);
             loggedIn(true);  
+            loggedOut.visibleProperty().set(false);
         } catch (IllegalArgumentException e) {
             errorActivation(e.getMessage());
         }          
@@ -147,6 +149,7 @@ public class MovieRatingController {
         try {
             this.userRegister.registerNewUser(this.user);
             loggedIn(true);
+            loggedOut.visibleProperty().set(false);
         } catch (Exception e) {
             errorActivation("nei");
         }
@@ -161,6 +164,7 @@ public class MovieRatingController {
         setRateVisibility(false, null); 
         loggedIn.setVisible(false);
         addMovieRegister.setVisible(false);
+        loggedOut.visibleProperty().set(true);
         // loggedIn(false);
         // clearAllSearchFields();
     }
