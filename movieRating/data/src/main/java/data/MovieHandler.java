@@ -74,11 +74,6 @@ public class MovieHandler {
         }
         if (oldmovietoberemoved != null){
             movieList.remove(oldmovietoberemoved);
-            if (oldmovietoberemoved.getAllRatings().size() > 0){
-                for (Integer rating : oldmovietoberemoved.getAllRatings()) {
-                    movie.addRating(rating);
-                }
-            }
             movieList.add(movie);
         }
         return new ArrayList<>(movieList);
@@ -110,6 +105,7 @@ public class MovieHandler {
         else{
             return false;
         }
-    }   
+    }  
+    
 
 }
