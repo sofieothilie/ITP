@@ -8,6 +8,7 @@ import core.Movie;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class MovieSerializerForUser extends JsonSerializer<HashMap<Movie, Integer>> {
 
@@ -29,12 +30,12 @@ public class MovieSerializerForUser extends JsonSerializer<HashMap<Movie, Intege
   @Override
   public void serialize(HashMap<Movie, Integer> movies, JsonGenerator gen, SerializerProvider serializers) throws IOException {
       gen.writeStartArray();
-      for (Movie movie : movies.keySet()) {
+      for (Entry<Movie, Integer> ratedMovieEntry : movies.entrySet()) {
         gen.writeStartObject();
-        gen.writeStringField("title", movie.getTitle());
-        gen.writeStringField("genre", movie.getGenre());
-        gen.writeNumberField("rating", movies.get(movie));
-        gen.writeEndObject();
+        gen.writeStringField("title", ratedMovieEntry.getKey().getTitle());
+        gen.writeStringField("genre", ratedMovieEntry.getKey().getGenre());
+        gen.writeNumberField("rating", ratedMovieEntry.getValue());
+        gen.writeEndObject();        
       }
       gen.writeEndArray();
   }
