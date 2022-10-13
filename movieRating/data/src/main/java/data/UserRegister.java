@@ -17,12 +17,11 @@ public class UserRegister {
     //Må sikre at når en film rates, så oppdateres denne både i user- og movie-fil.
 
     public void registerNewUser(User newuser){
-        if (userHandler.fileExists()){
-            for(User user: users){
-                if(user.getUsername().equals(newuser.getUsername())){
-                    throw new IllegalArgumentException("User already exists");
-                }
-           }
+        this.users = updateUserList();
+        for(User user: users){
+            if(user.equals(newuser)){
+                throw new IllegalArgumentException("User already exists");
+            }
         }
         userHandler.writeUserToRegister(newuser);
     }
@@ -35,7 +34,7 @@ public class UserRegister {
     }
 
     public User getUser(String username){
-        updateUserList();
+        this.users = this.updateUserList();
         if(users.isEmpty()){
             throw new IllegalArgumentException("No users in register");
         }
@@ -48,10 +47,8 @@ public class UserRegister {
     }
 
     public void existingUser(String username, String password){
-        // if(users.isEmpty()){
-        //     throw new IllegalArgumentException("User register is empty");
-        // }
         User foundUser = null;
+        this.users = this.updateUserList();
         for (User user: users){
             if(user.getUsername().equals(username)){
                 foundUser = user;
@@ -92,16 +89,4 @@ public class UserRegister {
             return List.of();
         }
     }
-
-    public static void main(String[] args) {
-        User user3 = new User("sofie", "sofie123"); 
-        Movie movie = new Movie("Snow", "fantasy");
-        user3.rateMovie(movie, 3);
-
-        UserRegister userRegister = new UserRegister();
-        userRegister.registerNewUser(user3);
-        System.out.println(user3);
-        System.out.println(userRegister.getUser(user3.getUsername()));
-        System.out.println(user3.equals(userRegister.getUser(user3.getUsername())));
-    }  
 }
