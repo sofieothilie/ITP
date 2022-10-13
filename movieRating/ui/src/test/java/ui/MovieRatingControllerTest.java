@@ -51,10 +51,9 @@ public class MovieRatingControllerTest extends ApplicationTest{
     private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);  
 
     private TextField username, password, movieName;
-    private Button logIn, addMovieRegister, createUser, searchMovie, addMovieToRegister, logOut, rateButton;
+    private Button logIn, addMovieRegister, createUser, addMovieToRegister, logOut, rateButton;
     private ChoiceBox<String> genreBox;
     private ChoiceBox<Integer> rateBox;
-    private ListView<String> movieRegisterList;
     private TextArea ratedMovie;
     private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel, ratingscaleLabel;
 
@@ -67,13 +66,13 @@ public class MovieRatingControllerTest extends ApplicationTest{
         logIn = lookup("#logIn").query();
         addMovieRegister = lookup("#addMovieRegister").query();
         createUser = lookup("#createUser").query();
-        searchMovie = lookup("#searchMovie").query();
+        //searchMovie = lookup("#searchMovie").query();
         //addMovieToRegister = lookup("#addMovieToRegister").query();
         logOut = lookup("#logOut").query();
         rateButton = lookup("#rateButton").query();
         genreBox = lookup("#genreBox").query();
         rateBox = lookup("#rateBox").query();
-        movieRegisterList = lookup("#movieRegisterList").query();
+        //movieRegisterList = lookup("#movieRegisterList").query();
         ratedMovie = lookup("#ratedMovie").query();
         loggedIn = lookup("#loggedIn").query();
         loggedOut = lookup("#loggedOut").query();
@@ -146,47 +145,47 @@ public class MovieRatingControllerTest extends ApplicationTest{
         // assertTrue(logOut.isVisible());
     }
 
-    @Test
-    @DisplayName("Test log out")
-    public void testLogOut() {
-        //logge inn
-        testCreateNewUser();
-        //logge ut
-        clickOn(logOut);
-        //da skal dette skje
-        // assertTrue(loggedOut.isVisible());
-        // assertFalse(logOut.isVisible());
-        // assertTrue(logIn.isVisible());
+    // @Test
+    // @DisplayName("Test log out")
+    // public void testLogOut() {
+    //     //logge inn
+    //     testCreateNewUser();
+    //     //logge ut
+    //     clickOn(logOut);
+    //     //da skal dette skje
+    //     // assertTrue(loggedOut.isVisible());
+    //     // assertFalse(logOut.isVisible());
+    //     // assertTrue(logIn.isVisible());
 
-        //da skal alle disse gjøres usynlige
+    //     //da skal alle disse gjøres usynlige
 
-        //hele siden hvor man kan legge til rating skal bli usynlig
-        // assertFalse(addMovieRegister.isVisible());
-        // assertFalse(rateLabel.isVisible());
-        // assertFalse(ratingscaleLabel.isVisible());
-        // assertFalse(rateBox.isVisible());
-        // assertFalse(rateButton.isVisible());
-        // assertFalse(ratedMovie.isVisible());
+    //     //hele siden hvor man kan legge til rating skal bli usynlig
+    //     // assertFalse(addMovieRegister.isVisible());
+    //     // assertFalse(rateLabel.isVisible());
+    //     // assertFalse(ratingscaleLabel.isVisible());
+    //     // assertFalse(rateBox.isVisible());
+    //     // assertFalse(rateButton.isVisible());
+    //     // assertFalse(ratedMovie.isVisible());
 
-        //knappen for å legge til film i registeret skal bli usynlig
-    }
+    //     //knappen for å legge til film i registeret skal bli usynlig
+    // }
 
 
-    @Test
-    @DisplayName("Sucessful search for a movie")
-    public void searchMovie() {
-        clickOn(movieName).write("The Notebook");
-        clickOn(searchMovie);
-        //assertEquals("The Notebook", ratedMovie.getText());
-    }
+    // @Test
+    // @DisplayName("Sucessful search for a movie")
+    // public void searchMovie() {
+    //     clickOn(movieName).write("The Notebook");
+    //     clickOn(searchMovie);
+    //     //assertEquals("The Notebook", ratedMovie.getText());
+    // }
 
-    @Test
-    @DisplayName("Unsucessful search for a movie")
-    public void searchMovieNotFound() {
-        clickOn(movieName).write("The Notebook");
-        clickOn(searchMovie);
-        //assertEquals("No movies with the title" + movieName.getText(), controller.errorActivation().getText());
-    }
+    // @Test
+    // @DisplayName("Unsucessful search for a movie")
+    // public void searchMovieNotFound() {
+    //     clickOn(movieName).write("The Notebook");
+    //     clickOn(searchMovie);
+    //     //assertEquals("No movies with the title" + movieName.getText(), controller.errorActivation().getText());
+    // }
 
     @Test
     @DisplayName("Test to add a movie to the register with rating")
