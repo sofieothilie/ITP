@@ -5,6 +5,7 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.Movie;
 import core.User;
 
 
@@ -65,6 +66,18 @@ public class UserRegister {
 
     private void updateUserList(){
         this.users = userHandler.readUsersFromRegister();
+    }
+
+    public static void main(String[] args) {
+        User user3 = new User("sofie", "sofie123"); 
+        Movie movie = new Movie("Snow", "fantasy");
+        user3.rateMovie(movie, 3);
+
+        UserRegister userRegister = new UserRegister();
+        userRegister.registerNewUser(user3);
+        System.out.println(user3);
+        System.out.println(userRegister.getUser(user3.getUsername()));
+        System.out.println(user3.equals(userRegister.getUser(user3.getUsername())));
     }
     
 }
