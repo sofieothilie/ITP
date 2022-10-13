@@ -2,6 +2,12 @@ package core;
 
 import java.util.HashMap;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import core.deserializerAndSerializer.MovieDeserializerForUser;
+import core.deserializerAndSerializer.MovieSerializerForUser;
+
 public class User {
     private String username;
     private String password;
@@ -40,6 +46,8 @@ public class User {
         return password;
     }
 
+    @JsonSerialize(using = MovieSerializerForUser.class)
+    @JsonDeserialize(using = MovieDeserializerForUser.class)
     public HashMap<Movie, Integer> getRatedMovies() { //returnerer en hashmap med filmer og rating
         return new HashMap<>(ratedMovies);
     }
