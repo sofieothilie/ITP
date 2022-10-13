@@ -1,4 +1,4 @@
-package data.internal;
+package core.deserializerAndSerializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -28,8 +28,6 @@ public class MovieSerializerForUser extends JsonSerializer<HashMap<Movie, Intege
 
   @Override
   public void serialize(HashMap<Movie, Integer> movies, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-      gen.writeStartObject();
-      gen.writeFieldName("ratedMovies");
       gen.writeStartArray();
       for (Movie movie : movies.keySet()) {
         gen.writeStartObject();
@@ -39,7 +37,6 @@ public class MovieSerializerForUser extends JsonSerializer<HashMap<Movie, Intege
         gen.writeEndObject();
       }
       gen.writeEndArray();
-      gen.writeEndObject();
   }
 
 }

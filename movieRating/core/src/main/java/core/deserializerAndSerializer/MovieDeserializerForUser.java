@@ -1,4 +1,4 @@
-package data.internal;
+package core.deserializerAndSerializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,9 +14,11 @@ import core.Movie;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class MovieDeserializerForUser extends StdDeserializer<List<Movie>> {
+public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Integer>> {
 
   public MovieDeserializerForUser() { 
     this(null); 
@@ -27,30 +29,29 @@ public class MovieDeserializerForUser extends StdDeserializer<List<Movie>> {
   }
 
   @Override
-  public List<Movie> deserialize(JsonParser p, DeserializationContext ctxt)
+  public HashMap<Movie, Integer> deserialize(JsonParser p, DeserializationContext ctxt)
       throws IOException, JsonProcessingException {
     TreeNode treeNode = p.getCodec().readTree(p);
     return deserializeSeveralMovies((JsonNode) treeNode);
   }
 
-  private List<Movie> deserializeSeveralMovies(JsonNode jsonNodes){
-    List<Movie> movies = new ArrayList<Movie>();
+  private HashMap<Movie, Integer> deserializeSeveralMovies(JsonNode jsonNodes){
+    HashMap<Movie, Integer> ratedMovies = new HashMap<Movie, Integer>();
     for (JsonNode jsonNode : jsonNodes) {
-      Movie movie = deserializeOneMovie(jsonNode);
-      movies.add(movie);      
+      Map.Entry<Movie, Integer> movieRated = deserializeOneMovie(jsonNode);
+      ratedMovies.put(movieRated.getKey(), movieRated.getValue());      
     }
-    return movies;
+    return ratedMovies; //KOPI
   }
 
-  private Movie deserializeOneMovie(JsonNode jsonNode) {
+  private Map.Entry<Movie,Integer> deserializeOneMovie(JsonNode jsonNode) {
     if (jsonNode instanceof ObjectNode objectNode) {
       JsonNode titleNode = objectNode.get("title");
       JsonNode genreNode = objectNode.get("genre");
       JsonNode ratingNode = objectNode.get("rating");
       if (titleNode instanceof TextNode && genreNode instanceof TextNode && ratingNode instanceof NumericNode) {
-        Movie movie = new Movie(String.valueOf(titleNode), String.valueOf(genreNode));
-        movie.addRating(Integer.valueOf(String.valueOf(ratingNode)));
-        return movie;
+        Movie movie = new Movie(titleNode.asText(), genreNode.asText());
+        return Map.entry(movie, Integer.valueOf(String.valueOf(ratingNode)));
       }
     }
     return null;
