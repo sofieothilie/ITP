@@ -100,12 +100,4 @@ public class User {
         return 43;
     }
 
-    public static void main(String[] args) {
-        Movie movie = new Movie("The Godfather", "drama");
-        Movie movie2 = new Movie("The Godfathers", "drama");
-        User user = new User("user1", "password");
-        user.rateMovie(movie, 5);
-        user.rateMovie(movie2, 3);
-        System.out.println(user);
-    }
 }
