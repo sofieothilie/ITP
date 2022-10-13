@@ -77,6 +77,24 @@ public class User {
         return username + "\t" + password;
     }
 
+    @Override
+    public boolean equals(Object object){
+        if (object instanceof User){
+            if (this.getUsername().equals(((User) object).getUsername()) && this.getPassword().equals(((User) object).getPassword()));{
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        //SpotBugs demand override of hashCode with override of equals. 
+        //This was their fix. when it isn't to be used.
+        assert false : "hashCode not designed";
+        return 42; // any arbitrary constant will do
+    }
+
     public static void main(String[] args) {
         Movie movie = new Movie("The Godfather", "drama");
         Movie movie2 = new Movie("The Godfathers", "drama");
