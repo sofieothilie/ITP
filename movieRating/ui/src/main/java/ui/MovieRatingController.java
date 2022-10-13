@@ -236,7 +236,7 @@ public class MovieRatingController {
     private void isLoggedIn(){
         //Throws IllegalState if user isn't logged in.
         //denne kan fjernes dersom vi fjerner try-catch i metoden over
-        if (this.user.equals(null)){
+        if (this.user == null){
             throw new IllegalStateException("User not logged in.");
         }
     }
