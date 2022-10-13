@@ -13,11 +13,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.MouseEvent;
 
 public class MovieRatingController {
     //Fields
@@ -32,13 +30,11 @@ public class MovieRatingController {
     @FXML
     private TextField username, password, movieName;
     @FXML
-    private Button logIn, createUser, searchMovie, addMovieRegister, logOut, rateButton;
+    private Button logIn, createUser, addMovieRegister, logOut, rateButton;
     @FXML
     private ChoiceBox<String> genreBox;
     @FXML
     private ChoiceBox<Integer> rateBox;
-    @FXML
-    private ListView<String> movieRegisterList;
     @FXML
     private TextArea ratedMovie;
     @FXML
@@ -97,9 +93,9 @@ public class MovieRatingController {
 
     private void setSearchVisibility(boolean value){
         //Sets the search-area to desired visibility:
-        searchMovie.visibleProperty().set(true);
+        //searchMovie.visibleProperty().set(true);
         genreBox.visibleProperty().set(true);
-        movieRegisterList.visibleProperty().set(true);
+        //movieRegisterList.visibleProperty().set(true);
     }
 
     private void setRateVisibility(boolean value, Movie movie){
@@ -117,7 +113,7 @@ public class MovieRatingController {
 
     private void clearAllSearchFields(){
         //Clears all search fields when called upon:
-        movieRegisterList.getItems().clear();
+        //movieRegisterList.getItems().clear();
         movieName.clear();
         movieLabel.setText("");
         ratedMovie.setText(movie.toString());
@@ -168,48 +164,48 @@ public class MovieRatingController {
     }
 
     //Movie methods
-    @FXML
-    private void handleSearchMovie(){
-        //Searches for movies by title and displays them in list view.
-        //antar fungerer dersom filhåndtering funker
-        //kan legge til at delvise treff vises
-        List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
-        if (movieList.isEmpty()){ errorActivation("No movies with title " + movieName.getText());}
-        for (Movie movie : movieList) {
-            movieRegisterList.getItems().add(movie.toString());
-        }
-    }
+    // @FXML
+    // private void handleSearchMovie(){
+    //     //Searches for movies by title and displays them in list view.
+    //     //antar fungerer dersom filhåndtering funker
+    //     //kan legge til at delvise treff vises
+    //     List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
+    //     if (movieList.isEmpty()){ errorActivation("No movies with title " + movieName.getText());}
+    //     for (Movie movie : movieList) {
+    //         movieRegisterList.getItems().add(movie.toString());
+    //     }
+    // }
 
-    @FXML
-    private void handleSearchGenre(){
-        //Searches for movies by genre and displays them in list view.
-        // antar funker hvis filhåndtering funker
-        List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
-        if (movieList.isEmpty()){ errorActivation("No movies with genre " + genreBox.getValue());}
-        for (Movie movie : movieList) {
-            movieRegisterList.getItems().add(movie.toString());
-        }
-    }
+    // @FXML
+    // private void handleSearchGenre(){
+    //     //Searches for movies by genre and displays them in list view.
+    //     // antar funker hvis filhåndtering funker
+    //     List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
+    //     if (movieList.isEmpty()){ errorActivation("No movies with genre " + genreBox.getValue());}
+    //     for (Movie movie : movieList) {
+    //         movieRegisterList.getItems().add(movie.toString());
+    //     }
+    // }
 
-    @FXML
-    private void selectMovie(MouseEvent event){
-        //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
-        //når handleRateButton trykkes må denne oppdateres
-        ratedMovie.setText("");
-        if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null){
-            this.movie = convertSelectedItemToMovieObject();
-            movieLabel.setText(": " + this.movie.getTitle());
-            setRateVisibility(true, this.movie);
-        }
-    }
+    // @FXML
+    // private void selectMovie(MouseEvent event){
+    //     //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
+    //     //når handleRateButton trykkes må denne oppdateres
+    //     ratedMovie.setText("");
+    //     if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null){
+    //         this.movie = convertSelectedItemToMovieObject();
+    //         movieLabel.setText(": " + this.movie.getTitle());
+    //         setRateVisibility(true, this.movie);
+    //     }
+    // }
 
-    private Movie convertSelectedItemToMovieObject(){
-        //Retrives movie object from convertObservableList:
-        //når handleRateButton trykkes må denne oppdateres, lage en update metode 
-        movieRegisterList.getSelectionModel().getSelectedItem();
-        String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("\t");
-        return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
-    }
+    // private Movie convertSelectedItemToMovieObject(){
+    //     //Retrives movie object from convertObservableList:
+    //     //når handleRateButton trykkes må denne oppdateres, lage en update metode 
+    //     movieRegisterList.getSelectionModel().getSelectedItem();
+    //     String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("\t");
+    //     return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
+    // }
 
     @FXML
     private void handleAddMovieToRegister(){

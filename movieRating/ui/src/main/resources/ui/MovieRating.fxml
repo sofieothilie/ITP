@@ -28,11 +28,9 @@
       <Label layoutX="35.0" layoutY="256.0" text="Genre" />
       <Label layoutX="36.0" layoutY="196.0" text="Name" />
       <TextField fx:id="movieName" layoutX="36.0" layoutY="218.0" />
-      <Button fx:id="searchMovie" layoutX="202.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleSearchMovie" text="Search" />
       <ChoiceBox fx:id="rateBox" layoutX="291.0" layoutY="218.0" prefWidth="150.0" />
       <Label fx:id="ratingscaleLabel" layoutX="290.0" layoutY="196.0" text="From 1 to 5 stars" />
       <Button fx:id="addMovieRegister" layoutX="33.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleAddMovieToRegister" text="Add movie to register" />
-      <ListView fx:id="movieRegisterList" layoutX="34.0" layoutY="309.0" onMouseClicked="#selectMovie" prefHeight="99.0" prefWidth="215.0" />
       <TextArea fx:id="ratedMovie" layoutX="291.0" layoutY="254.0" prefHeight="37.0" prefWidth="215.0" />
       <Button fx:id="logOut" layoutX="447.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleLogOut" text="Log out" />
       <Button fx:id="createUser" layoutX="86.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleCreateUser" text="Create new user" />
