@@ -12,6 +12,7 @@ import core.User;
 public class UserRegister {
     private List<User> users = new ArrayList<>();
     private UserHandler userHandler = new UserHandler();
+    MovieRegister movieRegister = new MovieRegister();
 
     //Må sikre at når en film rates, så oppdateres denne både i user- og movie-fil.
 
@@ -21,7 +22,7 @@ public class UserRegister {
                 if(user.getUsername().equals(newuser.getUsername())){
                     throw new IllegalArgumentException("User already exists");
                 }
-            }
+           }
         }
         userHandler.writeUserToRegister(newuser);
     }
@@ -64,8 +65,32 @@ public class UserRegister {
         }      
     }
 
-    private void updateUserList(){
-        this.users = userHandler.readUsersFromRegister();
+    public void updateRatedMovie(User user, Movie movie){
+        //Updates the user in the file if it already exists
+        this.users = updateUserList();
+        if(users.isEmpty()){
+            throw new IllegalArgumentException("No registered users yet");
+        }
+        boolean foundUser = false;
+        for(User u1: users){
+            if(u1.getUsername().equals(user.getUsername()) && u1.getPassword().equals(user.getPassword())){
+                userHandler.updateRegister(user);
+                movieRegister.updateMovie(movie);
+                foundUser = true;
+            }
+        }
+        if(!foundUser){
+            throw new IllegalArgumentException("No user with username: " + user.getUsername());
+        }
+    }
+
+    private List<User> updateUserList(){
+        if(userHandler.fileExists()){
+            return new ArrayList<>(userHandler.readUsersFromRegister());
+        }
+        else{
+            return List.of();
+        }
     }
 
     public static void main(String[] args) {
@@ -78,6 +103,5 @@ public class UserRegister {
         System.out.println(user3);
         System.out.println(userRegister.getUser(user3.getUsername()));
         System.out.println(user3.equals(userRegister.getUser(user3.getUsername())));
-    }
-    
+    }  
 }
