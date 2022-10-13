@@ -2,20 +2,15 @@
 
 ## Appens funksjonaliteter
 
-1. Bruker skal kunne logge seg inn eller lage ny bruker
-    - Lage ny bruker
-    - Dersom bruker ikke er registrert skal den få et valg om å opprette en ny bruker. (ikke implementert)
+1. Bruker skal kunne logge inn og lage ny bruker
+    - Dersom bruker ikke er registrert skal den få et valg om å opprette en ny bruker.
     - Når bruker er logget inn, eller har opprettet en bruker skal det gis feedback på at bruker nå er logget inn. 
 2. En skal kunne søke på filmer og se ratingen uansett om man er logget inn eller ikke.
     - Filmen(e) som tilfredstiller søket skal dukke opp (ikke implementert)
     - Dersom man er logget inn skal det være mulig å rate filmen man trykker på
-    - Dersom man ikke er logget inn gis det feedback om det.
+    - Dersom man ikke er logget inn gis det feedback om det. (ikke implementert)
     - Dersom filmen ikke er registrert skal det være mulig å legge til filmen med attributtene "title", "genre" og til slutt en "rating". Dette lagres til fil.
-    - Dersom brukeren allerede har ratet denne filmen, skal det gis feedback på at det ikke er mulig å rate igjen
-3. En skal kunne velge en sjanger fra en nedtrekksmeny og se en liste med filmer av den sjangeren.
-    - Dersom man er logget inn skal det være mulig å rate filmen man trykker på
-    - Dersom man ikke er logget inn gis det beskjed om det.
-    - Dersom brukeren allerede har ratet denne filmen, skal det gis feedback på at det ikke er mulig å rate igjen
+    - Dersom brukeren allerede har ratet denne filmen, skal det gis feedback på at det ikke er mulig å rate igjen (ikke implementert)
 4. Rating
     - Fra en nedtrekksmeny skal brukeren kunne gi rating til valgte film fra 1-5.
     - Deretter skal bruker få opp oppdatert rating på filmen
