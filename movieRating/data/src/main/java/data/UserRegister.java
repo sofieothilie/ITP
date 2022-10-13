@@ -5,12 +5,14 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.Movie;
 import core.User;
 
 
 public class UserRegister {
     private List<User> users = new ArrayList<>();
     private UserHandler userHandler = new UserHandler();
+    MovieRegister movieRegister = new MovieRegister();
 
     //Må sikre at når en film rates, så oppdateres denne både i user- og movie-fil.
 
@@ -20,7 +22,7 @@ public class UserRegister {
                 if(user.getUsername().equals(newuser.getUsername())){
                     throw new IllegalArgumentException("User already exists");
                 }
-            }
+           }
         }
         userHandler.writeUserToRegister(newuser);
     }
@@ -63,8 +65,45 @@ public class UserRegister {
         }      
     }
 
-    private void updateUserList(){
-        this.users = userHandler.readUsersFromRegister();
+    public void updateRatedMovie(User user, Movie movie){
+        //Updates the user in the file if it already exists
+        this.users = updateUserList();
+        if(users.isEmpty()){
+            throw new IllegalArgumentException("No registered users yet");
+        }
+        boolean foundUser = false;
+        for(User u1: users){
+            if(u1.getUsername().equals(user.getUsername()) && u1.getPassword().equals(user.getPassword())){
+                userHandler.updateRegister(user);
+                movieRegister.updateMovie(movie);
+                foundUser = true;
+            }
+        }
+        if(!foundUser){
+            throw new IllegalArgumentException("No user with username: " + user.getUsername());
+        }
     }
+
+    private List<User> updateUserList(){
+        if(userHandler.fileExists()){
+            return new ArrayList<>(userHandler.readUsersFromRegister());
+        }
+        else{
+            return List.of();
+        }
+    }
+
+    public static void main(String[] args) {
+        UserRegister reg = new UserRegister();
+        User u1 = new User("ellica", "ellica123");
+        User u2 = new User("sofie", "sofie123");
+        reg.registerNewUser(u1);
+        reg.registerNewUser(u2);
+        Movie m1 = new Movie("cinderella", "fantasy");
+        u1.rateMovie(m1, 3);
+        reg.updateRatedMovie(u1, m1);
+
+    }
+    
     
 }
