@@ -88,12 +88,5 @@ public class Movie {
         return 43;
     }
 
-    public static void main(String[] args) {
-        Movie m1 = new Movie("Cinderella", "fantasy");
-        Movie m2 = new Movie("Snowwhite", "fantasy");
-        System.out.println(m1.equals(m2));
-        //System.out.println(m1.getTitle() + m2.getTitle());
-    }
-
 }
 
