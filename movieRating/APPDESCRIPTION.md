@@ -41,7 +41,10 @@ Trond har nettopp sett filmen "The Notebook". Han synes filmen var bra, selv om 
 
 **Se brukerhistorien:**
 
-![Illustrasjon av applikasjon](brukerhistorie1.jpg)
+![Illustrasjon av applikasjon](userhistory1.jpg)
+
+## Implisitt fillagring
+Vi har tatt i bruk implisitt fillagring i dette prosjektet. For eksempel trykker bruker på "Create new user", og da lagres denne useren til fil, uten at det står "lagre" på knappen. Et annet eksempel er dersom en bruker ønsker å legge til en movie i listen over alle movies. Denne movien lagres til fil men bruker får ikke beskjed om at den lagres. På knappen står det bare "Add movie to register". Det siste eksempelet vårt på implisitt lagring er der bruker kan legge til rating på en movie. Dersom bruker klikker på knappen "Rate" lagres ny gjennomsnittlig rating av den movien til fil, uten at bruker får beskjed om dette. 
 
 ## Arbeidsvaner og kodekvalitet
 
