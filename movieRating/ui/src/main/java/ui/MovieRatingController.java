@@ -146,7 +146,7 @@ public class MovieRatingController {
         //Creates a new user and sets desired fields and visibility.
         this.user = new User(username.getText(), password.getText());
         try {
-            this.userRegister.registerNewUser(this.user);
+            //this.userRegister.registerNewUser(this.user);
             loggedIn(true);
             loggedOut.visibleProperty().set(false);
         } catch (Exception e) {
@@ -164,7 +164,7 @@ public class MovieRatingController {
         loggedIn.setVisible(false);
         addMovieRegister.setVisible(false);
         loggedOut.visibleProperty().set(true);
-        // clearAllSearchFields();
+        clearAllSearchFields();
     }
 
     //Movie methods
