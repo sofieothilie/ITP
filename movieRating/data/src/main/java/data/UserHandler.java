@@ -18,10 +18,13 @@ import java.io.File;
 
 public class UserHandler {
 
+    //TODO: skriv eom fra engelsk til norsk
+
     public static final String SAVE_FOLDER = "/movieRating/data/src/main/java/data/";
     public static final String fileName = "UserRegister.json";
 
-    public File getFile(){
+    //TODO: legge til System.getProperty("user.home")
+    public File getFile(){ //TODO: prøve å fikse Path
         //Returns file
         //String path = Paths.get(".").toAbsolutePath().normalize().toString();
         //return new File(path + SAVE_FOLDER + fileName);
@@ -101,7 +104,7 @@ public class UserHandler {
 
         //Writes all previous users and the new updates user to file:
         User oldUserToRemove = null;
-        for (User oldUser : userList) {
+        for (User oldUser : userList) { //TODO: equals
             if (oldUser.getUsername().equals(user.getUsername()) && oldUser.getPassword().equals(user.getPassword())){
                 oldUserToRemove = oldUser;
             }    
@@ -114,7 +117,7 @@ public class UserHandler {
 
     }
 
-    public boolean fileExists(){
+    public boolean fileExists(){ // sjekker om filen eksisterer
         File f = new File(getFile().getAbsolutePath());
         if (f.isFile()){
             return true;

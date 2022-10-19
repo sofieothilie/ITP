@@ -13,16 +13,17 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 
 public class MovieHandler {
+    //TODO: skrive om fra engelsk til norsk i kommentarer
 
     public static final String SAVE_FOLDER = "/movieRating/data/src/main/java/data/";
     public static final String fileName = "MovieRegister.json";
 
-    public File getFile(){
+    //TODO: legge til System.getProperty("user.home")
+    public File getFile(){ //TODO: se om vi kan bruke Path. studass
         //String path = Paths.get(".").toAbsolutePath().normalize().toString();
         return new File(fileName);
 
     }
-
 
     public void writeMovieToRegister(Movie movie){
         //Writes movie to file with JSON.
@@ -66,8 +67,8 @@ public class MovieHandler {
         //Generates a list of all movie objects in file:
         List<Movie> movieList = this.readMovieAndRatingFromRegister();
         Movie oldmovietoberemoved = null;
-        // //Writes all previous movies and the new updates movie the list:
-        for (Movie oldMovie : movieList) {
+        // Writes all previous movies and the new updates movie the list:
+        for (Movie oldMovie : movieList) { //TODO: equals
             if (oldMovie.getTitle().equals(movie.getTitle()) && oldMovie.getGenre().equals(movie.getGenre())){
                 oldmovietoberemoved = oldMovie;
             }
@@ -96,8 +97,7 @@ public class MovieHandler {
         }
     }
 
-    public Boolean fileExists(){
-        //Chekcs if the file exists
+    public Boolean fileExists(){ //Chekcs if the file exists
         File f = new File(getFile().getAbsolutePath());
         if (f.isFile()){
             return true;

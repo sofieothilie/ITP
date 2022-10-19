@@ -6,11 +6,12 @@ import java.util.List;
 import core.Movie;
 
 public class MovieRegister {
+    //TODO: endre til norsk i kommentarer
+    //TODO: endre til engelsk i Exceptions
     private List<Movie> movies = new ArrayList<>();
     private MovieHandler handler = new MovieHandler();
 
-    public void addMovie(Movie movie){
-        //Adds a movie to file if it doesn't already exist in file.
+    public void addMovie(Movie movie){ //Adds a movie to file if it doesn't already exist in file.
         this.movies = updateMovieList();
         if(movieExists(movie)){
             throw new IllegalArgumentException("Filmen finnes allerede");
@@ -18,13 +19,12 @@ public class MovieRegister {
         handler.writeMovieToRegister(movie);
     }
 
-    public void updateMovie(Movie movie){
-        //Updates the movie in the file if it already exists in file.
+    public void updateMovie(Movie movie){ //Updates the movie in the file if it already exists in file.
         this.movies = updateMovieList();
         if (movies.isEmpty()){
             throw new IllegalArgumentException("No registered movie yet.");
         }
-        boolean foundMovie = false;
+        boolean foundMovie = false; //TODO: bruke equals
         for(Movie mov:movies){
             if(mov.getTitle().equals(movie.getTitle()) && mov.getGenre().equals(movie.getGenre())){
                 handler.updateMovieInRegister(movie);
@@ -35,8 +35,7 @@ public class MovieRegister {
             throw new IllegalArgumentException("No movie with title " + movie.getTitle() + " and genre " + movie.getGenre());
         }
     }
-    public List<Movie> searchGenre(String genre){
-        //Returns a list of movies which has the given genre.
+    public List<Movie> searchGenre(String genre){ //Returns a list of movies which has the given genre.
         this.movies = updateMovieList();
         List<Movie> moviesByGenre = new ArrayList<>();
         for(Movie movie : movies){
@@ -47,8 +46,7 @@ public class MovieRegister {
         return new ArrayList<>(moviesByGenre);
     }
 
-    public List<Movie> searchMovieTitle(String title){
-        //Returns a list of movies which has the given title.
+    public List<Movie> searchMovieTitle(String title){ //Returns a list of movies which has the given title.
         this.movies = updateMovieList();
         List<Movie> moviesByTitle = new ArrayList<>();
         for(Movie movie : movies){
@@ -59,10 +57,9 @@ public class MovieRegister {
         return new ArrayList<>(moviesByTitle);
     }
 
-    public Movie getMovie(String title, String genre){
-        //Returns a movies which has the given title and genre.
+    public Movie getMovie(String title, String genre){//Returns a movies which has the given title and genre.
         this.movies = updateMovieList();
-        for(Movie movie : movies){
+        for(Movie movie : movies){ //TODO: bruke equals
             if(movie.getTitle().equals(title) && movie.getGenre().equals(genre)){
                 return movie;
             }
@@ -70,13 +67,12 @@ public class MovieRegister {
         throw new IllegalArgumentException("No movie with title " + title + " and genre " + genre + ".");
     }
 
-    private boolean movieExists(Movie movie){
-        //Returns true if a movie exists in register, if not false.
+    private boolean movieExists(Movie movie){ //Returns true if a movie exists in register, if not false.
         this.movies = updateMovieList();
         if (this.movies.isEmpty()){
             return false;
         }
-        for(Movie mov: this.movies){
+        for(Movie mov: this.movies){ //TODO: bruke equals
             if (mov.getTitle().equals(movie.getTitle())){
                 if(mov.getGenre().equals(movie.getGenre())){
                     return true;
@@ -86,7 +82,7 @@ public class MovieRegister {
         return false;
     }
 
-    private List<Movie> updateMovieList(){
+    private List<Movie> updateMovieList(){ //Leser fra fil, henter ut en liste
         if(handler.fileExists()){
             return new ArrayList<>(handler.readMovieAndRatingFromRegister());
         }

@@ -16,7 +16,7 @@
     </properties>
 
 
-    <dependencies>
+    <dependencies> // sjekke om vi trenger alle dependencyene
         <!-- junit testing with jupiter -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
