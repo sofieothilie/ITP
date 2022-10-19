@@ -4,7 +4,7 @@
     <artifactId>movieRating-ui</artifactId>
 
     <parent>
-        <groupId>it1901</groupId>
+        <groupId>gr2240</groupId>
         <artifactId>movieRating</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
@@ -13,19 +13,19 @@
     <dependencies>
 
         <dependency>
-            <groupId>it1901</groupId>
+            <groupId>gr2240</groupId>
             <artifactId>movieRating-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>it1901</groupId>
+            <groupId>gr2240</groupId>
             <artifactId>movieRating-data</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!-- javafx -->
-        <dependency> <!--sjekke hvilke dependencies vi trenger-->
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.1</version>
