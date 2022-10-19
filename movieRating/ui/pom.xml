@@ -25,7 +25,7 @@
         </dependency>
 
         <!-- javafx -->
-        <dependency>
+        <dependency> <!--sjekke hvilke dependencies vi trenger-->
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.1</version>

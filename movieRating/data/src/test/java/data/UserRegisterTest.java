@@ -20,6 +20,13 @@ import core.Movie;
 import core.User;
 
 public class UserRegisterTest {
+
+    //TODO: bruke equals der det er brukt assertEquals
+    //TODO: teste MovieHandler her
+    //TODO: sjekke Jacoco-test
+    //TODO: legge til test message
+    //TODO: legge til System.getProperty("user.home")
+
 //  User user1;
 //  User user2;
 //  User user3;

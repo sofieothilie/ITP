@@ -18,22 +18,24 @@ import java.util.Map;
 
 public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Integer>> {
 
-  public MovieDeserializerForUser() { 
+  public MovieDeserializerForUser() {  //TODO: spørre studass
     this(null); 
   } 
 
-  public MovieDeserializerForUser(Class<?> vc) { 
+  public MovieDeserializerForUser(Class<?> vc) {  //TODO: spørre studass
       super(vc); 
   }
 
   @Override
-  public HashMap<Movie, Integer> deserialize(JsonParser p, DeserializationContext ctxt)
+  public HashMap<Movie, Integer> deserialize(JsonParser p, DeserializationContext ctxt) 
+  // leser fra fil
       throws IOException, JsonProcessingException {
     TreeNode treeNode = p.getCodec().readTree(p);
     return deserializeSeveralMovies((JsonNode) treeNode);
   }
 
-  private HashMap<Movie, Integer> deserializeSeveralMovies(JsonNode jsonNodes){
+  private HashMap<Movie, Integer> deserializeSeveralMovies(JsonNode jsonNodes){ 
+    //Hjelpemetode, tar alle filmer og lager objekter ut i fra de
     HashMap<Movie, Integer> ratedMovies = new HashMap<Movie, Integer>();
     for (JsonNode jsonNode : jsonNodes) {
       Map.Entry<Movie, Integer> movieRated = deserializeOneMovie(jsonNode);
@@ -45,6 +47,7 @@ public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Int
   }
 
   private Map.Entry<Movie,Integer> deserializeOneMovie(JsonNode jsonNode) {
+    //Hjelpemetode, tar en film og lager et objekt ut ifra det
     if (jsonNode instanceof ObjectNode) {
       ObjectNode objectNode = new ObjectNode(null);
       JsonNode titleNode = objectNode.get("title");
