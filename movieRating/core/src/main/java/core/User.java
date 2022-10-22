@@ -14,6 +14,10 @@ public class User {
     private String password; //TODO: final
     private HashMap<Movie, Integer> ratedMovies;
 
+    public User() { // konstruktør til filhåndtering
+        super();
+    }
+
 //TODO: fjerne
 //public User(String username, String password, HashMap<Movie, Integer> ratedMovies){ // konstruktør som brukes i filhåndteringen, når man henter fra UserRegister
 //    this(username, password);
