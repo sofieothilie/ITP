@@ -1,6 +1,9 @@
 package core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,8 +12,6 @@ import java.util.HashMap;
 
 
 public class UserTest {
-
-    //TODO: bruke equals metoden
     //TODO: teste equals
     //TODO: oppdatere i henhold til JaCoCo og endringene i User
     //TODO: test message
@@ -81,6 +82,16 @@ public class UserTest {
         compare.put(m1, 2);
         compare.put(m2, 4);
         assertEquals(compare, testUser.getRatedMovies());
+    }
+
+    @DisplayName("Testing overridden equals method")
+    @Test
+    public void testEquals(){
+        User user = new User("testUser", "passwords");
+        assertFalse(testUser.equals(user), "testUser and user is not suppose to be equal.");
+        assertTrue(testUser.equals(testUser), "TestUser is suppose to be equal to itself.");
+        User testUserCopy = new User(testUser.getUsername(), testUser.getPassword());
+        assertTrue(testUser.equals(testUserCopy), "testUserCopy is a copy of testUser and should thus be equal.");
     }
     
 }
