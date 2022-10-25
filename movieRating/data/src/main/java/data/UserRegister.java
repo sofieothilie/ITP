@@ -13,9 +13,9 @@ public class UserRegister {
     //TODO: engslk til norsk, kommentarer
     private List<User> users = new ArrayList<>();
     private UserHandler userHandler = new UserHandler();
-    MovieRegister movieRegister = new MovieRegister(); //TODO: gjør private
+    MovieRegister movieRegister = new MovieRegister(); //TODO: do private
 
-    public void registerNewUser(User newuser){ // registrer ny bruker
+    public void registerNewUser(User newuser){ // register new user
         this.users = updateUserList();
         for(User user: users){
             if(user.equals(newuser)){
@@ -25,14 +25,14 @@ public class UserRegister {
         userHandler.writeUserToRegister(newuser);
     }
     
-    public List<User> getUsers(){ // henter ut en liste med brukerne
+    public List<User> getUsers(){ // retrieves a list of users
         if (userHandler.fileExists()){
             return new ArrayList<>(userHandler.readUsersFromRegister());
         }
         return List.of();
     }
 
-    public User getUser(String username){  // henter ut bruker med brukernavn
+    public User getUser(String username){  // retrieves user with username
         this.users = this.updateUserList();
         for (User user: users){
             if (user.getUsername().equals(username)){
@@ -42,8 +42,8 @@ public class UserRegister {
         return null;       
     }
 
-    public void existingUser(String username, String password){ // sjekker om brukeren eksisterer på brukernavn og password
-        // TODO: bruker getUser her, found User til getUser
+    public void existingUser(String username, String password){ // checks whether the user exists on username and password
+        // TODO: use getUser here, found User to getUser
         User foundUser = null;
         this.users = this.updateUserList();
         for (User user: users){
@@ -65,9 +65,9 @@ public class UserRegister {
             throw new IllegalArgumentException("No registered users yet");
         }
         boolean foundUser = false;
-        for(User u1: users){ //TODO: bruke equals
+        for(User u1: users){ //TODO: use equals
             if(u1.getUsername().equals(user.getUsername()) && u1.getPassword().equals(user.getPassword())){
-                userHandler.updateRegister(user); // TODO: endre her
+                userHandler.updateRegister(user); // TODO: change here
                 movieRegister.updateMovie(movie);
                 foundUser = true;
             }
@@ -77,7 +77,7 @@ public class UserRegister {
         }
     }
 
-    private List<User> updateUserList(){ // leser fra filen og returnerer en liste med brukere eller tom liste
+    private List<User> updateUserList(){ // reads from the file and returns a list of users or empty list
         if(userHandler.fileExists()){
             return new ArrayList<>(userHandler.readUsersFromRegister());
         }
@@ -86,7 +86,7 @@ public class UserRegister {
         }
     }
 
-    public void ableToCreateNewUser(User user){ //TODO: innen øvingen er ferdig skal metoden fjernes, men stå her enn så lenge
+    public void ableToCreateNewUser(User user){ //TODO: by the time the exercise is finished, the method must be removed, but remain here for the time being
         this.users = this.updateUserList();
         for (User alreadyUser : users) {
             if (user.equals(alreadyUser)){
