@@ -32,15 +32,15 @@ public class MovieTest {
             new Movie("Snowwhite", "fairytale"); 
         }, "Not a valid genre");
 
-        assertEquals("Star Wars", m2.getTitle());
-        assertEquals("action", m2.getGenre());
+        assertEquals("Star Wars", m2.getTitle(), "Title was not equal to expected title.");
+        assertEquals("action", m2.getGenre(), "Genre was not equal to expected genre");
     }
 
     @DisplayName("Testing  getTitle and getGenre")
     @Test
     public void testGetters(){ // tester get-metodene
-        assertEquals("Cinderella", m1.getTitle());
-        assertEquals("fantasy", m1.getGenre());
+        assertEquals("Cinderella", m1.getTitle(), "Title was not equal to expected title");
+        assertEquals("fantasy", m1.getGenre(), "Genre was not equal to expected genre");
     }
 
     @DisplayName("Testing getAllRatings")
@@ -49,7 +49,7 @@ public class MovieTest {
         m1.addRating(3);
         m1.addRating(4);
         m1.addRating(5);
-        assertEquals(3, m1.getAllRatings().size());
+        assertEquals(3, m1.getAllRatings().size(), "All ratings was not as expected.");
     }
 
     @DisplayName("Testing addRating")
@@ -58,7 +58,7 @@ public class MovieTest {
         m1.addRating(3);
         m1.addRating(4);
         m1.addRating(5);
-        assertEquals(3, m1.getAllRatings().size());
+        assertEquals(3, m1.getAllRatings().size(), "Something went wrong when adding a rating.");
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             m1.addRating(6);
         }, "Not a valid rating");
@@ -70,7 +70,7 @@ public class MovieTest {
         m1.addRating(3);
         m1.addRating(4);
         m1.addRating(5);
-        assertEquals(4.0, m1.averageRating());
+        assertEquals(4.0, m1.averageRating(), "Average rating was not equal to expected average rating");
     }
 
     @DisplayName("Testing toString")
@@ -80,7 +80,7 @@ public class MovieTest {
         m1.addRating(4);
         m1.addRating(5);
         Double rating = (3.0 + 4 + 5)/3;
-        assertEquals("Cinderella; fantasy; " + String.format("%.2f",rating), m1.toString());
+        assertEquals("Cinderella; fantasy; " + String.format("%.2f",rating), m1.toString(), "ToString didn't match expected toString");
     }
 
     @DisplayName("Testing overridden equals method")
