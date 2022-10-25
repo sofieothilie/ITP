@@ -67,8 +67,8 @@ public class MovieHandler {
         List<Movie> movieList = this.readMovieAndRatingFromRegister();
         Movie oldmovietoberemoved = null;
         // Writes all previous movies and the new updates movie the list:
-        for (Movie oldMovie : movieList) { //TODO: equals
-            if (oldMovie.getTitle().equals(movie.getTitle()) && oldMovie.getGenre().equals(movie.getGenre())){
+        for (Movie oldMovie : movieList) {
+            if (oldMovie.equals(movie)){
                 oldmovietoberemoved = oldMovie;
             }
         }
