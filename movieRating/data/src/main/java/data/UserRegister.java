@@ -43,14 +43,8 @@ public class UserRegister {
     }
 
     public void existingUser(String username, String password){ // checks whether the user exists on username and password
-        // TODO: use getUser here, found User to getUser
-        User foundUser = null;
-        this.users = this.updateUserList();
-        for (User user: users){
-            if(user.getUsername().equals(username)){
-                foundUser = user;
-            }
-        }
+        User foundUser = getUser(username);
+
         if(foundUser == null){
             throw new IllegalArgumentException("User not found");
         }
@@ -65,9 +59,9 @@ public class UserRegister {
             throw new IllegalArgumentException("No registered users yet");
         }
         boolean foundUser = false;
-        for(User u1: users){ //TODO: use equals
-            if(u1.getUsername().equals(user.getUsername()) && u1.getPassword().equals(user.getPassword())){
-                userHandler.updateRegister(user); // TODO: change here
+        for (User u1: this.users){
+            if(u1.equals(user)){
+                userHandler.updateRegister(user); 
                 movieRegister.updateMovie(movie);
                 foundUser = true;
             }
