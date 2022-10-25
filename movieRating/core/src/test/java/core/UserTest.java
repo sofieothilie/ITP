@@ -9,8 +9,6 @@ import java.util.HashMap;
 
 
 public class UserTest {
-
-    //TODO: bruke equals metoden
     //TODO: teste equals
     //TODO: oppdatere i henhold til JaCoCo og endringene i User
     //TODO: test message

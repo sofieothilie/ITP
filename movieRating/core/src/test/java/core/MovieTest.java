@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 
 public class MovieTest {
-    //TODO: bruke equals metoden
     //TODO: teste equals
     //TODO: oppdatere i henhold til JaCoCo og endringene i Movie
     //TODO: test message
