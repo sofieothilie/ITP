@@ -14,7 +14,6 @@ import java.util.HashMap;
 public class UserTest {
     //TODO: teste equals
     //TODO: oppdatere i henhold til JaCoCo og endringene i User
-    //TODO: test message
     
     //Setup
     User testUser = new User("username", "password"); 
@@ -33,23 +32,23 @@ public class UserTest {
     public void testInvalidUsernameAndPassword(){ 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new User("username-!", "password");
-        });
+        }, "Invalid username");
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new User("username", "pass#");
-        });
+        }, "Invalid password");
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new User("", "password");
-        });
+        }, "Invalid Username");
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new User("username-!", "");
-        });
+        }, "Invalid username and password");
     }
 
     @DisplayName("Testing getUsername and getPassword")
     @Test
     public void testGetters(){ 
-        assertEquals("username", testUser.getUsername());
-        assertEquals("password", testUser.getPassword());
+        assertEquals("username", testUser.getUsername(), "Username not equal to expected username");
+        assertEquals("password", testUser.getPassword(), "Password is not equal to expected password");
     }
 
     @DisplayName("Testing getRatedMovies")
@@ -61,7 +60,7 @@ public class UserTest {
         compare.put(m1, 4);
         compare.put(m2, 3);
 
-        assertEquals(compare, testUser.getRatedMovies());
+        assertEquals(compare, testUser.getRatedMovies(), "Rated movies is not the same as expected rated movies");
     }
 
     @DisplayName("Testing rateMovie")
@@ -81,7 +80,7 @@ public class UserTest {
         HashMap<Movie, Integer> compare = new HashMap<>();
         compare.put(m1, 2);
         compare.put(m2, 4);
-        assertEquals(compare, testUser.getRatedMovies());
+        assertEquals(compare, testUser.getRatedMovies(), "Something went wrong when rating a movie");
     }
 
     @DisplayName("Testing overridden equals method")
