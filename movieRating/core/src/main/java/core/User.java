@@ -35,7 +35,7 @@ public class User {
             throw new IllegalArgumentException("Username and password can not be empty");
         }
         else {
-            throw new IllegalArgumentException("Username and password can only contain numbers and lettersr");
+            throw new IllegalArgumentException("Username and password can only contain numbers and letters");
         }
     }
 
