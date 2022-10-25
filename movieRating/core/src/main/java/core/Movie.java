@@ -11,10 +11,9 @@ public class Movie {
     private List<Integer> allRatings = new ArrayList<>(); 
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
-    //TODO: fjerne metoden
-//public Movie() { // konstruktør til filhåndtering
-//    super();
-//}
+    public Movie() { // konstruktør til filhåndtering
+        super();
+    }
     public Movie(String title, String genre, List<Integer> allRatings) { // konstruktør til filhåndtering
         this(title, genre);
         this.allRatings = new ArrayList<>(allRatings);
