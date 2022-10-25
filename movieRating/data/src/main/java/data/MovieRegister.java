@@ -23,9 +23,9 @@ public class MovieRegister {
         if (movies.isEmpty()){
             throw new IllegalArgumentException("No registered movie yet.");
         }
-        boolean foundMovie = false; //TODO: use equals
+        boolean foundMovie = false;
         for(Movie mov:movies){
-            if(mov.getTitle().equals(movie.getTitle()) && mov.getGenre().equals(movie.getGenre())){
+            if(mov.equals(movie)){
                 handler.updateMovieInRegister(movie);
                 foundMovie = true;
             }
@@ -58,7 +58,7 @@ public class MovieRegister {
 
     public Movie getMovie(String title, String genre){//Returns a movies which has the given title and genre.
         this.movies = updateMovieList();
-        for(Movie movie : movies){ //TODO: use equals
+        for(Movie movie : movies){
             if(movie.getTitle().equals(title) && movie.getGenre().equals(genre)){
                 return movie;
             }
@@ -71,11 +71,9 @@ public class MovieRegister {
         if (this.movies.isEmpty()){
             return false;
         }
-        for(Movie mov: this.movies){ //TODO: use equals
-            if (mov.getTitle().equals(movie.getTitle())){
-                if(mov.getGenre().equals(movie.getGenre())){
-                    return true;
-                }
+        for(Movie mov: this.movies){
+            if (mov.equals(movie)){
+                return true;
             }
         }
         return false;
