@@ -16,8 +16,6 @@ import core.Movie;
 import core.User;
 
 public class MovieRegisterTest {
-
-    //TODO: bruke equals der det er brukt assertEquals
     //TODO: teste MovieHandler her
     //TODO: sjekke Jacoco-test
     //TODO: legge til test message
@@ -43,9 +41,8 @@ public class MovieRegisterTest {
         MovieRegister register = new MovieRegister();
         register.addMovie(m1);
 
-        assertEquals(m1.getTitle(), register.getMovie("Cinderella", "fantasy").getTitle());
-        assertEquals(m1.getGenre(), register.getMovie("Cinderella", "fantasy").getGenre());
 
+        assertEquals(m1, register.getMovie("Cinderella", "fantasy"), "movies were not equal.");
      
         //Test IllegalArgumentException when movie alreday exists
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -92,10 +89,8 @@ public class MovieRegisterTest {
         //Test if method returns all movies with given genre
         List<Movie> moviesFound = register.searchGenre("fantasy");
         assertEquals(testList.size(), moviesFound.size());
-        assertEquals(m1.getTitle(),moviesFound.get(0).getTitle() );
-        assertEquals(m2.getTitle(),moviesFound.get(1).getTitle() );
-        assertEquals(m1.getGenre(),moviesFound.get(0).getGenre() );
-        assertEquals(m2.getGenre(),moviesFound.get(1).getGenre() );
+        assertEquals(m1,moviesFound.get(0), "movie added was not equal to movie found by getting all movies.");
+        assertEquals(m2,moviesFound.get(1), "movie added was not equal to movies found by getting all movies.");
 
     }
 
@@ -112,10 +107,8 @@ public class MovieRegisterTest {
         //Test if the method returns all movies with given title
         List<Movie> moviesFound = register.searchMovieTitle("Cinderella");
         assertEquals(testList.size(), moviesFound.size());
-        assertEquals(m1.getTitle(),moviesFound.get(0).getTitle() );
-        assertEquals(m4.getTitle(),moviesFound.get(1).getTitle() );
-        assertEquals(m1.getGenre(),moviesFound.get(0).getGenre() );
-        assertEquals(m4.getGenre(),moviesFound.get(1).getGenre() );
+        assertEquals(m1,moviesFound.get(0), "movie added was not equal to movies found by search.");
+        assertEquals(m4,moviesFound.get(1), "movie added was not equal to movies found by search." );
     }
 
     @DisplayName("Testing to get a movie")
@@ -126,8 +119,7 @@ public class MovieRegisterTest {
         register.addMovie(m2);
 
         //Test getMovie
-        assertEquals(m1.getTitle(), register.getMovie("Cinderella", "fantasy").getTitle());
-        assertEquals(m1.getGenre(), register.getMovie("Cinderella", "fantasy").getGenre());
+        assertEquals(m1, register.getMovie("Cinderella", "fantasy"), "movie added was not equal to movies found by get movie");
 
         //IllegalArgumentexception if movie is not added to the register
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
