@@ -104,15 +104,14 @@ public class UserHandler {
 
         //Writes all previous users and the new updates user to file:
         User oldUserToRemove = null;
-        for (User oldUser : userList) { //TODO: equals
-            if (oldUser.getUsername().equals(user.getUsername()) && oldUser.getPassword().equals(user.getPassword())){
+        for (User oldUser : userList) {
+            if (oldUser.equals(user)){
                 oldUserToRemove = oldUser;
             }    
         }
         if (oldUserToRemove == null){
             throw new IllegalArgumentException("no such user");
         }
-
         return oldUserToRemove;
 
     }
