@@ -18,13 +18,11 @@ import java.io.File;
 
 public class UserHandler {
 
-    //TODO: skriv eom fra engelsk til norsk
-
     public static final String SAVE_FOLDER = "/movieRating/data/src/main/java/data/";
     public static final String fileName = "UserRegister.json";
 
-    //TODO: legge til System.getProperty("user.home")
-    public File getFile(){ //TODO: prøve å fikse Path
+    //TODO: add System.getProperty("user.home")
+    public File getFile(){ //TODO: try to fix Path
         //Returns file
         //String path = Paths.get(".").toAbsolutePath().normalize().toString();
         //return new File(path + SAVE_FOLDER + fileName);
@@ -116,7 +114,7 @@ public class UserHandler {
 
     }
 
-    public boolean fileExists(){ // sjekker om filen eksisterer
+    public boolean fileExists(){ // check if the file exists
         File f = new File(getFile().getAbsolutePath());
         if (f.isFile()){
             return true;

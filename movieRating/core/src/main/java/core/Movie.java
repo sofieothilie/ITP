@@ -11,20 +11,20 @@ public class Movie {
     private List<Integer> allRatings = new ArrayList<>(); 
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
-    public Movie() { // konstruktør til filhåndtering
+    public Movie() { // constructor for file management
         super();
     }
-    public Movie(String title, String genre, List<Integer> allRatings) { // konstruktør til filhåndtering
+    public Movie(String title, String genre, List<Integer> allRatings) { // constructor for file management
         this(title, genre);
         this.allRatings = new ArrayList<>(allRatings);
     }
 
-    public Movie(String title, String genre, Integer rating) { // TODO: SJkeke om vi trenger denne til filhåndtering
+    public Movie(String title, String genre, Integer rating) { // TODO: Check if we need this for file management
         this(title, genre);
         this.allRatings.add(rating);
     }
     
-    public Movie(String title, String genre) { // oppretter Movie-objekt
+    public Movie(String title, String genre) { // create Movie-object
         if(title.isEmpty()){
             throw new IllegalArgumentException("Title cannot be empty");
         }
@@ -35,27 +35,27 @@ public class Movie {
         this.genre = genre;
     }
 
-    public String getTitle() { //returnerer tittelen
+    public String getTitle() { //return title
         return title;
     }
 
-    public String getGenre() { //returnerer sjangeren
+    public String getGenre() { //return genre
         return genre;
     }
 
-    public List<Integer> getAllRatings(){ //returnerer en kopi av listen med alle ratings
+    public List<Integer> getAllRatings(){ //returns a copy of the list with all ratings
         List <Integer> copyAllRatings = new ArrayList<Integer>(allRatings);
         return copyAllRatings;
     }
 
-    public void addRating(int rating){ //legger til en rating i liste over alle ratings og legger til 
-        if(rating < 1 || rating > 5){ //sjekker om rating er mellom 1 og 5
+    public void addRating(int rating){ //adds a rating to the list of all ratings and adds
+        if(rating < 1 || rating > 5){ //checks whether the rating is between 1 and 5
             throw new IllegalArgumentException("Not a valid rating");
         }
         allRatings.add(rating); 
     }
 
-    public double averageRating() { // TODO: endre navn, + @JsonIgnore over metoden (beregner gjennomsnittet av alle ratinger for denne filmen)
+    public double averageRating() { // TODO: rename, + @JsonIgnore above method (calculates average of all ratings for this movie)
         Integer sum = 0;
         for (int rating=0; rating < allRatings.size(); rating++) {
               sum += allRatings.get(rating);
@@ -65,12 +65,12 @@ public class Movie {
         
     }
 
-    public String toString(){ //returnerer en string med tittel og sjanger og gjennomsnittsrating
+    public String toString(){ //returns a string with title and genre and average rating
         return ""+ this.getTitle() + "; " + this.getGenre() + "; " + String.format("%.2f",this.averageRating());
     }
 
     @Override
-    public boolean equals(Object object){ //Sjekker om et objekt er likt, TODO: skrive hva metoden gjør
+    public boolean equals(Object object){ //Checks if an object is equal, TODO: write what the method does
         if (object instanceof Movie){
             if (this.getTitle().equals(((Movie) object).getTitle())){
                 if (this.getGenre().equals(((Movie) object).getGenre())){
@@ -81,7 +81,7 @@ public class Movie {
     }
 
     @Override
-    public int hashCode() { //TODO: spørre studass om spotbugs, hashcode
+    public int hashCode() { //TODO: ask studass about spotbugs, hashcode
         //SpotBugs demand override of hashCode with override of equals. 
         //This was their own fix when it isn't to be used.
         return 43;
