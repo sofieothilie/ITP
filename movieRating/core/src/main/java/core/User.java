@@ -14,18 +14,18 @@ public class User {
     private String password; //TODO: final
     private HashMap<Movie, Integer> ratedMovies;
 
-    public User() { // konstruktør til filhåndtering
+    public User() { // constructor for file management
         super();
     }
 
 //TODO: fjerne
-//public User(String username, String password, HashMap<Movie, Integer> ratedMovies){ // konstruktør som brukes i filhåndteringen, når man henter fra UserRegister
+//public User(String username, String password, HashMap<Movie, Integer> ratedMovies){ // constructor used in the file handler, when fetching from UserRegister
 //    this(username, password);
 //    this.ratedMovies = new HashMap<>(ratedMovies);
 //
 //}
 
-    public User(String username, String password){ //konstruktør som oppretter User-objekt, TODO, går inn i denne eller den tomme
+    public User(String username, String password){ //constructor that creates User object, TODO, enters this or that empty
         if (username.matches("[a-zA-Z0-9]+") && password.matches("[a-zA-Z0-9]+")){
             this.username = username;
             this.password = password;
@@ -39,17 +39,17 @@ public class User {
         }
     }
 
-    public String getUsername() {//returnerer brukernavn
+    public String getUsername() {//return username
         return username;
     }
 
-    public String getPassword() { //returnerer passordet til brukeren
+    public String getPassword() { //return the users password
         return password;
     }
 
-    @JsonSerialize(using = MovieSerializerForUser.class) // TODO: må kommenteres
-    @JsonDeserialize(using = MovieDeserializerForUser.class) // TODO: må kommenteres
-    public HashMap<Movie, Integer> getRatedMovies() { //returnerer en hashmap med filmer og din rating på filmen
+    @JsonSerialize(using = MovieSerializerForUser.class) // TODO: must comment
+    @JsonDeserialize(using = MovieDeserializerForUser.class) // TODO: must comment
+    public HashMap<Movie, Integer> getRatedMovies() { //returns a hashmap with movies and your rating on the movie
         if(ratedMovies.isEmpty()){
             return new HashMap<>();
         }
@@ -58,9 +58,9 @@ public class User {
         }
     }
 
-    public void rateMovie(Movie movie, Integer myRating){ //metode for å gi rating til en film
+    public void rateMovie(Movie movie, Integer myRating){ //method of rating a film
 
-        for (Entry<Movie, Integer> ratedMovie : this.getRatedMovies().entrySet()) { //TODO: bruke hasRatedMovie istedenfor for-løkken
+        for (Entry<Movie, Integer> ratedMovie : this.getRatedMovies().entrySet()) { //TODO: use hasRatedMovie instead of the for loop
             if (ratedMovie.getKey().equals(movie)){
                 throw new IllegalArgumentException("The movie is already rated");
             }    
@@ -72,7 +72,7 @@ public class User {
         movie.addRating(myRating);        
     }
 
-    public boolean hasRatedMovie(Movie movie){ //TODO: sjekke opp hvor den skal brukes, sjekker om brukeren allerede ratet den
+    public boolean hasRatedMovie(Movie movie){ //TODO: check where it will be used, checks if the user has already rated it
         boolean containsMovie = false;
         for (Movie ratedMovie : this.getRatedMovies().keySet()) {
             if ((ratedMovie.getTitle().equals(movie.getTitle()) && ratedMovie.getGenre().equals(movie.getGenre()))){
@@ -83,12 +83,12 @@ public class User {
     }
 
     @Override
-    public String toString() { //returnerer en string med brukernavn og passord, TODO: eventuelt slette
+    public String toString() { //returns a string with username and password, TODO: possibly delete
         return username + "\t" + password;
     }
 
     @Override
-    public boolean equals(Object object){ // Sammenligner User-objekter, TODO: høre med studass
+    public boolean equals(Object object){ // Comparing User objects, TODO: hear with studass
         if (object instanceof User){
             if (this.getUsername().equals(((User) object).getUsername())){
                 if (this.getPassword().equals(((User) object).getPassword())){
@@ -100,7 +100,7 @@ public class User {
     }
 
     @Override
-    public int hashCode() { //TODO: høre med studass
+    public int hashCode() { //TODO: checkout with student assistent
         //SpotBugs demand override of hashCode with override of equals. 
         //This was their own fix when it isn't to be used.
         return 43;

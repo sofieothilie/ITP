@@ -6,7 +6,6 @@ import java.util.List;
 import core.Movie;
 
 public class MovieRegister {
-    //TODO: endre til norsk i kommentarer
     //TODO: endre til engelsk i Exceptions
     private List<Movie> movies = new ArrayList<>();
     private MovieHandler handler = new MovieHandler();
@@ -24,9 +23,9 @@ public class MovieRegister {
         if (movies.isEmpty()){
             throw new IllegalArgumentException("No registered movie yet.");
         }
-        boolean foundMovie = false; //TODO: bruke equals
+        boolean foundMovie = false;
         for(Movie mov:movies){
-            if(mov.getTitle().equals(movie.getTitle()) && mov.getGenre().equals(movie.getGenre())){
+            if(mov.equals(movie)){
                 handler.updateMovieInRegister(movie);
                 foundMovie = true;
             }
@@ -59,7 +58,7 @@ public class MovieRegister {
 
     public Movie getMovie(String title, String genre){//Returns a movies which has the given title and genre.
         this.movies = updateMovieList();
-        for(Movie movie : movies){ //TODO: bruke equals
+        for(Movie movie : movies){
             if(movie.getTitle().equals(title) && movie.getGenre().equals(genre)){
                 return movie;
             }
@@ -72,17 +71,15 @@ public class MovieRegister {
         if (this.movies.isEmpty()){
             return false;
         }
-        for(Movie mov: this.movies){ //TODO: bruke equals
-            if (mov.getTitle().equals(movie.getTitle())){
-                if(mov.getGenre().equals(movie.getGenre())){
-                    return true;
-                }
+        for(Movie mov: this.movies){
+            if (mov.equals(movie)){
+                return true;
             }
         }
         return false;
     }
 
-    private List<Movie> updateMovieList(){ //Leser fra fil, henter ut en liste
+    private List<Movie> updateMovieList(){ //Reads from file, return a list
         if(handler.fileExists()){
             return new ArrayList<>(handler.readMovieAndRatingFromRegister());
         }

@@ -13,13 +13,12 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 
 public class MovieHandler {
-    //TODO: skrive om fra engelsk til norsk i kommentarer
 
     public static final String SAVE_FOLDER = "/movieRating/data/src/main/java/data/";
     public static final String fileName = "MovieRegister.json";
 
-    //TODO: legge til System.getProperty("user.home")
-    public File getFile(){ //TODO: se om vi kan bruke Path. studass
+    //TODO: add System.getProperty("user.home")
+    public File getFile(){ //TODO: check if we could use Path. studass
         //String path = Paths.get(".").toAbsolutePath().normalize().toString();
         return new File(fileName);
 
@@ -63,13 +62,13 @@ public class MovieHandler {
         }
     }
 
-    private List<Movie> updateMovieListWithNewMovie(Movie movie){
+    private List<Movie> updateMovieListWithNewMovie(Movie movie){ 
         //Generates a list of all movie objects in file:
         List<Movie> movieList = this.readMovieAndRatingFromRegister();
         Movie oldmovietoberemoved = null;
         // Writes all previous movies and the new updates movie the list:
-        for (Movie oldMovie : movieList) { //TODO: equals
-            if (oldMovie.getTitle().equals(movie.getTitle()) && oldMovie.getGenre().equals(movie.getGenre())){
+        for (Movie oldMovie : movieList) {
+            if (oldMovie.equals(movie)){
                 oldmovietoberemoved = oldMovie;
             }
         }
