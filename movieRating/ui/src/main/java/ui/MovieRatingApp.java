@@ -15,7 +15,7 @@ public class MovieRatingApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setTitle("MovieRatingApp"); //TODO: legge inn mellomrom
+        primaryStage.setTitle("Movie Rating App"); //TODO: legge inn mellomrom
         primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MovieRating.fxml"))));
         primaryStage.show();
     }
