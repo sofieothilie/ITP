@@ -32,10 +32,10 @@ public class User {
             ratedMovies = new HashMap<>();
         } 
         else if (username.isEmpty() || password.isEmpty()){
-            throw new IllegalArgumentException("Brukernavn og passord kan ikke være tomme");
+            throw new IllegalArgumentException("Username and password can not be empty");
         }
         else {
-            throw new IllegalArgumentException("Brukernavn og passord kan bare inneholde tall og bokstaver");
+            throw new IllegalArgumentException("Username and password can only contain numbers and lettersr");
         }
     }
 
