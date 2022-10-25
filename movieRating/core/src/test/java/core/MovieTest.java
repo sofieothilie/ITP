@@ -1,6 +1,9 @@
 package core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,8 +14,10 @@ public class MovieTest {
     //TODO: teste equals
     //TODO: oppdatere i henhold til JaCoCo og endringene i Movie
     //TODO: test message
+    
    
     Movie m1 = new Movie("Cinderella", "fantasy");
+    Movie m2 = new Movie("Star Wars", "action");
     User testUser = new User("user1", "password");
     User testUser2 = new User("user2", "password");
 
@@ -27,7 +32,6 @@ public class MovieTest {
             new Movie("Snowwhite", "fairytale"); 
         }, "Not a valid genre");
 
-        Movie m2 = new Movie("Star Wars", "action");
         assertEquals("Star Wars", m2.getTitle());
         assertEquals("action", m2.getGenre());
     }
@@ -77,5 +81,14 @@ public class MovieTest {
         m1.addRating(5);
         Double rating = (3.0 + 4 + 5)/3;
         assertEquals("Cinderella; fantasy; " + String.format("%.2f",rating), m1.toString());
+    }
+
+    @DisplayName("Testing overridden equals method")
+    @Test
+    public void testEquals(){
+        assertFalse(m1.equals(m2), "Movie 1 is not suppose to be equal to movie 2");
+        assertTrue(m1.equals(m1), "Movie 1 is suppose to be equal to itself.");
+        Movie m3 = new Movie(m1.getTitle(), m1.getGenre());
+        assertTrue(m1.equals(m3), "Movie 1 and movie 3 has same name and genre, should thus be equal.");
     }
 }
