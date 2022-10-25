@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 public class MovieTest {
     //TODO: teste equals
     //TODO: oppdatere i henhold til JaCoCo og endringene i Movie
-    //TODO: test message
     
    
     Movie m1 = new Movie("Cinderella", "fantasy");
