@@ -13,7 +13,7 @@ public class UserRegister {
     //TODO: engslk til norsk, kommentarer
     private List<User> users = new ArrayList<>();
     private UserHandler userHandler = new UserHandler();
-    MovieRegister movieRegister = new MovieRegister(); //TODO: gjør private
+    private MovieRegister movieRegister = new MovieRegister(); //TODO: gjør private
 
     public void registerNewUser(User newuser){ // registrer ny bruker
         this.users = updateUserList();
