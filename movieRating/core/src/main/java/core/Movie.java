@@ -4,27 +4,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 public class Movie {
-    private String title; //TODO: bør settes til final
-    private String genre; //TODO: endre til final
+    private final String title; 
+    private final String genre; 
     private List<Integer> allRatings = new ArrayList<>(); 
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
-    public Movie() { // constructor for file management
+    public Movie() { // constructor for filehandling
         super();
     }
-    public Movie(String title, String genre, List<Integer> allRatings) { // constructor for file management
+
+    public Movie(String title, String genre, List<Integer> allRatings) { // constructor for filehandling
         this(title, genre);
         this.allRatings = new ArrayList<>(allRatings);
     }
-
-    public Movie(String title, String genre, Integer rating) { // TODO: Check if we need this for file management
-        this(title, genre);
-        this.allRatings.add(rating);
-    }
     
-    public Movie(String title, String genre) { // create Movie-object
+    public Movie(String title, String genre) { // create Movie-object with title and genre
         if(title.isEmpty()){
             throw new IllegalArgumentException("Title cannot be empty");
         }
@@ -55,7 +53,8 @@ public class Movie {
         allRatings.add(rating); 
     }
 
-    public double averageRating() { // TODO: rename, + @JsonIgnore above method (calculates average of all ratings for this movie)
+    @JsonIgnore
+    public double getAverageRating() { // calculates average of all ratings for this movie
         Integer sum = 0;
         for (int rating=0; rating < allRatings.size(); rating++) {
               sum += allRatings.get(rating);
@@ -66,11 +65,11 @@ public class Movie {
     }
 
     public String toString(){ //returns a string with title and genre and average rating
-        return ""+ this.getTitle() + "; " + this.getGenre() + "; " + String.format("%.2f",this.averageRating());
+        return ""+ this.getTitle() + "; " + this.getGenre() + "; " + String.format("%.2f",this.getAverageRating());
     }
 
     @Override
-    public boolean equals(Object object){ //Checks if an object is equal, TODO: write what the method does
+    public boolean equals(Object object){ //Checks if an object is equal
         if (object instanceof Movie){
             if (this.getTitle().equals(((Movie) object).getTitle())){
                 if (this.getGenre().equals(((Movie) object).getGenre())){
