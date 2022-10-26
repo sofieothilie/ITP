@@ -86,9 +86,8 @@ public class User {
 
     @Override
     public int hashCode() {
-        //SpotBugs demand override of hashCode with override of equals. 
-        //This was their own fix when it isn't to be used.
-        return 43;
+        //Enables comparing over hashcode.
+        return this.getUsername().hashCode() + this.getPassword().hashCode();
     }
 
 }
