@@ -69,7 +69,7 @@ public class MovieTest {
         m1.addRating(3);
         m1.addRating(4);
         m1.addRating(5);
-        assertEquals(4.0, m1.averageRating(), "Average rating was not equal to expected average rating");
+        assertEquals(4.0, m1.getAverageRating(), "Average rating was not equal to expected average rating");
     }
 
     @DisplayName("Testing toString")
