@@ -17,8 +17,6 @@ public class MovieTest {
    
     Movie m1 = new Movie("Cinderella", "fantasy");
     Movie m2 = new Movie("Star Wars", "action");
-    User testUser = new User("user1", "password");
-    User testUser2 = new User("user2", "password");
 
     @DisplayName("Testing the constructor")
     @Test
