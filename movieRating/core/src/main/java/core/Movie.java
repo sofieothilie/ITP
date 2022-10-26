@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Movie {
@@ -13,13 +15,14 @@ public class Movie {
     private List<Integer> allRatings = new ArrayList<>(); 
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
-    public Movie() { // constructor for filehandling
-        super();
-    }
-
-    public Movie(String title, String genre, List<Integer> allRatings) { // constructor for filehandling
-        this(title, genre);
-        this.allRatings = new ArrayList<>(allRatings);
+    @JsonCreator
+    public Movie(@JsonProperty("title") String title, @JsonProperty("genre") String genre, @JsonProperty("ratings")List<Integer> allRatings) { // constructor for a movie object
+            this(title, genre);
+            if (allRatings != null){
+                this.allRatings = new ArrayList<>(allRatings);
+            }
+            this.allRatings = List.of();
+            
     }
     
     public Movie(String title, String genre) { // create Movie-object with title and genre
