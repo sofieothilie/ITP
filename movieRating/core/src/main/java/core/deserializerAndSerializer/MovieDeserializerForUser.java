@@ -27,8 +27,7 @@ public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Int
   }
 
   @Override
-  public HashMap<Movie, Integer> deserialize(JsonParser p, DeserializationContext ctxt) 
-  // leser fra fil
+  public HashMap<Movie, Integer> deserialize(JsonParser p, DeserializationContext ctxt)
       throws IOException, JsonProcessingException {
     TreeNode treeNode = p.getCodec().readTree(p);
     return deserializeSeveralMovies((JsonNode) treeNode);
@@ -48,14 +47,15 @@ public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Int
 
   private Map.Entry<Movie,Integer> deserializeOneMovie(JsonNode jsonNode) {
     //Hjelpemetode, tar en film og lager et objekt ut ifra det
-    if (jsonNode instanceof ObjectNode) {
-      ObjectNode objectNode = new ObjectNode(null);
+    if (jsonNode instanceof ObjectNode objectNode) {
+      //ObjectNode objectNode = new ObjectNode(null);
       JsonNode titleNode = objectNode.get("title");
       JsonNode genreNode = objectNode.get("genre");
       JsonNode ratingNode = objectNode.get("rating");
       if (titleNode instanceof TextNode && genreNode instanceof TextNode && ratingNode instanceof NumericNode) {
         Movie movie = new Movie(titleNode.asText(), genreNode.asText());
-        return Map.entry(movie, Integer.valueOf(String.valueOf(ratingNode)));
+        
+        return Map.entry(movie, ratingNode.asInt());
       }
     }
     return null;

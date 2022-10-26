@@ -2,7 +2,6 @@ package data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -26,12 +25,13 @@ public class UserRegisterTest {
     // TODO: sjekke Jacoco-test
     // TODO: legge til test message
     // TODO: legge til System.getProperty("user.home")
-
- User user1;
- User user2;
- User user3;
- Movie movie; 
- UserRegister register;
+    
+User user1;
+User user2;
+User user3;
+Movie movie; 
+UserRegister userRegister;
+MovieRegister movieRegister;
 
  @BeforeEach
 public void setUp(){
@@ -40,24 +40,40 @@ public void setUp(){
     this.user3 = new User("sofie", "sofie123"); 
     this.movie = new Movie("Snow", "fantasy");
 
-    this.register = new UserRegister();
+    this.userRegister = new UserRegister();
+    this.movieRegister = new MovieRegister();
 
 }
 
 @DisplayName("Testing to register a new user")
 @Test
 public void testRegisterNewUser(){
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {
-        register.registerNewUser(user1);
-    }, "User haven't rated a movie");
+    Assertions.assertDoesNotThrow(() -> {
+        userRegister.registerNewUser(user1);
+    }, "User should be written to file without rating a movie");
+    assertTrue(user1.equals(userRegister.getUser("ellica")), "Ellica should be found in register and be equal to user1.");
+    //Tests that rated movie is written to file
     user1.rateMovie(movie, 1);
-    register.registerNewUser(user1);
-    //Testing if user is registered 
-    assertTrue(user1.equals(register.getUser("ellica")), "Ellica should be found in register and be equal to user1.");
+    movieRegister.addMovie(movie);
+    userRegister.updateRatedMovie(user1, movie);
+    User testUser = userRegister.getUser(user1.getUsername());
+    assertEquals(userRegister.getUser(user1.getUsername()).getRatedMovies(), user1.getRatedMovies());
+    Boolean foundMovie = false;
+    Boolean foundAllRatings = false;
+    for (Movie ratedMovie : testUser.getRatedMovies().keySet()) {
+        if (ratedMovie.getTitle().equals(movie.getTitle()) && ratedMovie.getGenre().equals(movie.getGenre())){
+            foundMovie = true;
+            if (ratedMovie.getAllRatings().containsAll(movie.getAllRatings())){ //sjekke hashmap istede :)
+                foundAllRatings = true;
+            }
+        }     
+    }
+    assertTrue(foundMovie);
+    assertTrue(foundAllRatings);
 
     //Testing IllegalArgumentException if user already exists
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
-        register.registerNewUser(user1);
+        userRegister.registerNewUser(user1);
     }, "User already in register");
 }
 
@@ -66,10 +82,10 @@ public void testRegisterNewUser(){
 public void testGetUsers() {
     user1.rateMovie(movie, 4);
     user2.rateMovie(movie, 3);
-    register.registerNewUser(user1);
-    register.registerNewUser(user2);
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {
-        register.registerNewUser(user3);
+    userRegister.registerNewUser(user1);
+    userRegister.registerNewUser(user2);
+    Assertions.assertDoesNotThrow( () -> {
+        userRegister.registerNewUser(user3);
     }, "Cannot register user without rating a movie.");
 
     List<User> testList = new ArrayList<>();
@@ -77,13 +93,13 @@ public void testGetUsers() {
     testList.add(user2);
     testList.add(user3);
     //Tests that user3 hasn't been added to register yet.
-    assertFalse(register.getUsers().containsAll(testList), "User3 shouldn't have been added to register without rating a movie.");
-    assertTrue(testList.containsAll(register.getUsers()), "Remaining users should have been added to register.");
+    assertFalse(userRegister.getUsers().containsAll(testList), "User3 shouldn't have been added to register without rating a movie.");
+    assertTrue(testList.containsAll(userRegister.getUsers()), "Remaining users should have been added to register.");
     user3.rateMovie(movie, 5);
-    register.registerNewUser(user3);
+    userRegister.registerNewUser(user3);
 
-    assertTrue(register.getUsers().containsAll(testList), "More users than user1, user2 and user3 was in register.");
-    assertTrue(testList.containsAll(register.getUsers()), "Not all users were added to register.");
+    assertTrue(userRegister.getUsers().containsAll(testList), "More users than user1, user2 and user3 was in register.");
+    assertTrue(testList.containsAll(userRegister.getUsers()), "Not all users were added to register.");
 }
 
 @DisplayName("Testing to get a user by username")
@@ -91,14 +107,14 @@ public void testGetUsers() {
 public void testGetUser(){
     user1.rateMovie(movie, 4);
     user2.rateMovie(movie, 1);
-    register.registerNewUser(user1);
-    register.registerNewUser(user2);
+    userRegister.registerNewUser(user1);
+    userRegister.registerNewUser(user2);
 
-    //Test thhat method returns given user from register
-    assertEquals("ellica", register.getUser("ellica").getUsername(), "User retrieved from file not equal to user written to file.");
+    //Test that method returns given user from register
+    assertEquals("ellica", userRegister.getUser("ellica").getUsername(), "User retrieved from file not equal to user written to file.");
     
     //Test that method retursn null if the user is not registered
-    assertEquals(null, register.getUser("sofie"), "User should not exist in file.");
+    assertEquals(null, userRegister.getUser("sofie"), "User should not exist in file.");
 }
 
 @DisplayName("Testing existing user")
