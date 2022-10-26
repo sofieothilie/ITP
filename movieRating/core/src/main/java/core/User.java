@@ -2,6 +2,8 @@ package core;
 
 import java.util.HashMap;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -13,8 +15,13 @@ public class User {
     private final String password;
     private HashMap<Movie, Integer> ratedMovies;
 
-    public User() { // constructor for file management
-        super();
+    @JsonCreator
+    public User(@JsonProperty ("username") String username, @JsonProperty ("password") String password, @JsonProperty("ratings") @JsonDeserialize(using = MovieDeserializerForUser.class) HashMap<Movie, Integer> ratedMovies) { 
+        // constructor for file management
+        this(username, password);
+        if (ratedMovies != null){
+            this.ratedMovies = ratedMovies;
+        }
     }
 
     public User(String username, String password){ //constructor that creates User object
