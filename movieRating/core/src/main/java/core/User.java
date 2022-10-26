@@ -9,8 +9,8 @@ import core.deserializerAndSerializer.MovieDeserializerForUser;
 import core.deserializerAndSerializer.MovieSerializerForUser;
 
 public class User {
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
     private HashMap<Movie, Integer> ratedMovies;
 
     public User() { // constructor for file management
