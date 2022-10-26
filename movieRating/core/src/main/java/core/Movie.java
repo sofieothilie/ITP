@@ -80,10 +80,9 @@ public class Movie {
     }
 
     @Override
-    public int hashCode() { //TODO: ask studass about spotbugs, hashcode
-        //SpotBugs demand override of hashCode with override of equals. 
-        //This was their own fix when it isn't to be used.
-        return 43;
+    public int hashCode() {
+        //Enables comparing over hashcode.
+        return this.getTitle().hashCode() + this.getGenre().hashCode();
     }
 
 }
