@@ -16,12 +16,13 @@ public class Movie {
     private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller");
 
     @JsonCreator
-    public Movie(@JsonProperty("title") String title, @JsonProperty("genre") String genre, @JsonProperty("ratings")List<Integer> allRatings) { // constructor for a movie object
-            this(title, genre);
-            if (allRatings != null){
-                this.allRatings = new ArrayList<>(allRatings);
-            }
-            this.allRatings = List.of();
+    public Movie(@JsonProperty("title") String title, @JsonProperty("genre") String genre, @JsonProperty("ratings")List<Integer> allRatings) {
+        // constructor for a movie object from file
+        this(title, genre);
+        if (allRatings != null){
+            this.allRatings = new ArrayList<>(allRatings);
+        }
+        this.allRatings = List.of();
             
     }
     
