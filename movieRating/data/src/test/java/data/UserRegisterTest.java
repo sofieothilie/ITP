@@ -1,13 +1,13 @@
 package data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -51,24 +51,24 @@ public void testRegisterNewUser(){
         userRegister.registerNewUser(user1);
     }, "User should be written to file without rating a movie");
     assertTrue(user1.equals(userRegister.getUser("ellica")), "Ellica should be found in register and be equal to user1.");
-    //Tests that rated movie is written to file
+    
+    //Tests that rated movie is written to file and can be read from file
     user1.rateMovie(movie, 1);
     movieRegister.addMovie(movie);
     userRegister.updateRatedMovie(user1, movie);
     User testUser = userRegister.getUser(user1.getUsername());
-    assertEquals(userRegister.getUser(user1.getUsername()).getRatedMovies(), user1.getRatedMovies());
     Boolean foundMovie = false;
-    Boolean foundAllRatings = false;
-    for (Movie ratedMovie : testUser.getRatedMovies().keySet()) {
-        if (ratedMovie.getTitle().equals(movie.getTitle()) && ratedMovie.getGenre().equals(movie.getGenre())){
+    Boolean foundRating = false;
+    for (Entry<Movie, Integer> ratedMovieEntry : testUser.getRatedMovies().entrySet()) {
+        if (ratedMovieEntry.getKey().equals(movie)){
             foundMovie = true;
-            if (ratedMovie.getAllRatings().containsAll(movie.getAllRatings())){ //sjekke hashmap istede :)
-                foundAllRatings = true;
+            if(ratedMovieEntry.getValue() == 1) {
+                foundRating = true;
             }
-        }     
+        }
     }
-    assertTrue(foundMovie);
-    assertTrue(foundAllRatings);
+    assertTrue(foundMovie, "The movie was not retrieved from the file.");
+    assertTrue(foundRating, "The rating was not correctly retrieved from file.");
 
     //Testing IllegalArgumentException if user already exists
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -85,20 +85,14 @@ public void testGetUsers() {
     userRegister.registerNewUser(user2);
     Assertions.assertDoesNotThrow( () -> {
         userRegister.registerNewUser(user3);
-    }, "Cannot register user without rating a movie.");
+    }, "User should be added eventhough no rated movie.");
 
     List<User> testList = new ArrayList<>();
     testList.add(user1);
     testList.add(user2);
     testList.add(user3);
     //Tests that user3 hasn't been added to register yet.
-    assertFalse(userRegister.getUsers().containsAll(testList), "User3 shouldn't have been added to register without rating a movie.");
-    assertTrue(testList.containsAll(userRegister.getUsers()), "Remaining users should have been added to register.");
-    user3.rateMovie(movie, 5);
-    userRegister.registerNewUser(user3);
-
-    assertTrue(userRegister.getUsers().containsAll(testList), "More users than user1, user2 and user3 was in register.");
-    assertTrue(testList.containsAll(userRegister.getUsers()), "Not all users were added to register.");
+    assertTrue(userRegister.getUsers().containsAll(testList), "All users should have been added to register.");
 }
 
 @DisplayName("Testing to get a user by username")
