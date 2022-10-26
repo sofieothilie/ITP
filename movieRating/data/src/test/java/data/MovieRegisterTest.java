@@ -18,7 +18,6 @@ import core.User;
 public class MovieRegisterTest {
     //TODO: teste MovieHandler her
     //TODO: sjekke Jacoco-test
-    //TODO: legge til test message
     //TODO: legge til System.getProperty("user.home")
 
     Movie m1, m2, m3, m4;
@@ -106,7 +105,7 @@ public class MovieRegisterTest {
 
         //Test if the method returns all movies with given title
         List<Movie> moviesFound = register.searchMovieTitle("Cinderella");
-        assertEquals(testList.size(), moviesFound.size());
+        assertEquals(testList.size(), moviesFound.size(), "The number of movies found with given title is not equal to expected number");
         assertEquals(m1,moviesFound.get(0), "movie added was not equal to movies found by search.");
         assertEquals(m4,moviesFound.get(1), "movie added was not equal to movies found by search." );
     }
