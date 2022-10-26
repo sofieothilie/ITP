@@ -37,11 +37,6 @@ public class UserHandler {
             if (this.fileExists()){
                 users = readUsersFromRegister();
             }
-
-            if (user.getRatedMovies().isEmpty()){
-                throw new IllegalArgumentException("Cannot add user to register before a movie has been rated.");
-                
-            }
             users.add(user);
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectWriter objectWriter = objectMapper.writer(new DefaultPrettyPrinter()); 

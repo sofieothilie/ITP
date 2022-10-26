@@ -141,8 +141,9 @@ public class MovieRatingController {
     private void handleCreateUser(){
         //Creates a new user and sets desired fields and visibility.
         try {
-            this.userRegister.ableToCreateNewUser(new User(username.getText(), password.getText()));
+            //this.userRegister.ableToCreateNewUser(new User(username.getText(), password.getText()));
             this.user = new User(username.getText(), password.getText());
+            this.userRegister.registerNewUser(this.user);
             loggedIn(true);
             loggedOut.visibleProperty().set(false);
         } catch (Exception e) {
@@ -232,13 +233,14 @@ public class MovieRatingController {
         //legge til oppdatering
         this.movie.addRating(rateBox.getValue());
         this.user.rateMovie(movie, rateBox.getValue());
-        this.movieRegister.updateMovie(movie);
-        if (this.userRegister.getUser(this.user.getUsername()) != null){
-            this.userRegister.updateRatedMovie(user, movie);
-        }
-        else {
-            this.userRegister.registerNewUser(this.user);
-        }
+        //this.movieRegister.updateMovie(movie);
+        this.userRegister.updateRatedMovie(user, movie);
+        // if (this.userRegister.getUser(this.user.getUsername()) != null){
+        //     this.userRegister.updateRatedMovie(user, movie);
+        // }
+        // else {
+        //     this.userRegister.registerNewUser(this.user);
+        // }
         confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
         clearAllSearchFields();
     }
