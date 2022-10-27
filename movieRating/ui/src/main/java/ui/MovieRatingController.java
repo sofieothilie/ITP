@@ -166,49 +166,49 @@ public class MovieRatingController {
     clearAllSearchFields();
   }
 
-  Movie methods
-  @FXML
-  private void handleSearchMovie(){
-    //Searches for movies by title and displays them in list view.
-    //antar fungerer dersom filhåndtering funker
-    //kan legge til at delvise treff vises
-    List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
-    if (movieList.isEmpty()){ errorActivation("No movies with title " + movieName.getText());}
-      for (Movie movie : movieList) {
-        movieRegisterList.getItems().add(movie.toString());
-    }
-  }
+  //Movie methods
+  // @FXML
+  // private void handleSearchMovie(){
+  //   //Searches for movies by title and displays them in list view.
+  //   //antar fungerer dersom filhåndtering funker
+  //   //kan legge til at delvise treff vises
+  //   List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
+  //   if (movieList.isEmpty()){ errorActivation("No movies with title " + movieName.getText());}
+  //     for (Movie movie : movieList) {
+  //       movieRegisterList.getItems().add(movie.toString());
+  //   }
+  // }
 
-  @FXML
-  private void handleSearchGenre(){
-    //Searches for movies by genre and displays them in list view.
-    // antar funker hvis filhåndtering funker
-    List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
-    if (movieList.isEmpty()){ errorActivation("No movies with genre " + genreBox.getValue());}
-      for (Movie movie : movieList) {
-        movieRegisterList.getItems().add(movie.toString());
-    }
-  }
+  // @FXML
+  // private void handleSearchGenre(){
+  //   //Searches for movies by genre and displays them in list view.
+  //   // antar funker hvis filhåndtering funker
+  //   List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
+  //   if (movieList.isEmpty()){ errorActivation("No movies with genre " + genreBox.getValue());}
+  //     for (Movie movie : movieList) {
+  //       movieRegisterList.getItems().add(movie.toString());
+  //   }
+  // }
 
-  @FXML
-  private void selectMovie(MouseEvent event){
-    //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
-    //når handleRateButton trykkes må denne oppdateres
-    ratedMovie.setText("");
-    if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null){
-      this.movie = convertSelectedItemToMovieObject();
-      movieLabel.setText(": " + this.movie.getTitle());
-      setRateVisibility(true, this.movie);
-    }
-  }
+  // @FXML
+  // private void selectMovie(MouseEvent event){
+  //   //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
+  //   //når handleRateButton trykkes må denne oppdateres
+  //   ratedMovie.setText("");
+  //   if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null){
+  //     this.movie = convertSelectedItemToMovieObject();
+  //     movieLabel.setText(": " + this.movie.getTitle());
+  //     setRateVisibility(true, this.movie);
+  //   }
+  // }
 
-  private Movie convertSelectedItemToMovieObject(){
-    //Retrives movie object from convertObservableList:
-    //når handleRateButton trykkes må denne oppdateres, lage en update metode 
-    movieRegisterList.getSelectionModel().getSelectedItem();
-    String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("\t");
-    return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
-  }
+  // private Movie convertSelectedItemToMovieObject(){
+  //   //Retrives movie object from convertObservableList:
+  //   //når handleRateButton trykkes må denne oppdateres, lage en update metode 
+  //   movieRegisterList.getSelectionModel().getSelectedItem();
+  //   String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("\t");
+  //   return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
+  // }
 
   @FXML
   private void handleAddMovieToRegister(){
