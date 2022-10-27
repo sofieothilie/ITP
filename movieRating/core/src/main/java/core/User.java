@@ -20,7 +20,7 @@ public class User {
         // constructor for file management
         this(username, password);
         if (ratedMovies != null){
-            this.ratedMovies = ratedMovies;
+            this.ratedMovies = new HashMap<>(ratedMovies);
         }
     }
 
