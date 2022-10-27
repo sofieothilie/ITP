@@ -47,11 +47,11 @@ public class MovieDeserializerForUser extends StdDeserializer<HashMap<Movie, Int
 
   private Map.Entry<Movie,Integer> deserializeOneMovie(JsonNode jsonNode) {
     //Hjelpemetode, tar en film og lager et objekt ut ifra det
-    if (jsonNode instanceof ObjectNode objectNode) {
+    if (jsonNode instanceof ObjectNode) {
       //ObjectNode objectNode = new ObjectNode(null);
-      JsonNode titleNode = objectNode.get("title");
-      JsonNode genreNode = objectNode.get("genre");
-      JsonNode ratingNode = objectNode.get("rating");
+      JsonNode titleNode = jsonNode.get("title");
+      JsonNode genreNode = jsonNode.get("genre");
+      JsonNode ratingNode = jsonNode.get("rating");
       if (titleNode instanceof TextNode && genreNode instanceof TextNode && ratingNode instanceof NumericNode) {
         Movie movie = new Movie(titleNode.asText(), genreNode.asText());
         

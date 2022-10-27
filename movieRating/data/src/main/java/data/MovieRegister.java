@@ -6,16 +6,20 @@ import java.util.List;
 
 public class MovieRegister {
 
-  //TODO: endre til engelsk i Exceptions
   private List<Movie> movies = new ArrayList<>();
-  private MovieHandler handler = new MovieHandler();
+  private MovieHandler movieHandler;
+
+  public MovieRegister(String fileName) {
+    //Constructor for movie register. Generates a movie handler object.
+    this.movieHandler = new MovieHandler(fileName);
+  }
 
   public void addMovie(Movie movie) { //Adds a movie to file if it doesn't already exist in file.
     this.movies = updateMovieList();
     if (movieExists(movie)) {
-      throw new IllegalArgumentException(">The movie already exists");
+      throw new IllegalArgumentException("The movie already exists");
     }
-    handler.writeMovieToRegister(movie);
+    movieHandler.writeMovieToRegister(movie);
   }
 
   public void updateMovie(Movie movie) { //Updates the movie in the file if it already exists in file.
@@ -26,7 +30,7 @@ public class MovieRegister {
     boolean foundMovie = false;
     for (Movie mov : movies) {
       if (mov.equals(movie)) {
-        handler.updateMovieInRegister(movie);
+        movieHandler.updateMovieInRegister(movie);
         foundMovie = true;
       }
     }
@@ -88,8 +92,8 @@ public class MovieRegister {
   }
 
   private List<Movie> updateMovieList() { //Reads from file, return a list
-    if (handler.fileExists()) {
-      return new ArrayList<>(handler.readMovieAndRatingFromRegister());
+    if (movieHandler.fileExists()) {
+      return new ArrayList<>(movieHandler.readMovieAndRatingFromRegister());
     } else {
       return List.of();
     }

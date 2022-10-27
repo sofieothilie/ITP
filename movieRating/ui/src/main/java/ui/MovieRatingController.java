@@ -18,15 +18,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
 public class MovieRatingController {
-  //Fields
-  private Movie movie;
-  private final String movieFilename = "movieRegistry";
-  private MovieRegister movieRegister = new MovieRegister(movieFilename);
-  private User user;
-  private final String userFilename = "userRegistry";
-  private UserRegister userRegister = new UserRegister(userFilename, movieFilename);
-  private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
-  private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);  
+    //Fields
+    private Movie movie;
+    private final String movieFilename = "movieRegistry";
+    private MovieRegister movieRegister = new MovieRegister(movieFilename);
+    private User user;
+    private final String userFilename = "userRegistry";
+    private UserRegister userRegister = new UserRegister(userFilename, movieFilename);
+    private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
+    private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
 
   //FXML fields
   @FXML

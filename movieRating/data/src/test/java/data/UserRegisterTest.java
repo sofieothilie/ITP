@@ -21,14 +21,15 @@ public class UserRegisterTest {
   // TODO: bruke equals der det er brukt assertEquals
   // TODO: teste MovieHandler her
   // TODO: sjekke Jacoco-test
-  // TODO: legge til System.getProperty("user.home")
 
-  User user1;
-  User user2;
-  User user3;
-  Movie movie;
-  UserRegister userRegister;
-  MovieRegister movieRegister;
+  private User user1;
+  private User user2;
+  private User user3;
+  private Movie movie;
+  private UserRegister userRegister;
+  private MovieRegister movieRegister;
+  private final String userFilename = "userTest";
+  private final String movieFilename = "testMovie";
 
   @BeforeEach
   public void setUp() {
@@ -37,8 +38,8 @@ public class UserRegisterTest {
     this.user3 = new User("sofie", "sofie123");
     this.movie = new Movie("Snow", "fantasy");
 
-    this.userRegister = new UserRegister();
-    this.movieRegister = new MovieRegister();
+    this.userRegister = new UserRegister(userFilename, movieFilename);
+    this.movieRegister = new MovieRegister(movieFilename);
   }
 
   @DisplayName("Testing to register a new user")
@@ -56,8 +57,8 @@ public class UserRegisterTest {
     );
 
     //Tests that rated movie is written to file and can be read from file
-    user1.rateMovie(movie, 1);
-    movieRegister.addMovie(movie);
+    user1.rateMovie(this.movie, 1);
+    movieRegister.addMovie(this.movie);
     userRegister.updateRatedMovie(user1, movie);
     User testUser = userRegister.getUser(user1.getUsername());
     Boolean foundMovie = false;
@@ -139,13 +140,11 @@ public class UserRegisterTest {
   @DisplayName("Testing existing user")
   @Test
   public void testExistingUser() {
-    UserRegister register = new UserRegister();
-
     //Test IllegalArgumentException if register is empty
     Assertions.assertThrows(
       IllegalArgumentException.class,
       () -> {
-        register.existingUser("ellica", "ellica123");
+        userRegister.existingUser("ellica", "ellica123");
       },
       "User register emtpy"
     );
@@ -154,17 +153,17 @@ public class UserRegisterTest {
     Assertions.assertThrows(
       IllegalArgumentException.class,
       () -> {
-        register.existingUser("ellica", "ellica123");
+        userRegister.existingUser("ellica", "ellica123");
       },
       "User not in register"
     );
     user1.rateMovie(movie, 5);
-    register.registerNewUser(user1);
+    userRegister.registerNewUser(user1);
     //Test IllegalArgumentException if the password is invalid
     Assertions.assertThrows(
       IllegalArgumentException.class,
       () -> {
-        register.existingUser("ellica", "ellica1234");
+        userRegister.existingUser("ellica", "ellica1234");
       },
       "Invalid password"
     );
@@ -172,9 +171,13 @@ public class UserRegisterTest {
 
   @AfterEach
   public void tearDown() {
-    UserHandler handler = new UserHandler();
+    UserHandler userHandler = new UserHandler(userFilename);
+    MovieHandler movieHandler = new MovieHandler(movieFilename);
     try {
-      Files.delete(handler.getFile().toPath());
+      Files.delete(userHandler.getFile().toPath());
+      if (movieHandler.fileExists()) {
+        Files.delete(movieHandler.getFile().toPath());
+      }
     } catch (IOException e) {
       throw new IllegalArgumentException();
     }
