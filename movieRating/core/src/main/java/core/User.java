@@ -17,7 +17,7 @@ public class User {
 
   @JsonCreator
   public User(@JsonProperty("username") String username, @JsonProperty("password") String password,
-      @JsonProperty("ratings") @JsonDeserialize(using = MovieDeserializerForUser.class) HashMap<Movie, Integer> ratedMovies) {
+    @JsonProperty("ratings") @JsonDeserialize(using = MovieDeserializerForUser.class) HashMap<Movie, Integer> ratedMovies) {
     // constructor for file management
     this(username, password);
     if (ratedMovies != null) {

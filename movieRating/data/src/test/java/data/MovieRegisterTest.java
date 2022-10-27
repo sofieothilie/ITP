@@ -2,135 +2,174 @@ package data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import core.Movie;
+import core.User;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import core.Movie;
-import core.User;
 
 public class MovieRegisterTest {
-    //TODO: teste MovieHandler her
-    //TODO: sjekke Jacoco-test
 
-    private Movie m1, m2, m3, m4;
-    private User user1;
-    private MovieRegister movieRegister;
-    private final String filename = "testMovie";
+  //TODO: teste MovieHandler her
+  //TODO: sjekke Jacoco-test
 
-    @BeforeEach
-    public void setUp(){
-        user1 = new User("ellica", "ellica123");
-        m1 = new Movie("Cinderella", "fantasy");
-        m2 = new Movie("Snowhite", "fantasy");
-        m3 = new Movie("The Notebook", "romance");
-        m4 = new Movie("Cinderella", "romance");
-        movieRegister = new MovieRegister(filename);
-    }
-    
-    @DisplayName("Testing to add a movie to the register")
-    @Test
-    public void testAddMovie(){
+  private Movie m1, m2, m3, m4;
+  private User user1;
+  private MovieRegister movieRegister;
+  private final String filename = "testMovie";
+
+  @BeforeEach
+  public void setUp() {
+    user1 = new User("ellica", "ellica123");
+    m1 = new Movie("Cinderella", "fantasy");
+    m2 = new Movie("Snowhite", "fantasy");
+    m3 = new Movie("The Notebook", "romance");
+    m4 = new Movie("Cinderella", "romance");
+    movieRegister = new MovieRegister(filename);
+  }
+
+  @DisplayName("Testing to add a movie to the register")
+  @Test
+  public void testAddMovie() {
+    movieRegister.addMovie(m1);
+
+    assertEquals(
+      m1,
+      movieRegister.getMovie("Cinderella", "fantasy"),
+      "movies were not equal."
+    );
+
+    //Test IllegalArgumentException when movie alreday exists
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
         movieRegister.addMovie(m1);
+      },
+      "Movie already added to the register"
+    );
+  }
 
-
-        assertEquals(m1, movieRegister.getMovie("Cinderella", "fantasy"), "movies were not equal.");
-     
-        //Test IllegalArgumentException when movie alreday exists
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            movieRegister.addMovie(m1);
-        }, "Movie already added to the register");
-    }
-
-    @DisplayName("Testing update movie method")
-    @Test
-    public void testUpdateMovie(){
-
-        //Test IllegalArgumentException if register is empty
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            movieRegister.updateMovie(m1);
-        }, "Register empty");
-
-        movieRegister.addMovie(m1);
-
-        //Test IllegalArgumentException if the movie is not added to the register
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            movieRegister.updateMovie(m2);
-        }, "Movie not in register");
-        List<Integer> ratings = m1.getAllRatings();
-        user1.rateMovie(m1, 4);
-        //Test that the movies ratings is updated in the register
-        ratings.add(4);
+  @DisplayName("Testing update movie method")
+  @Test
+  public void testUpdateMovie() {
+    //Test IllegalArgumentException if register is empty
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
         movieRegister.updateMovie(m1);
-        
+      },
+      "Register empty"
+    );
 
-        assertEquals(ratings, m1.getAllRatings());
+    movieRegister.addMovie(m1);
+
+    //Test IllegalArgumentException if the movie is not added to the register
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
+        movieRegister.updateMovie(m2);
+      },
+      "Movie not in register"
+    );
+    List<Integer> ratings = m1.getAllRatings();
+    user1.rateMovie(m1, 4);
+    //Test that the movies ratings is updated in the register
+    ratings.add(4);
+    movieRegister.updateMovie(m1);
+
+    assertEquals(ratings, m1.getAllRatings());
+  }
+
+  @DisplayName("Testing to search movies by genre")
+  @Test
+  public void testSearchGenre() {
+    movieRegister.addMovie(m1);
+    movieRegister.addMovie(m2);
+    movieRegister.addMovie(m3);
+    List<Movie> testList = new ArrayList<>();
+    testList.add(m1);
+    testList.add(m2);
+
+    //Test if method returns all movies with given genre
+    List<Movie> moviesFound = movieRegister.searchGenre("fantasy");
+    assertEquals(testList.size(), moviesFound.size());
+    assertEquals(
+      m1,
+      moviesFound.get(0),
+      "movie added was not equal to movie found by getting all movies."
+    );
+    assertEquals(
+      m2,
+      moviesFound.get(1),
+      "movie added was not equal to movies found by getting all movies."
+    );
+  }
+
+  @DisplayName("Testing to search movies by title")
+  @Test
+  public void testSearchMovieTitle() {
+    movieRegister.addMovie(m1);
+    movieRegister.addMovie(m2);
+    movieRegister.addMovie(m4);
+    List<Movie> testList = new ArrayList<>();
+    testList.add(m1);
+    testList.add(m2);
+
+    //Test if the method returns all movies with given title
+    List<Movie> moviesFound = movieRegister.searchMovieTitle("Cinderella");
+    assertEquals(
+      testList.size(),
+      moviesFound.size(),
+      "The number of movies found with given title is not equal to expected number"
+    );
+    assertEquals(
+      m1,
+      moviesFound.get(0),
+      "movie added was not equal to movies found by search."
+    );
+    assertEquals(
+      m4,
+      moviesFound.get(1),
+      "movie added was not equal to movies found by search."
+    );
+  }
+
+  @DisplayName("Testing to get a movie")
+  @Test
+  public void testGetMovie() {
+    movieRegister.addMovie(m1);
+    movieRegister.addMovie(m2);
+
+    //Test getMovie
+    assertEquals(
+      m1,
+      movieRegister.getMovie("Cinderella", "fantasy"),
+      "movie added was not equal to movies found by get movie"
+    );
+
+    //IllegalArgumentexception if movie is not added to the register
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
+        movieRegister.getMovie("The Notebook", "romance");
+      },
+      "Movie not in register"
+    );
+  }
+
+  @AfterEach
+  public void tearDown() {
+    MovieHandler handler = new MovieHandler(filename);
+    try {
+      Files.delete(handler.getFile().toPath());
+    } catch (IOException e) {
+      throw new IllegalArgumentException();
     }
-
-    @DisplayName("Testing to search movies by genre")
-    @Test
-    public void testSearchGenre(){
-        movieRegister.addMovie(m1);
-        movieRegister.addMovie(m2);
-        movieRegister.addMovie(m3);
-        List<Movie> testList = new ArrayList<>();
-        testList.add(m1);
-        testList.add(m2);
-
-        //Test if method returns all movies with given genre
-        List<Movie> moviesFound = movieRegister.searchGenre("fantasy");
-        assertEquals(testList.size(), moviesFound.size());
-        assertEquals(m1,moviesFound.get(0), "movie added was not equal to movie found by getting all movies.");
-        assertEquals(m2,moviesFound.get(1), "movie added was not equal to movies found by getting all movies.");
-
-    }
-
-    @DisplayName("Testing to search movies by title")
-    @Test
-    public void testSearchMovieTitle(){
-        movieRegister.addMovie(m1);
-        movieRegister.addMovie(m2);
-        movieRegister.addMovie(m4);
-        List<Movie> testList = new ArrayList<>();
-        testList.add(m1);
-        testList.add(m2);
-
-        //Test if the method returns all movies with given title
-        List<Movie> moviesFound = movieRegister.searchMovieTitle("Cinderella");
-        assertEquals(testList.size(), moviesFound.size(), "The number of movies found with given title is not equal to expected number");
-        assertEquals(m1,moviesFound.get(0), "movie added was not equal to movies found by search.");
-        assertEquals(m4,moviesFound.get(1), "movie added was not equal to movies found by search." );
-    }
-
-    @DisplayName("Testing to get a movie")
-    @Test
-    public void testGetMovie(){
-        movieRegister.addMovie(m1);
-        movieRegister.addMovie(m2);
-
-        //Test getMovie
-        assertEquals(m1, movieRegister.getMovie("Cinderella", "fantasy"), "movie added was not equal to movies found by get movie");
-
-        //IllegalArgumentexception if movie is not added to the register
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            movieRegister.getMovie("The Notebook", "romance");
-        }, "Movie not in register");
-    }  
-    
-    @AfterEach
-    public void tearDown(){
-        MovieHandler handler = new MovieHandler(filename);
-        try{
-            Files.delete(handler.getFile().toPath());
-        }
-        catch (IOException e){
-            throw new IllegalArgumentException();
-        }
-    }  
+  }
 }
