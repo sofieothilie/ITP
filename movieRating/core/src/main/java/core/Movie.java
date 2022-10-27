@@ -17,7 +17,7 @@ public class Movie {
 
   @JsonCreator
   public Movie(@JsonProperty("title") String title, @JsonProperty("genre") String genre,
-      @JsonProperty("ratings") List<Integer> allRatings) {
+    @JsonProperty("ratings") List<Integer> allRatings) {
     // constructor for a movie object from file
     this(title, genre);
     if (allRatings != null) {
