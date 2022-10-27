@@ -17,16 +17,22 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.File;
 
 public class UserHandler {
+    private final String fileName;
 
-    public static final String SAVE_FOLDER = "/movieRating/data/src/main/java/data/";
-    public static final String fileName = "UserRegister.json";
+    public UserHandler (String fileName){
+        //Sets a filename which is to be used for the instantiated object. Can only contain letters and numbers.
+        if (fileName.matches("[a-zA-Z0-9]+")){
+            this.fileName = fileName;
+        }
+        else{
+            throw new IllegalArgumentException("fileName can only contain letters and numbers.");
+        }
+        //"UserRegister.json"
+    }
 
-    //TODO: add System.getProperty("user.home")
-    public File getFile(){ //TODO: try to fix Path
-        //Returns file
-        //String path = Paths.get(".").toAbsolutePath().normalize().toString();
-        //return new File(path + SAVE_FOLDER + fileName);
-        return new File(fileName);
+    public File getFile(){
+        //Gets the name of the file in user home
+        return new File(System.getProperty("user.home") + "/" + this.fileName);
     }
 
     public void writeUserToRegister(User user){
