@@ -132,9 +132,14 @@ public void testExistingUser(){
 
 @AfterEach
 public void tearDown(){
-    UserHandler handler = new UserHandler(userFilename);
+    UserHandler userHandler = new UserHandler(userFilename);
+    MovieHandler movieHandler = new MovieHandler(movieFilename);
     try{
-        Files.delete(handler.getFile().toPath());
+        Files.delete(userHandler.getFile().toPath());
+        if (movieHandler.fileExists()){
+            Files.delete(movieHandler.getFile().toPath());
+        }
+
     }
     catch (IOException e){
         throw new IllegalArgumentException();
