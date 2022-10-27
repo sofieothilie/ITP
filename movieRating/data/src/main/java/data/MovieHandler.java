@@ -11,9 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MovieHandler {
-
-  public static final String SAVE_FOLDER =
-    "/movieRating/data/src/main/java/data/";
   private final String fileName;
 
   public MovieHandler(String fileName) {

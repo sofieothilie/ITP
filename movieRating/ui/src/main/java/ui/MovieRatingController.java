@@ -143,7 +143,6 @@ public class MovieRatingController {
   private void handleCreateUser(){
     //Creates a new user and sets desired fields and visibility.
     try {
-      //this.userRegister.ableToCreateNewUser(new User(username.getText(), password.getText()));
       this.user = new User(username.getText(), password.getText());
       this.userRegister.registerNewUser(this.user);
       loggedIn(true);

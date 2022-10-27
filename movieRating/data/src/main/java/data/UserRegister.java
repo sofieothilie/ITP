@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRegister {
-
-  //TODO: engslk til norsk, kommentarer
   private List<User> users = new ArrayList<>();
   private UserHandler userHandler;
   private MovieRegister movieRegister;
 
   public UserRegister(String userFileName, String movieFileName) {
-    //Constructor for user register. Generates a movie and user handler object.
+    // Constructor for user register. Generates a movie and user handler object.
     this.userHandler = new UserHandler(userFileName);
     this.movieRegister = new MovieRegister(movieFileName);
   }
@@ -45,7 +43,8 @@ public class UserRegister {
     return null;
   }
 
-  public void existingUser(String username, String password) { // checks whether the user exists on username and password
+  public void existingUser(String username, String password) { // checks whether the user exists on username and
+                                                               // password
     User foundUser = getUser(username);
 
     if (foundUser == null) {
@@ -56,7 +55,7 @@ public class UserRegister {
     }
   }
 
-  public void updateRatedMovie(User user, Movie movie) { //Updates the user in the file if it already exists
+  public void updateRatedMovie(User user, Movie movie) { // Updates the user in the file if it already exists
     this.users = updateUserList();
     if (users.isEmpty()) {
       throw new IllegalArgumentException("No registered users yet");
@@ -71,8 +70,7 @@ public class UserRegister {
     }
     if (!foundUser) {
       throw new IllegalArgumentException(
-        "No user with username: " + user.getUsername()
-      );
+          "No user with username: " + user.getUsername());
     }
   }
 
@@ -81,15 +79,6 @@ public class UserRegister {
       return new ArrayList<>(userHandler.readUsersFromRegister());
     } else {
       return List.of();
-    }
-  }
-
-  public void ableToCreateNewUser(User user) { //TODO: by the time the exercise is finished, the method must be removed, but remain here for the time being
-    this.users = this.updateUserList();
-    for (User alreadyUser : users) {
-      if (user.equals(alreadyUser)) {
-        throw new IllegalArgumentException("Already a user");
-      }
     }
   }
 }
