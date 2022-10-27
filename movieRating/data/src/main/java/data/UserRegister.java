@@ -12,8 +12,14 @@ import core.User;
 public class UserRegister {
     //TODO: engslk til norsk, kommentarer
     private List<User> users = new ArrayList<>();
-    private UserHandler userHandler = new UserHandler();
-    private MovieRegister movieRegister = new MovieRegister(); //TODO: gjør private
+    private UserHandler userHandler;
+    private MovieRegister movieRegister;
+
+    public UserRegister(String userFileName, String movieFileName){
+        //Constructor for user register. Generates a movie and user handler object.
+        this.userHandler = new UserHandler(userFileName);
+        this.movieRegister = new MovieRegister(movieFileName);
+    }
 
     public void registerNewUser(User newuser){ // register new user
         this.users = updateUserList();
