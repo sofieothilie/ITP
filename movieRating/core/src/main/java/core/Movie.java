@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Movie {
   private final String title;
   private final String genre;
-  private List<Integer> allRatings = new ArrayList<>();
+  private List<Integer> allRatings;
   private static List<String> GENRES = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery",
       "romance", "thriller");
 
@@ -36,6 +36,7 @@ public class Movie {
       throw new IllegalArgumentException("Not a valid genre");
     }
     this.genre = genre;
+    this.allRatings = new ArrayList<>();
   }
 
   public String getTitle() { // return title

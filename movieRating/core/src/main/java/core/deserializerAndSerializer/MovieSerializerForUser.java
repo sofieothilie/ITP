@@ -29,7 +29,7 @@ public class MovieSerializerForUser extends JsonSerializer<HashMap<Movie, Intege
 
   @Override
   public void serialize(HashMap<Movie, Integer> movies, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-    // Få formatet på filmen på rett måte, skriver til fil
+    // Enables writing to file with a readable format 
       gen.writeStartArray();
       for (Entry<Movie, Integer> ratedMovieEntry : movies.entrySet()) {
         gen.writeStartObject();
@@ -40,7 +40,5 @@ public class MovieSerializerForUser extends JsonSerializer<HashMap<Movie, Intege
       }
       gen.writeEndArray();
   }
-
-  //TODO: logge inn, så rate film, må spørre studass
 
 }

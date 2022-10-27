@@ -46,10 +46,8 @@ public class User {
   }
 
   @JsonSerialize(using = MovieSerializerForUser.class)
-  @JsonDeserialize(using = MovieDeserializerForUser.class)
   public HashMap<Movie, Integer> getRatedMovies() { // returns a hashmap with movies and your rating on the movie
-    // This method cannot be used when writing user to file. This method therefore
-    // implements jsonSerialize and jsonDeserialize.
+    // This method cannot be used when writing user to file. This method therefore implements jsonSerialize.
     if (ratedMovies.isEmpty()) {
       return new HashMap<>();
     } else {

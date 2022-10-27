@@ -11,19 +11,17 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 
 public class UserTest {
-  // TODO: teste equals
   // TODO: oppdatere i henhold til JaCoCo og endringene i User
 
   // Setup
-  User testUser = new User("username", "password");
-  Movie m1 = new Movie("Cinderella", "fantasy");
-  Movie m2 = new Movie("Snowwhite", "fantasy");
+  private User testUser = new User("username", "password");
+  private Movie m1 = new Movie("Cinderella", "fantasy");
+  private Movie m2 = new Movie("Snowwhite", "fantasy");
 
   @DisplayName("Testing validation of username and password")
   @Test
   public void testValidUsernameAndPassword() {
     new User("Username1234", "Password1234");
-
   }
 
   @DisplayName("Testing invalid usernames and passwords")
