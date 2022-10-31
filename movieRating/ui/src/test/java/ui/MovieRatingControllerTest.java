@@ -113,10 +113,10 @@ public class MovieRatingControllerTest extends ApplicationTest{
         clickOn(password).write("1234567");
         clickOn(createUser);
         //da skal dette skje
-        // assertFalse(logIn.isVisible());
-        // assertTrue(loggedIn.isVisible());
-        // assertTrue(addMovieToRegister.isVisible());
-        // assertTrue(logOut.isVisible());
+        assertFalse(logIn.isVisible());
+        assertTrue(loggedIn.isVisible());
+        //assertTrue(addMovieToRegister.isVisible());
+        assertTrue(logOut.isVisible());
         //her - test som sjekker at denne brukeren blir lagt til i opprettede brukere
 
     }
