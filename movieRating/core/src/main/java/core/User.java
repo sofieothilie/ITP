@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import core.deserializerAndSerializer.MovieDeserializerForUser;
-import core.deserializerAndSerializer.MovieSerializerForUser;
+import core.json.MovieDeserializerForUser;
+import core.json.MovieSerializerForUser;
 
 public class User {
   private final String username;
