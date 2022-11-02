@@ -1,38 +1,46 @@
 package ui;
 
+import core.Movie;
+import core.User;
+import data.MovieRegister;
+import data.UserRegister;
 import java.util.Arrays;
 import java.util.List;
-
-import core.Movie;
-import data.MovieRegister;
-import core.User;
-import data.UserRegister;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 
+/**
+ * MovieRating controller class.
+ */
 public class MovieRatingController {
-    //Fields
-    private Movie movie;
-    private final String movieFilename = "movieRegistry";
-    private MovieRegister movieRegister = new MovieRegister(movieFilename);
-    private User user;
-    private final String userFilename = "userRegistry";
-    private UserRegister userRegister = new UserRegister(userFilename, movieFilename);
-    private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
-    private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
+  //Fields
+  private Movie movie;
+  private final String movieFilename = "movieRegistry";
+  private MovieRegister movieRegister = new MovieRegister(movieFilename);
+  private User user;
+  private final String userFilename = "userRegistry";
+  private UserRegister userRegister = new UserRegister(userFilename, movieFilename);
+  private static List<String> genresList = Arrays.asList("action",
+      "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
+  private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
 
   //FXML fields
   @FXML
-  private TextField username, password, movieName;
+  private TextField username;
+  private TextField password;
+  private TextField movieName;
   @FXML
-  private Button logIn, createUser, addMovieRegister, logOut, rateButton;
+  private Button logIn;
+  private Button createUser;
+  private Button addMovieRegister;
+  private Button logOut;
+  private Button rateButton;
   @FXML
   private ChoiceBox<String> genreBox;
   @FXML
@@ -40,13 +48,20 @@ public class MovieRatingController {
   @FXML
   private TextArea ratedMovie;
   @FXML
-  private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel, ratingscaleLabel;
+  private Label loggedIn;
+  private Label loggedOut;
+  private Label usernameLabel;
+  private Label passwordLabel;
+  private Label rateLabel;
+  private Label movieLabel;
+  private Label ratingscaleLabel;
 
 
-  // Methods
+  /**
+   * Method that initializes the app with correct visibility.
+   */
   @FXML
   public void initialize() {
-    //Starts up the app with correct visibility:
     setLoginPossibility(true);
     setSearchVisibility(true);
     setRateVisibility(false, null);
@@ -57,22 +72,30 @@ public class MovieRatingController {
     setRating();      
   }
     
+  /**
+   * Method that fills choice box with genres.
+   */
   private void setGenres() {
-    //Fills choice boxes with genres:
     for (String str : genresList) {
       genreBox.getItems().add(str);
     }
   }
 
-  private void setRating(){
-    //Fills choice boxes with rating options from 1 to 5:
+  /**
+   * Method that fills choice box with rating options 1 to 5.
+   */
+  private void setRating() { 
     for (Integer integer : ratingList) {
       rateBox.getItems().add(integer);
     }
   }
 
-  private void setLoginPossibility(boolean value){
-    //Sets the log-in-area to desired visibility:
+  /**
+   * Sets the log in- area to desired visibility.
+   *
+   * @param value true if log in possible and false if not
+   */
+  private void setLoginPossibility(boolean value) {
     usernameLabel.visibleProperty().set(value);
     passwordLabel.visibleProperty().set(value);
     logOut.setVisible(!value);
@@ -85,36 +108,51 @@ public class MovieRatingController {
     loggedOut.visibleProperty().set(!value);
   }
 
-  private void loggedIn(boolean value){
-    //Sets the desired visibility based on rather a user is logged in or not:
+  /**
+   * Sets the desired visibility based on rather a user is logged in or not.
+   *
+   * @param value true if logged in, else false
+   */
+  private void loggedIn(boolean value) {
     setLoginPossibility(false);
     addMovieRegister.setVisible(true);
     loggedIn.visibleProperty().set(true);
     //loggedOut.visibleProperty().set(false);
   }
 
-  private void setSearchVisibility(boolean value){
-    //Sets the search-area to desired visibility:
+  /**
+   * Sets the search-area to desired visibility.
+   *
+   * @param value true if search area is supposed to be visible
+   */
+  private void setSearchVisibility(boolean value) {
     //searchMovie.visibleProperty().set(true);
     genreBox.visibleProperty().set(true);
     //movieRegisterList.visibleProperty().set(true);
   }
 
-  private void setRateVisibility(boolean value, Movie movie){
-    //Sets the rate-area to desired visibility:
+  /**
+   * Sets the rate-area to desired visibility.
+   *
+   * @param value true if rate- area is supposed to be shown
+   * @param movie the movie object to rate
+   */
+  private void setRateVisibility(boolean value, Movie movie) {
     rateBox.visibleProperty().set(value);
     rateButton.visibleProperty().set(value);
     movieLabel.visibleProperty().set(value);
     ratedMovie.visibleProperty().set(value);
     rateLabel.visibleProperty().set(value);
     ratingscaleLabel.setVisible(value);
-    if (movie != (null) && value == true){
+    if (movie != (null) && value == true) {
       ratedMovie.setText(movie.toString());
     }
   }
 
-  private void clearAllSearchFields(){
-    //Clears all search fields when called upon:
+  /**
+   * Clears all search fields when called upon.
+   */
+  private void clearAllSearchFields() {
     //movieRegisterList.getItems().clear();
     movieName.clear();
     movieLabel.setText("");
@@ -125,9 +163,12 @@ public class MovieRatingController {
 
     
   //User methods
+
+  /**
+   * Tries to log in a user. If user excists: sets correct fields and visibility status.
+   */
   @FXML
-  public void handleLogIn(){
-    //Tries to log in a user. If user excists: sets correct fields and visibility status.
+  public void handleLogIn() {
     try {
       this.userRegister.existingUser(username.getText(), password.getText());  
       this.user = this.userRegister.getUser(username.getText());
@@ -135,15 +176,16 @@ public class MovieRatingController {
       loggedIn(true);  
       loggedOut.visibleProperty().set(false);
     } catch (IllegalArgumentException e) {
-        errorActivation(e.getMessage());
+      errorActivation(e.getMessage());
     }          
   }
-
+  
+  /**
+   * Creates a new user and sets desired fields and visibility.
+   */
   @FXML
-  private void handleCreateUser(){
-    //Creates a new user and sets desired fields and visibility.
+  private void handleCreateUser() {
     try {
-      //this.userRegister.ableToCreateNewUser(new User(username.getText(), password.getText()));
       this.user = new User(username.getText(), password.getText());
       this.userRegister.registerNewUser(this.user);
       loggedIn(true);
@@ -153,9 +195,11 @@ public class MovieRatingController {
     }
   }
 
+  /**
+   * Logs user out. Resets desired fields and sets desired visibility.
+   */
   @FXML 
-  private void handleLogOut(){
-    //Logs user out. Resets desired fields and sets desired visibility.
+  private void handleLogOut() {
     this.user = null;
     //loggedIn(false); tror at man kun trenge denne og ikke den under
     setLoginPossibility(true); 
@@ -167,52 +211,72 @@ public class MovieRatingController {
   }
 
   //Movie methods
+
+  // /**
+  //  * Searches for movies by title and displays them in list view.
+  //  */
   // @FXML
-  // private void handleSearchMovie(){
-  //   //Searches for movies by title and displays them in list view.
-  //   //antar fungerer dersom filhåndtering funker
+  // private void handleSearchMovie() {
   //   //kan legge til at delvise treff vises
-  //   List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
-  //   if (movieList.isEmpty()){ errorActivation("No movies with title " + movieName.getText());}
-  //     for (Movie movie : movieList) {
-  //       movieRegisterList.getItems().add(movie.toString());
+  //   List<Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
+  //   if (movieList.isEmpty()) { 
+  //     errorActivation("No movies with title " + movieName.getText());
+  //   } 
+  //   for (Movie movie : movieList) {
+  //     movieRegisterList.getItems().add(movie.toString());
   //   }
   // }
 
+  // /**
+  //  * Searches for movies by genre and displays them in list view.
+  //  */
   // @FXML
-  // private void handleSearchGenre(){
-  //   //Searches for movies by genre and displays them in list view.
-  //   // antar funker hvis filhåndtering funker
-  //   List <Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
-  //   if (movieList.isEmpty()){ errorActivation("No movies with genre " + genreBox.getValue());}
-  //     for (Movie movie : movieList) {
-  //       movieRegisterList.getItems().add(movie.toString());
+  // private void handleSearchGenre() {
+  //   List<Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
+  //   if (movieList.isEmpty()) {
+  //     errorActivation("No movies with genre " + genreBox.getValue()); 
+  //   }
+  //   for (Movie movie : movieList) {
+  //     movieRegisterList.getItems().add(movie.toString());
   //   }
   // }
 
+  // /**
+  //  * Displays a movie when it is selected if a user is logged in.
+  //  * This allows for rating and sets values for rating:
+  //  *
+  //  * @param event the event that is supposed to be displayed
+  //  */
   // @FXML
-  // private void selectMovie(MouseEvent event){
-  //   //Displays a movie when it is selected if a user is logged in. This allows for rating and sets values for rating:
+  // private void selectMovie(MouseEvent event) {
   //   //når handleRateButton trykkes må denne oppdateres
   //   ratedMovie.setText("");
-  //   if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null){
+  //   if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null) {
   //     this.movie = convertSelectedItemToMovieObject();
   //     movieLabel.setText(": " + this.movie.getTitle());
   //     setRateVisibility(true, this.movie);
   //   }
   // }
 
-  // private Movie convertSelectedItemToMovieObject(){
-  //   //Retrives movie object from convertObservableList:
+  // /**
+  //  * Retrives movie object from convertObservableList.
+  //  *
+  //  * @return the movie object to retrieve
+  //  */
+  // private Movie convertSelectedItemToMovieObject() {
   //   //når handleRateButton trykkes må denne oppdateres, lage en update metode 
   //   movieRegisterList.getSelectionModel().getSelectedItem();
-  //   String[] movieStr = ((String) movieRegisterList.getSelectionModel().getSelectedItem()).split("\t");
+  //   String[] movieStr = ((String) movieRegisterList
+  //    .getSelectionModel().getSelectedItem()).split("\t");
   //   return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
   // }
 
+  /**
+   * Adds a new movie to the register and writes it to file.
+   * given that the input is valid and a user is logged in
+   */
   @FXML
-  private void handleAddMovieToRegister(){
-    //Adds a new movie to the register and writes it to file, given that the input is valid and a user is logged in:
+  private void handleAddMovieToRegister() {
     //trenger ikke nødvendigvis try-catch siden man ikke kan legge til film uten å være logget inn
     //valdiering om filmen finnes fra før, kalles fra movieRegister
     //validere om brukeren har ratet filem fra før, enten legge til eller oppdatere
@@ -225,23 +289,25 @@ public class MovieRatingController {
       setRateVisibility(true, this.movie);
 
     } catch (Exception e) {
-        errorActivation(e.getMessage());
+      errorActivation(e.getMessage());
     }
   }
 
+  /**
+   * Saves new rating and writes this to file.
+   */
   @FXML
-  private void handleRateButton(){
-    //Saves new rating and writes this to file.
+  private void handleRateButton() {
     //legge til oppdatering
     this.movie.addRating(rateBox.getValue());
     this.user.rateMovie(movie, rateBox.getValue());
-  //this.movieRegister.updateMovie(movie);
+    //this.movieRegister.updateMovie(movie);
     this.userRegister.updateRatedMovie(user, movie);
-  //if (this.userRegister.getUser(this.user.getUsername()) != null){
+    //if (this.userRegister.getUser(this.user.getUsername()) != null){
     //this.userRegister.updateRatedMovie(user, movie);
     //}
     //else {
-      //this.userRegister.registerNewUser(this.user);
+    //  this.userRegister.registerNewUser(this.user);
     //}
     confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
     clearAllSearchFields();
@@ -257,9 +323,12 @@ public class MovieRatingController {
     alert.showAndWait();
   } 
 
+  /**
+   * When called, displays a warning message.
+   *
+   * @param message the warning message that shows
+   */
   private void confirmationActivation(String message) {
-    //When called, displays a warning message
-    //fikse på meldingene
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.setTitle("Movie Rating");
     alert.setContentText(message);
