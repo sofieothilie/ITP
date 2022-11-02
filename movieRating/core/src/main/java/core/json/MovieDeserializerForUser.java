@@ -36,6 +36,7 @@ public class MovieDeserializerForUser
       DeserializationContext ctxt
   )
       throws IOException, JsonProcessingException {
+      //deserializer all objects in file
     TreeNode treeNode = p.getCodec().readTree(p);
     return deserializeSeveralMovies((JsonNode) treeNode);
   }
@@ -52,10 +53,9 @@ public class MovieDeserializerForUser
     return new HashMap<>(ratedMovies);
   }
 
-  private Map.Entry<Movie, Integer> deserializeOneMovie(JsonNode jsonNode) {
-    //Hjelpemetode, tar en film og lager et objekt ut ifra det
+  private Map.Entry<Movie,Integer> deserializeOneMovie(JsonNode jsonNode) {
+    //Deserializes one movie from file
     if (jsonNode instanceof ObjectNode) {
-      //ObjectNode objectNode = new ObjectNode(null);
       JsonNode titleNode = jsonNode.get("title");
       JsonNode genreNode = jsonNode.get("genre");
       JsonNode ratingNode = jsonNode.get("rating");

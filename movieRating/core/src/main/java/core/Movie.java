@@ -53,6 +53,7 @@ public class Movie {
       throw new IllegalArgumentException("Not a valid genre");
     }
     this.genre = genre;
+    this.allRatings = new ArrayList<>();
   }
 
   public String getTitle() { // return title

@@ -14,9 +14,6 @@ import java.util.List;
  * class that writes and reads Movie objects to/from file.
  */
 public class MovieHandler {
-
-  public static final String SAVE_FOLDER =
-      "/movieRating/data/src/main/java/data/";
   private final String fileName;
 
   /**

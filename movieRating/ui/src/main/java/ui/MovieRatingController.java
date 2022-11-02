@@ -186,7 +186,6 @@ public class MovieRatingController {
   @FXML
   private void handleCreateUser() {
     try {
-      //this.userRegister.ableToCreateNewUser(new User(username.getText(), password.getText()));
       this.user = new User(username.getText(), password.getText());
       this.userRegister.registerNewUser(this.user);
       loggedIn(true);

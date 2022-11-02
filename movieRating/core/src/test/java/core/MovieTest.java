@@ -9,11 +9,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class MovieTest {
-  // TODO: teste equals
   // TODO: oppdatere i henhold til JaCoCo og endringene i Movie
 
-  Movie m1 = new Movie("Cinderella", "fantasy");
-  Movie m2 = new Movie("Star Wars", "action");
+  private Movie m1 = new Movie("Cinderella", "fantasy");
+  private Movie m2 = new Movie("Star Wars", "action");
 
   @DisplayName("Testing the constructor")
   @Test

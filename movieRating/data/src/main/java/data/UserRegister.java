@@ -9,8 +9,6 @@ import java.util.List;
  * class that handles a register of User objects.
  */
 public class UserRegister {
-
-  //TODO: engslk til norsk, kommentarer
   private List<User> users = new ArrayList<>();
   private UserHandler userHandler;
   private MovieRegister movieRegister;
@@ -108,8 +106,7 @@ public class UserRegister {
     }
     if (!foundUser) {
       throw new IllegalArgumentException(
-        "No user with username: " + user.getUsername()
-      );
+          "No user with username: " + user.getUsername());
     }
   }
 
