@@ -15,10 +15,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class MovieRegisterTest {
-
-  //TODO: teste MovieHandler her
-  //TODO: sjekke Jacoco-test
-
   private Movie m1, m2, m3, m4;
   private User user1;
   private MovieRegister movieRegister;
@@ -42,9 +38,8 @@ public class MovieRegisterTest {
       () -> {
         new MovieRegister("n0!V4lid");
       },
-      "Filename not valid not in register"
+      "Filename should not be valid for register"
     );
-
   }
 
 

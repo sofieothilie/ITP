@@ -53,7 +53,7 @@ public class MovieDeserializerForUser
     return new HashMap<>(ratedMovies);
   }
 
-  private Map.Entry<Movie,Integer> deserializeOneMovie(JsonNode jsonNode) {
+  private Map.Entry<Movie, Integer> deserializeOneMovie(JsonNode jsonNode) {
     //Deserializes one movie from file
     if (jsonNode instanceof ObjectNode) {
       JsonNode titleNode = jsonNode.get("title");
