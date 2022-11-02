@@ -20,11 +20,11 @@ import javafx.scene.control.Alert.AlertType;
 public class MovieRatingController {
     //Fields
     private Movie movie;
-    private final String movieFilename = "movieRegistry";
-    private MovieRegister movieRegister = new MovieRegister(movieFilename);
+    private final String movieFilename;
+    private MovieRegister movieRegister;
     private User user;
-    private final String userFilename = "userRegistry";
-    private UserRegister userRegister = new UserRegister(userFilename, movieFilename);
+    private final String userFilename;
+    private UserRegister userRegister;
     private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
     private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
 
@@ -43,6 +43,19 @@ public class MovieRatingController {
   private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel, ratingscaleLabel;
 
 
+  public MovieRatingController(){
+    this.userFilename = "userRegistry";
+    this.movieFilename = "movieRegistry";
+    this.movieRegister = new MovieRegister(movieFilename);
+    this.userRegister = new UserRegister(userFilename, movieFilename);
+  }
+
+  public MovieRatingController(String userFilename, String movieFilename){
+    this.userFilename = userFilename;
+    this.movieFilename = movieFilename;
+    this.movieRegister = new MovieRegister(movieFilename);
+    this.userRegister = new UserRegister(userFilename, movieFilename);
+  }
   // Methods
   @FXML
   public void initialize() {
@@ -85,12 +98,12 @@ public class MovieRatingController {
     loggedOut.visibleProperty().set(!value);
   }
 
-  private void loggedIn(boolean value){
+  public void loggedIn(boolean value){
     //Sets the desired visibility based on rather a user is logged in or not:
     setLoginPossibility(false);
     addMovieRegister.setVisible(true);
     loggedIn.visibleProperty().set(true);
-    //loggedOut.visibleProperty().set(false);
+    loggedOut.visibleProperty().set(false);
   }
 
   private void setSearchVisibility(boolean value){
@@ -113,12 +126,12 @@ public class MovieRatingController {
     }
   }
 
-  private void clearAllSearchFields(){
+  public void clearAllSearchFields(){
     //Clears all search fields when called upon:
     //movieRegisterList.getItems().clear();
     movieName.clear();
     movieLabel.setText("");
-    ratedMovie.setText(movie.toString());
+    ratedMovie.setText(null);
     genreBox.setValue(null);
     rateBox.setValue(null);   
   }
@@ -248,7 +261,7 @@ public class MovieRatingController {
   }
 
   //Error message
-  private void errorActivation(String message) {
+  void errorActivation(String message) {
     //When called, displays a warning message
     //fikse på meldingene
     Alert alert = new Alert(AlertType.ERROR);

@@ -2,6 +2,7 @@ package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import core.Movie;
@@ -42,6 +43,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
 
   private MovieRatingController controller;
   private Parent root;
+  private FxRobot robot = new FxRobot();
   private static ArrayList<Movie> movieRegister = new ArrayList<Movie>();
   private static ArrayList<User> userRegister = new ArrayList<User>();
   private static List<String> genresList = Arrays.asList(
@@ -57,11 +59,12 @@ public class MovieRatingControllerTest extends ApplicationTest {
   private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);
 
   private TextField username, password, movieName;
-  private Button logIn, addMovieRegister, createUser, addMovieToRegister, logOut, rateButton;
+  private Button logIn, logOut, createUser, addMovieRegister, rateButton;
   private ChoiceBox<String> genreBox;
   private ChoiceBox<Integer> rateBox;
   private TextArea ratedMovie;
   private Label loggedIn, loggedOut, usernameLabel, passwordLabel, rateLabel, movieLabel, ratingscaleLabel;
+
 
   @BeforeEach
   public void intitFields() {
@@ -103,64 +106,116 @@ public class MovieRatingControllerTest extends ApplicationTest {
 
   @Override
   public void start(Stage stage) throws IOException {
-    FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("MovieRating.fxml"));
-    root = fxmlLoader.load();
-    controller = fxmlLoader.getController();
-    stage.setScene(new Scene(root));
+    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MovieRating.fxml"));
+    MovieRatingController controller = new MovieRatingController("userregister", "movieregister");
+    loader.setController(controller);
+    Parent parent = loader.load();
+    stage.setScene(new Scene(parent));
     stage.show();
   }
 
+  /** 
+  *closes an alert window
+  */
+  private void closeAlert(){
+    robot.clickOn("OK");
+  }
+
+  ///*
   @Test
-  @DisplayName("Test to create new user")
+  @DisplayName("Test to create new user") 
   public void testCreateNewUser() {
-      clickOn(username).write("Pauline");
-      clickOn(password).write("1234567");
-      clickOn(createUser);
-      //da skal dette skje
-      assertFalse(logIn.isVisible());
-      assertTrue(loggedIn.isVisible());
-      //assertTrue(addMovieToRegister.isVisible());
-      assertTrue(logOut.isVisible());
-      //her - test som sjekker at denne brukeren blir lagt til i opprettede brukere
+    robot.clickOn(username).write("llajbc");
+    robot.clickOn(password).write("1234567");
+    robot.clickOn(createUser);
+    sleep(500);
+    //da skal dette skje
+    assertFalse(logIn.isVisible());
+    assertTrue(loggedIn.isVisible());
+    assertTrue(addMovieRegister.isVisible());
+    assertTrue(logOut.isVisible());
   }
+  //*/
 
 
+  /* 
   @Test
-  @DisplayName("Test when typing in empty username")
-  public void testCreateNewUserFail() {
-    clickOn(username).write("");
-    clickOn(password).write("1234567");
-    clickOn(createUser);
-    // da skal errorMessage vises
-    //Assertions.assertEquals("Brukernavn og passord kan ikke være tomme",controller.errorActivation(message.getText());
+  @DisplayName("Test to create user with unvalid input")
+  public void testFailCreateUser(){
+    robot.clickOn(username).write("");
+    robot.clickOn(password).write("1234567");
+    robot.clickOn(createUser);
+    sleep(500);
+    this.closeAlert();
   }
 
+  */
 
+  /* 
+  @Test
+  @DisplayName("Test log out")
+  public void testLogOut() {
+    robot.clickOn(username).write("ai");
+    robot.clickOn(password).write("1234567");
+    robot.clickOn(createUser);
+      //logge ut
+      robot.clickOn(logOut);
+      //da skal dette skje
+      assertTrue(loggedOut.isVisible());
+      assertFalse(logOut.isVisible());
+      assertTrue(logIn.isVisible());
 
-  // @Test
-  // @DisplayName("Test log out")
-  // public void testLogOut() {
-  //     //logge inn
-  //     testCreateNewUser();
-  //     //logge ut
-  //     clickOn(logOut);
-  //     //da skal dette skje
-  //     // assertTrue(loggedOut.isVisible());
-  //     // assertFalse(logOut.isVisible());
-  //     // assertTrue(logIn.isVisible());
+      //da skal alle disse gjøres usynlige
 
-  //     //da skal alle disse gjøres usynlige
+      //hele siden hvor man kan legge til rating skal bli usynlig
+      assertFalse(addMovieRegister.isVisible());
+      assertFalse(rateLabel.isVisible());
+      assertFalse(ratingscaleLabel.isVisible());
+      assertFalse(rateBox.isVisible());
+      assertFalse(rateButton.isVisible());
+      assertFalse(ratedMovie.isVisible());
 
-  //     //hele siden hvor man kan legge til rating skal bli usynlig
-  //     // assertFalse(addMovieRegister.isVisible());
-  //     // assertFalse(rateLabel.isVisible());
-  //     // assertFalse(ratingscaleLabel.isVisible());
-  //     // assertFalse(rateBox.isVisible());
-  //     // assertFalse(rateButton.isVisible());
-  //     // assertFalse(ratedMovie.isVisible());
+      //knappen for å legge til film i registeret skal bli usynlig
+  }
+  */
 
-  //     //knappen for å legge til film i registeret skal bli usynlig
-  // }
+  
+  @Test
+  @DisplayName("Test to try to create user with existing username")
+  public void testCreateUserAlreadyExists() {
+    robot.clickOn(username).write("ahllbh");
+    robot.clickOn(password).write("1234567");
+    robot.clickOn(createUser);
+    robot.clickOn(logOut);
+    sleep(500);
+    robot.clickOn(username).write("ahllbh");
+    robot.clickOn(password).write("1234567");
+    robot.clickOn(createUser);
+    sleep(500);
+    this.closeAlert();
+  }
+  
+
+  /* 
+  @Test
+  @DisplayName("Test to add a movie to the register")
+  public void addMovie(){
+    controller.loggedIn(true);
+    sleep(500);
+    robot.clickOn(movieName).write("Titaniccccc");
+    robot.clickOn(genreBox).clickOn("romance");
+    sleep(500);
+    robot.clickOn(addMovieRegister);
+    sleep(400);
+
+    movieName.clear();
+    robot.clickOn(movieName).write("Titaniccccc");
+    robot.clickOn(genreBox).clickOn("romance");
+    sleep(500);
+    robot.clickOn(addMovieRegister);
+    this.closeAlert();
+  }
+  */
 
   // @Test
   // @DisplayName("Sucessful search for a movie")
@@ -178,14 +233,14 @@ public class MovieRatingControllerTest extends ApplicationTest {
   //     //assertEquals("No movies with the title" + movieName.getText(), controller.errorActivation().getText());
   // }
 
-  @Test
-  @DisplayName("Test to add a movie to the register with rating")
-  public void addMovieToRegister() {
+  // @Test
+  // @DisplayName("Test to add a movie to the register with rating")
+  // public void addMovieToRegister() {
     // clickOn(searchMovie).write("The Notebook");
     // clickOn(genreBox).clickOn("action");
     // clickOn(addMovieToRegister);
     // clickOn(rateBox).clickOn("5");
     // clickOn(rateButton);
     //assertEquals("The Notebook; action; 5", movieRegisterList.getItems());
-  }
+  //}
 }
