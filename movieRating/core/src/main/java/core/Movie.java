@@ -33,9 +33,8 @@ public class Movie {
     this(title, genre);
     if (allRatings != null) {
       this.allRatings = new ArrayList<>(allRatings);
-    }
-    else{
-    this.allRatings = List.of();
+    } else {
+      this.allRatings = List.of();
     }
   }
 

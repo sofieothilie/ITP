@@ -45,13 +45,16 @@ public class MovieTest {
       new Movie("Danny", "fantasy", ratings);
     }, "Should be able to create a movie object with json constructor");
     Movie m4 = new Movie("Danny", "fantasy", ratings);
-    Assertions.assertDoesNotThrow(() -> {
-      new Movie("Danny", "fantasy", ratings);
-    }, "Should be able to create a movie object with json constructor");
-    Movie m = new Movie("Danny", "fantasy", List.of());
     assertEquals("Danny", m4.getTitle(), "Genre was not equal to expected genre");
     assertEquals("fantasy", m4.getGenre(), "Genre was not equal to expected genre");
     assertEquals(m4.getAllRatings(), ratings, "not all or too many ratings were added to object.");
+
+    Assertions.assertDoesNotThrow(() -> {
+      new Movie("Fantasy Game", "fantasy", List.of());
+    }, "Should be able to create a movie object with no rated movies with json constructor");
+    Movie m5 = new Movie("Fantasy Game", "fantasy", List.of());
+    assertEquals(m5.getAllRatings(), List.of(), "This movie shouldnt have any ratings.");
+
   }
 
   @DisplayName("Testing  getTitle and getGenre")
