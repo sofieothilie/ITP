@@ -34,8 +34,9 @@ public class Movie {
     if (allRatings != null) {
       this.allRatings = new ArrayList<>(allRatings);
     }
+    else{
     this.allRatings = List.of();
-
+    }
   }
 
   /**

@@ -4,19 +4,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class MovieTest {
-  // TODO: oppdatere i henhold til JaCoCo og endringene i Movie
+  private Movie m1;
+  private Movie m2;
+  
+  @BeforeEach
+  public void setUp(){
+    this.m1 = new Movie("Cinderella", "fantasy");
+    this.m2 = new Movie("Star Wars", "action");
+  }
 
-  private Movie m1 = new Movie("Cinderella", "fantasy");
-  private Movie m2 = new Movie("Star Wars", "action");
+
 
   @DisplayName("Testing the constructor")
   @Test
-  public void testConstructor() { // tester konstruktøren
+  public void testConstructor() { // tests the constructors
+    //public Movie(String title, String genre)
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
       new Movie("", "fantasy");
     }, "Title cannot be empty");
@@ -27,6 +37,21 @@ public class MovieTest {
 
     assertEquals("Star Wars", m2.getTitle(), "Title was not equal to expected title.");
     assertEquals("action", m2.getGenre(), "Genre was not equal to expected genre");
+    
+    //public Movie(@JsonProperty("title") String title, @JsonProperty("genre") String genre,
+    //@JsonProperty("ratings") List<Integer> allRatings)
+    List<Integer> ratings = List.of(3, 4);
+    Assertions.assertDoesNotThrow(() -> {
+      new Movie("Danny", "fantasy", ratings);
+    }, "Should be able to create a movie object with json constructor");
+    Movie m4 = new Movie("Danny", "fantasy", ratings);
+    Assertions.assertDoesNotThrow(() -> {
+      new Movie("Danny", "fantasy", ratings);
+    }, "Should be able to create a movie object with json constructor");
+    Movie m = new Movie("Danny", "fantasy", List.of());
+    assertEquals("Danny", m4.getTitle(), "Genre was not equal to expected genre");
+    assertEquals("fantasy", m4.getGenre(), "Genre was not equal to expected genre");
+    assertEquals(m4.getAllRatings(), ratings, "not all or too many ratings were added to object.");
   }
 
   @DisplayName("Testing  getTitle and getGenre")
@@ -54,6 +79,9 @@ public class MovieTest {
     assertEquals(3, m1.getAllRatings().size(), "Something went wrong when adding a rating.");
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
       m1.addRating(6);
+    }, "Not a valid rating");
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      m1.addRating(0);
     }, "Not a valid rating");
   }
 
@@ -84,5 +112,9 @@ public class MovieTest {
     assertTrue(m1.equals(m1), "Movie 1 is suppose to be equal to itself.");
     Movie m3 = new Movie(m1.getTitle(), m1.getGenre());
     assertTrue(m1.equals(m3), "Movie 1 and movie 3 has same name and genre, should thus be equal.");
+    Movie m4 = new Movie(m1.getTitle(), m2.getGenre());
+    assertFalse(m1.equals(m4), "Movie 1 is not suppose to be equal to movie 4 due to different genres.");
+    Object obj = new Object();
+    assertFalse(m1.equals(obj), "Obj is not a movie object and should thus not be equal to m1.");
   }
 }
