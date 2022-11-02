@@ -36,6 +36,7 @@ public class MovieRegister {
    * @param movie the Movie object to update
    */
   public void updateMovie(Movie movie) { 
+    this.movies = updateMovieList();
     if (movies.isEmpty()) {
       throw new IllegalArgumentException("No registered movie yet.");
     }
