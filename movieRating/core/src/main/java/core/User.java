@@ -1,23 +1,32 @@
 package core;
 
-import java.util.HashMap;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import core.json.MovieDeserializerForUser;
 import core.json.MovieSerializerForUser;
+import java.util.HashMap;
 
+/**
+ * Class for user objects.
+ */
 public class User {
   private final String username;
   private final String password;
   private HashMap<Movie, Integer> ratedMovies;
 
+  /**
+   * Constructor that takes three arguments.
+   *
+   * @param username a string
+   * @param password a string
+   * @param ratedMovies hashMap of Movie and Integer obejcts
+   */
   @JsonCreator
   public User(@JsonProperty("username") String username, @JsonProperty("password") String password,
-    @JsonProperty("ratings") @JsonDeserialize(using = MovieDeserializerForUser.class) HashMap<Movie, Integer> ratedMovies) {
+      @JsonProperty("ratings") @JsonDeserialize(using = MovieDeserializerForUser.class) 
+      HashMap<Movie, Integer> ratedMovies) {
     // constructor for file management
     this(username, password);
     if (ratedMovies != null) {
@@ -25,6 +34,12 @@ public class User {
     }
   }
 
+  /**
+   * Constructor that takes two arguments.
+   *
+   * @param username a string
+   * @param password a string
+   */
   public User(String username, String password) { // constructor that creates User object
     if (username.matches("[a-zA-Z0-9]+") && password.matches("[a-zA-Z0-9]+")) {
       this.username = username;
@@ -33,11 +48,12 @@ public class User {
     } else if (username.isEmpty() || password.isEmpty()) {
       throw new IllegalArgumentException("Username and password can not be empty");
     } else {
-      throw new IllegalArgumentException("Username and password can only contain numbers and letters");
+      throw new IllegalArgumentException(
+        "Username and password can only contain numbers and letters");
     }
   }
 
-  public String getUsername() {// return username
+  public String getUsername() { // return username
     return username;
   }
 
@@ -45,9 +61,15 @@ public class User {
     return password;
   }
 
+  /**
+   * getRatedMovies method.
+   *
+   * @return a hashmap of Movie and Integer objects
+   */
   @JsonSerialize(using = MovieSerializerForUser.class)
   @JsonDeserialize(using = MovieDeserializerForUser.class)
-  public HashMap<Movie, Integer> getRatedMovies() { // returns a hashmap with movies and your rating on the movie
+  // returns a hashmap with movies and your rating on the movie
+  public HashMap<Movie, Integer> getRatedMovies() { 
     // This method cannot be used when writing user to file. This method therefore
     // implements jsonSerialize and jsonDeserialize.
     if (ratedMovies.isEmpty()) {
@@ -57,6 +79,12 @@ public class User {
     }
   }
 
+  /**
+   * rateMovie method.
+   *
+   * @param movie a Movie object
+   * @param myRating an Integer 
+   */
   public void rateMovie(Movie movie, Integer myRating) { // method of rating a film
     if (this.hasRatedMovie(movie)) {
       throw new IllegalArgumentException("The movie is already rated");
@@ -68,10 +96,17 @@ public class User {
     movie.addRating(myRating);
   }
 
+  /**
+   * hasRatedMovie method.
+   *
+   * @param movie a Movie object
+   * @return true if the movie is already rated
+   */
   public boolean hasRatedMovie(Movie movie) { // Checks if the user has already rated a movie
     boolean containsMovie = false;
     for (Movie ratedMovie : this.getRatedMovies().keySet()) {
-      if ((ratedMovie.getTitle().equals(movie.getTitle()) && ratedMovie.getGenre().equals(movie.getGenre()))) {
+      if ((ratedMovie.getTitle().equals(movie.getTitle()) 
+          && ratedMovie.getGenre().equals(movie.getGenre()))) {
         containsMovie = true;
       }
     }
