@@ -13,12 +13,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * class that writes and reads User objects to/from file.
+ */
 public class UserHandler {
 
   private final String fileName;
 
+  /**
+   * Constructor that takes in the name of the file.
+   *
+   * @param fileName a string
+   */
   public UserHandler(String fileName) {
-    //Sets a filename which is to be used for the instantiated object. Can only contain letters and numbers.
+    //Sets a filename which is to be used for the instantiated object.
+    // Can only contain letters and numbers.
     if (fileName.matches("[a-zA-Z0-9]+")) {
       this.fileName = fileName;
     } else {
@@ -29,14 +38,23 @@ public class UserHandler {
     //"UserRegister.json"
   }
 
+  /**
+   * Getter method for a File.
+   *
+   * @return a file with the final filename parameter
+   */
   public File getFile() {
     //Gets the name of the file in user home
     return new File(System.getProperty("user.home") + "/" + this.fileName);
   }
 
+  /**
+   * Method that writes a user to the user register and JSON file.
+   * secures that dublicate users aren't written to file
+   *
+   * @param user the User object to write to register
+   */
   public void writeUserToRegister(User user) {
-    //Writes user to file with JSON.
-    //UserRegister secures that duplicate user aren't written to file.
     try {
       List<User> users = new ArrayList<User>();
       if (this.fileExists()) {
@@ -56,15 +74,19 @@ public class UserHandler {
     }
   }
 
+  /**
+   * Method that reads from file and generates a list of users.
+   *
+   * @return the list of User objects read from file
+   */
   public List<User> readUsersFromRegister() {
-    //Reads from file and generates a list of users based on it.
     try {
       // create object mapper instance
       ObjectMapper mapper = new ObjectMapper();
 
       // convert JSON array to list of users
       List<User> users = Arrays.asList(
-        mapper.readValue(getFile(), User[].class)
+          mapper.readValue(getFile(), User[].class)
       );
       return new ArrayList<>(users);
     } catch (Exception e) {
@@ -72,9 +94,13 @@ public class UserHandler {
     }
   }
 
+  /**
+   * Method that updates a user in the register if it already exists.
+   *
+   * @param user the User object to update
+   */
   public void updateRegister(User user) {
     try {
-      //Takes in a user and a rating and updates it in the register
       //Generates a list of all user objects in file:
       User oldUserToRemove = this.userExists(user);
       List<User> userList = this.readUsersFromRegister();
@@ -95,10 +121,13 @@ public class UserHandler {
     }
   }
 
+  /**
+   * Private method that checks if a User exists.
+   *
+   * @param user the User object to check
+   * @return the User if it exists
+   */
   private User userExists(User user) {
-    //Takes in a user and a rating and updates it in the register
-
-    //Generates a list of all user objects in file:
     List<User> userList = this.readUsersFromRegister();
 
     //Writes all previous users and the new updates user to file:
@@ -114,7 +143,12 @@ public class UserHandler {
     return oldUserToRemove;
   }
 
-  public boolean fileExists() { // check if the file exists
+  /**
+   * Method that checks if a file exists.
+   *
+   * @return true if the file exists
+   */
+  public boolean fileExists() { 
     File f = new File(getFile().getAbsolutePath());
     if (f.isFile()) {
       return true;
