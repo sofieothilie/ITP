@@ -43,6 +43,42 @@ Trond har nettopp sett filmen "The Notebook". Han synes filmen var bra, selv om 
 
 Vi har tatt i bruk implisitt fillagring i dette prosjektet. For eksempel trykker bruker på "Create new user", og da lagres denne useren til fil, uten at det står "lagre" på knappen. Et annet eksempel er dersom en bruker ønsker å legge til en movie i listen over alle movies. Denne movien lagres til fil men bruker får ikke beskjed om at den lagres. På knappen står det bare "Add movie to register". Det siste eksempelet vårt på implisitt lagring er der bruker kan legge til rating på en movie. Dersom bruker klikker på knappen "Rate" lagres ny gjennomsnittlig rating av den movien til fil, uten at bruker får beskjed om dette.
 
+**Filene er bygd opp med følgende format:**\
+Tekst markert i uthevet skrift er feild names i json, men resterende tekst er data.\
+Movie: \
+[ { \
+&ensp; **"title"** : "title1", \
+&ensp; **"genre"** : "genre1", \
+&ensp; **"allRatings"** : [ x1, x2 ] \
+}, {\
+&ensp;  **"title"** : "title2", \
+&ensp;  **"genre"** : "genre2", \
+&ensp;  **"allRatings"** : [ y1, y2 ] \
+} ]
+
+User: \
+[ { \
+&ensp; **"username"** : "username1", \
+&ensp; **"password"** : "password1", \
+&ensp; **"ratedMovies"** : [ { \
+&ensp; &ensp; **"title"** : "title1", \
+&ensp; &ensp; **"genre"** : "genre1", \
+&ensp; &ensp; **"rating"** : x1 \
+&ensp; }, { \
+&ensp; &ensp; **"title"** : "title2", \
+&ensp; &ensp; **"genre"** : "genre2", \
+&ensp; &ensp; **"rating"** : y1 \
+&ensp; } ] \
+}, { \
+&ensp; **"username"** : "username2", \
+&ensp; **"password"** : "password2", \
+&ensp; **"ratedMovies"** : [ { \
+&ensp; &ensp; **"title"** : "title1", \
+&ensp; &ensp; **"genre"** : "genre1", \
+&ensp; &ensp; **"rating"** : x2 \
+&ensp; } ] \
+} ]
+
 ## Arbeidsvaner og kodekvalitet
 
 - Vi setter oss ned sammen og går gjennom arbeidsoppgaver og lager issues for det vi skal gjøre. Når vi jobber med de ulike oppgavene gjør vi dette i egne branches med navnet og nummeret på issuen arbeidsoppgaven er tilknyttet.
