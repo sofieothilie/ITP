@@ -4,14 +4,14 @@
 
 1. Bruker skal kunne logge inn og lage ny bruker
     - Dersom bruker ikke er registrert skal den få et valg om å opprette en ny bruker.
-    - Når bruker er logget inn, eller har opprettet en bruker skal det gis feedback på at bruker nå er logget inn. 
+    - Når bruker er logget inn, eller har opprettet en bruker skal det gis feedback på at bruker nå er logget inn.
 2. En skal kunne søke på filmer og se ratingen uansett om man er logget inn eller ikke.
     - Filmen(e) som tilfredstiller søket skal dukke opp (ikke implementert)
     - Dersom man er logget inn skal det være mulig å rate filmen man trykker på
     - Dersom man ikke er logget inn gis det feedback om det. (ikke implementert)
     - Dersom filmen ikke er registrert skal det være mulig å legge til filmen med attributtene "title", "genre" og til slutt en "rating". Dette lagres til fil.
     - Dersom brukeren allerede har ratet denne filmen, skal det gis feedback på at det ikke er mulig å rate igjen (ikke implementert)
-4. Rating
+3. Rating
     - Fra en nedtrekksmeny skal brukeren kunne gi rating til valgte film fra 1-5.
     - Deretter skal bruker få opp oppdatert rating på filmen
     - Ratingen lagres i to filer
@@ -40,7 +40,8 @@ Trond har nettopp sett filmen "The Notebook". Han synes filmen var bra, selv om 
 ![Illustrasjon av applikasjon](userhistory1.jpg)
 
 ## Implisitt fillagring
-Vi har tatt i bruk implisitt fillagring i dette prosjektet. For eksempel trykker bruker på "Create new user", og da lagres denne useren til fil, uten at det står "lagre" på knappen. Et annet eksempel er dersom en bruker ønsker å legge til en movie i listen over alle movies. Denne movien lagres til fil men bruker får ikke beskjed om at den lagres. På knappen står det bare "Add movie to register". Det siste eksempelet vårt på implisitt lagring er der bruker kan legge til rating på en movie. Dersom bruker klikker på knappen "Rate" lagres ny gjennomsnittlig rating av den movien til fil, uten at bruker får beskjed om dette. 
+
+Vi har tatt i bruk implisitt fillagring i dette prosjektet. For eksempel trykker bruker på "Create new user", og da lagres denne useren til fil, uten at det står "lagre" på knappen. Et annet eksempel er dersom en bruker ønsker å legge til en movie i listen over alle movies. Denne movien lagres til fil men bruker får ikke beskjed om at den lagres. På knappen står det bare "Add movie to register". Det siste eksempelet vårt på implisitt lagring er der bruker kan legge til rating på en movie. Dersom bruker klikker på knappen "Rate" lagres ny gjennomsnittlig rating av den movien til fil, uten at bruker får beskjed om dette.
 
 ## Arbeidsvaner og kodekvalitet
 
@@ -60,6 +61,8 @@ Vi har tatt i bruk implisitt fillagring i dette prosjektet. For eksempel trykker
 
 - Denne måten å jobbe på fungerer veldig bra for vår gruppe og vi har satt faste tidspunkter i uken for arbeidsøktene våre. Det gir god arbeidsflyt og alle på gruppen bidrar.
 
+- Vi har valgt å ikke benytte commitizens eller liknende, men heller avtale hvordan våre commits skal være utformet. De er utformet med en header (en kort beskrivelse), en body (lengre beskrivelse) og en footer. I sistnevnte nevnes issues og eventuelle coauthors for commiten.
+
 ## PlantUML
 
 ### Klassediagram over applikasjonen
@@ -72,3 +75,8 @@ Viser sammenheng mellom klassene med felt, metoder og assosiasjoner.
 
 Viser sammenheng mellom de ulike arkitekturene i applikasjonen.
 ![Komponentdiagram over arkitektur](component.png)
+
+### Sekvensdiagram over et sekvenskall
+
+Sekvensdiagrammet tar utgangspunkt i en actor som skal legge til en ny film. Det viser to alternativer på resultat: et hvor bruker får lagret filmen og et hvor filmen allerede eksisterer.
+![Sekvensdiagram over et sekvenskall](SequenceDiagram.puml)
