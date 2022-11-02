@@ -5,18 +5,32 @@ import core.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * class that handles a register of User objects.
+ */
 public class UserRegister {
   private List<User> users = new ArrayList<>();
   private UserHandler userHandler;
   private MovieRegister movieRegister;
 
+  /**
+   * Constructor that takes a user filename and a movie filename.
+   * Generates a movie and user handler object
+   *
+   * @param userFileName a string
+   * @param movieFileName a string
+   */
   public UserRegister(String userFileName, String movieFileName) {
-    // Constructor for user register. Generates a movie and user handler object.
     this.userHandler = new UserHandler(userFileName);
     this.movieRegister = new MovieRegister(movieFileName);
   }
 
-  public void registerNewUser(User newuser) { // register new user
+  /**
+   * Method that registers a new user to the register.
+   *
+   * @param newuser the User object to register
+   */
+  public void registerNewUser(User newuser) { 
     this.users = updateUserList();
     for (User user : users) {
       if (user.equals(newuser)) {
@@ -26,14 +40,25 @@ public class UserRegister {
     userHandler.writeUserToRegister(newuser);
   }
 
-  public List<User> getUsers() { // retrieves a list of users
+  /**
+   * Method that retrieves a ist of users.
+   *
+   * @return a list of User objects
+   */
+  public List<User> getUsers() { 
     if (userHandler.fileExists()) {
       return new ArrayList<>(userHandler.readUsersFromRegister());
     }
     return List.of();
   }
 
-  public User getUser(String username) { // retrieves user with username
+  /**
+   * A method that gets a user with given username.
+   *
+   * @param username a string, the username of the User object to get
+   * @return the User object with given username if it exists
+   */
+  public User getUser(String username) { 
     this.users = this.updateUserList();
     for (User user : users) {
       if (user.getUsername().equals(username)) {
@@ -43,8 +68,13 @@ public class UserRegister {
     return null;
   }
 
-  public void existingUser(String username, String password) { // checks whether the user exists on username and
-                                                               // password
+  /**
+   * Method that checks whether a user exists on username and password.
+   *
+   * @param username a string, the username
+   * @param password a string, the password
+   */
+  public void existingUser(String username, String password) { 
     User foundUser = getUser(username);
 
     if (foundUser == null) {
@@ -55,7 +85,13 @@ public class UserRegister {
     }
   }
 
-  public void updateRatedMovie(User user, Movie movie) { // Updates the user in the file if it already exists
+  /**
+   * Method that updates a user in the file if it already exists.
+   *
+   * @param user the User object
+   * @param movie the movie object to update with
+   */
+  public void updateRatedMovie(User user, Movie movie) { 
     this.users = updateUserList();
     if (users.isEmpty()) {
       throw new IllegalArgumentException("No registered users yet");
@@ -74,11 +110,32 @@ public class UserRegister {
     }
   }
 
-  private List<User> updateUserList() { // reads from the file and returns a list of users or empty list
+  /**
+   * Private method that reads from the file and returns a list of users, or an empty list.
+   *
+   * @return a list of Users read from the file
+   */
+  private List<User> updateUserList() { 
     if (userHandler.fileExists()) {
       return new ArrayList<>(userHandler.readUsersFromRegister());
     } else {
       return List.of();
+    }
+  }
+
+  /**
+   * Method that checks if it is possible to create a user.
+   *
+   * @param user the user object to check
+   */
+  public void ableToCreateNewUser(User user) { 
+    //TODO: by the time the exercise is finished, the method must be removed
+    //remain here for the time being
+    this.users = this.updateUserList();
+    for (User alreadyUser : users) {
+      if (user.equals(alreadyUser)) {
+        throw new IllegalArgumentException("Already a user");
+      }
     }
   }
 }

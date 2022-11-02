@@ -10,11 +10,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * class that writes and reads Movie objects to/from file.
+ */
 public class MovieHandler {
   private final String fileName;
 
+  /**
+   * Constructor that takes one argument.
+   *
+   * @param fileName a String
+   */
   public MovieHandler(String fileName) {
-    //Sets a filename which is to be used for the instantiated object. Can only contain letters and numbers.
+    //Sets a filename which is to be used for the instantiated object. 
+    //Can only contain letters and numbers.
     if (fileName.matches("[a-zA-Z0-9]+")) {
       this.fileName = fileName;
     } else {
@@ -30,6 +39,11 @@ public class MovieHandler {
     return new File(System.getProperty("user.home") + "/" + this.fileName);
   }
 
+  /**
+   * writeMovieToRegister method.
+   *
+   * @param movie a Movie object
+   */
   public void writeMovieToRegister(Movie movie) {
     //Writes movie to file with JSON.
     //MovieRegister secures that duplicate movies aren't written to file.
@@ -51,6 +65,11 @@ public class MovieHandler {
     }
   }
 
+  /**
+   * A method that updates a movie object in the file.
+   *
+   * @param movie a Movie object
+   */
   public void updateMovieInRegister(Movie movie) {
     try {
       //Takes in a movie and updates it in the register
@@ -88,6 +107,11 @@ public class MovieHandler {
     return new ArrayList<>(movieList);
   }
 
+  /**
+   * Method that reads a movie and rating from a file.
+   *
+   * @return a list of the Movies read from file
+   */
   public List<Movie> readMovieAndRatingFromRegister() {
     //Reads from file and generates a list of movies based on it.
     try {
@@ -96,7 +120,7 @@ public class MovieHandler {
 
       // convert JSON array to list of movies
       List<Movie> movies = Arrays.asList(
-        mapper.readValue(getFile(), Movie[].class)
+          mapper.readValue(getFile(), Movie[].class)
       );
       return new ArrayList<>(movies);
     } catch (Exception e) {
@@ -104,6 +128,11 @@ public class MovieHandler {
     }
   }
 
+  /**
+   * A method that checks if a file exists.
+   *
+   * @return true if the file exists
+   */
   public Boolean fileExists() { //Chekcs if the file exists
     File f = new File(getFile().getAbsolutePath());
     if (f.isFile()) {
