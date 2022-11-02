@@ -1,6 +1,6 @@
 module movieRating.core {
   exports core;
-  exports core.deserializerAndSerializer;
+  exports core.json;
 
   opens core to com.fasterxml.jackson.databind;
 
