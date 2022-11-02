@@ -4,6 +4,9 @@ import core.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * class that handles a register of Movie objects.
+ */
 public class MovieRegister {
 
   private List<Movie> movies = new ArrayList<>();
@@ -14,6 +17,11 @@ public class MovieRegister {
     this.movieHandler = new MovieHandler(fileName);
   }
 
+  /**
+   * Method that adds a movie object to the register.
+   *
+   * @param movie the movie object to add
+   */
   public void addMovie(Movie movie) { //Adds a movie to file if it doesn't already exist in file.
     this.movies = updateMovieList();
     if (movieExists(movie)) {
@@ -22,8 +30,12 @@ public class MovieRegister {
     movieHandler.writeMovieToRegister(movie);
   }
 
-  public void updateMovie(Movie movie) { //Updates the movie in the file if it already exists in file.
-    this.movies = updateMovieList();
+  /**
+   * Method that updates a Movie object in the file if it exists already.
+   *
+   * @param movie the Movie object to update
+   */
+  public void updateMovie(Movie movie) { 
     if (movies.isEmpty()) {
       throw new IllegalArgumentException("No registered movie yet.");
     }
@@ -35,16 +47,20 @@ public class MovieRegister {
       }
     }
     if (!foundMovie) {
-      throw new IllegalArgumentException(
-        "No movie with title " +
-        movie.getTitle() +
-        " and genre " +
-        movie.getGenre()
-      );
+      throw new IllegalArgumentException("No movie with title " 
+        + movie.getTitle() 
+        + " and genre " 
+        + movie.getGenre());
     }
   }
 
-  public List<Movie> searchGenre(String genre) { //Returns a list of movies which has the given genre.
+  /**
+   * Method that searches in the register for movies with a given genre.
+   *
+   * @param genre a string, the genre to search for
+   * @return a list of Movie objects with the given genre
+   */
+  public List<Movie> searchGenre(String genre) { 
     this.movies = updateMovieList();
     List<Movie> moviesByGenre = new ArrayList<>();
     for (Movie movie : movies) {
@@ -55,7 +71,13 @@ public class MovieRegister {
     return new ArrayList<>(moviesByGenre);
   }
 
-  public List<Movie> searchMovieTitle(String title) { //Returns a list of movies which has the given title.
+  /**
+   * Method that searches in the register for Movie objects with given title.
+   *
+   * @param title a string, the title to search for
+   * @return a list of Movie objects with given title
+   */
+  public List<Movie> searchMovieTitle(String title) { 
     this.movies = updateMovieList();
     List<Movie> moviesByTitle = new ArrayList<>();
     for (Movie movie : movies) {
@@ -66,7 +88,14 @@ public class MovieRegister {
     return new ArrayList<>(moviesByTitle);
   }
 
-  public Movie getMovie(String title, String genre) { //Returns a movies which has the given title and genre.
+  /**
+   * Method that returns a movie with given title and genre.
+   *
+   * @param title a string, the title of the movie
+   * @param genre a string, the genre of the movie
+   * @return a Movie object with given title and genre, if it exists
+   */
+  public Movie getMovie(String title, String genre) { 
     this.movies = updateMovieList();
     for (Movie movie : movies) {
       if (movie.getTitle().equals(title) && movie.getGenre().equals(genre)) {
@@ -78,7 +107,13 @@ public class MovieRegister {
     );
   }
 
-  private boolean movieExists(Movie movie) { //Returns true if a movie exists in register, if not false.
+  /**
+   * Method that checks if a movie exists in register.
+   *
+   * @param movie the Movie object to check
+   * @return true if the movie exists
+   */
+  private boolean movieExists(Movie movie) { 
     this.movies = updateMovieList();
     if (this.movies.isEmpty()) {
       return false;
@@ -91,6 +126,11 @@ public class MovieRegister {
     return false;
   }
 
+  /**
+   * Method that updates the list of movies in the register by reading from a file.
+   *
+   * @return a list of all movie objects read from the file
+   */
   private List<Movie> updateMovieList() { //Reads from file, return a list
     if (movieHandler.fileExists()) {
       return new ArrayList<>(movieHandler.readMovieAndRatingFromRegister());
