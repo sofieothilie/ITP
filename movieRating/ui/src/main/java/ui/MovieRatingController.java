@@ -14,6 +14,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 
 /**
  * MovieRating controller class.
@@ -32,8 +33,9 @@ public class MovieRatingController {
   //FXML fields
   
   @FXML private TextField username;
-  @FXML private TextField password;
   @FXML private TextField movieName;
+
+  @FXML private PasswordField password;
 
   @FXML private Button logIn;
   @FXML private Button createUser;
