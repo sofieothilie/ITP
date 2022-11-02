@@ -21,8 +21,6 @@ public class MovieTest {
     this.m2 = new Movie("Star Wars", "action");
   }
 
-
-
   @DisplayName("Testing the constructor")
   @Test
   public void testConstructor() { // tests the constructors

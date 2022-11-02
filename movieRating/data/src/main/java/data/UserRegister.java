@@ -122,20 +122,4 @@ public class UserRegister {
       return List.of();
     }
   }
-
-  /**
-   * Method that checks if it is possible to create a user.
-   *
-   * @param user the user object to check
-   */
-  public void ableToCreateNewUser(User user) { 
-    //TODO: by the time the exercise is finished, the method must be removed
-    //remain here for the time being
-    this.users = this.updateUserList();
-    for (User alreadyUser : users) {
-      if (user.equals(alreadyUser)) {
-        throw new IllegalArgumentException("Already a user");
-      }
-    }
-  }
 }

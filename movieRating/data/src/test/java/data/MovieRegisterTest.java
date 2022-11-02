@@ -34,6 +34,20 @@ public class MovieRegisterTest {
     movieRegister = new MovieRegister(filename);
   }
 
+  @DisplayName("Tests trying to create a invalid constructor")
+  @Test
+  public void testConstructor(){
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
+        new MovieRegister("n0!V4lid");
+      },
+      "Filename not valid not in register"
+    );
+
+  }
+
+
   @DisplayName("Testing to add a movie to the register")
   @Test
   public void testAddMovie() {
@@ -167,7 +181,9 @@ public class MovieRegisterTest {
   public void tearDown() {
     MovieHandler handler = new MovieHandler(filename);
     try {
-      Files.delete(handler.getFile().toPath());
+      if (handler.fileExists()) {
+        Files.delete(handler.getFile().toPath());
+      }
     } catch (IOException e) {
       throw new IllegalArgumentException();
     }
