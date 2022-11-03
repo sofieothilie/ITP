@@ -174,7 +174,9 @@ public class UserRegisterTest {
     UserHandler userHandler = new UserHandler(userFilename);
     MovieHandler movieHandler = new MovieHandler(movieFilename);
     try {
-      Files.delete(userHandler.getFile().toPath());
+      if(userHandler.fileExists()){
+        Files.delete(userHandler.getFile().toPath());
+      }
       if (movieHandler.fileExists()) {
         Files.delete(movieHandler.getFile().toPath());
       }
