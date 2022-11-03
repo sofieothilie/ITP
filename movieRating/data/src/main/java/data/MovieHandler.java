@@ -17,9 +17,9 @@ public class MovieHandler {
   private final String fileName;
 
   /**
-   * Constructor that takes one argument.
+   * Constructor that takes in a filename.
    *
-   * @param fileName a String
+   * @param fileName a string, only of letters and numbers
    */
   public MovieHandler(String fileName) {
     //Sets a filename which is to be used for the instantiated object. 
@@ -34,19 +34,23 @@ public class MovieHandler {
     //"MovieRegister.json"
   }
 
+  /**
+   * Method that returns the file in user home.
+   *
+   * @return a file
+   */
   public File getFile() {
     //Gets the name of the file in user home
     return new File(System.getProperty("user.home") + "/" + this.fileName);
   }
 
   /**
-   * writeMovieToRegister method.
+   * Meyhod that writes movie to file with JSON.
+   * MovieRegister secures that dublicate movies aren't written to file
    *
-   * @param movie a Movie object
+   * @param movie the movie object to write to file
    */
   public void writeMovieToRegister(Movie movie) {
-    //Writes movie to file with JSON.
-    //MovieRegister secures that duplicate movies aren't written to file.
     try {
       List<Movie> movies = new ArrayList<Movie>();
       if (this.fileExists()) {
@@ -68,11 +72,10 @@ public class MovieHandler {
   /**
    * A method that updates a movie object in the file.
    *
-   * @param movie a Movie object
+   * @param movie the movie object to update
    */
   public void updateMovieInRegister(Movie movie) {
     try {
-      //Takes in a movie and updates it in the register
       List<Movie> movieList = updateMovieListWithNewMovie(movie);
       if (movieList.contains(movie)) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -90,6 +93,12 @@ public class MovieHandler {
     }
   }
 
+  /**
+   * Method that updates a movie and generates a new list of all the movies with the new update.
+   *
+   * @param movie the updated movie
+   * @return a list of all movies
+   */
   private List<Movie> updateMovieListWithNewMovie(Movie movie) {
     //Generates a list of all movie objects in file:
     List<Movie> movieList = this.readMovieAndRatingFromRegister();

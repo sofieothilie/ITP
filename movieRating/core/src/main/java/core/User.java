@@ -37,10 +37,10 @@ public class User {
   /**
    * Constructor that takes in username and password.
    *
-   * @param username a string
-   * @param password a string
+   * @param username a string of numbers and letters
+   * @param password a string of numbers and letters
    * @throws IllegalArgumentException if username or password is empty
-   * @throws IllegalArgumentException if username or password contains anything other than numbers and letters
+   * @throws IllegalArgumentException if username or password doesn't match regex
    */
   public User(String username, String password) { // constructor that creates User object
     if (username.matches("[a-zA-Z0-9]+") && password.matches("[a-zA-Z0-9]+")) {
@@ -56,7 +56,7 @@ public class User {
   }
 
   /**
-   * Getter for username
+   * Getter for username.
    *
    * @return the username
    */
@@ -65,7 +65,7 @@ public class User {
   }
 
   /**
-   * Getter for password
+   * Getter for password.
    *
    * @return the password
    */
@@ -109,7 +109,7 @@ public class User {
   }
 
   /**
-   * Method that checks if the user already rated a movie
+   * Method that checks if the user already rated a movie.
    *
    * @param movie the Movie object to check
    * @return true if the movie is already rated
