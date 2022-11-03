@@ -3,6 +3,7 @@ package ui;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -16,11 +17,12 @@ public class MovieRatingApp extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws IOException {
-    primaryStage.setTitle("MovieRatingApp"); // TODO: legge inn mellomrom
-    primaryStage.setScene(
-      new Scene(FXMLLoader.load(getClass().getResource("MovieRating.fxml")))
-    );
-    primaryStage.show();
+  public void start(Stage stage) throws IOException {
+    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MovieRating.fxml"));
+    MovieRatingController controller = new MovieRatingController();
+    loader.setController(controller);
+    Parent parent = loader.load();
+    stage.setScene(new Scene(parent));
+    stage.show();
   }
 }

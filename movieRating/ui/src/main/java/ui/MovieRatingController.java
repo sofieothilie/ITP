@@ -3,6 +3,7 @@ package ui;
 import core.Movie;
 import core.User;
 import data.MovieRegister;
+import data.UserHandler;
 import data.UserRegister;
 import java.util.Arrays;
 import java.util.List;
@@ -21,41 +22,62 @@ import javafx.scene.control.TextField;
 public class MovieRatingController {
   //Fields
   private Movie movie;
-  private final String movieFilename = "movieRegistry";
-  private MovieRegister movieRegister = new MovieRegister(movieFilename);
+  private final String movieFilename;
+  public MovieRegister movieRegister;
   private User user;
-  private final String userFilename = "userRegistry";
-  private UserRegister userRegister = new UserRegister(userFilename, movieFilename);
-  private static List<String> genresList = Arrays.asList("action",
-      "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
+  private final String userFilename;
+  public UserRegister userRegister;
+  private static List<String> genresList = Arrays.asList("action", "comedy",
+      "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
   private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
 
   //FXML fields
-  @FXML
-  private TextField username;
-  private TextField password;
-  private TextField movieName;
-  @FXML
-  private Button logIn;
-  private Button createUser;
-  private Button addMovieRegister;
-  private Button logOut;
-  private Button rateButton;
-  @FXML
-  private ChoiceBox<String> genreBox;
-  @FXML
-  private ChoiceBox<Integer> rateBox;
-  @FXML
-  private TextArea ratedMovie;
-  @FXML
-  private Label loggedIn;
-  private Label loggedOut;
-  private Label usernameLabel;
-  private Label passwordLabel;
-  private Label rateLabel;
-  private Label movieLabel;
-  private Label ratingscaleLabel;
+  
+  @FXML private TextField username;
+  @FXML private TextField password;
+  @FXML private TextField movieName;
 
+  @FXML private Button logIn;
+  @FXML private Button createUser;
+  @FXML private Button addMovieRegister;
+  @FXML private Button logOut;
+  @FXML private Button rateButton;
+  
+  @FXML private ChoiceBox<String> genreBox;
+
+  @FXML private ChoiceBox<Integer> rateBox;
+  
+  @FXML private TextArea ratedMovie;
+  
+  @FXML private Label loggedIn;
+  @FXML private Label loggedOut;
+  @FXML private Label usernameLabel;
+  @FXML private Label passwordLabel;
+  @FXML private Label rateLabel;
+  @FXML private Label movieLabel;
+  @FXML private Label ratingscaleLabel;
+
+  /**
+   * Constructor.
+   */
+  public MovieRatingController() {
+    this.userFilename = "userRegistry";
+    this.movieFilename = "movieRegistry";
+    this.movieRegister = new MovieRegister(movieFilename);
+    this.userRegister = new UserRegister(userFilename, movieFilename);
+  }
+  
+  /**
+   * Constructor for testing.
+   */
+  public MovieRatingController(String userFilename, String movieFilename) {
+    this.userFilename = userFilename;
+    this.movieFilename = movieFilename;
+    this.movieRegister = new MovieRegister(movieFilename);
+    this.userRegister = new UserRegister(userFilename, movieFilename);
+  }
+
+  // Methods
 
   /**
    * Method that initializes the app with correct visibility.
@@ -108,16 +130,18 @@ public class MovieRatingController {
     loggedOut.visibleProperty().set(!value);
   }
 
+
+  //Sets the desired visibility based on rather a user is logged in or not:
   /**
    * Sets the desired visibility based on rather a user is logged in or not.
    *
    * @param value true if logged in, else false
    */
-  private void loggedIn(boolean value) {
+  public void loggedIn(boolean value) {
     setLoginPossibility(false);
     addMovieRegister.setVisible(true);
     loggedIn.visibleProperty().set(true);
-    //loggedOut.visibleProperty().set(false);
+    loggedOut.visibleProperty().set(false);
   }
 
   /**
@@ -156,7 +180,7 @@ public class MovieRatingController {
     //movieRegisterList.getItems().clear();
     movieName.clear();
     movieLabel.setText("");
-    ratedMovie.setText(movie.toString());
+    ratedMovie.setText(null);
     genreBox.setValue(null);
     rateBox.setValue(null);   
   }
@@ -207,6 +231,7 @@ public class MovieRatingController {
     loggedIn.setVisible(false);
     addMovieRegister.setVisible(false);
     loggedOut.visibleProperty().set(true);
+    //sleep eller wait to remove "Your are logged out" message after 3 seconds
     clearAllSearchFields();
   }
 
@@ -314,7 +339,7 @@ public class MovieRatingController {
   }
 
   //Error message
-  private void errorActivation(String message) {
+  void errorActivation(String message) {
     //When called, displays a warning message
     //fikse på meldingene
     Alert alert = new Alert(AlertType.ERROR);
@@ -333,6 +358,8 @@ public class MovieRatingController {
     alert.setTitle("Movie Rating");
     alert.setContentText(message);
     alert.showAndWait();
-  }   
+  }
+  
+
 }
 
