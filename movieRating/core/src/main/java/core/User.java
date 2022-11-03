@@ -9,7 +9,7 @@ import core.json.MovieSerializerForUser;
 import java.util.HashMap;
 
 /**
- * Class for user objects.
+ * Class for user objects. 
  */
 public class User {
   private final String username;
@@ -17,7 +17,7 @@ public class User {
   private HashMap<Movie, Integer> ratedMovies;
 
   /**
-   * Constructor that takes three arguments.
+   * Constructor that takes in a username, password and a hashmap.
    *
    * @param username a string
    * @param password a string
@@ -35,10 +35,12 @@ public class User {
   }
 
   /**
-   * Constructor that takes two arguments.
+   * Constructor that takes in username and password.
    *
-   * @param username a string
-   * @param password a string
+   * @param username a string of numbers and letters
+   * @param password a string of numbers and letters
+   * @throws IllegalArgumentException if username or password is empty
+   * @throws IllegalArgumentException if username or password doesn't match regex
    */
   public User(String username, String password) { // constructor that creates User object
     if (username.matches("[a-zA-Z0-9]+") && password.matches("[a-zA-Z0-9]+")) {
@@ -53,22 +55,32 @@ public class User {
     }
   }
 
-  public String getUsername() { // return username
+  /**
+   * Getter for username.
+   *
+   * @return the username
+   */
+  public String getUsername() { 
     return username;
   }
 
-  public String getPassword() { // return the users password
+  /**
+   * Getter for password.
+   *
+   * @return the password
+   */
+  public String getPassword() { 
     return password;
   }
 
   /**
-   * getRatedMovies method.
+   * Method that returns a hashmap with movies and your rating for the movie.
    *
    * @return a hashmap of Movie and Integer objects
+   * 
    */
   @JsonSerialize(using = MovieSerializerForUser.class)
   @JsonDeserialize(using = MovieDeserializerForUser.class)
-  // returns a hashmap with movies and your rating on the movie
   public HashMap<Movie, Integer> getRatedMovies() { 
     // This method cannot be used when writing user to file. This method therefore
     // implements jsonSerialize and jsonDeserialize.
@@ -80,12 +92,12 @@ public class User {
   }
 
   /**
-   * rateMovie method.
+   * Method for rating a movie.
    *
-   * @param movie a Movie object
-   * @param myRating an Integer 
+   * @param movie the Movie object to rate
+   * @param myRating an Integer, the rating
    */
-  public void rateMovie(Movie movie, Integer myRating) { // method of rating a film
+  public void rateMovie(Movie movie, Integer myRating) { 
     if (this.hasRatedMovie(movie)) {
       throw new IllegalArgumentException("The movie is already rated");
     }
@@ -97,9 +109,9 @@ public class User {
   }
 
   /**
-   * hasRatedMovie method.
+   * Method that checks if the user already rated a movie.
    *
-   * @param movie a Movie object
+   * @param movie the Movie object to check
    * @return true if the movie is already rated
    */
   public boolean hasRatedMovie(Movie movie) { // Checks if the user has already rated a movie

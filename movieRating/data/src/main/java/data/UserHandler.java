@@ -22,7 +22,7 @@ public class UserHandler {
   /**
    * Constructor that takes in the name of the file.
    *
-   * @param fileName a string
+   * @param fileName a string filename
    */
   public UserHandler(String fileName) {
     //Sets a filename which is to be used for the instantiated object.
@@ -37,7 +37,7 @@ public class UserHandler {
   }
 
   /**
-   * Getter method for a File.
+   * Method that returns the file in user home.
    *
    * @return a file with the final filename parameter
    */

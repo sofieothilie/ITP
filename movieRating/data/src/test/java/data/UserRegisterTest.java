@@ -17,11 +17,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class UserRegisterTest {
-
-  // TODO: bruke equals der det er brukt assertEquals
-  // TODO: teste MovieHandler her
-  // TODO: sjekke Jacoco-test
-
   private User user1;
   private User user2;
   private User user3;
@@ -40,6 +35,18 @@ public class UserRegisterTest {
 
     this.userRegister = new UserRegister(userFilename, movieFilename);
     this.movieRegister = new MovieRegister(movieFilename);
+  }
+
+  @DisplayName("Tests trying to create a invalid constructor")
+  @Test
+  public void testConstructor(){
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
+        new UserRegister("n0!V4lid", "valid");
+      },
+      "Filename should not be valid in for userhandler"
+    );
   }
 
   @DisplayName("Testing to register a new user")

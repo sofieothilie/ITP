@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Class for move objects.
+ * Class for movie objects.
  */
 public class Movie {
   private final String title;
@@ -20,10 +20,10 @@ public class Movie {
       "mystery", "romance", "thriller");
 
   /**
-   * Constructor that takes three arguments.
+   * Constructor that that takes inn a title, genre and a list of ratings.
    *
-   * @param title a String 
-   * @param genre a String, but must match one of the elements in GENRES
+   * @param title a string, the name of the movie
+   * @param genre a string, that must match one of the elements in the static list GENRES
    * @param allRatings a list of integers
    */
   @JsonCreator
@@ -33,16 +33,18 @@ public class Movie {
     this(title, genre);
     if (allRatings != null) {
       this.allRatings = new ArrayList<>(allRatings);
+    } else {
+      this.allRatings = List.of();
     }
-    this.allRatings = List.of();
-
   }
 
   /**
-   * Constructor that takes two arguments.
+   * Constructor that takes in a title and a genre.
    *
-   * @param title a String
-   * @param genre a String
+   * @param title a string the name of the movie
+   * @param genre a string that matches one of the elements in the static list GENRES
+   * @throws IllegalArgumentException if title is empty
+   * @throws IllegalArgumentException if not a valid genre
    */
   public Movie(String title, String genre) { // create Movie-object with title and genre
     if (title.isEmpty()) {
@@ -56,40 +58,53 @@ public class Movie {
     this.allRatings = new ArrayList<>();
   }
 
-  public String getTitle() { // return title
+  /**
+   * Getter for title.
+   *
+   * @return a string, the title of the movie
+   */
+  public String getTitle() { 
     return title;
   }
 
-  public String getGenre() { // return genre
+  /**
+   * Getter for genre.
+   *
+   * @return a string, the genre of the movie
+   */
+  public String getGenre() { 
     return genre;
   }
 
   /**
-   * getAllRatings method. 
+   * Getter for allRatings. 
+   * returns a copy of the list
    *
-   * @return a list of integers
+   * @return a list of all ratings for this movie
    */
-  public List<Integer> getAllRatings() { // returns a copy of the list with all ratings
+  public List<Integer> getAllRatings() { 
     List<Integer> copyAllRatings = new ArrayList<Integer>(allRatings);
     return copyAllRatings;
   }
 
   /**
-   * addRating method.
+   * Method that adds a rating to the movie object.
+   * 
    *
-   * @param rating an int
+   * @param rating an int rating
+   * @throws IllegalArgumentexception if rating isn't between 1 and 5
    */
-  public void addRating(int rating) { // adds a rating to the list of all ratings and adds
-    if (rating < 1 || rating > 5) { // checks whether the rating is between 1 and 5
+  public void addRating(int rating) { 
+    if (rating < 1 || rating > 5) { 
       throw new IllegalArgumentException("Not a valid rating");
     }
     allRatings.add(rating);
   }
 
   /**
-   * getAverageRating method.
+   * Method that returns the average rating for the movie.
    *
-   * @return a double
+   * @return a double average rating
    */
   @JsonIgnore
   public double getAverageRating() { // calculates average of all ratings for this movie
@@ -105,14 +120,14 @@ public class Movie {
   /** 
    * toString method.
    *
-   * @return a string
+   * @return a string with title, genre and average rating for the movie
    */
-  public String toString() { // returns a string with title and genre and average rating
+  public String toString() { 
     return "" + this.getTitle() + "; " 
       + this.getGenre() + "; " 
       + String.format("%.2f", this.getAverageRating());
   }
-
+  
   @Override
   public boolean equals(Object object) { // Checks if an object is equal
     if (object instanceof Movie) {

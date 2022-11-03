@@ -12,8 +12,12 @@ public class MovieRegister {
   private List<Movie> movies = new ArrayList<>();
   private MovieHandler movieHandler;
 
+  /**
+   * Constructor for, that generates movie handler object.
+   *
+   * @param fileName a string with the name of the file to handle
+   */
   public MovieRegister(String fileName) {
-    //Constructor for movie register. Generates a movie handler object.
     this.movieHandler = new MovieHandler(fileName);
   }
 
@@ -21,8 +25,9 @@ public class MovieRegister {
    * Method that adds a movie object to the register.
    *
    * @param movie the movie object to add
+   * @throws IllegalArgumentException if the movie exists already
    */
-  public void addMovie(Movie movie) { //Adds a movie to file if it doesn't already exist in file.
+  public void addMovie(Movie movie) { 
     this.movies = updateMovieList();
     if (movieExists(movie)) {
       throw new IllegalArgumentException("The movie already exists");
@@ -34,6 +39,8 @@ public class MovieRegister {
    * Method that updates a Movie object in the file if it exists already.
    *
    * @param movie the Movie object to update
+   * @throws IllegalArgumentException if the movie isn't registered
+   * @throws IllegalArgumentexception if the movie does't exist
    */
   public void updateMovie(Movie movie) { 
     this.movies = updateMovieList();
@@ -95,6 +102,7 @@ public class MovieRegister {
    * @param title a string, the title of the movie
    * @param genre a string, the genre of the movie
    * @return a Movie object with given title and genre, if it exists
+   * @throws IllegalArgumentException if the movie doesn't exist
    */
   public Movie getMovie(String title, String genre) { 
     this.movies = updateMovieList();

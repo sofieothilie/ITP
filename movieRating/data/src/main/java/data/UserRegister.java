@@ -29,6 +29,7 @@ public class UserRegister {
    * Method that registers a new user to the register.
    *
    * @param newuser the User object to register
+   * @throws IllegalArgumentException if user already exists
    */
   public void registerNewUser(User newuser) { 
     this.users = updateUserList();
@@ -73,6 +74,8 @@ public class UserRegister {
    *
    * @param username a string, the username
    * @param password a string, the password
+   * @throws IllegalArgumentException if user is not found
+   * @throws IllegalArgumentException if password is invalid
    */
   public void existingUser(String username, String password) { 
     User foundUser = getUser(username);
@@ -90,6 +93,8 @@ public class UserRegister {
    *
    * @param user the User object
    * @param movie the movie object to update with
+   * @throws IllegalArgumentException if register is empty
+   * @throws IllegalArgumentException if user is not found
    */
   public void updateRatedMovie(User user, Movie movie) { 
     this.users = updateUserList();
@@ -120,22 +125,6 @@ public class UserRegister {
       return new ArrayList<>(userHandler.readUsersFromRegister());
     } else {
       return List.of();
-    }
-  }
-
-  /**
-   * Method that checks if it is possible to create a user.
-   *
-   * @param user the user object to check
-   */
-  public void ableToCreateNewUser(User user) { 
-    //TODO: by the time the exercise is finished, the method must be removed
-    //remain here for the time being
-    this.users = this.updateUserList();
-    for (User alreadyUser : users) {
-      if (user.equals(alreadyUser)) {
-        throw new IllegalArgumentException("Already a user");
-      }
     }
   }
 }
