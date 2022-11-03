@@ -73,6 +73,8 @@ public class MovieHandler {
    * A method that updates a movie object in the file.
    *
    * @param movie the movie object to update
+   * @throws IllegalStateException if movie can't be updated
+   * @throws IOException if something goes wrong with the file handeling
    */
   public void updateMovieInRegister(Movie movie) {
     try {
