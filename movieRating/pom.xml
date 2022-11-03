@@ -115,9 +115,8 @@
                     <artifactId>spotbugs-maven-plugin</artifactId>
                     <version>4.5.0.0</version>
                     <configuration>
-                        <xmlOutput>false</xmlOutput>
-                        <htmlOutput>true</htmlOutput>
-                        <excludeFilterFile>config/spotbugs/exclude.xml</excludeFilterFile>
+                        <xmlOutput>true</xmlOutput>
+                        <xmlOutputDirectory>target/site</xmlOutputDirectory>
                     </configuration>
                     <executions>
                         <execution>
