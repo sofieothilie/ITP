@@ -186,7 +186,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(genreBox).clickOn("romance");
     sleep(500);
     robot.clickOn(addMovieRegister);
-    this.closeAlert();
+    //this.closeAlert();
   }
   //*/
 
