@@ -22,11 +22,11 @@ public class MovieDeserializerForUser
   /**
  * Realizes a movie object from user JSON file.
  */
-  public MovieDeserializerForUser() { //TODO: spørre studass
+  public MovieDeserializerForUser() {
     this(null);
   }
 
-  public MovieDeserializerForUser(Class<?> vc) { //TODO: spørre studass
+  public MovieDeserializerForUser(Class<?> vc) {
     super(vc);
   }
 

@@ -44,7 +44,4 @@ public class MovieSerializerForUser extends JsonSerializer<HashMap<Movie, Intege
     }
     gen.writeEndArray();
   }
-
-  //TODO: logge inn, så rate film, må spørre studass
-
 }
