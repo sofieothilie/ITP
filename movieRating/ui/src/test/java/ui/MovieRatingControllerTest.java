@@ -21,6 +21,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import org.testfx.api.FxRobot;
@@ -35,11 +36,12 @@ public class MovieRatingControllerTest extends ApplicationTest {
 
   
   private TextField username, password, movieName;
-  private Button logIn, logOut, createUser, addMovieRegister, rateButton;
+  private Button logIn, logOut, createUser, createUserDone, backToLogIn, addMovieRegister, rateButton;
   private ChoiceBox<String> genreBox;
   private ChoiceBox<Integer> rateBox;
   private TextArea ratedMovie;
   private Label loggedIn, loggedOut, rateLabel, movieLabel, ratingscaleLabel;
+  private Pane ratePane, searchPane, ratedMoviesPane;
 
 
   @BeforeEach
@@ -63,6 +65,11 @@ public class MovieRatingControllerTest extends ApplicationTest {
     rateLabel = lookup("#rateLabel").query();
     movieLabel = lookup("#movieLabel").query();
     ratingscaleLabel = lookup("#ratingscaleLabel").query();
+    createUserDone = lookup("#createUserDone").query();
+    backToLogIn = lookup("#backToLogIn").query();
+    ratePane = lookup("#ratePane").query();
+    searchPane = lookup("#searchPane").query();
+    ratedMoviesPane = lookup("#ratedMoviesPane").query();
   }
 
   @BeforeEach
@@ -98,9 +105,10 @@ public class MovieRatingControllerTest extends ApplicationTest {
   @Test
   @DisplayName("Test to create new user") 
   public void testCreateNewUser() {
+    robot.clickOn(createUser);
     robot.clickOn(username).write("Pauline");
     robot.clickOn(password).write("1234567");
-    robot.clickOn(createUser);
+    robot.clickOn(createUserDone);
     sleep(500);
     //da skal dette skje
     assertFalse(logIn.isVisible());
@@ -111,18 +119,20 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
 
   private void createUser() {
+    robot.clickOn(createUser);
     robot.clickOn(this.username).write("Pauline");
     robot.clickOn(this.password).write("1234567");
-    robot.clickOn(createUser);
+    robot.clickOn(createUserDone);
     sleep(500);
   }
   
   @Test
   @DisplayName("Test to create user with unvalid input")
   public void testFailCreateUser(){
+    robot.clickOn(createUser);
     robot.clickOn(username).write("");
     robot.clickOn(password).write("1234567");
-    robot.clickOn(createUser);
+    robot.clickOn(createUserDone);
     sleep(500);
     this.closeAlert();
   }
@@ -137,11 +147,9 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(logOut.isVisible());
     assertTrue(logIn.isVisible());
     assertFalse(addMovieRegister.isVisible());
-    assertFalse(rateLabel.isVisible());
-    assertFalse(ratingscaleLabel.isVisible());
-    assertFalse(rateBox.isVisible());
-    assertFalse(rateButton.isVisible());
-    assertFalse(ratedMovie.isVisible());
+    //assertFalse(rateLabel.isVisible());
+    assertFalse(ratedMoviesPane.isVisible());
+    assertFalse(ratePane.isVisible());
   }
 
   @Test 
@@ -164,9 +172,10 @@ public class MovieRatingControllerTest extends ApplicationTest {
     createUser();
     robot.clickOn(logOut);
     sleep(500);
+    robot.clickOn(createUser);
     robot.clickOn(username).write("Pauline");
     robot.clickOn(password).write("1234567");
-    robot.clickOn(createUser);
+    robot.clickOn(createUserDone);
     sleep(500);
     this.closeAlert();
   }
@@ -188,7 +197,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(addMovieRegister);
     //this.closeAlert();
   }
-  //*/
 
   // @Test
   // @DisplayName("Sucessful search for a movie")

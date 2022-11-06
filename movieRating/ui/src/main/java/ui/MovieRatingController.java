@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 
 /**
@@ -35,6 +36,11 @@ public class MovieRatingController {
 
   //FXML fields
   
+  @FXML private Pane ratePane;
+  @FXML private Pane searchPane;
+  @FXML private Pane ratedMoviesPane;
+  
+
   @FXML private PasswordField password;
 
   @FXML private TextField username;
@@ -47,6 +53,7 @@ public class MovieRatingController {
   @FXML private Button rateButton;
   @FXML private Button createUserDone;
   @FXML private Button backToLogIn;
+  @FXML private Button searchMovie;
 
   
   @FXML private ChoiceBox<String> genreBox;
@@ -99,6 +106,7 @@ public class MovieRatingController {
     setLoginPossibility(true);
     setSearchVisibility(true);
     setRateVisibility(false, null);
+    setUserRatedMovies(false);
     
     addMovieRegister.setVisible(false);
     setGenres();
@@ -155,9 +163,14 @@ public class MovieRatingController {
    */
   public void loggedIn(boolean value) {
     setLoginPossibility(false);
+    addMovieRegister.visibleProperty().set(value);
     addMovieRegister.setVisible(true);
     loggedIn.visibleProperty().set(true);
     loggedOut.visibleProperty().set(false);
+    backToLogIn.setVisible(false);
+    createNewUserText.setVisible(false);
+    ratedMoviesPane.setVisible(true);
+    //genreBox.setVisible(true);
   }
 
   /**
@@ -166,8 +179,11 @@ public class MovieRatingController {
    * @param value true if search area is supposed to be visible
    */
   private void setSearchVisibility(boolean value) {
-    //searchMovie.visibleProperty().set(true);
-    genreBox.visibleProperty().set(value);
+    searchPane.visibleProperty().set(value);
+    addMovieRegister.setVisible(!value);
+
+    // searchMovie.visibleProperty().set(true);
+    // genreBox.visibleProperty().set(true);
     //movieRegisterList.visibleProperty().set(true);
   }
 
@@ -178,15 +194,20 @@ public class MovieRatingController {
    * @param movie the movie object to rate
    */
   private void setRateVisibility(boolean value, Movie movie) {
-    rateBox.visibleProperty().set(value);
-    rateButton.visibleProperty().set(value);
-    movieLabel.visibleProperty().set(value);
-    ratedMovie.visibleProperty().set(value);
-    rateLabel.visibleProperty().set(value);
-    ratingscaleLabel.setVisible(value);
+    ratePane.visibleProperty().set(value);
+    // rateBox.visibleProperty().set(value);
+    // rateButton.visibleProperty().set(value);
+    // movieLabel.visibleProperty().set(value);
+    // ratedMovie.visibleProperty().set(value);
+    // rateLabel.visibleProperty().set(value);
+    // ratingscaleLabel.setVisible(value);
     if (movie != (null) && value == true) {
       ratedMovie.setText(movie.toString());
     }
+  }
+
+  private void setUserRatedMovies(boolean value) {
+    ratedMoviesPane.visibleProperty().setValue(value);
   }
 
   /**
@@ -243,6 +264,7 @@ public class MovieRatingController {
   @FXML
   private void handleBackToLogIn() {
     setLoginPossibility(true);
+    setSearchVisibility(true);
   }
 
 
@@ -258,6 +280,9 @@ public class MovieRatingController {
       loggedOut.visibleProperty().set(false);
       createNewUserText.setVisible(false);
       backToLogIn.setVisible(false);
+      setSearchVisibility(true);
+      addMovieRegister.visibleProperty().set(true);
+      setUserRatedMovies(true);
     } catch (Exception e) {
       errorActivation(e.getMessage());
     }
@@ -272,6 +297,7 @@ public class MovieRatingController {
     //loggedIn(false); tror at man kun trenge denne og ikke den under
     setLoginPossibility(true); 
     setRateVisibility(false, null); 
+    setUserRatedMovies(false);
     loggedIn.setVisible(false);
     addMovieRegister.setVisible(false);
     loggedOut.visibleProperty().set(true);
