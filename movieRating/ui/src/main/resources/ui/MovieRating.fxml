@@ -5,17 +5,17 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="534.0" style="-fx-background-color: #ECF6F9;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" >
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="534.0" style="-fx-background-color: #ECF6F9;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="usernameLabel" layoutX="13.0" layoutY="39.0" text="Username:" />
       <Label fx:id="passwordLabel" layoutX="15.0" layoutY="75.0" text="Password:" />
       <TextField fx:id="username" layoutX="86.0" layoutY="35.0" />
-      <TextField fx:id="password" layoutX="86.0" layoutY="71.0" />
       <Button fx:id="logIn" layoutX="16.0" layoutY="118.0" mnemonicParsing="false" onAction="#handleLogIn" text="Log in" />
       <ListView layoutX="563.0" layoutY="250.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="563.0" layoutY="204.0" text="Movies you have rated" />
@@ -42,5 +42,6 @@
       <Label fx:id="movieLabel" layoutX="381.0" layoutY="161.0" prefHeight="17.0" prefWidth="120.0" />
       <Label fx:id="loggedIn" layoutX="19.0" layoutY="96.0" text="You're logged in!" textFill="#44b759" />
       <Label fx:id="loggedOut" layoutX="19.0" layoutY="96.0" text="You're logged out!" textFill="#ce4242" />
+      <PasswordField fx:id="password" layoutX="86.0" layoutY="71.0" />
    </children>
 </Pane>
