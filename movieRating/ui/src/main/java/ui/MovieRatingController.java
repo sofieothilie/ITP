@@ -13,9 +13,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
+
 
 /**
  * MovieRating controller class.
@@ -34,10 +35,10 @@ public class MovieRatingController {
 
   //FXML fields
   
+  @FXML private PasswordField password;
+
   @FXML private TextField username;
   @FXML private TextField movieName;
-
-  @FXML private PasswordField password;
 
   @FXML private Button logIn;
   @FXML private Button createUser;
@@ -93,13 +94,13 @@ public class MovieRatingController {
    */
   @FXML
   public void initialize() {
+    loggedOut.visibleProperty().set(false);
+    loggedIn.visibleProperty().set(false); 
     setLoginPossibility(true);
     setSearchVisibility(true);
     setRateVisibility(false, null);
-    loggedOut.visibleProperty().set(false);
-    loggedIn.visibleProperty().set(false); 
+    
     addMovieRegister.setVisible(false);
-
     setGenres();
     setRating();      
   }
@@ -140,10 +141,8 @@ public class MovieRatingController {
     loggedOut.visibleProperty().set(!value);
     createNewUserText.setVisible(!value);
     createUserDone.setVisible(false);
-    backToLogIn.setVisible(!value);
     newUserLabel.setVisible(value);
     backToLogIn.setVisible(!value);
-
 
   }
 
@@ -202,7 +201,6 @@ public class MovieRatingController {
     rateBox.setValue(null);   
   }
 
-    
   //User methods
 
   /**
@@ -221,9 +219,11 @@ public class MovieRatingController {
     }          
   }
   
-
+  /**
+   * Gets user to new windom where user can create a new user.
+   */
   @FXML
-  public void handleCreateUser(){
+  public void handleCreateUser() { 
     username.clear();
     password.clear();
     logIn.setVisible(false);
@@ -237,15 +237,18 @@ public class MovieRatingController {
     createUserDone.setVisible(true);
   }
 
+  /**
+   * Gets user back to log in windom.
+   */
   @FXML
-  private void handleBackToLogIn(){
+  private void handleBackToLogIn() {
     setLoginPossibility(true);
   }
 
 
   /**
    * Creates a new user and sets desired fields and visibility.
-   */
+   **/
   @FXML
   private void handleCreateUserDone() {
     try {

@@ -2,81 +2,99 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ECF6F9;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="usernameLabel" layoutX="36.0" layoutY="44.0" prefHeight="19.0" prefWidth="82.0" text="Username:">
+      <Label fx:id="usernameLabel" layoutX="35.0" layoutY="99.0" prefHeight="19.0" prefWidth="82.0" text="Username:">
          <font>
             <Font size="15.0" />
-         </font></Label>
-      <Label fx:id="passwordLabel" layoutX="40.0" layoutY="80.0" prefHeight="19.0" prefWidth="82.0" text="Password:">
+         </font>
+      </Label>
+      <Label fx:id="passwordLabel" layoutX="36.0" layoutY="137.0" prefHeight="19.0" prefWidth="82.0" text="Password:">
          <font>
             <Font size="15.0" />
-         </font></Label>
-      <TextField fx:id="username" layoutX="116.0" layoutY="39.0" prefHeight="28.0" prefWidth="200.0" promptText="Only letters and numbers">
+         </font>
+      </Label>
+      <TextField fx:id="username" layoutX="116.0" layoutY="102.0" prefHeight="28.0" prefWidth="200.0" promptText="Only letters and numbers">
          <font>
             <Font size="14.0" />
-         </font></TextField>
-      <Button fx:id="logIn" layoutX="116.0" layoutY="116.0" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="26.0" prefWidth="200.0" text="Log in" />
-      <ListView layoutX="563.0" layoutY="250.0" prefHeight="200.0" prefWidth="200.0" />
-      <Label layoutX="563.0" layoutY="204.0" text="Movies you have rated" />
-      <ChoiceBox fx:id="genreBox" layoutX="33.0" layoutY="273.0" prefWidth="150.0" />
-      <Label layoutX="40.0" layoutY="180.0" text="Find a movie">
+         </font>
+      </TextField>
+      <Button fx:id="logIn" layoutX="116.0" layoutY="186.0" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="26.0" prefWidth="200.0" text="Log in" />
+      <Button fx:id="addMovieRegister" layoutX="56.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleAddMovieToRegister" text="Add movie to register" />
+      <Button fx:id="logOut" layoutX="685.0" layoutY="595.0" mnemonicParsing="false" onAction="#handleLogOut" text="Log out" />
+      <Button fx:id="createUser" layoutX="422.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleCreateUser" prefHeight="26.0" prefWidth="110.0" text="Create new user">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </Button>
+      <Label fx:id="movieLabel" layoutX="381.0" layoutY="161.0" prefHeight="17.0" prefWidth="120.0" />
+      <Label fx:id="loggedIn" layoutX="13.0" layoutY="76.0" text="You're logged in!" textFill="#44b759">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="loggedOut" layoutX="11.0" layoutY="76.0" text="You're logged out!" textFill="#ce4242">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="password" layoutX="116.0" layoutY="142.0" prefHeight="29.0" prefWidth="200.0" promptText="Only letters and numbers">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </PasswordField>
+      <Label fx:id="newUserLabel" layoutX="341.0" layoutY="191.0" text="New user?">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="createNewUserText" layoutX="120.0" layoutY="76.0" prefHeight="23.0" prefWidth="170.0" text="Create new user">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="createUserDone" layoutX="116.0" layoutY="186.0" mnemonicParsing="false" onAction="#handleCreateUserDone" prefHeight="26.0" prefWidth="200.0" text="Create user" />
+      <Pane layoutX="194.0" layoutY="479.0" prefHeight="200.0" prefWidth="373.0" />
+      <ChoiceBox fx:id="genreBox" layoutX="63.0" layoutY="497.0" prefWidth="150.0" />
+      <Label layoutX="76.0" layoutY="463.0" text="Genre" />
+      <TextField fx:id="movieName" layoutX="31.0" layoutY="406.0" />
+      <Label layoutX="87.0" layoutY="385.0" text="Name" />
+      <Pane layoutX="296.0" layoutY="350.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="rateLabel" layoutX="14.0" layoutY="12.0" text="Rate the movie" />
+            <Label fx:id="ratingscaleLabel" layoutX="12.0" layoutY="42.0" text="From 1 to 5 stars" />
+            <ChoiceBox fx:id="rateBox" layoutX="12.0" layoutY="65.0" prefWidth="150.0" />
+            <Button fx:id="rateButton" layoutX="160.0" layoutY="63.0" mnemonicParsing="false" onAction="#handleRateButton" text="Rate" />
+            <TextArea fx:id="ratedMovie" layoutX="23.0" layoutY="104.0" prefHeight="39.0" prefWidth="170.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="512.0" layoutY="308.0" prefHeight="271.0" prefWidth="276.0">
+         <children>
+            <Label layoutX="46.0" layoutY="24.0" text="Movies you have rated" />
+            <ListView layoutX="46.0" layoutY="57.0" prefHeight="200.0" prefWidth="217.0" />
+         </children>
+      </Pane>
+    <Button fx:id="backToLogIn" layoutX="11.0" layoutY="74.0" mnemonicParsing="false" onAction="#handleBackToLogIn" prefHeight="26.0" prefWidth="104.0" text="Back to log in" />
+      <ImageView fitHeight="59.0" fitWidth="352.0" layoutX="14.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@movieRating_logo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="116.0" layoutY="441.0" text="Find a movie">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="rateLabel" layoutX="295.0" layoutY="160.0" text="Rate the movie" />
-      <Label layoutX="35.0" layoutY="256.0" text="Genre" />
-      <Label layoutX="36.0" layoutY="196.0" text="Name" />
-      <TextField fx:id="movieName" layoutX="36.0" layoutY="218.0" />
-      <ChoiceBox fx:id="rateBox" layoutX="291.0" layoutY="218.0" prefWidth="150.0" />
-      <Label fx:id="ratingscaleLabel" layoutX="290.0" layoutY="196.0" text="From 1 to 5 stars" />
-      <Button fx:id="addMovieRegister" layoutX="33.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleAddMovieToRegister" text="Add movie to register" />
-      <TextArea fx:id="ratedMovie" layoutX="291.0" layoutY="254.0" prefHeight="37.0" prefWidth="215.0" />
-      <Button fx:id="logOut" layoutX="447.0" layoutY="425.0" mnemonicParsing="false" onAction="#handleLogOut" text="Log out" />
-      <Button fx:id="createUser" layoutX="405.0" layoutY="62.0" mnemonicParsing="false" onAction="#handleCreateUser" prefHeight="32.0" prefWidth="118.0" text="Create new user">
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor></Button>
-      <Button fx:id="rateButton" layoutX="447.0" layoutY="218.0" mnemonicParsing="false" onAction="#handleRateButton" text="Rate" />
-      <Label fx:id="movieLabel" layoutX="381.0" layoutY="161.0" prefHeight="17.0" prefWidth="120.0" />
-      <Label fx:id="loggedIn" layoutX="14.0" layoutY="59.0" text="You're logged in!" textFill="#44b759">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Label fx:id="loggedOut" layoutX="12.0" layoutY="11.0" text="You're logged out!" textFill="#ce4242">
-         <font>
-            <Font size="17.0" />
-         </font></Label>
-      <PasswordField fx:id="password" layoutX="116.0" layoutY="75.0" prefHeight="29.0" prefWidth="200.0" promptText="Only letters and numbers">
-         <font>
-            <Font size="14.0" />
-         </font></PasswordField>
-      <Label fx:id="newUserLabel" layoutX="329.0" layoutY="66.0" text="New user?">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="createNewUserText" layoutX="120.0" layoutY="12.0" prefHeight="23.0" prefWidth="170.0" text="Create new user">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Button fx:id="createUserDone" layoutX="116.0" layoutY="116.0" mnemonicParsing="false" onAction="#handleCreateUserDone" prefHeight="26.0" prefWidth="200.0" text="Create user" />
-      <ButtonBar layoutY="3.0" prefHeight="40.0" prefWidth="103.0">
-        <buttons>
-          <Button fx:id="backToLogIn" mnemonicParsing="false" onAction="#handleBackToLogIn" prefHeight="26.0" prefWidth="104.0" text="Back to log in" />
-        </buttons>
-      </ButtonBar>
    </children>
 </Pane>
