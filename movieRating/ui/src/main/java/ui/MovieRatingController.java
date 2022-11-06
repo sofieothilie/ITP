@@ -44,6 +44,9 @@ public class MovieRatingController {
   @FXML private Button addMovieRegister;
   @FXML private Button logOut;
   @FXML private Button rateButton;
+  @FXML private Button createUserDone;
+  @FXML private Button backToLogIn;
+
   
   @FXML private ChoiceBox<String> genreBox;
 
@@ -58,6 +61,10 @@ public class MovieRatingController {
   @FXML private Label rateLabel;
   @FXML private Label movieLabel;
   @FXML private Label ratingscaleLabel;
+  @FXML private Label createNewUserText;
+  @FXML private Label newUserLabel;
+
+
 
   /**
    * Constructor.
@@ -92,6 +99,7 @@ public class MovieRatingController {
     loggedOut.visibleProperty().set(false);
     loggedIn.visibleProperty().set(false); 
     addMovieRegister.setVisible(false);
+
     setGenres();
     setRating();      
   }
@@ -130,6 +138,13 @@ public class MovieRatingController {
     logIn.visibleProperty().set(value);
     createUser.visibleProperty().set(value);
     loggedOut.visibleProperty().set(!value);
+    createNewUserText.setVisible(!value);
+    createUserDone.setVisible(false);
+    backToLogIn.setVisible(!value);
+    newUserLabel.setVisible(value);
+    backToLogIn.setVisible(!value);
+
+
   }
 
 
@@ -153,7 +168,7 @@ public class MovieRatingController {
    */
   private void setSearchVisibility(boolean value) {
     //searchMovie.visibleProperty().set(true);
-    genreBox.visibleProperty().set(true);
+    genreBox.visibleProperty().set(value);
     //movieRegisterList.visibleProperty().set(true);
   }
 
@@ -206,16 +221,40 @@ public class MovieRatingController {
     }          
   }
   
+
+  @FXML
+  public void handleCreateUser(){
+    username.clear();
+    password.clear();
+    logIn.setVisible(false);
+    createNewUserText.setVisible(true);
+    newUserLabel.setVisible(false);
+    createUser.setVisible(false);
+    setSearchVisibility(false);
+    backToLogIn.setVisible(true);
+    setRateVisibility(false, null);
+    loggedOut.setVisible(false);
+    createUserDone.setVisible(true);
+  }
+
+  @FXML
+  private void handleBackToLogIn(){
+    setLoginPossibility(true);
+  }
+
+
   /**
    * Creates a new user and sets desired fields and visibility.
    */
   @FXML
-  private void handleCreateUser() {
+  private void handleCreateUserDone() {
     try {
       this.user = new User(username.getText(), password.getText());
       this.userRegister.registerNewUser(this.user);
       loggedIn(true);
       loggedOut.visibleProperty().set(false);
+      createNewUserText.setVisible(false);
+      backToLogIn.setVisible(false);
     } catch (Exception e) {
       errorActivation(e.getMessage());
     }
@@ -233,6 +272,7 @@ public class MovieRatingController {
     loggedIn.setVisible(false);
     addMovieRegister.setVisible(false);
     loggedOut.visibleProperty().set(true);
+    newUserLabel.setVisible(true);
     //sleep eller wait to remove "Your are logged out" message after 3 seconds
     clearAllSearchFields();
   }
