@@ -15,10 +15,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class MovieRegisterTest {
-
-  //TODO: teste MovieHandler her
-  //TODO: sjekke Jacoco-test
-
   private Movie m1, m2, m3, m4;
   private User user1;
   private MovieRegister movieRegister;
@@ -33,6 +29,19 @@ public class MovieRegisterTest {
     m4 = new Movie("Cinderella", "romance");
     movieRegister = new MovieRegister(filename);
   }
+
+  @DisplayName("Tests trying to create a invalid constructor")
+  @Test
+  public void testConstructor(){
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
+        new MovieRegister("n0!V4lid");
+      },
+      "Filename should not be valid for register"
+    );
+  }
+
 
   @DisplayName("Testing to add a movie to the register")
   @Test
@@ -167,7 +176,9 @@ public class MovieRegisterTest {
   public void tearDown() {
     MovieHandler handler = new MovieHandler(filename);
     try {
-      Files.delete(handler.getFile().toPath());
+      if (handler.fileExists()) {
+        Files.delete(handler.getFile().toPath());
+      }
     } catch (IOException e) {
       throw new IllegalArgumentException();
     }

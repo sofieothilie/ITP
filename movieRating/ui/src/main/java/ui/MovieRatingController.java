@@ -3,6 +3,7 @@ package ui;
 import core.Movie;
 import core.User;
 import data.MovieRegister;
+import data.UserHandler;
 import data.UserRegister;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +28,8 @@ public class MovieRatingController {
   private User user;
   private final String userFilename;
   public UserRegister userRegister;
-  private static List<String> genresList = Arrays.asList("action", "comedy", "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
+  private static List<String> genresList = Arrays.asList("action", "comedy",
+      "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
   private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
 
   //FXML fields
@@ -66,9 +68,9 @@ public class MovieRatingController {
     this.movieRegister = new MovieRegister(movieFilename);
     this.userRegister = new UserRegister(userFilename, movieFilename);
   }
-
+  
   /**
-   * Constructor for testing
+   * Constructor for testing.
    */
   public MovieRatingController(String userFilename, String movieFilename) {
     this.userFilename = userFilename;
@@ -358,6 +360,8 @@ public class MovieRatingController {
     alert.setTitle("Movie Rating");
     alert.setContentText(message);
     alert.showAndWait();
-  }   
+  }
+  
+
 }
 
