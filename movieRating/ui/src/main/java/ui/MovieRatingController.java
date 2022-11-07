@@ -61,6 +61,7 @@ public class MovieRatingController {
   @FXML private ChoiceBox<Integer> rateBox;
   
   @FXML private TextArea ratedMovie;
+  @FXML private TextArea moviesRated;
   
   @FXML private Label loggedIn;
   @FXML private Label loggedOut;
@@ -71,6 +72,7 @@ public class MovieRatingController {
   @FXML private Label ratingscaleLabel;
   @FXML private Label createNewUserText;
   @FXML private Label newUserLabel;
+  
 
 
 
@@ -107,7 +109,7 @@ public class MovieRatingController {
     setSearchVisibility(true);
     setRateVisibility(false, null);
     setUserRatedMovies(false);
-    
+    ratedMovie.setEditable(false);
     addMovieRegister.setVisible(false);
     setGenres();
     setRating();      
@@ -222,6 +224,16 @@ public class MovieRatingController {
     rateBox.setValue(null);   
   }
 
+  private void moviesRated(){
+    moviesRated.clear();
+    String text = "";
+    for(Movie mov: user.getRatedMovies().keySet()){
+      text += mov.getTitle() + ", "+mov.getGenre() + ", " + user.getRatedMovies().get(mov)+ "\n";
+    }
+    moviesRated.setText(text);
+
+  }
+
   //User methods
 
   /**
@@ -235,6 +247,7 @@ public class MovieRatingController {
       setLoginPossibility(false);
       loggedIn(true);  
       loggedOut.visibleProperty().set(false);
+      moviesRated();
     } catch (IllegalArgumentException e) {
       errorActivation(e.getMessage());
     }          
@@ -383,6 +396,7 @@ public class MovieRatingController {
       this.movie = new Movie(movieName.getText(), genreBox.getValue());
       movieLabel.setText(": " + this.movie.getTitle());
       setRateVisibility(true, this.movie);
+      
 
     } catch (Exception e) {
       errorActivation(e.getMessage());
@@ -406,6 +420,7 @@ public class MovieRatingController {
     //  this.userRegister.registerNewUser(this.user);
     //}
     confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
+    moviesRated();
     clearAllSearchFields();
   }
 
