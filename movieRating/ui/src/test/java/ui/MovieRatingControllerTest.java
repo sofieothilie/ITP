@@ -196,6 +196,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     sleep(500);
     robot.clickOn(addMovieRegister);
     //this.closeAlert();
+    //hiehei
   }
 
   // @Test
