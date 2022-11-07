@@ -7,6 +7,11 @@ import data.UserHandler;
 import data.UserRegister;
 import java.util.Arrays;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.type.LogicalType;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -33,6 +38,7 @@ public class MovieRatingController {
   private static List<String> genresList = Arrays.asList("action", "comedy",
       "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
   private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
+  private boolean canLogIn = false;
 
   //FXML fields
   
@@ -73,9 +79,6 @@ public class MovieRatingController {
   @FXML private Label createNewUserText;
   @FXML private Label newUserLabel;
   
-
-
-
   /**
    * Constructor.
    */
@@ -112,7 +115,8 @@ public class MovieRatingController {
     ratedMovie.setEditable(false);
     addMovieRegister.setVisible(false);
     setGenres();
-    setRating();      
+    setRating();  
+    checkLogiIn(logIn);   
   }
     
   /**
@@ -153,7 +157,6 @@ public class MovieRatingController {
     createUserDone.setVisible(false);
     newUserLabel.setVisible(value);
     backToLogIn.setVisible(!value);
-
   }
 
 
@@ -224,6 +227,9 @@ public class MovieRatingController {
     rateBox.setValue(null);   
   }
 
+  /**
+   * Method that shows all movies the user has rated.
+   */
   private void moviesRated(){
     moviesRated.clear();
     String text = "";
@@ -231,8 +237,26 @@ public class MovieRatingController {
       text += mov.getTitle() + ", "+mov.getGenre() + ", " + user.getRatedMovies().get(mov)+ "\n";
     }
     moviesRated.setText(text);
+  }
+
+  private void checkLogiIn(Button button){
+    logIn.setDisable(true);
+    ChangeListener<String> listener = new ChangeListener<String>() {
+      @Override
+      public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        if(newValue.equals("")){
+          button.setDisable(true);
+        }
+        else{
+          button.setDisable(false);
+        }
+      }
+    }; 
+    username.textProperty().addListener(listener);
+    password.textProperty().addListener(listener);
 
   }
+
 
   //User methods
 
@@ -258,6 +282,7 @@ public class MovieRatingController {
    */
   @FXML
   public void handleCreateUser() { 
+    checkLogiIn(createUserDone);
     username.clear();
     password.clear();
     logIn.setVisible(false);
@@ -269,6 +294,8 @@ public class MovieRatingController {
     setRateVisibility(false, null);
     loggedOut.setVisible(false);
     createUserDone.setVisible(true);
+    
+
   }
 
   /**

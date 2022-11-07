@@ -104,7 +104,11 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextArea fx:id="moviesRated" layoutX="39.0" layoutY="61.0" prefHeight="272.0" prefWidth="209.0" />
+            <TextArea fx:id="moviesRated" layoutX="31.0" layoutY="61.0" prefHeight="272.0" prefWidth="209.0" >
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </TextArea>
          </children>
       </Pane>
     <Button fx:id="backToLogIn" layoutX="334.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleBackToLogIn" prefHeight="26.0" prefWidth="94.0" text="Back to log in" />
