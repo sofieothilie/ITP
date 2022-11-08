@@ -12,3 +12,5 @@ Our project Movierating is inside the folder movieRating. Here "mvn clean instal
 - **ui** - All user interfaces are stored here, and mvn javafx:run and mvn test are run here. The folder contains MovieRatingController.java, MovieRatingApp.java. In resources is the MovieRating.fxml file. In this module "mvn javafx:run" and "mvn test" are run.
   
 **NB**: In gitpod: The application does not open automatically. After running mvn javafx:run in ui, you have to go into "Remote Explorer" and press open browser for port 6080
+
+## In documents, folder release 3 includes a table of contents of the md files. It should be easy to access different infomation. 
