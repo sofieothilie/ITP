@@ -75,7 +75,7 @@ public class MovieRatingController {
   @FXML private Label ratingscaleLabel;
   @FXML private Label createNewUserText;
   @FXML private Label newUserLabel;
-  
+  @FXML private Label infoUserLabel;  
   /**
    * Constructor.
    */
@@ -113,7 +113,8 @@ public class MovieRatingController {
     addMovieRegister.setVisible(false);
     setGenres();
     setRating();  
-    checkLogiIn(logIn);   
+    checkLogiIn(logIn); 
+    moviesRated.setEditable(false);  
   }
     
   /**
@@ -164,14 +165,15 @@ public class MovieRatingController {
    * @param value true if logged in, else false
    */
   public void loggedIn(boolean value) {
-    setLoginPossibility(false);
+    setLoginPossibility(!value);
     addMovieRegister.visibleProperty().set(value);
-    addMovieRegister.setVisible(true);
-    loggedIn.visibleProperty().set(true);
-    loggedOut.visibleProperty().set(false);
-    backToLogIn.setVisible(false);
-    createNewUserText.setVisible(false);
-    ratedMoviesPane.setVisible(true);
+    addMovieRegister.setVisible(value);
+    loggedIn.visibleProperty().set(value);
+    loggedOut.visibleProperty().set(!value);
+    backToLogIn.setVisible(!value);
+    createNewUserText.setVisible(!value);
+    ratedMoviesPane.setVisible(value);
+    infoUserLabel.setVisible(!value);
     //genreBox.setVisible(true);
   }
 
@@ -341,6 +343,7 @@ public class MovieRatingController {
     newUserLabel.setVisible(true);
     //sleep eller wait to remove "Your are logged out" message after 3 seconds
     clearAllSearchFields();
+    infoUserLabel.setVisible(true);
   }
 
   //Movie methods
