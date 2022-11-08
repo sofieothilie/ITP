@@ -1,6 +1,7 @@
 module movieRating.spring {
 
     requires movieRating.core;
+    requires movieRating.data;
 
     requires spring.boot;
     requires spring.boot.autoconfigure;

@@ -140,7 +140,7 @@ public class MovieRegister {
    *
    * @return a list of all movie objects read from the file
    */
-  private List<Movie> updateMovieList() { //Reads from file, return a list
+  public List<Movie> updateMovieList() { //Reads from file, return a list
     if (movieHandler.fileExists()) {
       return new ArrayList<>(movieHandler.readMovieAndRatingFromRegister());
     } else {
