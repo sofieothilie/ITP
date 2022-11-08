@@ -2,12 +2,15 @@
 
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.stud.ntnu.no/#https://gitlab.stud.idi.ntnu.no/it1901/groups-2022/gr2240/gr2240)
 
-## Beskrivelse
+## Description
 
-Vårt prosjekt Movierating ligger inne i mappen movieRating. Her kjøres mvn clean install i terminalen. Inne i denne mappen ligger det tre moduler:
+Our project Movierating is inside the folder movieRating. Here "mvn clean install" is run in the terminal. Inside this folder there are four modules:
 
-- **core** - Her ligger klassene som er kjernen av prosjektet. User.java og Movie.java
-- **data** - Her ligger klassene med filhåndtering. MovieHandler.java, MovieRegister.java, UserHandler.java og UserRegister.java.
-- **ui** - Her ligger alt av brukergrensesnitt, og her kjøres mvn javafx:run og mvn test. Mappen inneholder MovieRatingController.java, MovieRatingApp.java. I resources ligger MovieRating.fxml filen. Her kjøres mvn javafx:run og mvn test.
+- **core** - Here are the classes that are the core of the project. User.java and Movie.java. There is another folder "json". Here are MovieDeserializerForUser.java, MovieSerializerForUser.java
+- **data** - Here are the classes with file handling. MovieHandler.java, MovieRegister.java, UserHandler.java and UserRegister.java.
+- **spring** - *Thea fikser denne!!*
+- **ui** - All user interfaces are stored here, and mvn javafx:run and mvn test are run here. The folder contains MovieRatingController.java, MovieRatingApp.java. In resources is the MovieRating.fxml file. In this module "mvn javafx:run" and "mvn test" are run.
   
-**NB:** Applikasjonen åpnes ikke automatisk. Etter å ha kjørt mvn javafx:run i ui, må man gå inn i "Remote Explorer" og trykke på open browser for port 6080.
+**NB**: In gitpod: The application does not open automatically. After running mvn javafx:run in ui, you have to go into "Remote Explorer" and press open browser for port 6080
+
+## In documents, folder release 3 includes a table of contents of the md files. It should be easy to access different infomation. 
