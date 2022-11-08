@@ -146,4 +146,11 @@ public class Movie {
     return this.getTitle().hashCode() + this.getGenre().hashCode();
   }
 
+  public static void main(String[] args) {
+    Movie m = new Movie("111", "fantasy");
+    User u1 = new User("e", "s");
+    u1.rateMovie(m, 3);
+    System.out.println(m);
+  }
+
 }
