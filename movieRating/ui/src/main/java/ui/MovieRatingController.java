@@ -35,7 +35,7 @@ public class MovieRatingController {
   private static List<String> genresList = Arrays.asList("action", "comedy",
       "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
   private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
-  private boolean canLogIn = false;
+  //private boolean canLogIn = false;
 
   //FXML fields
   
