@@ -359,6 +359,7 @@ public class MovieRatingController {
   private void handleSearchMovie() {
     //kan legge til at delvise treff vises
     moviesFound.getItems().clear();
+    //addRatingButton.setVisible(true);
     if(genreBox.getSelectionModel().isEmpty()){
       List<Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
       if (movieList.isEmpty()) { 
@@ -383,10 +384,10 @@ public class MovieRatingController {
       try{
         Movie foundMovie = movieRegister.getMovie(movieName.getText(), (String) genreBox.getValue());
         moviesFound.getItems().add(foundMovie);
-        addRatingButton.setVisible(true);
       }catch (IllegalArgumentException e){
         errorActivation("No movies with title: " + movieName.getText() 
             + " and  genre: " + (String) genreBox.getValue() + " found in the register. Click on 'Add rating' to add the movie to the register.");
+        addRatingButton.setVisible(true);
       }
     }
   }
