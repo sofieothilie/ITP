@@ -401,6 +401,7 @@ public class MovieRatingController {
   @FXML
   private void handleChooseMovie() {
     //når handleRateButton trykkes må denne oppdateres
+    addRatingButton.visibleProperty().set(false);
     ratedMovie.setText("");
     if(this.user == null){
       errorActivation("You must log in or create user to rate a movie.");
