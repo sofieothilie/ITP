@@ -475,7 +475,9 @@ public class MovieRatingController {
     this.userRegister.updateRatedMovie(user, movie);
     confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
     moviesRated();
-    clearAllSearchFields();
+    //clearAllSearchFields();
+    ratedMovie.setText(this.movie.toString());
+    cancelRatingButton.visibleProperty().set(false);
     }
     catch (Exception e){
       errorActivation(e.getMessage());
