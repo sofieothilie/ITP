@@ -421,14 +421,14 @@ public class MovieRatingController {
     //når handleRateButton trykkes må denne oppdateres, lage en update metode 
     moviesFound.getSelectionModel().getSelectedItem();
     String[] movieStr = moviesFound.getSelectionModel().getSelectedItem().toString().split(" ");
-    return this.movieRegister.getMovie(movieStr[0].substring(0, movieStr[0].length() -1)
+        return this.movieRegister.getMovie(movieStr[0].substring(0, movieStr[0].length() -1)
         , movieStr[1].substring(0, movieStr[1].length() -1));
   }
 
   @FXML
   private void handleResetButton(){
     movieName.clear();
-    genreBox.getItems().clear();
+    genreBox.setValue(null);
     moviesFound.getItems().clear();
   }
 
