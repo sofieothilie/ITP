@@ -5,9 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import core.Movie;
-import core.User;
 import data.MovieRegister;
-import data.UserRegister;
 
 public class MovieRegisterService {
 
@@ -38,8 +36,6 @@ public class MovieRegisterService {
     return movReg.getMovie(title, genre);
   }
 
-
-
   public Movie getMovie(String title, String genre) {
       return null;
   }
@@ -50,6 +46,10 @@ public class MovieRegisterService {
 
   public boolean ableToRate(Movie movie, int rating){
       return this.validRating(movie, rating);
+  }
+
+  public void addAMovie(String title, String genre){
+    movReg.addMovie(new Movie(title, genre));
   }
 
 

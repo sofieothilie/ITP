@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import core.Movie;
 import core.User;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
 
 /**
  * Controller class for MovieRatingApplication.
@@ -49,20 +52,10 @@ public class MovieRatingController {
   public List<User> getUserRegister(){
       return new ArrayList<User>(userSer.getAllUsers());
   }
-  /**
-   * Get user by username if it exists
-   */
-  //http://localhost:8080/movieRating/user?username=Pauline
-  @GetMapping(path = "user")
-  public User getUser(@RequestParam("username") String username){
-    if(userSer.getUserbyUsername(username) == null){
-      throw new IllegalArgumentException();
-    }
-    return userSer.getUserbyUsername(username);
-  }
 
   /**
-   * Get movie by title if it exists, by title and genre
+   * Get movie by title and genre if it exists
+   * 
    */
   //http://localhost:8080/movieRating/movie?title=Titanic&genre=drama
   @GetMapping(path = "movie")
@@ -74,42 +67,38 @@ public class MovieRatingController {
   }
 
 
-
-
-
-
   /**
   * Returns a list of movies with desired genre
-  * localhost:8080//movieRating/movieGenre?genre={genre}
+  * localhost:8080/movieRating/movieGenre?genre=genre
   * @return List<Movie>
   */
   @GetMapping(path = "movieGenre")
   public List<Movie> searchGenre(@RequestParam("genre") String genre){
-    return new ArrayList<Movie>(this.movSer.getMoviesByGenre(genre));
+    return new ArrayList<Movie>(movSer.getMoviesByGenre(genre));
   }
 
   /**
   * Returns a list of movies with desired genre
+  * localhost:8080/movieRating/movieTitle?title=title 
   * @return movie
-
-  * localhost:8080//movieRating/movieTitle?title={title}  */
+  */ 
+  @GetMapping(path = "movieTitle")
   public List<Movie> searchTitle(@RequestParam("title") String title) {
-    return new ArrayList<Movie>(this.movSer.getMoviesByTitle(title)););
+    return new ArrayList<Movie>(this.movSer.getMoviesByTitle(title));
   }
 
   /**
-  * Add movie to rest
+  * Add movie to rest, void
   * @return movie
   */
-  //localhost:8080//movieRating/addMovie?title={title}&genre={genre}
-  @PostMapping(path = "movie")
-  public Movie addMovie(@RequestParam("title") String title, 
-      @RequestParam("genre") String genre) {
-    if (movSer.ableToCreateMovie(title, genre)) {
-      return movSer.getMovie(title, genre);
-    } //hvordan sjekke om film allerede fins?
-    throw new IllegalArgumentException("Invalid movie");
-  }
+  //localhost:8080//movieRating/addMovie?title=title&genre=genre
+//@PostMapping(path = "movie")
+//public void addMovie(@RequestParam("title") String title, @RequestParam("genre") String genre) {
+//  if (movSer.ableToCreateMovie(title, genre)) {
+//    movSer.addAMovie(new Movie(title, genre));
+//  } //hvordan sjekke om film allerede fins?
+//  throw new IllegalArgumentException("Invalid movie");
+//}
   
   /**
   * Add rating to movie in rest
@@ -125,4 +114,36 @@ public class MovieRatingController {
       throw new IllegalArgumentException("Not able to rate");
     }
   }
+
+
+  /**
+   * Get user by username if it exists
+   */
+  //http://localhost:8080/movieRating/user?username=Pauline
+  @GetMapping(path = "user")
+  public User getUser(@RequestParam("username") String username){
+    if(userSer.getUserbyUsername(username) == null){
+      throw new IllegalArgumentException();
+    }
+    return userSer.getUserbyUsername(username);
+  }
+
+  /**
+  * Register a new user
+  */
+  // @PostMapping(path = "newUser")
+  // public void registerNewUser(@RequestParam("username") String username, @RequestParam("password") String password) {
+  //   User user = new User(username, password);
+  //     this.userSer.registerNewUser(user.getUsername(), user.getPassword());
+  // }
+
+  @PutMapping(path = "rateMovie")
+  public void rateMovie(@RequestParam("username") String username, @RequestParam("movieTitle") String title, @RequestParam("movieGenre") String genre, @RequestParam("rating") Integer rating){
+    User user = this.getUser(username);
+    //Movie movie = this.getMovie()
+    //this.userSer.rateMovie(user, movie);
+  }
+  
+
+  
 }
