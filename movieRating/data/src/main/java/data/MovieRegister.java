@@ -146,5 +146,5 @@ public class MovieRegister {
     } else {
       return List.of();
     }
-  }
+  } 
 }

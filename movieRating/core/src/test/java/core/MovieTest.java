@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -93,6 +94,21 @@ public class MovieTest {
     m1.addRating(4);
     m1.addRating(5);
     assertEquals(4.0, m1.getAverageRating(), "Average rating was not equal to expected average rating");
+  }
+
+  @DisplayName("Testing deleteMovie")
+  @Test
+  public void testDeleteMovie(){
+    m1.addRating(2);
+    m1.addRating(3);
+    m1.addRating(5);
+    m1.deleteMovie(3);
+    List<Integer> testList = new ArrayList<>();
+    testList.add(2);
+    testList.add(5);
+    assertEquals(testList, m1.getAllRatings(), "Movie was not deleted");
+
+    
   }
 
   @DisplayName("Testing toString")

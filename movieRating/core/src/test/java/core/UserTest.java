@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.annotation.Testable;
 
 import java.util.HashMap;
 
@@ -112,6 +113,16 @@ public class UserTest {
     compare.put(m2, 4);
     assertEquals(compare, testUser.getRatedMovies(), "Something went wrong when rating a movie");
   }
+
+  @DisplayName("testing deleteMovie")
+  @Test
+  public void testDeleteMovie(){
+    testUser.rateMovie(m1, 3);
+    testUser.rateMovie(m2, 4);
+    testUser.deleteMovie(m1);
+    assertFalse(testUser.getRatedMovies().containsKey(m1));
+  }  
+  
 
   @DisplayName("Testing overridden equals method")
   @Test

@@ -72,8 +72,8 @@ public class MovieRatingController {
   
   @FXML private TextArea ratedMovie;
 
-  @FXML private ListView<Movie> moviesFound;
-  @FXML private ListView<String> moviesRated;
+  @FXML private ListView<Object> moviesFound;
+  @FXML private ListView<Object> moviesRated;
 
   @FXML private Label loggedIn;
   @FXML private Label loggedOut;
@@ -410,7 +410,7 @@ public class MovieRatingController {
       errorActivation("You must log in or create user to rate a movie.");
     }
     if (moviesFound.getSelectionModel().getSelectedItem() != null && this.user != null) {
-      this.movie = convertSelectedItemToMovieObject();
+      this.movie = (Movie)convertSelectedItemToMovieObject(moviesFound);
       setRateVisibility(true, this.movie);
       movieLabel.setText(": " + this.movie.getTitle());
     }
@@ -421,12 +421,19 @@ public class MovieRatingController {
    *
    * @return the movie object to retrieve
    */
-  private Movie convertSelectedItemToMovieObject() {
+  private Movie convertSelectedItemToMovieObject(ListView<Object> view) {
     //når handleRateButton trykkes må denne oppdateres, lage en update metode 
-    moviesFound.getSelectionModel().getSelectedItem();
-    String[] movieStr = moviesFound.getSelectionModel().getSelectedItem().toString().split(" ");
-    return this.movieRegister.getMovie(movieStr[0].substring(0, movieStr[0].length() - 1), 
-    movieStr[1].substring(0, movieStr[1].length() - 1));
+    String[] movieStr = view.getSelectionModel().getSelectedItem().toString().split(" ");
+    String title = "";
+    int length = movieStr.length;
+    if (length > 2){
+      for (int i = 0; i < length - 3; i++){
+        title += movieStr[i] + " ";
+      }
+    }
+    title += movieStr[length - 3].substring(0, movieStr[length -3].length() -1);
+    String genre = movieStr[length -2].substring(0, movieStr[length - 2].length() - 1);
+    return movieRegister.getMovie(title, genre);
   }
 
 
@@ -499,16 +506,27 @@ public class MovieRatingController {
 
 
   @FXML
-  private void handleDeleteRating() {
+  private void handleEditMovie(){
+    deleteRatingButton.setVisible(true);
+    updateRatingButton.setVisible(true);
+  }
+
+  @FXML
+  private void handleDeleteRating(){
+    String deleteMovie = (String)moviesRated.getSelectionModel().getSelectedItem();
+    String[] deleteMovieList = deleteMovie.split(" ");
+    Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length -1]);
+    Movie movie = convertSelectedItemToMovieObject(moviesRated);
+    movie.deleteMovie(rating);
+    this.user.deleteMovie(movie);
+    userRegister.updateRatedMovie(user, movie);
+    moviesRated.getItems().remove(deleteMovie);
+
   }
 
 
   @FXML
   private void handleUpdateRating() {
-  }
-
-  @FXML
-  private void handleEditMovie() {
   }
 
 
