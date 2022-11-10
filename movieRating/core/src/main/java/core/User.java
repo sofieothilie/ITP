@@ -101,11 +101,11 @@ public class User {
     if (this.hasRatedMovie(movie)) {
       throw new IllegalArgumentException("You have already rated this movie");
     }
-    if (myRating < 1 || myRating > 5) {
-      throw new IllegalArgumentException("Rating must be an integer from 1 to 5");
-    }
-    if(myRating.equals(null)) {
-      throw new IllegalArgumentException("hei");
+    // if (myRating < 1 || myRating > 5) {
+    //   throw new IllegalArgumentException("Rating must be an integer from 1 to 5");
+    // }
+    else if(myRating == null) {
+      throw new IllegalArgumentException("You must choose a rating");
     }
     ratedMovies.put(movie, myRating);
     movie.addRating(myRating);
