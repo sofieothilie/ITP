@@ -216,6 +216,9 @@ public class MovieRatingController {
     }
   }
 
+  /*
+   * Sets the usertated-area to desired visibility.
+   */
   private void setUserRatedMovies(boolean value) {
     ratedMoviesPane.visibleProperty().setValue(value);
   }
@@ -230,6 +233,8 @@ public class MovieRatingController {
     ratedMovie.setText(null);
     genreBox.setValue(null);
     rateBox.setValue(null);   
+    moviesFound.getItems().clear();
+    moviesRated.getItems().clear();
   }
 
   /**
@@ -237,13 +242,17 @@ public class MovieRatingController {
    */
   private void moviesRated() { 
     moviesRated.getItems().clear();
-    System.out.println("hei");
     for (Movie mov : user.getRatedMovies().keySet()) {
       moviesRated.getItems().add(mov.getTitle() + "; " + mov.getGenre() 
           + "; " + user.getRatedMovies().get(mov));
     }
   }
 
+  /**
+   * Method that checks if user has typed in username and password and then sets the log in button enable.
+   *
+   * @param event the event that triggers the method
+   */
   private void checkLogiIn(Button button) {
     logIn.setDisable(true);
     ChangeListener<String> listener = new ChangeListener<String>() {
@@ -426,6 +435,11 @@ public class MovieRatingController {
         , movieStr[1].substring(0, movieStr[1].length() -1));
   }
 
+
+
+  /*
+   * Method for reset button, then search field and genre box is cleared.
+   */
   @FXML
   private void handleResetButton(){
     movieName.clear();
@@ -472,28 +486,39 @@ public class MovieRatingController {
   private void handleRateButton() {
     //legge til oppdatering
     try{
+      if(rateBox.getSelectionModel().isEmpty()){
+        errorActivation("You must choose a rating");
+      }
     this.user.rateMovie(movie, rateBox.getValue());
     this.userRegister.updateRatedMovie(user, movie);
     confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
     moviesRated();
-    //clearAllSearchFields();
+    rateBox.setValue(null);
     ratedMovie.setText(this.movie.toString());
     cancelRatingButton.visibleProperty().set(false);
+    
     }
     catch (Exception e){
       errorActivation(e.getMessage());
     }
   }
 
+  /**
+   * Cancels rating and resets values.
+   */
   @FXML
   private void handleCancelRating(){
     ratePane.setVisible(false);
+    rateBox.setValue(null);
+    ratedMovie.clear();
   }
+
 
   @FXML
   private void handleDeleteRating(){
 
   }
+
 
   @FXML
   private void handleUpdateRating(){
@@ -506,7 +531,11 @@ public class MovieRatingController {
   }
 
 
-  //Error message
+  /**
+   * When called, displays an error message.
+   *
+   * @param message the warning message that shows
+   */
   void errorActivation(String message) {
     //When called, displays a warning message
     //fikse på meldingene
@@ -517,7 +546,7 @@ public class MovieRatingController {
   }
 
   /**
-   * When called, displays a warning message.
+   * When called, displays a confirmation message.
    *
    * @param message the warning message that shows
    */
