@@ -97,7 +97,7 @@ public class MovieRatingController {
   }
   
   /**
-   * Constructor for testing.
+   * Constructor for ui test.
    */
   public MovieRatingController(String userFilename, String movieFilename) {
     this.userFilename = userFilename;
@@ -113,10 +113,8 @@ public class MovieRatingController {
    */
   @FXML
   public void initialize() {
-    loggedOut.visibleProperty().set(false);
-    loggedIn.visibleProperty().set(false); 
     setLoginPossibility(true);
-    setSearchVisibility(true);
+    searchPane.isVisible();
     setRateVisibility(false, null);
     setUserRatedMovies(false);
     ratedMovie.setEditable(false);
@@ -124,6 +122,7 @@ public class MovieRatingController {
     setRating();  
     checkLogiIn(logIn); 
     addRatingButton.setVisible(false);
+    loggedOut.visibleProperty().set(false);
   }
     
   /**
@@ -154,16 +153,14 @@ public class MovieRatingController {
     passwordLabel.visibleProperty().set(value);
     logOut.setVisible(!value);
     username.visibleProperty().set(value);
-    username.clear();
     password.visibleProperty().set(value);
-    password.clear();
     logIn.visibleProperty().set(value);
     createUser.visibleProperty().set(value);
-    loggedOut.visibleProperty().set(!value);
     createNewUserText.setVisible(!value);
     createUserDone.setVisible(false);
     newUserLabel.setVisible(value);
     backToLogIn.setVisible(!value);
+    loggedIn.setVisible(!value);
   }
 
 
@@ -175,28 +172,16 @@ public class MovieRatingController {
    */
   public void loggedIn(boolean value) {
     setLoginPossibility(!value);
-    loggedIn.visibleProperty().set(value);
     loggedOut.visibleProperty().set(!value);
     backToLogIn.setVisible(!value);
     createNewUserText.setVisible(!value);
+    //setRateVisibility(value, movie);
     ratedMoviesPane.setVisible(value);
     infoUserLabel.setVisible(!value);
     //genreBox.setVisible(true);
   }
 
-  /**
-   * Sets the search-area to desired visibility.
-   *
-   * @param value true if search area is supposed to be visible
-   */
-  private void setSearchVisibility(boolean value) {
-    searchPane.visibleProperty().set(value);
-
-    // searchMovie.visibleProperty().set(true);
-    // genreBox.visibleProperty().set(true);
-    //movieRegisterList.visibleProperty().set(true);
-  }
-
+  
   /**
    * Sets the rate-area to desired visibility.
    *
@@ -228,6 +213,8 @@ public class MovieRatingController {
    */
   private void clearAllSearchFields() {
     //movieRegisterList.getItems().clear();
+    username.clear();
+    password.clear();
     movieName.clear();
     movieLabel.setText("");
     ratedMovie.setText(null);
@@ -235,6 +222,7 @@ public class MovieRatingController {
     rateBox.setValue(null);   
     moviesFound.getItems().clear();
     moviesRated.getItems().clear();
+
   }
 
   /**
@@ -297,7 +285,7 @@ public class MovieRatingController {
     createNewUserText.setVisible(true);
     newUserLabel.setVisible(false);
     createUser.setVisible(false);
-    setSearchVisibility(false);
+    searchPane.setVisible(false);;
     backToLogIn.setVisible(true);
     setRateVisibility(false, null);
     loggedOut.setVisible(false);
@@ -311,7 +299,7 @@ public class MovieRatingController {
   @FXML
   private void handleBackToLogIn() {
     setLoginPossibility(true);
-    setSearchVisibility(true);
+    searchPane.setVisible(true);
   }
 
 
@@ -327,7 +315,7 @@ public class MovieRatingController {
       loggedOut.visibleProperty().set(false);
       createNewUserText.setVisible(false);
       backToLogIn.setVisible(false);
-      setSearchVisibility(true);
+      searchPane.isVisible();
       setUserRatedMovies(true);
     } catch (Exception e) {
       errorActivation(e.getMessage());
