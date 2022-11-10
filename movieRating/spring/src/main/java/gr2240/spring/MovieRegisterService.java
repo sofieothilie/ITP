@@ -36,10 +36,6 @@ public class MovieRegisterService {
     return movReg.getMovie(title, genre);
   }
 
-  public Movie getMovie(String title, String genre) {
-      return null;
-  }
-
 	public boolean ableToCreateMovie(String title, String genre) {
 		return this.validMovie(title, genre);
 	}
@@ -48,8 +44,12 @@ public class MovieRegisterService {
       return this.validRating(movie, rating);
   }
 
-  public void addAMovie(String title, String genre){
-    movReg.addMovie(new Movie(title, genre));
+  public void addAMovie(Movie movie){
+    movReg.addMovie(movie);
+  }
+
+  public void addARating(Movie movie){
+    movReg.updateMovie(movie);
   }
 
 
