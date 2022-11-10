@@ -109,11 +109,9 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TextArea fx:id="moviesRated" layoutX="39.0" layoutY="60.0" prefHeight="272.0" prefWidth="209.0">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </TextArea>
+            <Button fx:id="updateRatingButton" layoutX="35.0" layoutY="335.0" mnemonicParsing="false" onAction="#handleUpdateRating" prefHeight="25.0" prefWidth="103.0" text="Update rating" />
+            <Button fx:id="deleteRatingButton" layoutX="149.0" layoutY="335.0" mnemonicParsing="false" onAction="#handleDeleteRating" prefHeight="25.0" prefWidth="103.0" text="Delete rating" />
+            <ListView fx:id="moviesRated" layoutX="35.0" layoutY="64.0" onMouseClicked="#handleEditMovie" prefHeight="259.0" prefWidth="217.0" />
          </children>
       </Pane>
     <Button fx:id="backToLogIn" layoutX="334.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleBackToLogIn" prefHeight="26.0" prefWidth="94.0" text="Back to log in" />
