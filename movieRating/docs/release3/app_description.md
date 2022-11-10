@@ -33,15 +33,8 @@
 
 **Screenshot to illustrate the app:**
 
-![Illustration of Application](pictures/screenApp.jpg)
+![Illustration of Application] **MISSING**
 
-## User stories
-
-Trond has just seen the movie "The Notebook". He thinks the film was good, even if it was very sad. Trond also wants to see what others who have seen the film think of it, and goes into the MovieRating app and searches for "The Notebook". Here he sees that the film has received 4.5/5 stars. Trond also wants to rate the film himself, so he creates a user by entering a username and password. He then rates the film 5 stars. The average rating updates to 4.7 and Trond is satisfied.
-
-**See user history:**
-
-![Illustration of application](pictures/userhistory1.jpg)
 
 ## Implicit file storage
 
@@ -87,7 +80,7 @@ User: \
 
 - We sit down together and go through work tasks and create issues for what we are going to do. When we work on the various tasks, we do this in separate branches with the name and number of the issue the task is associated with.
 
-- We use milestones linked to each exercise, i.e. exercise 1, exercise 2 etc.
+- We use milestones linked to each assignment, i.e. assignment 1, assignment 2 etc.
 
 - We sit together and work in longer working sessions. In that way, we can help each other and we get a lot done and familiarize ourselves properly with the project and work tasks. We then either sit and code in pairs, preferably two by two, but use everyone in the group if questions or problems arise. Where it is not as appropriate to work in pairs, we work independently, but ensure code quality by always making merge requests and one or more others in the group go through them.
 

@@ -10,15 +10,20 @@ import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 
 /**
@@ -34,8 +39,7 @@ public class MovieRatingController {
   public UserRegister userRegister;
   private static List<String> genresList = Arrays.asList("action", "comedy",
       "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
-  private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);   
-  //private boolean canLogIn = false;
+  private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);  
 
   //FXML fields
   
@@ -57,6 +61,7 @@ public class MovieRatingController {
   @FXML private Button createUserDone;
   @FXML private Button backToLogIn;
   @FXML private Button searchMovie;
+  @FXML private Button resetButton;
 
   
   @FXML private ChoiceBox<String> genreBox;
@@ -65,6 +70,8 @@ public class MovieRatingController {
   
   @FXML private TextArea ratedMovie;
   @FXML private TextArea moviesRated;
+
+  @FXML private ListView<Movie> moviesFound;
   
   @FXML private Label loggedIn;
   @FXML private Label loggedOut;
@@ -76,6 +83,7 @@ public class MovieRatingController {
   @FXML private Label createNewUserText;
   @FXML private Label newUserLabel;
   @FXML private Label infoUserLabel;  
+
   /**
    * Constructor.
    */
@@ -264,6 +272,8 @@ public class MovieRatingController {
    */
   @FXML
   public void handleLogIn() {
+    System.out.println(username.getText());
+    System.out.println(password.getText());
     try {
       this.userRegister.existingUser(username.getText(), password.getText());  
       this.user = this.userRegister.getUser(username.getText());
@@ -348,64 +358,82 @@ public class MovieRatingController {
 
   //Movie methods
 
-  // /**
-  //  * Searches for movies by title and displays them in list view.
-  //  */
-  // @FXML
-  // private void handleSearchMovie() {
-  //   //kan legge til at delvise treff vises
-  //   List<Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
-  //   if (movieList.isEmpty()) { 
-  //     errorActivation("No movies with title " + movieName.getText());
-  //   } 
-  //   for (Movie movie : movieList) {
-  //     movieRegisterList.getItems().add(movie.toString());
-  //   }
-  // }
+  /**
+   * Searches for movies by title, genre or both and displays them in list view.
+   */
+  @FXML
+  private void handleSearchMovie() {
+    //kan legge til at delvise treff vises
+    moviesFound.getItems().clear();
+    if(genreBox.getSelectionModel().isEmpty()){
+      List<Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
+      if (movieList.isEmpty()) { 
+        errorActivation("No movies with title " + movieName.getText());
+      } 
+      for (Movie movie : movieList) {
+        moviesFound.getItems().add(movie);
+      }
+    }
+    else if (movieName.getText().isEmpty()) {
+      List<Movie> genreList = movieRegister.searchGenre((String) genreBox.getValue());
+      if(genreList.isEmpty()) {
+        errorActivation("No movies with genre " + (String) genreBox.getValue());
+      }
+      for (Movie movie: genreList){
+        moviesFound.getItems().add(movie);
+      }
+    }
+    else{
+      try{
+        Movie foundMovie = movieRegister.getMovie(movieName.getText(), (String) genreBox.getValue());
+        moviesFound.getItems().add(foundMovie);
+      }catch (IllegalArgumentException e){
+        errorActivation("No movies with title " + movieName.getText() 
+            + "and  genre " + (String) genreBox.getValue());
+      }
+    }
+  }
 
-  // /**
-  //  * Searches for movies by genre and displays them in list view.
-  //  */
-  // @FXML
-  // private void handleSearchGenre() {
-  //   List<Movie> movieList = movieRegister.searchGenre(genreBox.getValue());
-  //   if (movieList.isEmpty()) {
-  //     errorActivation("No movies with genre " + genreBox.getValue()); 
-  //   }
-  //   for (Movie movie : movieList) {
-  //     movieRegisterList.getItems().add(movie.toString());
-  //   }
-  // }
+  /**
+   * Displays a movie when it is selected if a user is logged in.
+   * This allows for rating and sets values for rating:
+   *
+   * @param event the listener for the click on an item
+   */
+  @FXML
+  private void handleChooseMovie() {
+    //når handleRateButton trykkes må denne oppdateres
+    ratedMovie.setText("");
+    if(this.user == null){
+      errorActivation("You must log in or create user to rate a movie.");
+    }
+    if (moviesFound.getSelectionModel().getSelectedItem() != null && this.user != null) {
+      this.movie = convertSelectedItemToMovieObject();
+      setRateVisibility(true, this.movie);
+      movieLabel.setText(": " + this.movie.getTitle());
+    }
+  }
 
-  // /**
-  //  * Displays a movie when it is selected if a user is logged in.
-  //  * This allows for rating and sets values for rating:
-  //  *
-  //  * @param event the event that is supposed to be displayed
-  //  */
-  // @FXML
-  // private void selectMovie(MouseEvent event) {
-  //   //når handleRateButton trykkes må denne oppdateres
-  //   ratedMovie.setText("");
-  //   if (movieRegisterList.getSelectionModel().getSelectedItem() != null && this.user != null) {
-  //     this.movie = convertSelectedItemToMovieObject();
-  //     movieLabel.setText(": " + this.movie.getTitle());
-  //     setRateVisibility(true, this.movie);
-  //   }
-  // }
+  /**
+   * Retrives movie object from convertObservableList.
+   *
+   * @return the movie object to retrieve
+   */
+  private Movie convertSelectedItemToMovieObject() {
+    //når handleRateButton trykkes må denne oppdateres, lage en update metode 
+    moviesFound.getSelectionModel().getSelectedItem();
+    String[] movieStr = moviesFound.getSelectionModel().getSelectedItem().toString().split(" ");
+    return this.movieRegister.getMovie(movieStr[0].substring(0, movieStr[0].length() -1)
+        , movieStr[1].substring(0, movieStr[1].length() -1));
+  }
 
-  // /**
-  //  * Retrives movie object from convertObservableList.
-  //  *
-  //  * @return the movie object to retrieve
-  //  */
-  // private Movie convertSelectedItemToMovieObject() {
-  //   //når handleRateButton trykkes må denne oppdateres, lage en update metode 
-  //   movieRegisterList.getSelectionModel().getSelectedItem();
-  //   String[] movieStr = ((String) movieRegisterList
-  //    .getSelectionModel().getSelectedItem()).split("\t");
-  //   return this.movieRegister.getMovie(movieStr[0], movieStr[1]);
-  // }
+  @FXML
+  private void handleResetButton(){
+    movieName.clear();
+    genreBox.getItems().clear();
+    moviesFound.getItems().clear();
+  }
+
 
   /**
    * Adds a new movie to the register and writes it to file.
@@ -464,7 +492,5 @@ public class MovieRatingController {
     alert.setContentText(message);
     alert.showAndWait();
   }
-  
-
 }
 
