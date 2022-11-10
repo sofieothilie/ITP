@@ -73,7 +73,7 @@ public class MovieRatingController {
   @FXML private TextArea ratedMovie;
 
   @FXML private ListView<Movie> moviesFound;
-  @FXML private ListView<Movie> moviesRated;
+  @FXML private ListView<String> moviesRated;
 
   @FXML private Label loggedIn;
   @FXML private Label loggedOut;
@@ -239,7 +239,8 @@ public class MovieRatingController {
     moviesRated.getItems().clear();
     System.out.println("hei");
     for (Movie mov : user.getRatedMovies().keySet()) {
-      moviesRated.getItems().add(mov);
+      moviesRated.getItems().add(mov.getTitle() + "; " + mov.getGenre() 
+          + "; " + user.getRatedMovies().get(mov));
     }
   }
 
