@@ -32,7 +32,7 @@ public class UserRegister {
    * @throws IllegalArgumentException if user already exists
    */
   public void registerNewUser(User newuser) { 
-    this.users = updateUserList();
+    this.users = getAllUsers();
     for (User user : users) {
       if (user.equals(newuser)) {
         throw new IllegalArgumentException("User already exists");
@@ -60,7 +60,7 @@ public class UserRegister {
    * @return the User object with given username if it exists
    */
   public User getUser(String username) { 
-    this.users = this.updateUserList();
+    this.users = this.getAllUsers();
     for (User user : users) {
       if (user.getUsername().equals(username)) {
         return user;
@@ -97,7 +97,7 @@ public class UserRegister {
    * @throws IllegalArgumentException if user is not found
    */
   public void updateRatedMovie(User user, Movie movie) { 
-    this.users = updateUserList();
+    this.users = getAllUsers();
     if (users.isEmpty()) {
       throw new IllegalArgumentException("No registered users yet");
     }
@@ -120,7 +120,7 @@ public class UserRegister {
    *
    * @return a list of Users read from the file
    */
-  private List<User> updateUserList() { 
+  public List<User> getAllUsers() { 
     if (userHandler.fileExists()) {
       return new ArrayList<>(userHandler.readUsersFromRegister());
     } else {

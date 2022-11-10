@@ -28,7 +28,7 @@ public class MovieRegister {
    * @throws IllegalArgumentException if the movie exists already
    */
   public void addMovie(Movie movie) { 
-    this.movies = updateMovieList();
+    this.movies = getAllMovies();
     if (movieExists(movie)) {
       throw new IllegalArgumentException("The movie already exists");
     }
@@ -43,7 +43,7 @@ public class MovieRegister {
    * @throws IllegalArgumentexception if the movie does't exist
    */
   public void updateMovie(Movie movie) { 
-    this.movies = updateMovieList();
+    this.movies = getAllMovies();
     if (movies.isEmpty()) {
       throw new IllegalArgumentException("No registered movie yet.");
     }
@@ -69,7 +69,7 @@ public class MovieRegister {
    * @return a list of Movie objects with the given genre
    */
   public List<Movie> searchGenre(String genre) { 
-    this.movies = updateMovieList();
+    this.movies = getAllMovies();
     List<Movie> moviesByGenre = new ArrayList<>();
     for (Movie movie : movies) {
       if (movie.getGenre().equals(genre)) {
@@ -86,7 +86,7 @@ public class MovieRegister {
    * @return a list of Movie objects with given title
    */
   public List<Movie> searchMovieTitle(String title) { 
-    this.movies = updateMovieList();
+    this.movies = getAllMovies();
     List<Movie> moviesByTitle = new ArrayList<>();
     for (Movie movie : movies) {
       if (movie.getTitle().equals(title)) {
@@ -105,7 +105,7 @@ public class MovieRegister {
    * @throws IllegalArgumentException if the movie doesn't exist
    */
   public Movie getMovie(String title, String genre) { 
-    this.movies = updateMovieList();
+    this.movies = getAllMovies();
     for (Movie movie : movies) {
       if (movie.getTitle().equals(title) && movie.getGenre().equals(genre)) {
         return movie;
@@ -123,7 +123,7 @@ public class MovieRegister {
    * @return true if the movie exists
    */
   private boolean movieExists(Movie movie) { 
-    this.movies = updateMovieList();
+    this.movies = getAllMovies();
     if (this.movies.isEmpty()) {
       return false;
     }
@@ -140,7 +140,7 @@ public class MovieRegister {
    *
    * @return a list of all movie objects read from the file
    */
-  public List<Movie> updateMovieList() { //Reads from file, return a list
+  public List<Movie> getAllMovies() { //Reads from file, return a list
     if (movieHandler.fileExists()) {
       return new ArrayList<>(movieHandler.readMovieAndRatingFromRegister());
     } else {
