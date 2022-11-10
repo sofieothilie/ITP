@@ -3,6 +3,7 @@ package gr2240.spring;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import core.Movie;
 import core.User;
-import data.MovieRegister;
-import data.UserRegister;
 
 /**
  * Controller class for MovieRatingApplication.
@@ -22,18 +21,15 @@ import data.UserRegister;
 @RequestMapping("/movieRating")
 public class MovieRatingController {
 
-  private MovieRegisterService movSer;
-  private UserRegisterService userSer; 
-  private MovieRegister movReg;
-  private UserRegister userReg;
+  private final MovieRegisterService movSer;
+  private final UserRegisterService userSer; 
   private final static String movFile = "movieRegistry"; //TO BE SET IN UI CONTROLLER LATER
   private final static String userFile = "userRegistry"; //TO BE SET IN UI CONTROLLER LATER
 
+
   public MovieRatingController(){
-      this.movSer = new MovieRegisterService();
-      this.userSer = new UserRegisterService();
-      this.movReg = new MovieRegister(movFile);
-      this.userReg = new UserRegister(userFile, movFile);
+      this.movSer = new MovieRegisterService(movFile);
+      this.userSer = new UserRegisterService(userFile, movFile);
   }
 
   /**
@@ -42,7 +38,7 @@ public class MovieRatingController {
    */
   @RequestMapping(path = "movies")
   public List<Movie> getMovieRegister() {
-      return new ArrayList<Movie>(movReg.getAllMovies());
+      return new ArrayList<Movie>(movSer.getAllMovies());
   }
 
   /**
@@ -51,7 +47,54 @@ public class MovieRatingController {
    */
   @RequestMapping(path = "users")
   public List<User> getUserRegister(){
-      return new ArrayList<User>(userReg.getAllUsers());
+      return new ArrayList<User>(userSer.getAllUsers());
+  }
+  /**
+   * Get user by username if it exists
+   */
+  //http://localhost:8080/movieRating/user?username=Pauline
+  @GetMapping(path = "user")
+  public User getUser(@RequestParam("username") String username){
+    if(userSer.getUserbyUsername(username) == null){
+      throw new IllegalArgumentException();
+    }
+    return userSer.getUserbyUsername(username);
+  }
+
+  /**
+   * Get movie by title if it exists, by title and genre
+   */
+  //http://localhost:8080/movieRating/movie?title=Titanic&genre=drama
+  @GetMapping(path = "movie")
+  public Movie getMovie(@RequestParam("title") String title, @RequestParam("genre") String genre){
+    if(movSer.getMovie(title, genre) == null){
+      throw new IllegalArgumentException();
+    }
+    return movSer.getMovieByTitleAndGenre(title, genre);
+  }
+
+
+
+
+
+
+  /**
+  * Returns a list of movies with desired genre
+  * localhost:8080//movieRating/movieGenre?genre={genre}
+  * @return List<Movie>
+  */
+  @GetMapping(path = "movieGenre")
+  public List<Movie> searchGenre(@RequestParam("genre") String genre){
+    return new ArrayList<Movie>(this.movSer.getMoviesByGenre(genre));
+  }
+
+  /**
+  * Returns a list of movies with desired genre
+  * @return movie
+
+  * localhost:8080//movieRating/movieTitle?title={title}  */
+  public List<Movie> searchTitle(@RequestParam("title") String title) {
+    return new ArrayList<Movie>(this.movSer.getMoviesByTitle(title)););
   }
 
   /**
@@ -82,7 +125,4 @@ public class MovieRatingController {
       throw new IllegalArgumentException("Not able to rate");
     }
   }
-
-
 }
-
