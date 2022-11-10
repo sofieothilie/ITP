@@ -63,17 +63,18 @@ public class MovieRatingController {
   @FXML private Button resetButton;
   @FXML private Button addRatingButton;
   @FXML private Button cancelRatingButton;
+  @FXML private Button deleteRatingButton;
+  @FXML private Button updateRatingButton;
 
   
   @FXML private ChoiceBox<String> genreBox;
-
   @FXML private ChoiceBox<Integer> rateBox;
   
   @FXML private TextArea ratedMovie;
-  @FXML private TextArea moviesRated;
 
   @FXML private ListView<Movie> moviesFound;
-  
+  @FXML private ListView<String> moviesRated;
+
   @FXML private Label loggedIn;
   @FXML private Label loggedOut;
   @FXML private Label usernameLabel;
@@ -122,7 +123,6 @@ public class MovieRatingController {
     setGenres();
     setRating();  
     checkLogiIn(logIn); 
-    moviesRated.setEditable(false); 
     addRatingButton.setVisible(false);
   }
     
@@ -236,12 +236,12 @@ public class MovieRatingController {
    * Method that shows all movies the user has rated.
    */
   private void moviesRated() { 
-    moviesRated.clear();
-    String text = "";
+    moviesRated.getItems().clear();
+    System.out.println("hei");
     for (Movie mov : user.getRatedMovies().keySet()) {
-      text += mov.getTitle() + ", " + mov.getGenre() + ", " + user.getRatedMovies().get(mov) + "\n";
+      moviesRated.getItems().add(mov.getTitle() + "; " + mov.getGenre() 
+          + "; " + user.getRatedMovies().get(mov));
     }
-    moviesRated.setText(text);
   }
 
   private void checkLogiIn(Button button) {
@@ -487,6 +487,22 @@ public class MovieRatingController {
     ratePane.setVisible(false);
   }
 
+  @FXML
+  private void handleDeleteRating(){
+
+  }
+
+  @FXML
+  private void handleUpdateRating(){
+
+  }
+
+  @FXML
+  private void handleEditMovie(){
+
+  }
+
+
   //Error message
   void errorActivation(String message) {
     //When called, displays a warning message
@@ -495,7 +511,7 @@ public class MovieRatingController {
     alert.setTitle("Movie Rating");
     alert.setContentText(message);
     alert.showAndWait();
-  } 
+  }
 
   /**
    * When called, displays a warning message.
