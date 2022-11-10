@@ -125,6 +125,16 @@ public class User {
     return containsMovie;
   }
 
+  public void deleteMovie(Movie movie){
+    if (ratedMovies.containsKey(movie)){
+      ratedMovies.remove(movie);
+    }
+    else {
+      throw new IllegalArgumentException("The user has not rated this movie");
+    }
+
+  }
+
   @Override
   public boolean equals(Object object) { // Comparing User objects
     if (object instanceof User) {

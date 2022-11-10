@@ -127,6 +127,16 @@ public class Movie {
       + this.getGenre() + "; " 
       + String.format("%.2f", this.getAverageRating());
   }
+
+  public void deleteMovie(int rating){
+    if (allRatings.isEmpty()){
+      throw new IllegalArgumentException("No ratings added yet");
+    }
+    if(this.allRatings.contains(rating)){
+      this.allRatings.remove(Integer.valueOf(rating));
+    }
+
+  }
   
   @Override
   public boolean equals(Object object) { // Checks if an object is equal
@@ -148,9 +158,11 @@ public class Movie {
 
   public static void main(String[] args) {
     Movie m = new Movie("111", "fantasy");
-    User u1 = new User("e", "s");
-    u1.rateMovie(m, 3);
-    System.out.println(m);
+    m.addRating(1);
+    m.addRating(2);
+    m.addRating(3);
+    System.out.println(m.getAllRatings());
+    m.deleteMovie(3);
+    System.out.println(m.getAllRatings());
   }
-
 }
