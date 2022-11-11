@@ -115,9 +115,7 @@ public class MovieRatingController {
   public void initialize() {
     setLoginPossibility(true);
     searchPane.isVisible();
-    setRateVisibility(false, null);
-    ratedMoviesPane.visibleProperty().setValue(false);
-    ratedMovie.setEditable(false);
+    ratePane.setVisible(false);
     setGenres();
     setRating();  
     checkLogiIn(logIn); 
@@ -157,10 +155,12 @@ public class MovieRatingController {
     logIn.visibleProperty().set(value);
     createUser.visibleProperty().set(value);
     createNewUserText.setVisible(!value);
-    createUserDone.setVisible(false);
+    createUserDone.setVisible(!value);
     newUserLabel.setVisible(value);
     backToLogIn.setVisible(!value);
     loggedIn.setVisible(!value);
+    //ratePane.visibleProperty().set(!value);
+    ratedMoviesPane.visibleProperty().set(!value);
   }
 
 
@@ -177,7 +177,6 @@ public class MovieRatingController {
     createNewUserText.setVisible(!value);
     ratedMoviesPane.setVisible(value);
     infoUserLabel.setVisible(!value);
-    //genreBox.setVisible(true);
   }
 
 
@@ -271,7 +270,6 @@ public class MovieRatingController {
     createUser.setVisible(false);
     searchPane.setVisible(false);;
     backToLogIn.setVisible(true);
-    setRateVisibility(false, null);
     loggedOut.setVisible(false);
     createUserDone.setVisible(true);
     infoUserLabel.setVisible(false);
@@ -310,8 +308,8 @@ public class MovieRatingController {
   @FXML 
   private void handleLogOut() {
     this.user = null; //må vi ha denne
-    initialize();
-    loggedOut.setVisible(true);
+    setLoginPossibility(true);
+    addRatingButton.setVisible(false);
     clearAllSearchFields();
   }
 
@@ -517,4 +515,3 @@ public class MovieRatingController {
     alert.showAndWait();
   }
 }
-
