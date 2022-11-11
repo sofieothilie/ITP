@@ -1,4 +1,4 @@
-package spring;
+package restAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import core.User;
 
 @RestController
 @RequestMapping("/movieRating")
-public class MovieRatingController {
+public class MovieRatingSpringController {
   /**
    * @param movSer a MovieRegisterService
    */
@@ -40,7 +40,7 @@ public class MovieRatingController {
   /**
    * javadoc.
    */
-  public MovieRatingController() {
+  public MovieRatingSpringController() {
     this.movSer = new MovieRegisterService(movFile);
     this.userSer = new UserRegisterService(userFile, movFile);
   }
@@ -116,8 +116,8 @@ public class MovieRatingController {
     try {
       Movie m1 = new Movie(title, genre);
       movSer.addAMovie(m1);
-    } catch (NumberFormatException e) {
-      e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+      System.out.println(e.getMessage());
     }
     // } //hvordan sjekke om film allerede fins?
     // throw new IllegalArgumentException("Invalid movie");
@@ -154,6 +154,17 @@ public class MovieRatingController {
       throw new IllegalArgumentException();
     }
     return userSer.getUserbyUsername(username);
+  }
+
+  /** WORKING
+   * Get user by username if it exists.
+   * @param username
+   * @return
+   * http://localhost:8080/movieRating/user?username={username}
+   */
+  @PostMapping(path = "fullUser")
+  public void existingUser(@RequestParam("username") final String username, @RequestParam("password") final String password) {
+    userSer.getFullUser(username, password);
   }
 
   /**

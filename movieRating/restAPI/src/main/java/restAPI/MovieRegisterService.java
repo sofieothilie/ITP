@@ -1,4 +1,4 @@
-package spring;
+package restAPI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,8 +61,8 @@ public class MovieRegisterService {
     }
 
   private boolean validRating(Movie movie, int rating){
-      if (rating <= 5 || rating >=1){
-          if (!(movie.equals(null))){
+      if (rating <= 5 && rating >=1){
+          if (movie !=null){
               return true;
           }
       }

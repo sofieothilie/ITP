@@ -1,6 +1,6 @@
-module movieRating.spring {
-
-    requires movieRating.core;
+module movieRating.restAPI {
+    exports restAPI;
+    requires transitive movieRating.core;
     requires movieRating.data;
 
     requires spring.boot;
@@ -8,6 +8,6 @@ module movieRating.spring {
     //requires spring.beans;
     requires spring.web;
 
-    opens spring to spring.web;
+    opens restAPI to spring.web;
     
 }

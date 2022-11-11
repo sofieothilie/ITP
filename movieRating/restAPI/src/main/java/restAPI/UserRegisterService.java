@@ -1,4 +1,4 @@
-package spring;
+package restAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,10 @@ public class UserRegisterService {
 
   public void rateMovie(User user, Movie movie){
     userReg.updateRatedMovie(user, movie);
+  }
+
+  public void getFullUser(String username, String password) {
+    userReg.existingUser(username, password);
   }
 
 
