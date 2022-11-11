@@ -1,4 +1,4 @@
-package gr2240.spring;
+package spring;
 
 import java.util.ArrayList;
 import java.util.Arrays;
