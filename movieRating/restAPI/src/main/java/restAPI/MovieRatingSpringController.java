@@ -1,17 +1,15 @@
 package restAPI;
 
+import core.Movie;
+import core.User;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import core.Movie;
-import core.User;
 
 /**
  * Controller class for MovieRatingApplication.
@@ -21,12 +19,12 @@ import core.User;
 @RequestMapping("/movieRating")
 public class MovieRatingSpringController {
   /**
+   * Fields for controller class.
+   * 
    * @param movSer a MovieRegisterService
+   * @param userSer a UserRegisterService
    */
   private final MovieRegisterService movSer;
-  /**
-   *@param userSer a UserRegisterService
-   */
   private final UserRegisterService userSer;
   /**
    * @param movFile a string

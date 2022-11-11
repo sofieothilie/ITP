@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class MovieRatingApplication {
   /**
-   * Runs springboot.
-   * @param args
+   * Starts the application.
+   * @param args string
    */
   public static void main(final String[] args) {
     SpringApplication.run(MovieRatingApplication.class, args);
