@@ -7,6 +7,8 @@ import data.UserHandler;
 import data.UserRegister;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -468,7 +471,6 @@ public class MovieRatingController {
   @FXML
   private void handleEditMovie(){
     deleteRatingButton.setVisible(true);
-    updateRatingButton.setVisible(true);
   }
 
   @FXML
@@ -477,16 +479,26 @@ public class MovieRatingController {
     String[] deleteMovieList = deleteMovie.split(" ");
     Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length -1]);
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
-    movie.deleteMovie(rating);
-    this.user.deleteMovie(movie);
-    userRegister.updateRatedMovie(user, movie);
-    moviesRated.getItems().remove(deleteMovie);
+    if(confirmation(movie)){
+      movie.deleteMovie(rating);
+      this.user.deleteMovie(movie);
+      userRegister.updateRatedMovie(user, movie);
+      moviesRated.getItems().remove(deleteMovie);
+    }
+  }
+
+  private boolean confirmation(Movie movie){
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle("Delete " + movie.getTitle() + ", "+ movie.getGenre());
+    alert.setContentText("Are you sure you want to delete " + movie.getTitle() + ", "+ movie.getGenre() + "?");
+    Optional<ButtonType> result = alert.showAndWait();
+    if(!result.isPresent() || result.get() != ButtonType.OK){
+      return false;
+    }
+    return true; 
   }
 
 
-  @FXML
-  private void handleUpdateRating() {
-  }
 
 
   /**
@@ -494,9 +506,7 @@ public class MovieRatingController {
    *
    * @param message the warning message that shows
    */
-  void errorActivation(String message) {
-    //When called, displays a warning message
-    //fikse på meldingene
+  private void errorActivation(String message) {
     Alert alert = new Alert(AlertType.ERROR);
     alert.setTitle("Movie Rating");
     alert.setContentText(message);
