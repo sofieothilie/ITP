@@ -1,4 +1,4 @@
-package restAPI;
+package restapi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,10 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import core.Movie;
 import core.User;
-import restAPI.MovieRatingApplication;
-import restAPI.MovieRatingSpringController;
-import restAPI.MovieRegisterService;
-import restAPI.UserRegisterService;
+import restapi.MovieRatingApplication;
+import restapi.MovieRatingSpringController;
+import restapi.MovieRegisterService;
+import restapi.UserRegisterService;
 
 
 @AutoConfigureMockMvc

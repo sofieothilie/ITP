@@ -1,7 +1,7 @@
 module movieRating.ui {
   requires movieRating.core;
   requires movieRating.data;
-  requires movieRating.restAPI;
+  requires movieRating.restapi;
   requires javafx.controls;
   requires javafx.fxml;
 

@@ -1,4 +1,4 @@
-package restAPI;
+package restapi;
 
 import java.util.ArrayList;
 import java.util.Arrays;

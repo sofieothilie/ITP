@@ -1,5 +1,5 @@
-module movieRating.restAPI {
-    exports restAPI;
+module movieRating.restapi {
+    exports restapi;
     requires transitive movieRating.core;
     requires movieRating.data;
 
@@ -8,6 +8,6 @@ module movieRating.restAPI {
     //requires spring.beans;
     requires spring.web;
 
-    opens restAPI to spring.web;
+    opens restapi to spring.web;
     
 }

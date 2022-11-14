@@ -26,9 +26,10 @@
 
         <dependency>
             <groupId>gr2240</groupId>
-            <artifactId>movieRating-restAPI</artifactId>
+            <artifactId>movieRating-restapi</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        
 
         <!-- javafx -->
         <dependency>

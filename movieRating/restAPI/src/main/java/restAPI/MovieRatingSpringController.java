@@ -1,4 +1,4 @@
-package restAPI;
+package restapi;
 
 import core.Movie;
 import core.User;
