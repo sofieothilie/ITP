@@ -166,11 +166,12 @@ public class Movie {
 
   public static void main(String[] args) {
     Movie m = new Movie("111", "fantasy");
-    m.addRating(1);
-    m.addRating(2);
-    m.addRating(3);
-    System.out.println(m.getAllRatings());
-    m.deleteMovie(3);
-    System.out.println(m.getAllRatings());
+    // m.addRating(1);
+    // m.addRating(2);
+    // m.addRating(3);
+    // System.out.println(m.getAllRatings());
+    // m.deleteMovie(3);
+    // System.out.println(m.getAllRatings());
+    System.out.println(m);
   }
 }

@@ -189,6 +189,7 @@ public class MovieRatingController {
   private void setRateVisibility(boolean value, Movie movie) {
     ratePane.visibleProperty().set(value);
     rateButton.visibleProperty().set(value);
+    cancelRatingButton.visibleProperty().set(value);
     if (movie != (null) && value == true) {
       ratedMovie.setText(movie.toString());
     }
@@ -207,7 +208,7 @@ public class MovieRatingController {
     genreBox.setValue(null);
     rateBox.setValue(null);   
     moviesFound.getItems().clear();
-    moviesRated.getItems().clear();
+    //moviesRated.getItems().clear();
   }
 
   /**
@@ -312,9 +313,11 @@ public class MovieRatingController {
   private void handleLogOut() {
     this.user = null; //må vi ha denne
     setLoginPossibility(true);
-    //etRateVisibility(x, movie);
-    addRatingButton.setVisible(false);
+    setRateVisibility(false, null);
+    loggedOut.visibleProperty().set(true);
+    //addRatingButton.setVisible(false);
     clearAllSearchFields();
+    moviesRated.getItems().clear();
   }
 
   /**
@@ -374,7 +377,7 @@ public class MovieRatingController {
       errorActivation("You must log in or create user to rate a movie.");
     }
     if (moviesFound.getSelectionModel().getSelectedItem() != null && this.user != null) {
-      this.movie = (Movie)convertSelectedItemToMovieObject(moviesFound);
+      this.movie = (Movie) convertSelectedItemToMovieObject(moviesFound);
       setRateVisibility(true, this.movie);
       movieLabel.setText(": " + this.movie.getTitle());
     }
@@ -390,15 +393,16 @@ public class MovieRatingController {
     String[] movieStr = view.getSelectionModel().getSelectedItem().toString().split(" ");
     String title = "";
     int length = movieStr.length;
-    if (length > 2){
-      for (int i = 0; i < length - 3; i++){
+    if (length > 2) {
+      for (int i = 0; i < length - 3; i++) {
         title += movieStr[i] + " ";
       }
     }
-    title += movieStr[length - 3].substring(0, movieStr[length -3].length() -1);
-    String genre = movieStr[length -2].substring(0, movieStr[length - 2].length() - 1);
+    title += movieStr[length - 3].substring(0, movieStr[length - 3].length() - 1);
+    String genre = movieStr[length - 2].substring(0, movieStr[length - 2].length() - 1);
     return movieRegister.getMovie(title, genre);
   }
+
 
 
   /*
@@ -449,10 +453,12 @@ public class MovieRatingController {
       this.userRegister.updateRatedMovie(user, movie);
       confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
       moviesRated();
-      rateBox.setValue(null);
+      //rateBox.setValue(null);
       ratedMovie.setText(this.movie.toString());
       cancelRatingButton.visibleProperty().set(false);
-      rateButton.visibleProperty().set(false);
+      clearAllSearchFields();
+
+      ratePane.visibleProperty().set(false);
     } catch (Exception e) {
       errorActivation(e.getMessage());
     }
@@ -470,16 +476,16 @@ public class MovieRatingController {
 
 
   @FXML
-  private void handleEditMovie(){
+  private void handleEditMovie() {
     deleteRatingButton.setVisible(true);
     updateRatingButton.setVisible(true);
   }
 
   @FXML
-  private void handleDeleteRating(){
-    String deleteMovie = (String)moviesRated.getSelectionModel().getSelectedItem();
+  private void handleDeleteRating() {
+    String deleteMovie = (String) moviesRated.getSelectionModel().getSelectedItem();
     String[] deleteMovieList = deleteMovie.split(" ");
-    Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length -1]);
+    Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length - 1]);
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
     movie.deleteMovie(rating);
     this.user.deleteMovie(movie);
