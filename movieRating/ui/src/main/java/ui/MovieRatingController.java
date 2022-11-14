@@ -159,7 +159,6 @@ public class MovieRatingController {
     newUserLabel.setVisible(value);
     backToLogIn.setVisible(!value);
     loggedIn.setVisible(!value);
-    //ratePane.visibleProperty().set(!value);
     ratedMoviesPane.visibleProperty().set(!value);
   }
 
@@ -177,6 +176,7 @@ public class MovieRatingController {
     createNewUserText.setVisible(!value);
     ratedMoviesPane.setVisible(value);
     infoUserLabel.setVisible(!value);
+    createUserDone.setVisible(!value);
   }
 
 
@@ -188,6 +188,7 @@ public class MovieRatingController {
    */
   private void setRateVisibility(boolean value, Movie movie) {
     ratePane.visibleProperty().set(value);
+    rateButton.visibleProperty().set(value);
     if (movie != (null) && value == true) {
       ratedMovie.setText(movie.toString());
     }
@@ -293,10 +294,12 @@ public class MovieRatingController {
     try {
       this.user = new User(username.getText(), password.getText());
       this.userRegister.registerNewUser(this.user);
+      //setLoginPossibility(false);
       loggedIn(true);
       createNewUserText.setVisible(false);
       backToLogIn.setVisible(false);
       searchPane.setVisible(true);
+      //createUser.setVisible(false);
     } catch (Exception e) {
       errorActivation(e.getMessage());
     }
@@ -309,6 +312,7 @@ public class MovieRatingController {
   private void handleLogOut() {
     this.user = null; //må vi ha denne
     setLoginPossibility(true);
+    //etRateVisibility(x, movie);
     addRatingButton.setVisible(false);
     clearAllSearchFields();
   }
@@ -448,7 +452,7 @@ public class MovieRatingController {
       rateBox.setValue(null);
       ratedMovie.setText(this.movie.toString());
       cancelRatingButton.visibleProperty().set(false);
-      addRatingButton.visibleProperty().set(false);
+      rateButton.visibleProperty().set(false);
     } catch (Exception e) {
       errorActivation(e.getMessage());
     }
