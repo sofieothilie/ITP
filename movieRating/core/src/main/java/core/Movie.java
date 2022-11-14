@@ -107,7 +107,7 @@ public class Movie {
    * @return a double average rating
    */
   @JsonIgnore
-  public double getAverageRating() { // calculates average of all ratings for this movie
+  public Double getAverageRating() { // calculates average of all ratings for this movie
     Integer sum = 0;
     for (int rating = 0; rating < allRatings.size(); rating++) {
       sum += allRatings.get(rating);
@@ -123,9 +123,17 @@ public class Movie {
    * @return a string with title, genre and average rating for the movie
    */
   public String toString() { 
-    return "" + this.getTitle() + "; " 
+    if(this.getAverageRating().isNaN()){
+      return "" + this.getTitle() + "; " 
+      + this.getGenre() + "; " 
+      + 0.00;
+    }
+    else{
+      return "" + this.getTitle() + "; " 
       + this.getGenre() + "; " 
       + String.format("%.2f", this.getAverageRating());
+    }
+
   }
 
   public void deleteMovie(int rating){
