@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.annotation.Testable;
 
 import java.util.HashMap;
 
 public class UserTest {
   private User testUser;
+  private User testUser2;
   private User testUserCopy;
   private User testUserNotCopy;
   private Movie m1;
@@ -22,6 +22,7 @@ public class UserTest {
   @BeforeEach
   public void setUp(){
     this.testUser = new User("username", "password");
+    this.testUser2 = new User("username2", "password2");
     this.testUserCopy = new User(testUser.getUsername(), testUser.getPassword());
     this.testUserNotCopy = new User(testUser.getUsername(), "notUsersPassword");
     this.m1 = new Movie("Cinderella", "fantasy");
@@ -91,27 +92,32 @@ public class UserTest {
   @Test
   public void rateMovie() {
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      testUser.rateMovie(m2, 6);
+      testUser2.rateMovie(m1, 6);
       ;
     }, "Rating must be an integer from 1 to 5");
 
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      testUser.rateMovie(m2, 0);
+      testUser2.rateMovie(m1, 0);
       ;
     }, "Rating must be an integer from 1 to 5");
 
-    testUser.rateMovie(m1, 2);
-    testUser.rateMovie(m2, 4);
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      testUser2.rateMovie(m1, null);
+      ;
+    }, "You must choose a rating");
+
+    testUser2.rateMovie(m1, 2);
+    testUser2.rateMovie(m2, 4);
 
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      testUser.rateMovie(m1, 4);
+      testUser2.rateMovie(m1, 4);
       ;
     }, "The Movie is already rated");
 
     HashMap<Movie, Integer> compare = new HashMap<>();
     compare.put(m1, 2);
     compare.put(m2, 4);
-    assertEquals(compare, testUser.getRatedMovies(), "Something went wrong when rating a movie");
+    assertEquals(compare, testUser2.getRatedMovies(), "Something went wrong when rating a movie");
   }
 
   @DisplayName("testing deleteMovie")
@@ -120,7 +126,14 @@ public class UserTest {
     testUser.rateMovie(m1, 3);
     testUser.rateMovie(m2, 4);
     testUser.deleteMovie(m1);
+    assertTrue(testUser.getRatedMovies().containsKey(m2));
     assertFalse(testUser.getRatedMovies().containsKey(m1));
+    
+
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      testUser2.deleteMovie(m1);
+      ;
+    }, "You have not rated this move");
   }  
   
 
