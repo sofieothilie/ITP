@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MovieRatingApplication {
   /**
    * Starts the application.
+   *
    * @param args string
    */
   public static void main(final String[] args) {
