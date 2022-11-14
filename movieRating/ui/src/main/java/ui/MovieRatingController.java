@@ -7,6 +7,8 @@ import data.UserHandler;
 import data.UserRegister;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -97,7 +100,7 @@ public class MovieRatingController {
   }
   
   /**
-   * Constructor for testing.
+   * Constructor for ui test.
    */
   public MovieRatingController(String userFilename, String movieFilename) {
     this.userFilename = userFilename;
@@ -113,17 +116,14 @@ public class MovieRatingController {
    */
   @FXML
   public void initialize() {
-    loggedOut.visibleProperty().set(false);
-    loggedIn.visibleProperty().set(false); 
     setLoginPossibility(true);
-    setSearchVisibility(true);
-    setRateVisibility(false, null);
-    setUserRatedMovies(false);
-    ratedMovie.setEditable(false);
+    searchPane.isVisible();
+    ratePane.setVisible(false);
     setGenres();
     setRating();  
     checkLogiIn(logIn); 
     addRatingButton.setVisible(false);
+    loggedOut.visibleProperty().set(false);
   }
     
   /**
@@ -154,16 +154,15 @@ public class MovieRatingController {
     passwordLabel.visibleProperty().set(value);
     logOut.setVisible(!value);
     username.visibleProperty().set(value);
-    username.clear();
     password.visibleProperty().set(value);
-    password.clear();
     logIn.visibleProperty().set(value);
     createUser.visibleProperty().set(value);
-    loggedOut.visibleProperty().set(!value);
     createNewUserText.setVisible(!value);
-    createUserDone.setVisible(false);
+    createUserDone.setVisible(!value);
     newUserLabel.setVisible(value);
     backToLogIn.setVisible(!value);
+    loggedIn.setVisible(!value);
+    ratedMoviesPane.visibleProperty().set(!value);
   }
 
 
@@ -175,27 +174,14 @@ public class MovieRatingController {
    */
   public void loggedIn(boolean value) {
     setLoginPossibility(!value);
-    loggedIn.visibleProperty().set(value);
     loggedOut.visibleProperty().set(!value);
     backToLogIn.setVisible(!value);
     createNewUserText.setVisible(!value);
     ratedMoviesPane.setVisible(value);
     infoUserLabel.setVisible(!value);
-    //genreBox.setVisible(true);
+    createUserDone.setVisible(!value);
   }
 
-  /**
-   * Sets the search-area to desired visibility.
-   *
-   * @param value true if search area is supposed to be visible
-   */
-  private void setSearchVisibility(boolean value) {
-    searchPane.visibleProperty().set(value);
-
-    // searchMovie.visibleProperty().set(true);
-    // genreBox.visibleProperty().set(true);
-    //movieRegisterList.visibleProperty().set(true);
-  }
 
   /**
    * Sets the rate-area to desired visibility.
@@ -205,36 +191,27 @@ public class MovieRatingController {
    */
   private void setRateVisibility(boolean value, Movie movie) {
     ratePane.visibleProperty().set(value);
-    // rateBox.visibleProperty().set(value);
-    // rateButton.visibleProperty().set(value);
-    // movieLabel.visibleProperty().set(value);
-    // ratedMovie.visibleProperty().set(value);
-    // rateLabel.visibleProperty().set(value);
-    // ratingscaleLabel.setVisible(value);
+    rateButton.visibleProperty().set(value);
+    cancelRatingButton.visibleProperty().set(value);
     if (movie != (null) && value == true) {
       ratedMovie.setText(movie.toString());
     }
   }
 
-  /*
-   * Sets the usertated-area to desired visibility.
-   */
-  private void setUserRatedMovies(boolean value) {
-    ratedMoviesPane.visibleProperty().setValue(value);
-  }
 
   /**
    * Clears all search fields when called upon.
    */
   private void clearAllSearchFields() {
-    //movieRegisterList.getItems().clear();
+    username.clear();
+    password.clear();
     movieName.clear();
     movieLabel.setText("");
     ratedMovie.setText(null);
     genreBox.setValue(null);
     rateBox.setValue(null);   
     moviesFound.getItems().clear();
-    moviesRated.getItems().clear();
+    //moviesRated.getItems().clear();
   }
 
   /**
@@ -280,7 +257,6 @@ public class MovieRatingController {
       this.user = this.userRegister.getUser(username.getText());
       setLoginPossibility(false);
       loggedIn(true);  
-      loggedOut.visibleProperty().set(false);
       moviesRated();
     } catch (IllegalArgumentException e) {
       errorActivation(e.getMessage());
@@ -297,9 +273,8 @@ public class MovieRatingController {
     createNewUserText.setVisible(true);
     newUserLabel.setVisible(false);
     createUser.setVisible(false);
-    setSearchVisibility(false);
+    searchPane.setVisible(false);;
     backToLogIn.setVisible(true);
-    setRateVisibility(false, null);
     loggedOut.setVisible(false);
     createUserDone.setVisible(true);
     infoUserLabel.setVisible(false);
@@ -311,7 +286,7 @@ public class MovieRatingController {
   @FXML
   private void handleBackToLogIn() {
     setLoginPossibility(true);
-    setSearchVisibility(true);
+    searchPane.setVisible(true);
   }
 
 
@@ -323,12 +298,12 @@ public class MovieRatingController {
     try {
       this.user = new User(username.getText(), password.getText());
       this.userRegister.registerNewUser(this.user);
+      //setLoginPossibility(false);
       loggedIn(true);
-      loggedOut.visibleProperty().set(false);
       createNewUserText.setVisible(false);
       backToLogIn.setVisible(false);
-      setSearchVisibility(true);
-      setUserRatedMovies(true);
+      searchPane.setVisible(true);
+      //createUser.setVisible(false);
     } catch (Exception e) {
       errorActivation(e.getMessage());
     }
@@ -339,18 +314,13 @@ public class MovieRatingController {
    */
   @FXML 
   private void handleLogOut() {
-    this.user = null;
-    //loggedIn(false); tror at man kun trenge denne og ikke den under
-    setLoginPossibility(true); 
-    setRateVisibility(false, null); 
-    setUserRatedMovies(false);
-    loggedIn.setVisible(false);
+    this.user = null; //må vi ha denne
+    setLoginPossibility(true);
+    setRateVisibility(false, null);
     loggedOut.visibleProperty().set(true);
-    newUserLabel.setVisible(true);
-    //sleep eller wait to remove "Your are logged out" message after 3 seconds
+    //addRatingButton.setVisible(false);
     clearAllSearchFields();
-    infoUserLabel.setVisible(true);
-    addRatingButton.setVisible(false);
+    moviesRated.getItems().clear();
   }
 
   /**
@@ -410,7 +380,7 @@ public class MovieRatingController {
       errorActivation("You must log in or create user to rate a movie.");
     }
     if (moviesFound.getSelectionModel().getSelectedItem() != null && this.user != null) {
-      this.movie = (Movie)convertSelectedItemToMovieObject(moviesFound);
+      this.movie = (Movie) convertSelectedItemToMovieObject(moviesFound);
       setRateVisibility(true, this.movie);
       movieLabel.setText(": " + this.movie.getTitle());
     }
@@ -426,15 +396,16 @@ public class MovieRatingController {
     String[] movieStr = view.getSelectionModel().getSelectedItem().toString().split(" ");
     String title = "";
     int length = movieStr.length;
-    if (length > 2){
-      for (int i = 0; i < length - 3; i++){
+    if (length > 2) {
+      for (int i = 0; i < length - 3; i++) {
         title += movieStr[i] + " ";
       }
     }
-    title += movieStr[length - 3].substring(0, movieStr[length -3].length() -1);
-    String genre = movieStr[length -2].substring(0, movieStr[length - 2].length() - 1);
+    title += movieStr[length - 3].substring(0, movieStr[length - 3].length() - 1);
+    String genre = movieStr[length - 2].substring(0, movieStr[length - 2].length() - 1);
     return movieRegister.getMovie(title, genre);
   }
+
 
 
   /*
@@ -485,10 +456,12 @@ public class MovieRatingController {
       this.userRegister.updateRatedMovie(user, movie);
       confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
       moviesRated();
-      rateBox.setValue(null);
+      //rateBox.setValue(null);
       ratedMovie.setText(this.movie.toString());
       cancelRatingButton.visibleProperty().set(false);
-      addRatingButton.visibleProperty().set(false);
+      clearAllSearchFields();
+
+      ratePane.visibleProperty().set(false);
     } catch (Exception e) {
       errorActivation(e.getMessage());
     }
@@ -506,28 +479,36 @@ public class MovieRatingController {
 
 
   @FXML
-  private void handleEditMovie(){
+  private void handleEditMovie() {
     deleteRatingButton.setVisible(true);
-    updateRatingButton.setVisible(true);
   }
 
   @FXML
-  private void handleDeleteRating(){
-    String deleteMovie = (String)moviesRated.getSelectionModel().getSelectedItem();
+  private void handleDeleteRating() {
+    String deleteMovie = (String) moviesRated.getSelectionModel().getSelectedItem();
     String[] deleteMovieList = deleteMovie.split(" ");
-    Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length -1]);
+    Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length - 1]);
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
-    movie.deleteMovie(rating);
-    this.user.deleteMovie(movie);
-    userRegister.updateRatedMovie(user, movie);
-    moviesRated.getItems().remove(deleteMovie);
+    if(confirmation(movie)){
+      movie.deleteMovie(rating);
+      this.user.deleteMovie(movie);
+      userRegister.updateRatedMovie(user, movie);
+      moviesRated.getItems().remove(deleteMovie);
+    }
+  }
 
+  private boolean confirmation(Movie movie){
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle("Delete " + movie.getTitle() + ", "+ movie.getGenre());
+    alert.setContentText("Are you sure you want to delete " + movie.getTitle() + ", "+ movie.getGenre() + "?");
+    Optional<ButtonType> result = alert.showAndWait();
+    if(!result.isPresent() || result.get() != ButtonType.OK){
+      return false;
+    }
+    return true; 
   }
 
 
-  @FXML
-  private void handleUpdateRating() {
-  }
 
 
   /**
@@ -535,9 +516,7 @@ public class MovieRatingController {
    *
    * @param message the warning message that shows
    */
-  void errorActivation(String message) {
-    //When called, displays a warning message
-    //fikse på meldingene
+  private void errorActivation(String message) {
     Alert alert = new Alert(AlertType.ERROR);
     alert.setTitle("Movie Rating");
     alert.setContentText(message);
@@ -556,4 +535,3 @@ public class MovieRatingController {
     alert.showAndWait();
   }
 }
-

@@ -141,7 +141,6 @@ public class UserTest {
     User userCopy = new User(testUser.getUsername(), testUser.getPassword());
     Assertions.assertEquals(userCopy.hashCode(), testUser.hashCode());
     Assertions.assertNotEquals(testUser.hashCode(), testUserNotCopy.hashCode());
-
   }
 
 }
