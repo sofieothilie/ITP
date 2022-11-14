@@ -191,7 +191,7 @@ public class MovieRatingSpringController {
    * username={username}&movieTitle={title}&genre={genre}&rating={rating}
    */
   @PutMapping(path = "rateMovie")
-  public void rateMovie(@RequestParam("username") final String username,
+  public void ratedMovie(@RequestParam("username") final String username,
   @RequestParam("movieTitle") final String title,
   @RequestParam("movieGenre") final String genre,
   @RequestParam("rating") final Integer rating) {
