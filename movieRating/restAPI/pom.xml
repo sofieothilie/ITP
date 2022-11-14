@@ -10,7 +10,7 @@
         <relativePath>..</relativePath>
     </parent>
 
-	<artifactId>movieRating-restAPI</artifactId>
+	<artifactId>movieRating-restapi</artifactId>
 	<packaging>jar</packaging>
 
 	<!-- <groupId>gr2240</groupId>
