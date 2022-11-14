@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -36,9 +38,6 @@ public class movieRatingApplicationTests {
 
   private UserRegisterService userRegSer;
 
-
-
-
   @BeforeAll
   public void setup(){
   User user1 = new User("ellica", "ellica123");
@@ -57,8 +56,8 @@ public class movieRatingApplicationTests {
   this.userRegSer.registerNewUser(user2);
   }
 
-  private void testAddUser(String birthday, String czs) throws Exception {
-    MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/movieRating/chineseZodiac")
+  private void testAddUser(User user, String expectedResult) throws Exception {
+    MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/movieRating/newUser").conten);
 
     String resultCZ = result.getResponse().getContentAsString();
     assertNotNull(resultCZ);
