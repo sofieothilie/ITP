@@ -23,12 +23,12 @@ public class UserRegisterService {
     return userReg.getUser(username);
   }
 
-  public void registerNewUser(User user){
-    this.userReg.registerNewUser(user);
+  public void registerNewUser(String username, String password){
+    this.userReg.registerNewUser(username, password);
   }
 
-  public void rateMovie(User user, Movie movie){
-    userReg.updateRatedMovie(user, movie);
+  public void updateMovieAndUser(String username, String title, String genre, Integer rating, String action){
+    userReg.updateMovieAndUser(username, title, genre, rating, action);
   }
 
   public void getFullUser(String username, String password) {
