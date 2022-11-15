@@ -108,7 +108,9 @@ public class MovieRatingSpringControllerTest {
     this.mrsc.updateMovieAndUser(user2.getUsername(), m1.getTitle(), m1.getGenre(), 2, "delete");
     user2.deleteMovie(m1);
     assertEquals(m1.getAllRatings(), this.mrsc.getMovie(m1.getTitle(), m1.getGenre()).getAllRatings(), "m1 locally and on server aren't equal");
+    assertEquals(user2.getRatedMovies(), this.mrsc.getUser(user2.getUsername()).getRatedMovies(), "user2 locally and on server aren't equal");
   }
+
   
   @AfterEach
   public void tearDown() {
