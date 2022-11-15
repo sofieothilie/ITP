@@ -94,6 +94,13 @@ public class UserRegisterTest {
       },
       "User already in register"
     );
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
+        userRegister.registerNewUser(user1.getUsername(), "notUser1sPassword");
+      },
+      "Cannot create user with same username."
+    );
   }
 
   @DisplayName("Testing to get all users")
