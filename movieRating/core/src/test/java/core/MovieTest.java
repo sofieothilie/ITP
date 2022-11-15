@@ -48,11 +48,13 @@ public class MovieTest {
     assertEquals("fantasy", m4.getGenre(), "Genre was not equal to expected genre");
     assertEquals(m4.getAllRatings(), ratings, "not all or too many ratings were added to object.");
 
+
     Assertions.assertDoesNotThrow(() -> {
       new Movie("Fantasy Game", "fantasy", List.of());
     }, "Should be able to create a movie object with no rated movies with json constructor");
+    
     Movie m5 = new Movie("Fantasy Game", "fantasy", List.of());
-    assertEquals(m5.getAllRatings(), List.of(), "This movie shouldnt have any ratings.");
+    assertEquals(List.of(), m5.getAllRatings(), "This movie shouldnt have any ratings.");
 
   }
 
@@ -99,6 +101,10 @@ public class MovieTest {
   @DisplayName("Testing deleteMovie")
   @Test
   public void testDeleteMovie(){
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {
+      m1.deleteMovie(3);
+    }, "No rating added yet");
+
     m1.addRating(2);
     m1.addRating(3);
     m1.addRating(5);
@@ -120,6 +126,8 @@ public class MovieTest {
     Double rating = (3.0 + 4 + 5) / 3;
     assertEquals("Cinderella; fantasy; " + String.format("%.2f", rating), m1.toString(),
         "ToString didn't match expected toString");
+
+    assertEquals("Harry Potter; fantasy; 0.0", (new Movie("Harry Potter", "fantasy")).toString());
   }
 
   @DisplayName("Testing overridden equals method")
