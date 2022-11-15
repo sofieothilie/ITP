@@ -448,11 +448,7 @@ public class MovieRatingController {
       this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rateBox.getValue(), "add");
       confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
       moviesRated();
-      //rateBox.setValue(null);
-      ratedMovie.setText(this.movie.toString());
-      cancelRatingButton.visibleProperty().set(false);
       clearAllSearchFields();
-
       ratePane.visibleProperty().set(false);
     } catch (Exception e) {
       errorActivation(e.getMessage());
@@ -465,10 +461,6 @@ public class MovieRatingController {
   @FXML
   private void handleCancelRating() {
     ratePane.setVisible(false);
-    // rateBox.setValue(null);
-    // ratedMovie.clear();
-    // movieName.clear();
-    // genreBox.setValue(null);
     clearAllSearchFields();
 
   }

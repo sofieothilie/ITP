@@ -4,13 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import core.User;
-
+import core.UserTest;
 import data.MovieHandler;
 import data.MovieRegister;
 import data.UserHandler;
@@ -140,31 +141,33 @@ public class MovieRatingControllerTest extends ApplicationTest {
   @BeforeEach
   public void initeUserAndMovie() {
 
-    UserHandler userHandler = new UserHandler("userTest");
-    MovieHandler movieHandler = new MovieHandler("movieTest");
+    // UserHandler userHandler = new UserHandler("userTest");
+    // MovieHandler movieHandler = new MovieHandler("movieTest");
 
-    
-
-    User user1 = new User("per", "123");
-    userHandler.writeUserToRegister(user1);
-
-    List<Integer> allRatings = new ArrayList<>();
-    allRatings.add(3);
-
-    Movie movie1 = new Movie("The Notebook", "romance", allRatings);
-    Movie movie2 = new Movie("Harry Potter", "fantasy");
-    Movie movie3 = new Movie("Madagaskar", "drama", allRatings);
-
-    movieHandler.writeMovieToRegister(movie1);
-    movieHandler.writeMovieToRegister(movie2);
-    movieHandler.writeMovieToRegister(movie3);
-
-    MovieRatingSpringController springController = new MovieRatingSpringController("userTest", "movieTest");
-    
-    springController.addMovie("Madagaskar", "drama");
+    MovieRatingSpringController springController = new MovieRatingSpringController("movieTest", "userTest");
+    springController.addMovie("Madagaskar", "action");
+    springController.addMovie("The Notebook", "romance");
+    springController.addMovie("Harry Potter", "fantasy");
     springController.registerNewUser("per", "123");
-    springController.updateMovieAndUser("per", "Madagaskar", "drama", 3, "add");
+    springController.updateMovieAndUser("per", "Madagaskar", "action", 3, "add");
 
+
+
+    // mov
+
+    // User user1 = new User("per", "123");
+    // userHandler.writeUserToRegister(user1);
+
+    // List<Integer> allRatings = new ArrayList<>();
+    // allRatings.add(3);
+
+    // Movie movie1 = new Movie("The Notebook", "romance", allRatings);
+    // Movie movie2 = new Movie("Harry Potter", "fantasy");
+    // Movie movie3 = new Movie("Madagaskar", "drama", allRatings);
+
+    // movieHandler.writeMovieToRegister(movie1);
+    // movieHandler.writeMovieToRegister(movie2);
+    // movieHandler.writeMovieToRegister(movie3);
   }
 
   @Override
@@ -362,17 +365,18 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
   
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to add a rating")
   public void testAddRating() {
     logInStandard();
     robot.clickOn(genreBox).clickOn("romance");
     robot.clickOn(searchMovie);
-    clickOn(LabeledMatchers.hasText("The Notebook; romance; 3,00"));
+    sleep(6000);
+    clickOn(LabeledMatchers.hasText("The Notebook; romance; 0.0"));
     assertTrue(ratePane.isVisible());
     assertEquals(": The Notebook", movieLabel.getText());
-    assertEquals("The Notebook; romance; 3,00", ratedMovie.getText());
+    assertEquals("The Notebook; romance; 0.0", ratedMovie.getText());
     robot.clickOn(rateBox).clickOn("4");
     robot.clickOn(rateButton);
     this.closeAlert();
@@ -415,22 +419,23 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  ///* 
+  /* 
   @Test
   @DisplayName("Test to delete a rating")
   public void testDeleteRating() {
-    robot.clickOn(username).write("per");
-    robot.clickOn(password).write("123");
-    robot.clickOn(logIn);
-    sleep(5000);
+    logInStandard();
+    sleep(400);
+    clickOn(LabeledMatchers.hasText("Madagaskar; action; 3"));
+    clickOn(deleteRatingButton);   
+    this.closeAlert(); 
   }
   //*/
   
   @AfterEach
   @DisplayName("After each test reset files")
   public void resetData() {
-    UserHandler userHandler = new UserHandler(userFilename);
-    MovieHandler movieHandler = new MovieHandler(movieFilename);
+    UserHandler userHandler = new UserHandler("userTest");
+    MovieHandler movieHandler = new MovieHandler("movieTest");
     try {
       if(userHandler.fileExists()){
         Files.delete(userHandler.getFile().toPath());
