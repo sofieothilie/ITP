@@ -478,7 +478,6 @@ public class MovieRatingController {
     Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length - 1]);
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
     if (confirmation(movie)) {
-      movie.deleteMovie(rating);
       this.user.deleteMovie(movie);
       springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rating, "delete");
       moviesRated.getItems().remove(deleteMovie);
