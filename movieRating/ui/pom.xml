@@ -97,6 +97,41 @@
                 <configuration>
                     <!-- syntax: module-name/full-app-class-name -->
                     <mainClass>movieRating.ui/ui.MovieRatingApp</mainClass>
+                    <!-- rest of options are for jlink -->
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <stripDebug>true</stripDebug>
+                    <noManPages>true</noManPages>
+                    <launcher>movieratingfx</launcher>
+                    <jlinkImageName>movieratingfx</jlinkImageName>
+                    <jlinkZipName>movieratingfx</jlinkZipName>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <name>MovieRatingFX</name>
+                    <appVersion>1.0.0</appVersion>
+                    <vendor>gr2240</vendor>
+                    <destination>target/dist</destination>
+                    <module>movieRating.ui/movieRating.ui.MovieRatingApp</module>
+                    <runtimeImage>target/movieratingfx</runtimeImage>
+                    <javaOptions>
+                        <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+                    <!-- linux options --> 
+                    <linuxShortcut>true</linuxShortcut>
+                    <linuxMenuGroup>movieratingfx</linuxMenuGroup>
+
+                    <!-- windows options --> 
+                    <winDirChooser>true</winDirChooser>
+                    <winShortcut>true</winShortcut>
+                    <winMenu>true</winMenu>
+                    <winMenuGroup>movieratingfx</winMenuGroup>
+
                 </configuration>
             </plugin>
 
