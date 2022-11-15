@@ -31,10 +31,8 @@ public class MovieRatingController {
   //Fields
   private Movie movie;
   private final String movieFilename;
-  private MovieRegister movieRegister;
   private User user;
   private final String userFilename;
-  private UserRegister userRegister;
   private MovieRatingSpringController springController;
 
   private static List<String> genresList = Arrays.asList("action", "comedy",
@@ -91,8 +89,6 @@ public class MovieRatingController {
   public MovieRatingController() {
     this.userFilename = "userRegistry";
     this.movieFilename = "movieRegistry";
-    // this.movieRegister = new MovieRegister(movieFilename);
-    // this.userRegister = new UserRegister(userFilename, movieFilename);
     this.springController = new MovieRatingSpringController(this.movieFilename, this.userFilename);
   }
   
@@ -102,8 +98,6 @@ public class MovieRatingController {
   public MovieRatingController(String userFilename, String movieFilename) {
     this.userFilename = userFilename;
     this.movieFilename = movieFilename;
-    // this.movieRegister = new MovieRegister(movieFilename);
-    // this.userRegister = new UserRegister(userFilename, movieFilename);
     this.springController = new MovieRatingSpringController(this.movieFilename, this.userFilename);
   }
 
@@ -433,7 +427,7 @@ public class MovieRatingController {
   @FXML
   private void handleAddRating() {
     try {
-      springcontroller.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
+      springController.addMovie(movieName.getText(), genreBox.getValue());
       this.movie = new Movie(movieName.getText(), genreBox.getValue());
       movieLabel.setText(": " + this.movie.getTitle());
       confirmationActivation(this.movie.getTitle() + " was added to the register.");
