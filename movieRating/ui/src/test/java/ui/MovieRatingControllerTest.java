@@ -4,11 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import core.User;
 
 import data.MovieHandler;
 import data.MovieRegister;
@@ -32,6 +33,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import restapi.MovieRatingSpringController;
 
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -42,7 +44,7 @@ import core.User;
 
 public class MovieRatingControllerTest extends ApplicationTest {
 
-  MovieRatingController controller = new MovieRatingController("userTest", "movieTest");
+  
 
   private FxRobot robot = new FxRobot();
   
@@ -138,8 +140,10 @@ public class MovieRatingControllerTest extends ApplicationTest {
   @BeforeEach
   public void initeUserAndMovie() {
 
-    UserHandler userHandler = new UserHandler(userFilename);
-    MovieHandler movieHandler = new MovieHandler(movieFilename);
+    UserHandler userHandler = new UserHandler("userTest");
+    MovieHandler movieHandler = new MovieHandler("movieTest");
+
+    
 
     User user1 = new User("per", "123");
     userHandler.writeUserToRegister(user1);
@@ -154,6 +158,13 @@ public class MovieRatingControllerTest extends ApplicationTest {
     movieHandler.writeMovieToRegister(movie1);
     movieHandler.writeMovieToRegister(movie2);
     movieHandler.writeMovieToRegister(movie3);
+
+    MovieRatingSpringController springController = new MovieRatingSpringController("userTest", "movieTest");
+    
+    springController.addMovie("Madagaskar", "drama");
+    springController.registerNewUser("per", "123");
+    springController.updateMovieAndUser("per", "Madagaskar", "drama", 3, "add");
+
   }
 
   @Override
@@ -173,7 +184,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn("OK");
   }
  
-  ///* 
+  /* 
   @Test
   @DisplayName("Test to create new user") 
   public void testCreateNewUser() {
@@ -235,7 +246,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(logIn);
   }
 
-  ///* 
+  /* 
   @Test 
   @DisplayName("Test to log in")
   public void logIn() {
@@ -282,7 +293,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-   ///* 
+   /* 
   @Test
   @DisplayName("Test log out")
   public void testLogOut() {
@@ -302,7 +313,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  ///* 
+  /* 
   @Test
   public void testcreateUserandLogIn() {
     createUserStandard();
@@ -318,7 +329,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  ///* 
+  /* 
   @Test
   @DisplayName("Test to search up movies in register")
   public void testsearchMovie() {
@@ -351,7 +362,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
   
-  ///* 
+  /* 
   @Test
   @DisplayName("Test to add a rating")
   public void testAddRating() {
@@ -404,11 +415,14 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to delete a rating")
   public void testDeleteRating() {
-    logInStandard();
+    robot.clickOn(username).write("per");
+    robot.clickOn(password).write("123");
+    robot.clickOn(logIn);
+    sleep(5000);
   }
   //*/
   
