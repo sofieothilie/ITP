@@ -3,15 +3,14 @@ package ui;
 import core.Movie;
 import core.User;
 import data.MovieRegister;
-import data.UserHandler;
 import data.UserRegister;
+import restapi.MovieRatingSpringController;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -22,10 +21,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 
 /**
@@ -35,10 +31,12 @@ public class MovieRatingController {
   //Fields
   private Movie movie;
   private final String movieFilename;
-  public MovieRegister movieRegister;
+  private MovieRegister movieRegister;
   private User user;
   private final String userFilename;
-  public UserRegister userRegister;
+  private UserRegister userRegister;
+  private MovieRatingSpringController springController;
+
   private static List<String> genresList = Arrays.asList("action", "comedy",
       "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
   private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);  
@@ -93,8 +91,9 @@ public class MovieRatingController {
   public MovieRatingController() {
     this.userFilename = "userRegistry";
     this.movieFilename = "movieRegistry";
-    this.movieRegister = new MovieRegister(movieFilename);
-    this.userRegister = new UserRegister(userFilename, movieFilename);
+    // this.movieRegister = new MovieRegister(movieFilename);
+    // this.userRegister = new UserRegister(userFilename, movieFilename);
+    this.springController = new MovieRatingSpringController(this.movieFilename, this.userFilename);
   }
   
   /**
@@ -103,8 +102,9 @@ public class MovieRatingController {
   public MovieRatingController(String userFilename, String movieFilename) {
     this.userFilename = userFilename;
     this.movieFilename = movieFilename;
-    this.movieRegister = new MovieRegister(movieFilename);
-    this.userRegister = new UserRegister(userFilename, movieFilename);
+    // this.movieRegister = new MovieRegister(movieFilename);
+    // this.userRegister = new UserRegister(userFilename, movieFilename);
+    this.springController = new MovieRatingSpringController(this.movieFilename, this.userFilename);
   }
 
   // Methods
@@ -251,8 +251,8 @@ public class MovieRatingController {
   @FXML
   public void handleLogIn() {
     try {
-      this.userRegister.existingUser(username.getText(), password.getText());  
-      this.user = this.userRegister.getUser(username.getText());
+      this.springController.existingUser(username.getText(), password.getText());  
+      this.user = this.springController.getUser(username.getText());
       setLoginPossibility(false);
       loggedIn(true);  
       moviesRated();
@@ -296,14 +296,12 @@ public class MovieRatingController {
   @FXML
   private void handleCreateUserDone() {
     try {
+      this.springController.registerNewUser(username.getText(), password.getText());
       this.user = new User(username.getText(), password.getText());
-      this.userRegister.registerNewUser(this.user);
-      //setLoginPossibility(false);
       loggedIn(true);
       createNewUserText.setVisible(false);
       backToLogIn.setVisible(false);
       searchPane.setVisible(true);
-      //createUser.setVisible(false);
     } catch (Exception e) {
       errorActivation(e.getMessage());
       username.clear();
@@ -334,7 +332,7 @@ public class MovieRatingController {
     moviesFound.getItems().clear();
     //addRatingButton.setVisible(true);
     if (genreBox.getSelectionModel().isEmpty()) {
-      List<Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
+      List<Movie> movieList = springController.searchMovieTitle(movieName.getText());
       if (movieList.isEmpty()) { 
         errorActivation("No movies with title: " + movieName.getText()
             + " found in the register");
@@ -344,7 +342,7 @@ public class MovieRatingController {
         moviesFound.getItems().add(movie);
       }
     } else if (movieName.getText().isEmpty()) {
-      List<Movie> genreList = movieRegister.searchGenre((String) genreBox.getValue());
+      List<Movie> genreList = springController.searchGenre((String) genreBox.getValue());
       if (genreList.isEmpty()) {
         errorActivation("No movies with genre: " + (String) genreBox.getValue()
             + " found in the register");
@@ -355,7 +353,7 @@ public class MovieRatingController {
       }
     } else {
       try {
-        Movie foundMovie = movieRegister.getMovie(movieName.getText(), 
+        Movie foundMovie = springController.getMovie(movieName.getText(), 
             (String) genreBox.getValue());
         moviesFound.getItems().add(foundMovie);
       } catch (IllegalArgumentException e) {
@@ -411,7 +409,7 @@ public class MovieRatingController {
     }
     title += movieStr[length - 3].substring(0, movieStr[length - 3].length() - 1);
     String genre = movieStr[length - 2].substring(0, movieStr[length - 2].length() - 1);
-    return movieRegister.getMovie(title, genre);
+    return springController.getMovie(title, genre);
   }
 
 
@@ -435,7 +433,7 @@ public class MovieRatingController {
   @FXML
   private void handleAddRating() {
     try {
-      movieRegister.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
+      springcontroller.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
       this.movie = new Movie(movieName.getText(), genreBox.getValue());
       movieLabel.setText(": " + this.movie.getTitle());
       confirmationActivation(this.movie.getTitle() + " was added to the register.");
@@ -453,7 +451,7 @@ public class MovieRatingController {
     //legge til oppdatering
     try {
       this.user.rateMovie(movie, rateBox.getValue());
-      this.userRegister.updateRatedMovie(user, movie);
+      this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rateBox.getValue(), "add");
       confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
       moviesRated();
       //rateBox.setValue(null);
@@ -496,7 +494,7 @@ public class MovieRatingController {
     if (confirmation(movie)) {
       movie.deleteMovie(rating);
       this.user.deleteMovie(movie);
-      userRegister.updateRatedMovie(user, movie);
+      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rating, "delete");
       moviesRated.getItems().remove(deleteMovie);
     }
   }

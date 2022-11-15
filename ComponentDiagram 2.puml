@@ -1,0 +1,32 @@
+@startuml Component Diagram
+skinparam BackgroundColor transparent
+skinparam componentStyle uml2
+node core #LightGray {
+   component "Movie" #ForestGreen
+   component "MovieRegister" #ForestGreen
+   component "User" #Orange
+   component "UserRegister" #Orange
+   [MovieRegister]->[Movie]
+   [UserRegister]->[User]
+   [UserRegister]->[MovieRegister]
+}
+node UI #LightGray {
+   component "MovieRatingApp" #SkyBlue
+   component "MovieRatingController" #SkyBlue
+   [MovieRatingController] <- [MovieRatingApp]
+   [MovieRatingController] -down-> [Movie]
+   [MovieRatingController] ->[User]
+   [MovieRatingController] ->[MovieRegister]
+   [MovieRatingController] ->[UserRegister]
+
+}
+node persistens #LightGray {
+    /'Endre navn på denne'/
+   component "UserHandler" #Orange
+   component "MovieHandler" #ForestGreen
+   [User] <- [UserHandler]
+   [Movie] <- [MovieHandler]
+   [MovieRegister]->[MovieHandler]
+   [UserRegister]-down-> [UserHandler]
+}
+@enduml
