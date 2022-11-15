@@ -1,0 +1,61 @@
+@startuml Sequence Diagram
+skinparam maxNoteSize 50
+actor       Actor            as actor
+participant UI              as ui
+participant Controller      as controller
+participant MovieRegister   as movieRegister
+participant MovieHandler   as movieHandler
+participant Movie           as movie
+database    Database        as database 
+
+activate actor
+actor            ->  ui :                "title", "genre"
+activate ui
+actor            ->  ui :                "Add movie to register"
+deactivate actor
+ui              ->  controller :        handleAddMovieToRegister()
+deactivate ui
+activate controller
+controller      ->  movie :             new movie("title", "genre")
+deactivate controller
+activate movie
+movie           ->  controller :        movie      
+deactivate movie
+activate controller
+controller      ->  movieRegister :     addMovie(movie)
+deactivate controller
+activate movieRegister
+movieRegister   ->  movieRegister :     updateMovieList()
+
+alt #SkyBlue movie already exists in register
+
+    movieRegister   --> actor :          "The movie already exists."
+    deactivate movieRegister
+    activate actor
+
+    note over actor
+        Movie was already in
+        register and could 
+        thus not be added.
+    end note
+
+
+else #Orange movie doesn't exist in register
+    
+    movieRegister   -> movieHandler :   writeMovieToRegister(movie)
+    deactivate movieRegister
+    activate movieHandler
+    movieHandler    -> database :       movie
+    deactivate movieHandler
+    activate database
+    note over database
+        Movie wasn't already in
+        register and could 
+        thus be added to file.
+        actor recieving feedback 
+        is not part of the diagram.
+    end note
+
+end
+
+@enduml
