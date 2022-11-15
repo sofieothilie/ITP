@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <groupId>gr2240</groupId>
     <artifactId>movieRating-ui</artifactId>
 
     <parent>
@@ -35,12 +36,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>18</version>
+            <version>18.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>18</version>
+            <version>18.0.1</version>
         </dependency>
 
         <!-- junit testing with jupiter -->
@@ -90,7 +91,9 @@
         		<artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>
+                    @{jaCoCoArgLine} 
                     --add-opens movieRating.ui/ui=ALL-UNNAMED --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                    
                     </argLine>
                 </configuration>
 	        </plugin>
@@ -130,7 +133,7 @@
             <plugin>
                 <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
-                <version>1.4.0</version>
+                <version>1.6.0</version>
                 <configuration>
                     <name>MovieRatingFX</name>
                     <appVersion>1.0.0</appVersion>
@@ -151,8 +154,13 @@
                     <winMenu>true</winMenu>
                     <winMenuGroup>movieratingfx</winMenuGroup>
 
+                    <!-- mac options-->
+                    <macShortcut>true</macShortcut>
+                    <macMenuGroup>movieratingfx</macMenuGroup>
+
                 </configuration>
             </plugin>
+            
 
             <!-- Run the checkstyle code quality tool -->
             <plugin>
@@ -170,6 +178,11 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <propertyName>
+                    jaCoCoArgLine
+                    </propertyName>
+                </configuration>
             </plugin>
         </plugins>
     </build>
