@@ -142,6 +142,8 @@ public class MovieRatingControllerTest extends ApplicationTest {
 
     UserHandler userHandler = new UserHandler(userFilename);
     MovieHandler movieHandler = new MovieHandler(movieFilename);
+    UserRegister userRegister = new UserRegister(userFilename, movieFilename);
+
     //MovieRegister movieRegister = new MovieRegister(movieFilename);
 
     User user1 = new User("per", "123");
@@ -289,7 +291,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertTrue(logOut.isVisible());
     assertTrue(ratedMoviesPane.isVisible());
   }
-  */
+  //*/
 
    /* 
   @Test
@@ -309,7 +311,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertTrue(password.isVisible());
     assertTrue(passwordLabel.isVisible());
   }
-  */
+  //*/
 
   /* 
   @Test
@@ -325,41 +327,53 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertTrue(loggedIn.isVisible());
     assertTrue(ratedMoviesPane.isVisible());
   }
-  */
+  //*/
 
+  /* 
   @Test
   @DisplayName("Test to search up movies in register")
   public void testsearchMovie() {
+    robot.clickOn(searchMovie);
+    this.closeAlert();
+
     robot.clickOn(genreBox).clickOn("horror");
     robot.clickOn(searchMovie);
     this.closeAlert();
-    robot.clickOn(addRatingButton);
+    robot.clickOn(movieName).write("Impressive");
+    robot.clickOn(searchMovie);
     this.closeAlert();
-    // genreBox.setValue(null);
-    // robot.clickOn(movieName).write("Impressive");
-    // robot.clickOn(searchMovie);
-    // this.closeAlert();
-    // movieName.clear();
-    // robot.clickOn(genreBox).clickOn("fantasy");
-    // robot.clickOn(searchMovie);
-    // clickOn(LabeledMatchers.hasText("Harry Potter; fantasy; 0.00"));
-    // this.closeAlert();
-    
+
+    robot.clickOn(movieName).write("Zavannah");
+    robot.clickOn(genreBox).clickOn("horror");
+    robot.clickOn(resetButton);
+    assertEquals("", movieLabel.getText());
+    assertEquals(null, genreBox.getValue());
+
+    robot.clickOn(genreBox).clickOn("fantasy");
+    robot.clickOn(searchMovie);
+    clickOn(LabeledMatchers.hasText("Harry Potter; fantasy; 0.0"));
+    this.closeAlert();
+
+    logInStandard();
+    clickOn(LabeledMatchers.hasText("Harry Potter; fantasy; 0.0"));
+    assertTrue(ratePane.isVisible());
+    assertEquals(": Harry Potter", movieLabel.getText());
+    assertEquals("Harry Potter; fantasy; 0.0", ratedMovie.getText());
   }
+  //*/
   
   /* 
   @Test
-  @DisplayName("Test to add a rating for the first time")
-  public void addMovie(){
-    logIn();
-    sleep(500);
+  @DisplayName("Test to add a rating")
+  public void testAddRating(){
+    logInStandard();
     robot.clickOn(genreBox).clickOn("romance");
     robot.clickOn(searchMovie);
-    sleep(900);
     clickOn(LabeledMatchers.hasText("The Notebook; romance; 3,00"));
     assertTrue(ratePane.isVisible());
+    assertEquals(": The Notebook", movieLabel.getText());
+    assertEquals("The Notebook; romance; 3,00", ratedMovie.getText());
     robot.clickOn(rateBox).clickOn("4");
-    sleep(400);
     robot.clickOn(rateButton);
     this.closeAlert();
     assertFalse(ratePane.isVisible());
@@ -380,9 +394,32 @@ public class MovieRatingControllerTest extends ApplicationTest {
     this.closeAlert();
     assertFalse(ratePane.isVisible());
     //test her må det sjekkes at en rating kommer i listview
-  }
-  */
 
+    robot.clickOn(movieName).write("History");
+    robot.clickOn(genreBox).clickOn("drama");
+    robot.clickOn(searchMovie);
+    this.closeAlert();
+    robot.clickOn(addRatingButton);
+    this.closeAlert();
+    assertTrue(ratePane.isVisible());
+    robot.clickOn(cancelRatingButton);
+    assertFalse(ratePane.isVisible());
+    assertEquals("", movieLabel.getText());
+    assertEquals(null, genreBox.getValue());
+    //også her skal listview bli empty, må sjekke
+
+    robot.clickOn(genreBox).clickOn("action");
+    robot.clickOn(searchMovie);
+    clickOn(LabeledMatchers.hasText("Avengers; action; 1,00"));
+    this.closeAlert();
+  }
+  //*/
+
+  @Test
+  @DisplayName("Test to delete a rating")
+  public void testDeleteRating() {
+    logInStandard();
+  }
   
   @AfterEach
   @DisplayName("After each test reset files")

@@ -123,24 +123,28 @@ public class Movie {
    * @return a string with title, genre and average rating for the movie
    */
   public String toString() { 
-    if(this.getAverageRating().isNaN()){
+    if (this.getAverageRating().isNaN()) {
       return "" + this.getTitle() + "; " 
-      + this.getGenre() + "; " 
-      + 0.00;
-    }
-    else{
+        + this.getGenre() + "; " 
+        + 0.00;
+    } else {
       return "" + this.getTitle() + "; " 
-      + this.getGenre() + "; " 
-      + String.format("%.2f", this.getAverageRating());
+        + this.getGenre() + "; " 
+        + String.format("%.2f", this.getAverageRating());
     }
-
   }
 
-  public void deleteMovie(int rating){
-    if (allRatings.isEmpty()){
+  /**
+   * Method that deletes a rating from the Movie object.
+   *
+   * @param rating the rating to be removed
+   *
+   */
+  public void deleteMovie(int rating) {
+    if (allRatings.isEmpty()) {
       throw new IllegalArgumentException("No ratings added yet");
     }
-    if(this.allRatings.contains(rating)){
+    if (this.allRatings.contains(rating)) {
       this.allRatings.remove(Integer.valueOf(rating));
     }
 
@@ -162,16 +166,5 @@ public class Movie {
   public int hashCode() {
     // Enables comparing over hashcode.
     return this.getTitle().hashCode() + this.getGenre().hashCode();
-  }
-
-  public static void main(String[] args) {
-    Movie m = new Movie("111", "fantasy");
-    // m.addRating(1);
-    // m.addRating(2);
-    // m.addRating(3);
-    // System.out.println(m.getAllRatings());
-    // m.deleteMovie(3);
-    // System.out.println(m.getAllRatings());
-    System.out.println(m);
   }
 }

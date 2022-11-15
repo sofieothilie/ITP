@@ -158,6 +158,6 @@
         <module>core</module>
         <module>data</module>
         <module>ui</module>
-        <module>spring</module>
+        <module>restapi</module>
     </modules>
 </project>
