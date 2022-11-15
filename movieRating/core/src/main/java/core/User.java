@@ -136,6 +136,7 @@ public class User {
    */
   public void deleteMovie(Movie movie) {
     if (ratedMovies.containsKey(movie)) {
+      movie.deleteMovie(ratedMovies.get(movie));
       ratedMovies.remove(movie);
     } else {
       throw new IllegalArgumentException("You have not rated this movie");
