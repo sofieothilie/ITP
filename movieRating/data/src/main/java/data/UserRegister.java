@@ -118,6 +118,7 @@ public class UserRegister {
             m.addRating(rating);
             break;
           case "delete":
+            u.deleteMovie(m);
             m.deleteMovie(rating);
             break;
           default:
