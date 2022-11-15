@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -101,12 +100,9 @@ public class MovieRatingControllerTest extends ApplicationTest {
     ratePane = lookup("#ratePane").query();
     searchPane = lookup("#searchPane").query();
     ratedMoviesPane = lookup("#ratedMoviesPane").query();
-
     password = lookup("#password").query();
-
     username = lookup("#username").query();
     movieName = lookup("#movieName").query();
-
     logIn = lookup("#logIn").query();
     createUser = lookup("#createUser").query();
     logOut = lookup("#logOut").query();
@@ -118,12 +114,9 @@ public class MovieRatingControllerTest extends ApplicationTest {
     addRatingButton = lookup("#addRatingButton").query();
     cancelRatingButton = lookup("#cancelRatingButton").query();
     deleteRatingButton = lookup("#deleteRatingButton").query();
-
     ratedMovie = lookup("#ratedMovie").query();
-
     genreBox = lookup("#genreBox").query();
     rateBox = lookup("#rateBox").query();
-
     loggedIn = lookup("#loggedIn").query();
     loggedOut = lookup("#loggedOut").query();
     usernameLabel = lookup("#usernameLabel").query();
@@ -134,40 +127,16 @@ public class MovieRatingControllerTest extends ApplicationTest {
     createNewUserText = lookup("#createNewUserText").query();
     newUserLabel = lookup("#newUserLabel").query();
     infoUserLabel = lookup("#infoUserLabel").query();
-    
   }
 
   @BeforeEach
   public void initeUserAndMovie() {
-
-    // UserHandler userHandler = new UserHandler("userTest");
-    // MovieHandler movieHandler = new MovieHandler("movieTest");
-
     MovieRatingSpringController springController = new MovieRatingSpringController("movieTest", "userTest");
     springController.addMovie("Madagaskar", "action");
     springController.addMovie("The Notebook", "romance");
     springController.addMovie("Harry Potter", "fantasy");
     springController.registerNewUser("per", "123");
     springController.updateMovieAndUser("per", "Madagaskar", "action", 3, "add");
-
-    List<Movie> movieList = springController.getMovieRegister();
-
-
-    // mov
-
-    // User user1 = new User("per", "123");
-    // userHandler.writeUserToRegister(user1);
-
-    // List<Integer> allRatings = new ArrayList<>();
-    // allRatings.add(3);
-
-    // Movie movie1 = new Movie("The Notebook", "romance", allRatings);
-    // Movie movie2 = new Movie("Harry Potter", "fantasy");
-    // Movie movie3 = new Movie("Madagaskar", "drama", allRatings);
-
-    // movieHandler.writeMovieToRegister(movie1);
-    // movieHandler.writeMovieToRegister(movie2);
-    // movieHandler.writeMovieToRegister(movie3);
   }
 
   @Override
@@ -187,7 +156,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn("OK");
   }
  
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to create new user") 
   public void testCreateNewUser() {
@@ -249,7 +218,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(logIn);
   }
 
-  /* 
+  ///* 
   @Test 
   @DisplayName("Test to log in")
   public void logIn() {
@@ -296,7 +265,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-   /* 
+   ///* 
   @Test
   @DisplayName("Test log out")
   public void testLogOut() {
@@ -316,7 +285,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   public void testcreateUserandLogIn() {
     createUserStandard();
@@ -332,7 +301,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to search up movies in register")
   public void testsearchMovie() {
@@ -365,14 +334,19 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
   
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to add a rating")
   public void testAddRating() {
     logInStandard();
+
+    robot.clickOn(genreBox).clickOn("action");
+    robot.clickOn(searchMovie);
+    clickOn(LabeledMatchers.hasText("Madagaskar; action; 3,00"));
+    this.closeAlert();
+
     robot.clickOn(genreBox).clickOn("romance");
     robot.clickOn(searchMovie);
-    sleep(6000);
     clickOn(LabeledMatchers.hasText("The Notebook; romance; 0.0"));
     assertTrue(ratePane.isVisible());
     assertEquals(": The Notebook", movieLabel.getText());
@@ -381,7 +355,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(rateButton);
     this.closeAlert();
     assertFalse(ratePane.isVisible());
-    //her må det sjekkes at en rating kommer i listview
     
     robot.clickOn(movieName).write("Avengers");
     robot.clickOn(genreBox).clickOn("action");
@@ -397,8 +370,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(rateButton);
     this.closeAlert();
     assertFalse(ratePane.isVisible());
-    //test her må det sjekkes at en rating kommer i listview
-
     robot.clickOn(movieName).write("History");
     robot.clickOn(genreBox).clickOn("drama");
     robot.clickOn(searchMovie);
@@ -410,8 +381,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(ratePane.isVisible());
     assertEquals("", movieLabel.getText());
     assertEquals(null, genreBox.getValue());
-    //også her skal listview bli empty, må sjekke
-
     robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
     clickOn(LabeledMatchers.hasText("Avengers; action; 1,00"));
@@ -428,24 +397,17 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3"));
     robot.clickOn(deleteRatingButton);   
     this.closeAlert(); 
-    assertTrue( springController.getMovieRegister().isEmpty());
     //sjekke at listview da blir blir empty
-
     robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
     sleep(400);
     robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 0.0"));
-    
     assertTrue(ratePane.isVisible());
     robot.clickOn(rateBox).clickOn("4");
     robot.clickOn(rateButton);
     this.closeAlert();
     assertFalse(ratePane.isVisible());
-
     //få opp denne ratingen på listviewen
-
-
-
   }
   //*/
   
