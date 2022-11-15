@@ -30,7 +30,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -95,7 +94,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
   private Label infoUserLabel;
 
 
-
   @BeforeEach
   public void intitFields() {
     ratePane = lookup("#ratePane").query();
@@ -142,9 +140,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
 
     UserHandler userHandler = new UserHandler(userFilename);
     MovieHandler movieHandler = new MovieHandler(movieFilename);
-    UserRegister userRegister = new UserRegister(userFilename, movieFilename);
-
-    //MovieRegister movieRegister = new MovieRegister(movieFilename);
 
     User user1 = new User("per", "123");
     userHandler.writeUserToRegister(user1);
@@ -159,7 +154,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     movieHandler.writeMovieToRegister(movie1);
     movieHandler.writeMovieToRegister(movie2);
     movieHandler.writeMovieToRegister(movie3);
-
   }
 
   @Override
@@ -175,11 +169,11 @@ public class MovieRatingControllerTest extends ApplicationTest {
   /** 
   *closes an alert window
   */
-  private void closeAlert(){
+  private void closeAlert() {
     robot.clickOn("OK");
   }
  
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to create new user") 
   public void testCreateNewUser() {
@@ -193,7 +187,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
 
     robot.clickOn(password).write("1234567");
     robot.clickOn(createUserDone);
-    sleep(500);
     this.closeAlert();
     username.clear();
     password.clear();
@@ -201,7 +194,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(createUser);
     robot.clickOn(username).write("hello");
     robot.clickOn(createUserDone);
-    sleep(500);
     this.closeAlert();
     username.clear();
     password.clear();
@@ -209,7 +201,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(username).write("per");
     robot.clickOn(password).write("123");
     robot.clickOn(createUserDone);
-    sleep(500);
     this.closeAlert();
     username.clear();
     password.clear();
@@ -218,7 +209,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(username).write("NTNU");
     robot.clickOn(password).write("123");
     robot.clickOn(createUserDone);
-    sleep(500);
     assertTrue(loggedIn.isVisible());
     assertTrue(logOut.isVisible());
     assertTrue(ratedMoviesPane.isVisible());
@@ -237,19 +227,18 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(this.username).write("Sina");
     robot.clickOn(this.password).write("123");
     robot.clickOn(createUserDone);
-    sleep(500);
   }
 
-  private void logInStandard(){
+  private void logInStandard() {
     robot.clickOn(this.username).write("per");
     robot.clickOn(this.password).write("123");
     robot.clickOn(logIn);
   }
 
-  /* 
+  ///* 
   @Test 
   @DisplayName("Test to log in")
-  public void logIn(){
+  public void logIn() {
     robot.clickOn(this.username).write("elizabeth");
     robot.clickOn(this.password).write("123");
     robot.clickOn(logIn);
@@ -293,7 +282,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-   /* 
+   ///* 
   @Test
   @DisplayName("Test log out")
   public void testLogOut() {
@@ -313,7 +302,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   public void testcreateUserandLogIn() {
     createUserStandard();
@@ -329,7 +318,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to search up movies in register")
   public void testsearchMovie() {
@@ -362,10 +351,10 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
   
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to add a rating")
-  public void testAddRating(){
+  public void testAddRating() {
     logInStandard();
     robot.clickOn(genreBox).clickOn("romance");
     robot.clickOn(searchMovie);
@@ -415,11 +404,13 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
+  /* 
   @Test
   @DisplayName("Test to delete a rating")
   public void testDeleteRating() {
     logInStandard();
   }
+  //*/
   
   @AfterEach
   @DisplayName("After each test reset files")
@@ -436,6 +427,5 @@ public class MovieRatingControllerTest extends ApplicationTest {
     } catch (IOException e) {
       throw new IllegalArgumentException();
     }
-  }
-  
+  } 
 }
