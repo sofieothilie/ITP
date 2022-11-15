@@ -5,8 +5,6 @@ import core.User;
 import data.MovieRegister;
 import data.UserHandler;
 import data.UserRegister;
-
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -364,7 +362,7 @@ public class MovieRatingController {
         errorActivation("No movies with title: " + movieName.getText() 
             + " and  genre: " + (String) genreBox.getValue() 
             + " found in the register. Click on 'Add rating' to add the movie to the register.");
-        if(this.user != null){
+        if (this.user != null) {
           addRatingButton.setVisible(true);
         }
       }
@@ -386,16 +384,14 @@ public class MovieRatingController {
     }
     if (moviesFound.getSelectionModel().getSelectedItem() != null && this.user != null) {
       this.movie = (Movie) convertSelectedItemToMovieObject(moviesFound);
-      if(!this.user.hasRatedMovie(this.movie))
-      {
-      setRateVisibility(true, this.movie);
-      movieLabel.setText(": " + this.movie.getTitle());
-      }
-      else{
-        errorActivation("You have already rated this movie. If you want to add a new rating, you must delete the old one.");
+      if (!this.user.hasRatedMovie(this.movie)) {
+        setRateVisibility(true, this.movie);
+        movieLabel.setText(": " + this.movie.getTitle());
+      } else {
+        errorActivation("You have already rated this movie."
+            + "If you want to add a new rating, you must delete the old one.");
       }
     }
-    
   }
 
   /**
@@ -438,13 +434,12 @@ public class MovieRatingController {
 
   @FXML
   private void handleAddRating() {
-    
     try {
       movieRegister.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
-        this.movie = new Movie(movieName.getText(), genreBox.getValue());
-        movieLabel.setText(": " + this.movie.getTitle());
-        confirmationActivation(this.movie.getTitle() + " was added to the register.");
-        setRateVisibility(true, this.movie);
+      this.movie = new Movie(movieName.getText(), genreBox.getValue());
+      movieLabel.setText(": " + this.movie.getTitle());
+      confirmationActivation(this.movie.getTitle() + " was added to the register.");
+      setRateVisibility(true, this.movie);
     } catch (Exception e) {
       errorActivation(e.getMessage());
     }
