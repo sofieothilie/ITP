@@ -4,7 +4,6 @@ import core.Movie;
 import core.User;
 import data.MovieRegister;
 import data.UserRegister;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,13 +29,16 @@ public class MovieRatingSpringController {
   private final MovieRegister movReg;
   private final UserRegister userReg;
 
-  public MovieRatingSpringController(){
+  public MovieRatingSpringController() {
     this.movReg = new MovieRegister("movieRegistry");
     this.userReg = new UserRegister("userRegistry", "movieRegistry");
   }
 
   /**
    * Constructor for controller.
+   *
+   * @param movFile a string for filename
+   * @param userFile a string for filename
    */
   public MovieRatingSpringController(String movFile, String userFile) {
     this.movReg = new MovieRegister(movFile);
@@ -129,9 +131,6 @@ public class MovieRatingSpringController {
    */
   @GetMapping(path = "user")
   public User getUser(@RequestParam("username") final String username) {
-    if (userReg.getUser(username) == null) {
-      throw new IllegalArgumentException();
-    }
     return userReg.getUser(username);
   }
 
@@ -140,6 +139,7 @@ public class MovieRatingSpringController {
    * http://localhost:8080/movieRating/user?username={username}
    *
    * @param username  a string
+   * @param password a string
    */
   @PostMapping(path = "fullUser")
   public void existingUser(@RequestParam("username") final String username, 
@@ -171,7 +171,8 @@ public class MovieRatingSpringController {
    * @param username a string
    * @param title a string
    * @param genre a string
-   * @param rating a string
+   * @param rating an int
+   * @param action a string which decideds what switch case to use
    */
   @PutMapping(path = "rateMovie")
   public void updateMovieAndUser(@RequestParam("username") final String username,
