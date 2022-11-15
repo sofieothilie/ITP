@@ -3,17 +3,22 @@ package ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import data.MovieHandler;
+import data.MovieRegister;
 import data.UserHandler;
 import data.UserRegister;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,13 +36,16 @@ import javafx.stage.Stage;
 
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.matcher.control.LabeledMatchers;
 
+import core.Movie;
 import core.User;
 
 public class MovieRatingControllerTest extends ApplicationTest {
 
+  MovieRatingController controller = new MovieRatingController("userTest", "movieTest");
+
   private FxRobot robot = new FxRobot();
-  private User user1 = new User("per", "123", null);
   
 
   private final String userFilename = "userTest";
@@ -131,17 +139,25 @@ public class MovieRatingControllerTest extends ApplicationTest {
 
   @BeforeEach
   public void initeUserAndMovie() {
-    // MovieRegister movieRegister = new MovieRegister();
-    // List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
-    // UserHandler userHandler = new UserHandler(movieFilename);
-    // UserRegister userRegister = new UserRegister(movieFilename, movieFilename);
-    // User user1 = new User("per", "123");
-    // userHandler.writeUserToRegister(user1);
-    // Movie movie1 = new Movie("The Notebook", "romance");
-    // movieRegister.addMovie(movie1);
-    // movieList.add(movie1);
-    // movie1.addRating(5);
-    // user1.rateMovie(movie1, 5);
+
+    UserHandler userHandler = new UserHandler(userFilename);
+    MovieHandler movieHandler = new MovieHandler(movieFilename);
+    //MovieRegister movieRegister = new MovieRegister(movieFilename);
+
+    User user1 = new User("per", "123");
+    userHandler.writeUserToRegister(user1);
+
+    List<Integer> allRatings = new ArrayList<>();
+    allRatings.add(3);
+
+    Movie movie1 = new Movie("The Notebook", "romance", allRatings);
+    Movie movie2 = new Movie("Harry Potter", "fantasy");
+    Movie movie3 = new Movie("Madagaskar", "drama", allRatings);
+
+    movieHandler.writeMovieToRegister(movie1);
+    movieHandler.writeMovieToRegister(movie2);
+    movieHandler.writeMovieToRegister(movie3);
+
   }
 
   @Override
@@ -166,38 +182,13 @@ public class MovieRatingControllerTest extends ApplicationTest {
   @DisplayName("Test to create new user") 
   public void testCreateNewUser() {
     robot.clickOn(createUser);
-    robot.clickOn(username).write("NTNU");
-    robot.clickOn(password).write("123");
+    assertFalse(searchPane.isVisible());
+    assertTrue(createUserDone.isVisible());
+    assertTrue(backToLogIn.isVisible());
+    assertTrue(createNewUserText.isVisible());
     robot.clickOn(createUserDone);
-    sleep(500);
-    //da skal dette skje
-    assertFalse(logIn.isVisible());
-    assertTrue(loggedIn.isVisible());
-    assertTrue(logOut.isVisible());
-    assertTrue(ratedMoviesPane.isVisible());
-  }
-  */
-  
-  private void createUser() {
-    robot.clickOn(createUser);
-    robot.clickOn(this.username).write("Sina");
-    robot.clickOn(this.password).write("123");
-    robot.clickOn(createUserDone);
-    sleep(500);
-  }
+    this.closeAlert();
 
-  private void logIn(){
-    robot.clickOn(this.username).write("Per");
-    robot.clickOn(this.password).write("123");
-    robot.clickOn(logIn);
-  }
-
-  /* 
-  @Test
-  @DisplayName("Test to create user with unvalid input")
-  public void testFailCreateUser(){
-    robot.clickOn(createUser);
-    robot.clickOn(username).write("");
     robot.clickOn(password).write("1234567");
     robot.clickOn(createUserDone);
     sleep(500);
@@ -205,36 +196,125 @@ public class MovieRatingControllerTest extends ApplicationTest {
     username.clear();
     password.clear();
 
-    //skal feile da denne brukeren egt skal eksistere
+    robot.clickOn(createUser);
+    robot.clickOn(username).write("hello");
+    robot.clickOn(createUserDone);
+    sleep(500);
+    this.closeAlert();
+    username.clear();
+    password.clear();
 
-    // robot.clickOn(username).write("per");
-    // robot.clickOn(password).write("123");
-    // robot.clickOn(createUserDone);
-    // sleep(500);
-    // this.closeAlert();
+    robot.clickOn(username).write("per");
+    robot.clickOn(password).write("123");
+    robot.clickOn(createUserDone);
+    sleep(500);
+    this.closeAlert();
+    username.clear();
+    password.clear();
+
+    robot.clickOn(createUser);
+    robot.clickOn(username).write("NTNU");
+    robot.clickOn(password).write("123");
+    robot.clickOn(createUserDone);
+    sleep(500);
+    assertTrue(loggedIn.isVisible());
+    assertTrue(logOut.isVisible());
+    assertTrue(ratedMoviesPane.isVisible());
+    assertFalse(createUserDone.isVisible());
+    assertFalse(backToLogIn.isVisible());
+    assertFalse(createNewUserText.isVisible());
+    assertFalse(username.isVisible());
+    assertFalse(usernameLabel.isVisible());
+    assertFalse(password.isVisible());
+    assertFalse(passwordLabel.isVisible());
+  }
+  //*/
+  
+  private void createUserStandard() {
+    robot.clickOn(createUser);
+    robot.clickOn(this.username).write("Sina");
+    robot.clickOn(this.password).write("123");
+    robot.clickOn(createUserDone);
+    sleep(500);
+  }
+
+  private void logInStandard(){
+    robot.clickOn(this.username).write("per");
+    robot.clickOn(this.password).write("123");
+    robot.clickOn(logIn);
+  }
+
+  /* 
+  @Test 
+  @DisplayName("Test to log in")
+  public void logIn(){
+    robot.clickOn(this.username).write("elizabeth");
+    robot.clickOn(this.password).write("123");
+    robot.clickOn(logIn);
+    this.closeAlert();
+    username.clear();
+    password.clear();
+
+    robot.clickOn(this.password).write("123");
+    robot.clickOn(logIn);
+    this.closeAlert();
+
+    robot.clickOn(this.username).write("fanny");
+    robot.clickOn(logIn);
+    this.closeAlert();
+    username.clear();
+    password.clear();
+
+    robot.clickOn(createUser);
+    assertFalse(searchPane.isVisible());
+    assertTrue(createUserDone.isVisible());
+    assertTrue(backToLogIn.isVisible());
+    assertTrue(createNewUserText.isVisible());
+    robot.clickOn(backToLogIn);
+    assertFalse(createUserDone.isVisible());
+    assertFalse(backToLogIn.isVisible());
+    assertFalse(createNewUserText.isVisible());
+    assertTrue(searchPane.isVisible());
+
+    robot.clickOn(this.username).write("per");
+    robot.clickOn(this.password).write("123");
+    robot.clickOn(logIn);
+    assertFalse(logIn.isVisible());
+    assertFalse(createUser.isVisible());
+    assertFalse(username.isVisible());
+    assertFalse(usernameLabel.isVisible());
+    assertFalse(password.isVisible());
+    assertFalse(passwordLabel.isVisible());
+    assertTrue(loggedIn.isVisible());
+    assertTrue(logOut.isVisible());
+    assertTrue(ratedMoviesPane.isVisible());
   }
   */
 
- /* 
+   /* 
   @Test
   @DisplayName("Test log out")
   public void testLogOut() {
-    createUser();
+    logInStandard();
     sleep(700);
     robot.clickOn(logOut);
     assertTrue(loggedOut.isVisible());
     assertFalse(logOut.isVisible());
-    assertTrue(logIn.isVisible());
     assertFalse(ratedMoviesPane.isVisible());
     assertFalse(ratePane.isVisible());
+    assertTrue(logIn.isVisible());
+    assertTrue(createUser.isVisible()); 
+    assertTrue(username.isVisible());
+    assertTrue(usernameLabel.isVisible());
+    assertTrue(password.isVisible());
+    assertTrue(passwordLabel.isVisible());
   }
   */
 
-/* 
-  @Test 
-  @DisplayName("Test to log in after creating an user")
-  public void logInFirstTime(){
-    createUser();
+  /* 
+  @Test
+  public void testcreateUserandLogIn() {
+    createUserStandard();
     sleep(700);
     robot.clickOn(logOut);
     sleep(700);
@@ -243,87 +323,63 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(logIn);
     sleep(700);
     assertTrue(loggedIn.isVisible());
+    assertTrue(ratedMoviesPane.isVisible());
   }
   */
 
-  /*
   @Test
-  @DisplayName("Test to try to create user with existing username")
-  public void testCreateUserAlreadyExists() {
-    createUser();
-    robot.clickOn(logOut);
-    sleep(500);
-    robot.clickOn(createUser);
-    robot.clickOn(username).write("Sina");
-    robot.clickOn(password).write("123");
-    robot.clickOn(createUserDone);
-    sleep(500);
-    this.closeAlert();
-  }
-  */
-  
-  @Test
-  @DisplayName("Test to add a movie to the register")
-  public void addMovie(){
-    createUser();
-    sleep(500);
-    robot.clickOn(movieName).write("Titanic");
-    robot.clickOn(genreBox).clickOn("romance");
+  @DisplayName("Test to search up movies in register")
+  public void testsearchMovie() {
+    robot.clickOn(genreBox).clickOn("horror");
     robot.clickOn(searchMovie);
-    sleep(500);
     this.closeAlert();
     robot.clickOn(addRatingButton);
-    sleep(400);
     this.closeAlert();
+    // genreBox.setValue(null);
+    // robot.clickOn(movieName).write("Impressive");
+    // robot.clickOn(searchMovie);
+    // this.closeAlert();
+    // movieName.clear();
+    // robot.clickOn(genreBox).clickOn("fantasy");
+    // robot.clickOn(searchMovie);
+    // clickOn(LabeledMatchers.hasText("Harry Potter; fantasy; 0.00"));
+    // this.closeAlert();
+    
+  }
+  
+  /* 
+  @Test
+  @DisplayName("Test to add a rating for the first time")
+  public void addMovie(){
+    logIn();
+    sleep(500);
+    robot.clickOn(genreBox).clickOn("romance");
+    robot.clickOn(searchMovie);
+    sleep(900);
+    clickOn(LabeledMatchers.hasText("The Notebook; romance; 3,00"));
     assertTrue(ratePane.isVisible());
-    robot.clickOn(rateBox).clickOn("3");
+    robot.clickOn(rateBox).clickOn("4");
     sleep(400);
     robot.clickOn(rateButton);
     this.closeAlert();
     assertFalse(ratePane.isVisible());
-
-    robot.clickOn(movieName).write("Titanic");
-    robot.clickOn(genreBox).clickOn("romance");
+    //her må det sjekkes at en rating kommer i listview
+    
+    robot.clickOn(movieName).write("Avengers");
+    robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
     sleep(400);
-  }
-  
-
-  /* 
-  @Test
-  @DisplayName("Sucessful search for a movie")
-  public void searchMovie() {
-      robot.clickOn(movieName).write("The Notebook");
-      robot.clickOn(searchMovie);
-      assertEquals("The Notebook", ratedMovie.getText());
-  }
-
-  @Test
-  @DisplayName("Unsucessful search for a movie")
-  public void searchMovieNotFound() {
-      clickOn(movieName).write("The Notebook");
-      clickOn(searchMovie);
-      //assertEquals("No movies with the title" + movieName.getText(), controller.errorActivation().getText());
-  }
-*/
-
-  /* 
-  @Test
-  @DisplayName("Test to add a movie to the register with rating")
-  public void addMovieToRegister() {
-    createUser();
-    robot.clickOn(movieName).write("The Notebook");
-    robot.clickOn(genreBox).clickOn("romance");
-    robot.clickOn(addMovieRegister);
-    robot.clickOn(rateBox).clickOn("5");
+    this.closeAlert();
+    robot.clickOn(addRatingButton);
+    this.closeAlert();
+    assertTrue(ratePane.isVisible());
     robot.clickOn(rateButton);
     this.closeAlert();
-    
-    assertEquals("", movieName.getText());;
-    assertEquals("", movieLabel.getText());
-    assertEquals(null, ratedMovie.getText());
-    assertEquals(null, genreBox.getValue());
-    assertEquals(null, rateBox.getValue());
+    robot.clickOn(rateBox).clickOn("1");
+    robot.clickOn(rateButton);
+    this.closeAlert();
+    assertFalse(ratePane.isVisible());
+    //test her må det sjekkes at en rating kommer i listview
   }
   */
 
