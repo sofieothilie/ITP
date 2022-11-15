@@ -33,13 +33,13 @@ public class UserRegister {
    * @throws IllegalArgumentException if user already exists
    */
   public void registerNewUser(String username, String password) { 
-    User u = new User(username, password);
     this.users = getAllUsers();
     for (User user : users) {
-      if (user.equals(u)) {
-        throw new IllegalArgumentException("User already exists");
+      if (user.getUsername().equals(username)) {
+        throw new IllegalArgumentException("Username already exists.");
       }
     }
+    User u = new User(username, password);
     userHandler.writeUserToRegister(u);
   }
 
