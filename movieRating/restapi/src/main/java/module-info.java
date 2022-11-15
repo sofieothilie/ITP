@@ -8,6 +8,6 @@ module movieRating.restapi {
     //requires spring.beans;
     requires spring.web;
 
-    opens restapi to spring.web;
+    opens restapi;
     
 }
