@@ -24,13 +24,16 @@ public class MovieRatingSpringController {
   /**
    * Fields for controller class.
    *
-   * @param movSer a MovieRegisterService
-   * @param userSer a UserRegisterService
-   * @param movFile a string
-   * @param userFile a string
+   * @param movReg MovieRegister
+   * @param userReg UserRegister
    */
   private final MovieRegister movReg;
   private final UserRegister userReg;
+
+  public MovieRatingSpringController(){
+    this.movReg = new MovieRegister("movieRegistry");
+    this.userReg = new UserRegister("userRegistry", "movieRegistry");
+  }
 
   /**
    * Constructor for controller.
