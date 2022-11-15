@@ -2,6 +2,9 @@ package restapi;
 
 import core.Movie;
 import core.User;
+import data.MovieRegister;
+import data.UserRegister;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,15 +29,15 @@ public class MovieRatingSpringController {
    * @param movFile a string
    * @param userFile a string
    */
-  private final MovieRegisterService movSer;
-  private final UserRegisterService userSer;
+  private final MovieRegister movReg;
+  private final UserRegister userReg;
 
   /**
    * Constructor for controller.
    */
   public MovieRatingSpringController(String movFile, String userFile) {
-    this.movSer = new MovieRegisterService(movFile);
-    this.userSer = new UserRegisterService(userFile, movFile);
+    this.movReg = new MovieRegister(movFile);
+    this.userReg = new UserRegister(userFile, movFile);
   }
 
   /**
@@ -45,7 +48,7 @@ public class MovieRatingSpringController {
    */
   @RequestMapping(path = "movies")
   public List<Movie> getMovieRegister() {
-    return new ArrayList<Movie>(movSer.getAllMovies());
+    return new ArrayList<Movie>(movReg.getAllMovies());
   }
 
   /**
@@ -56,7 +59,7 @@ public class MovieRatingSpringController {
    */
   @RequestMapping(path = "users")
   public List<User> getUserRegister() {
-    return new ArrayList<User>(userSer.getAllUsers());
+    return new ArrayList<User>(userReg.getAllUsers());
   }
 
   /**
@@ -71,7 +74,7 @@ public class MovieRatingSpringController {
   @GetMapping(path = "movie")
   public Movie getMovie(@RequestParam("title") final String title,
       @RequestParam("genre") final String genre) {
-    return movSer.getMovieByTitleAndGenre(title, genre);
+    return movReg.getMovie(title, genre);
   }
 
   /**
@@ -84,7 +87,7 @@ public class MovieRatingSpringController {
    */
   @GetMapping(path = "movieGenre")
   public List<Movie> searchGenre(@RequestParam("genre") final String genre) {
-    return new ArrayList<Movie>(movSer.getMoviesByGenre(genre));
+    return new ArrayList<Movie>(movReg.searchGenre(genre));
   }
 
   /**
@@ -97,7 +100,7 @@ public class MovieRatingSpringController {
    */
   @GetMapping(path = "movieTitle")
   public List<Movie> searchMovieTitle(@RequestParam("title") final String title) {
-    return new ArrayList<Movie>(this.movSer.getMoviesByTitle(title));
+    return new ArrayList<Movie>(this.movReg.searchMovieTitle(title));
   }
 
   /**
@@ -111,7 +114,7 @@ public class MovieRatingSpringController {
   @PostMapping(path = "addMovie")
   public void addMovie(@RequestParam("title") final String title,
       @RequestParam("genre") final String genre) {
-    movSer.addMovie(title, genre);
+    movReg.addMovie(title, genre);
   }
 
   /** WORKING
@@ -123,10 +126,10 @@ public class MovieRatingSpringController {
    */
   @GetMapping(path = "user")
   public User getUser(@RequestParam("username") final String username) {
-    if (userSer.getUserbyUsername(username) == null) {
+    if (userReg.getUser(username) == null) {
       throw new IllegalArgumentException();
     }
-    return userSer.getUserbyUsername(username);
+    return userReg.getUser(username);
   }
 
   /** WORKING
@@ -138,7 +141,7 @@ public class MovieRatingSpringController {
   @PostMapping(path = "fullUser")
   public void existingUser(@RequestParam("username") final String username, 
       @RequestParam("password") final String password) {
-    userSer.getFullUser(username, password);
+    userReg.existingUser(username, password);
   }
 
   /**
@@ -153,7 +156,7 @@ public class MovieRatingSpringController {
   @PostMapping(path = "newUser")
   public void registerNewUser(@RequestParam("username") final String username,
       @RequestParam("password") final String password) {
-    this.userSer.registerNewUser(username, password);
+    this.userReg.registerNewUser(username, password);
   }
 
   /**
@@ -173,6 +176,6 @@ public class MovieRatingSpringController {
       @RequestParam("movieGenre") final String genre,
       @RequestParam("rating") final Integer rating,
       @RequestParam("action") final String action) {
-    this.userSer.updateMovieAndUser(username, title, genre, rating, action);
+    this.userReg.updateMovieAndUser(username, title, genre, rating, action);
   } 
 }

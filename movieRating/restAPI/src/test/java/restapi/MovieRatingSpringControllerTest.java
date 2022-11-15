@@ -22,7 +22,7 @@ import core.User;
 
 
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = { MovieRatingSpringController.class, UserRegisterService.class, MovieRegisterService.class, MovieRatingApplication.class })
+@ContextConfiguration(classes = { MovieRatingSpringController.class, MovieRatingApplication.class })
 @WebMvcTest
 public class MovieRatingSpringControllerTest{
 
