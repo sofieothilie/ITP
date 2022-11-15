@@ -28,13 +28,11 @@ public class MovieRatingSpringController {
    */
   private final MovieRegisterService movSer;
   private final UserRegisterService userSer;
-  private static final String movFile = "movieRegistry";
-  private static final String userFile = "userRegistry";
 
   /**
    * Constructor for controller.
    */
-  public MovieRatingSpringController() {
+  public MovieRatingSpringController(String movFile, String userFile) {
     this.movSer = new MovieRegisterService(movFile);
     this.userSer = new UserRegisterService(userFile, movFile);
   }
@@ -98,7 +96,7 @@ public class MovieRatingSpringController {
    * @return Listof movies
    */
   @GetMapping(path = "movieTitle")
-  public List<Movie> searchTitle(@RequestParam("title") final String title) {
+  public List<Movie> searchMovieTitle(@RequestParam("title") final String title) {
     return new ArrayList<Movie>(this.movSer.getMoviesByTitle(title));
   }
 
@@ -113,28 +111,7 @@ public class MovieRatingSpringController {
   @PostMapping(path = "addMovie")
   public void addMovie(@RequestParam("title") final String title,
       @RequestParam("genre") final String genre) {
-    Movie m1 = new Movie(title, genre);
-    movSer.addAMovie(m1);
-  }
-
-  /**
-   * WORKING
-   * Add rating to movie in rest.
-   * localhost:8080/movieRating/
-   * addRating?title={title}&genre={genre}&rating={rating}
-   *
-   * @param title a string 
-   * @param genre a string
-   * @param rating an integer
-   */
-  @PutMapping(path = "addRating")
-  public void addRatingToMovie(@RequestParam("title") final String title,
-      @RequestParam("genre") final String genre,
-      @RequestParam("rating") final Integer rating) {
-    Movie m = this.getMovie(title, genre);
-    m.addRating(rating);
-    movSer.addARating(m);
-    // hvordan sjekke om filmen allerede fins
+    movSer.addMovie(title, genre);
   }
 
   /** WORKING
@@ -176,8 +153,7 @@ public class MovieRatingSpringController {
   @PostMapping(path = "newUser")
   public void registerNewUser(@RequestParam("username") final String username,
       @RequestParam("password") final String password) {
-    User user = new User(username, password);
-    this.userSer.registerNewUser(user);
+    this.userSer.registerNewUser(username, password);
   }
 
   /**
@@ -192,13 +168,11 @@ public class MovieRatingSpringController {
    * @param rating a string
    */
   @PutMapping(path = "rateMovie")
-  public void ratedMovie(@RequestParam("username") final String username,
+  public void updateMovieAndUser(@RequestParam("username") final String username,
       @RequestParam("movieTitle") final String title,
       @RequestParam("movieGenre") final String genre,
-      @RequestParam("rating") final Integer rating) {
-
-    User user = this.getUser(username);
-    Movie movie = this.getMovie(title, genre);
-    this.userSer.rateMovie(user, movie);
+      @RequestParam("rating") final Integer rating,
+      @RequestParam("action") final String action) {
+    this.userSer.updateMovieAndUser(username, title, genre, rating, action);
   } 
 }
