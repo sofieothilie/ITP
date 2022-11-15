@@ -17,6 +17,10 @@
     I want to add a rating to a movie,
     so that I can have an overview til later.
 
+4. *Story 3 - delete a movie from users register*
+    - As a Movie Rating app user, I want to delete
+     a movie I rated from my register.
+
 
 ![Illustration of an user story](./images/user_story.jpg) **MÅ ENDRES**
 
