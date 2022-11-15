@@ -36,36 +36,7 @@ public class MovieRegisterService {
     return movReg.getMovie(title, genre);
   }
 
-	public boolean ableToCreateMovie(String title, String genre) {
-		return this.validMovie(title, genre);
-	}
-
-  public boolean ableToRate(Movie movie, int rating){
-      return this.validRating(movie, rating);
-  }
-
-  public void addAMovie(Movie movie){
-    movReg.addMovie(movie);
-  }
-
-  public void addARating(Movie movie){
-    movReg.updateMovie(movie);
-  }
-
-
-  private boolean validMovie(String title, String genre) {
-      if (title.isEmpty() || !GENRES.contains(genre)) {
-        return false;
-      }
-      return true;
-    }
-
-  private boolean validRating(Movie movie, int rating){
-      if (rating <= 5 && rating >=1){
-          if (movie !=null){
-              return true;
-          }
-      }
-      return false;
+  public void addMovie(String title, String genre){
+    movReg.addMovie(title, genre);
   }
 }
