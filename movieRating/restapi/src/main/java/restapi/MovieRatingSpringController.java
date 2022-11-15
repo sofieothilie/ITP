@@ -131,9 +131,6 @@ public class MovieRatingSpringController {
    */
   @GetMapping(path = "user")
   public User getUser(@RequestParam("username") final String username) {
-    if (userReg.getUser(username) == null) {
-      throw new IllegalArgumentException();
-    }
     return userReg.getUser(username);
   }
 

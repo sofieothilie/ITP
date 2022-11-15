@@ -115,11 +115,9 @@ public class UserRegister {
         switch (action) {
           case "add":
             u.rateMovie(m, rating);
-            m.addRating(rating);
             break;
           case "delete":
             u.deleteMovie(m);
-            m.deleteMovie(rating);
             break;
           default:
             throw new IllegalArgumentException("Invalid action given, must be add or delete");
