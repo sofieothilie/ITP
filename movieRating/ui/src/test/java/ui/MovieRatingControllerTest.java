@@ -45,10 +45,9 @@ import core.User;
 
 public class MovieRatingControllerTest extends ApplicationTest {
 
-  
-
   private FxRobot robot = new FxRobot();
   
+  MovieRatingSpringController springController = new MovieRatingSpringController();
 
   private final String userFilename = "userTest";
   private final String movieFilename = "movieTest";
@@ -151,6 +150,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     springController.registerNewUser("per", "123");
     springController.updateMovieAndUser("per", "Madagaskar", "action", 3, "add");
 
+    List<Movie> movieList = springController.getMovieRegister();
 
 
     // mov
@@ -365,7 +365,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
   
-  ///* 
+  /* 
   @Test
   @DisplayName("Test to add a rating")
   public void testAddRating() {
@@ -419,15 +419,33 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to delete a rating")
   public void testDeleteRating() {
     logInStandard();
     sleep(400);
-    clickOn(LabeledMatchers.hasText("Madagaskar; action; 3"));
-    clickOn(deleteRatingButton);   
+    robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3"));
+    robot.clickOn(deleteRatingButton);   
     this.closeAlert(); 
+    assertTrue( springController.getMovieRegister().isEmpty());
+    //sjekke at listview da blir blir empty
+
+    robot.clickOn(genreBox).clickOn("action");
+    robot.clickOn(searchMovie);
+    sleep(400);
+    robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 0.0"));
+    
+    assertTrue(ratePane.isVisible());
+    robot.clickOn(rateBox).clickOn("4");
+    robot.clickOn(rateButton);
+    this.closeAlert();
+    assertFalse(ratePane.isVisible());
+
+    //få opp denne ratingen på listviewen
+
+
+
   }
   //*/
   

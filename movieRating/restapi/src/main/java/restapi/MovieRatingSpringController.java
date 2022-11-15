@@ -5,7 +5,10 @@ import core.User;
 import data.MovieRegister;
 import data.UserRegister;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -160,6 +163,17 @@ public class MovieRatingSpringController {
   public void registerNewUser(@RequestParam("username") final String username,
       @RequestParam("password") final String password) {
     this.userReg.registerNewUser(username, password);
+  }
+
+    /**
+   * WORKING
+   * Writes movies to localhost:8080/movieRating/movies.
+   *
+   * @return List of Movies
+   */
+  @RequestMapping(path = "userMovies")
+  public Map<Movie, Integer> getUserMovies(@RequestParam("username") final String username) {
+    return new HashMap<Movie, Integer>(userReg.getUserMovies(username));
   }
 
   /**
