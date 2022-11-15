@@ -1,0 +1,30 @@
+stages:
+  - Java build
+  - Java test
+
+Build:
+  image: maven:3-openjdk-16
+  stage: Java build
+  script:
+    - cd movieRating
+    - mvn compile
+  retry: 1
+
+Spotbugs:
+  image: maven:3-openjdk-16
+  stage: Java test
+  needs: []
+  script:
+    - cd movieRating
+    - mvn install -DskipTests -DskipUiTests -DfailIfNoTests=false
+    - mvn spotbugs:check -DskipUiTests
+  retry: 2
+
+Checkstyle:
+  image: maven:3-openjdk-16
+  stage: Java test
+  needs: []
+  script:
+    - cd movieRating
+    - mvn checkstyle:check
+  retry: 2
