@@ -9,17 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import core.User;
-import core.UserTest;
 import data.MovieHandler;
-import data.MovieRegister;
 import data.UserHandler;
-import data.UserRegister;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,7 +21,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -39,29 +32,16 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 
-import core.Movie;
-import core.User;
-
 public class MovieRatingControllerTest extends ApplicationTest {
 
   private FxRobot robot = new FxRobot();
-  
-  MovieRatingSpringController springController = new MovieRatingSpringController();
-
-  private final String userFilename = "userTest";
-  private final String movieFilename = "movieTest";
-
-  
+  public MovieRatingSpringController springController = new MovieRatingSpringController();
   private Pane ratePane;
   private Pane searchPane;
   private Pane ratedMoviesPane;
-  
-
   private PasswordField password;
-
   private TextField username;
   private TextField movieName;
-
   private Button logIn;
   private Button createUser;
   private Button logOut;
@@ -73,27 +53,17 @@ public class MovieRatingControllerTest extends ApplicationTest {
   private Button addRatingButton;
   private Button cancelRatingButton;
   private Button deleteRatingButton;
-
-  
   private ChoiceBox<String> genreBox;
   private ChoiceBox<Integer> rateBox;
-  
   private TextArea ratedMovie;
-
-  private ListView<Object> moviesFound;
-  private ListView<Object> moviesRated;
-
   private Label loggedIn;
   private Label loggedOut;
   private Label usernameLabel;
   private Label passwordLabel;
-  private Label rateLabel;
   private Label movieLabel;
-  private Label ratingscaleLabel;
   private Label createNewUserText;
   private Label newUserLabel;
   private Label infoUserLabel;
-
 
   @BeforeEach
   public void intitFields() {
@@ -121,9 +91,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     loggedOut = lookup("#loggedOut").query();
     usernameLabel = lookup("#usernameLabel").query();
     passwordLabel = lookup("#usernameLabel").query();
-    rateLabel = lookup("#rateLabel").query();
     movieLabel = lookup("#movieLabel").query();
-    ratingscaleLabel = lookup("#ratingscaleLabel").query();
     createNewUserText = lookup("#createNewUserText").query();
     newUserLabel = lookup("#newUserLabel").query();
     infoUserLabel = lookup("#infoUserLabel").query();
@@ -150,7 +118,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
 
   /** 
-  *closes an alert window
+  *closes an alert window.
   */
   private void closeAlert() {
     robot.clickOn("OK");
@@ -162,6 +130,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   public void testCreateNewUser() {
     robot.clickOn(createUser);
     assertFalse(searchPane.isVisible());
+    assertFalse(newUserLabel.isVisible());
     assertTrue(createUserDone.isVisible());
     assertTrue(backToLogIn.isVisible());
     assertTrue(createNewUserText.isVisible());
@@ -204,14 +173,10 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(passwordLabel.isVisible());
   }
   //*/
-  
-  private void createUserStandard() {
-    robot.clickOn(createUser);
-    robot.clickOn(this.username).write("Sina");
-    robot.clickOn(this.password).write("123");
-    robot.clickOn(createUserDone);
-  }
 
+  /** 
+  * automatically log in
+  */
   private void logInStandard() {
     robot.clickOn(this.username).write("per");
     robot.clickOn(this.password).write("123");
@@ -259,9 +224,12 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(usernameLabel.isVisible());
     assertFalse(password.isVisible());
     assertFalse(passwordLabel.isVisible());
+    assertFalse(infoUserLabel.isVisible());
+    assertFalse(newUserLabel.isVisible());
     assertTrue(loggedIn.isVisible());
     assertTrue(logOut.isVisible());
     assertTrue(ratedMoviesPane.isVisible());
+
   }
   //*/
 
@@ -288,7 +256,10 @@ public class MovieRatingControllerTest extends ApplicationTest {
   ///* 
   @Test
   public void testcreateUserandLogIn() {
-    createUserStandard();
+    robot.clickOn(createUser);
+    robot.clickOn(this.username).write("Sina");
+    robot.clickOn(this.password).write("123");
+    robot.clickOn(createUserDone);
     sleep(700);
     robot.clickOn(logOut);
     sleep(700);
