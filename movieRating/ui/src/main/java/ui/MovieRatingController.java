@@ -8,7 +8,6 @@ import data.UserRegister;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -489,7 +488,7 @@ public class MovieRatingController {
     String[] deleteMovieList = deleteMovie.split(" ");
     Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length - 1]);
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
-    if(confirmation(movie)){
+    if (confirmation(movie)) {
       movie.deleteMovie(rating);
       this.user.deleteMovie(movie);
       userRegister.updateRatedMovie(user, movie);
@@ -497,12 +496,13 @@ public class MovieRatingController {
     }
   }
 
-  private boolean confirmation(Movie movie){
+  private boolean confirmation(Movie movie) {
     Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("Delete " + movie.getTitle() + ", "+ movie.getGenre());
-    alert.setContentText("Are you sure you want to delete " + movie.getTitle() + ", "+ movie.getGenre() + "?");
+    alert.setTitle("Delete " + movie.getTitle() + ", " + movie.getGenre());
+    alert.setContentText("Are you sure you want to delete " 
+        + movie.getTitle() + ", " + movie.getGenre() + "?");
     Optional<ButtonType> result = alert.showAndWait();
-    if(!result.isPresent() || result.get() != ButtonType.OK){
+    if (!result.isPresent() || result.get() != ButtonType.OK) {
       return false;
     }
     return true; 
