@@ -5,6 +5,8 @@ import core.User;
 import data.MovieRegister;
 import data.UserHandler;
 import data.UserRegister;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +68,6 @@ public class MovieRatingController {
   @FXML private Button addRatingButton;
   @FXML private Button cancelRatingButton;
   @FXML private Button deleteRatingButton;
-  @FXML private Button updateRatingButton;
 
   
   @FXML private ChoiceBox<String> genreBox;
@@ -259,6 +260,8 @@ public class MovieRatingController {
       moviesRated();
     } catch (IllegalArgumentException e) {
       errorActivation(e.getMessage());
+      username.clear();
+      password.clear();
     }          
   }
   
@@ -305,6 +308,8 @@ public class MovieRatingController {
       //createUser.setVisible(false);
     } catch (Exception e) {
       errorActivation(e.getMessage());
+      username.clear();
+      password.clear();
     }
   }
 
@@ -334,8 +339,8 @@ public class MovieRatingController {
       List<Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
       if (movieList.isEmpty()) { 
         errorActivation("No movies with title: " + movieName.getText()
-            + " found in the register. Click on 'Add rating' to add the movie to the register.");
-        addRatingButton.setVisible(true);
+            + " found in the register");
+        genreBox.setValue(null);
       } 
       for (Movie movie : movieList) {
         moviesFound.getItems().add(movie);
@@ -344,8 +349,8 @@ public class MovieRatingController {
       List<Movie> genreList = movieRegister.searchGenre((String) genreBox.getValue());
       if (genreList.isEmpty()) {
         errorActivation("No movies with genre: " + (String) genreBox.getValue()
-            + " found in the register. Click on 'Add rating' to add the movie to the register.");
-        addRatingButton.setVisible(true);
+            + " found in the register");
+        movieName.clear();
       }
       for (Movie movie : genreList) {
         moviesFound.getItems().add(movie);
@@ -359,7 +364,9 @@ public class MovieRatingController {
         errorActivation("No movies with title: " + movieName.getText() 
             + " and  genre: " + (String) genreBox.getValue() 
             + " found in the register. Click on 'Add rating' to add the movie to the register.");
-        addRatingButton.setVisible(true);
+        if(this.user != null){
+          addRatingButton.setVisible(true);
+        }
       }
     }
   }
@@ -372,7 +379,6 @@ public class MovieRatingController {
    */
   @FXML
   private void handleChooseMovie() {
-    //når handleRateButton trykkes må denne oppdateres
     addRatingButton.visibleProperty().set(false);
     ratedMovie.setText("");
     if (this.user == null) {
@@ -380,9 +386,16 @@ public class MovieRatingController {
     }
     if (moviesFound.getSelectionModel().getSelectedItem() != null && this.user != null) {
       this.movie = (Movie) convertSelectedItemToMovieObject(moviesFound);
+      if(!this.user.hasRatedMovie(this.movie))
+      {
       setRateVisibility(true, this.movie);
       movieLabel.setText(": " + this.movie.getTitle());
+      }
+      else{
+        errorActivation("You have already rated this movie. If you want to add a new rating, you must delete the old one.");
+      }
     }
+    
   }
 
   /**
@@ -425,20 +438,13 @@ public class MovieRatingController {
 
   @FXML
   private void handleAddRating() {
+    
     try {
-      if (movieName.getText().isEmpty() && genreBox.getSelectionModel().isEmpty()) {
-        errorActivation("You must type in a movie title and a genre");
-      } else if (movieName.getText().isEmpty()) {
-        errorActivation("You must type in a movie title");
-      } else if (genreBox.getSelectionModel().isEmpty()) {
-        errorActivation("You must choose a genre");
-      } else {
-        movieRegister.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
+      movieRegister.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
         this.movie = new Movie(movieName.getText(), genreBox.getValue());
         movieLabel.setText(": " + this.movie.getTitle());
         confirmationActivation(this.movie.getTitle() + " was added to the register.");
         setRateVisibility(true, this.movie);
-      }
     } catch (Exception e) {
       errorActivation(e.getMessage());
     }
@@ -472,8 +478,12 @@ public class MovieRatingController {
   @FXML
   private void handleCancelRating() {
     ratePane.setVisible(false);
-    rateBox.setValue(null);
-    ratedMovie.clear();
+    // rateBox.setValue(null);
+    // ratedMovie.clear();
+    // movieName.clear();
+    // genreBox.setValue(null);
+    clearAllSearchFields();
+
   }
 
 
