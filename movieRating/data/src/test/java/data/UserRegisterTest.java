@@ -54,7 +54,7 @@ public class UserRegisterTest {
   public void testRegisterNewUser() {
     Assertions.assertDoesNotThrow(
       () -> {
-        userRegister.registerNewUser(user1);
+        userRegister.registerNewUser(user1.getUsername(), user1.getPassword());
       },
       "User should be written to file without rating a movie"
     );
@@ -65,8 +65,8 @@ public class UserRegisterTest {
 
     //Tests that rated movie is written to file and can be read from file
     user1.rateMovie(this.movie, 1);
-    movieRegister.addMovie(this.movie);
-    userRegister.updateRatedMovie(user1, movie);
+    movieRegister.addMovie(this.movie.getTitle(), this.movie.getGenre());
+    userRegister.updateMovieAndUser(user1.getUsername(), movie.getTitle(), movie.getGenre(), 1, "add");
     User testUser = userRegister.getUser(user1.getUsername());
     Boolean foundMovie = false;
     Boolean foundRating = false;
@@ -90,7 +90,7 @@ public class UserRegisterTest {
     Assertions.assertThrows(
       IllegalArgumentException.class,
       () -> {
-        userRegister.registerNewUser(user1);
+        userRegister.registerNewUser(user1.getUsername(), user1.getPassword());
       },
       "User already in register"
     );
@@ -101,11 +101,11 @@ public class UserRegisterTest {
   public void testGetUsers() {
     user1.rateMovie(movie, 4);
     user2.rateMovie(movie, 3);
-    userRegister.registerNewUser(user1);
-    userRegister.registerNewUser(user2);
+    userRegister.registerNewUser(user1.getUsername(), user1.getPassword());
+    userRegister.registerNewUser(user2.getUsername(), user2.getPassword());
     Assertions.assertDoesNotThrow(
       () -> {
-        userRegister.registerNewUser(user3);
+        userRegister.registerNewUser(user3.getUsername(), user3.getPassword());
       },
       "User should be added eventhough no rated movie."
     );
@@ -126,8 +126,8 @@ public class UserRegisterTest {
   public void testGetUser() {
     user1.rateMovie(movie, 4);
     user2.rateMovie(movie, 1);
-    userRegister.registerNewUser(user1);
-    userRegister.registerNewUser(user2);
+    userRegister.registerNewUser(user1.getUsername(), user1.getPassword());
+    userRegister.registerNewUser(user2.getUsername(), user2.getPassword());
 
     //Test that method returns given user from register
     assertEquals(
@@ -165,7 +165,7 @@ public class UserRegisterTest {
       "User not in register"
     );
     user1.rateMovie(movie, 5);
-    userRegister.registerNewUser(user1);
+    userRegister.registerNewUser(user1.getUsername(), user1.getPassword());
     //Test IllegalArgumentException if the password is invalid
     Assertions.assertThrows(
       IllegalArgumentException.class,
