@@ -29,8 +29,7 @@ public class UserRegister {
   /**
    * Method that registers a new user to the register.
    *
-   * @param username a string
-   * @param password a string
+   * @param user a user
    * @throws IllegalArgumentException if user already exists
    */
   public void registerNewUser(User user) { 
@@ -93,11 +92,8 @@ public class UserRegister {
   /**
    * Method that updates a user in the file if it already exists.
    *
-   * @param username a string
-   * @param title a string
-   * @param genre a string
-   * @param rating an integer
-   * @param action a string, used in switch case
+   * @param user user
+   * @param movie movie
    * @throws IllegalArgumentException if register is empty
    * @throws IllegalArgumentException if user is not found
    */
@@ -131,13 +127,5 @@ public class UserRegister {
     } else {
       return List.of();
     }
-  }
-
-  public Map<Movie,Integer> getUserMovies(String username) {
-    if (this.getUser(username) == null){
-      throw new IllegalArgumentException("No such user");
-    }
-    return this.getUser(username).getRatedMovies();
-    
   }
 }

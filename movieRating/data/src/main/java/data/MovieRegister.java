@@ -24,8 +24,7 @@ public class MovieRegister {
   /**
    * Method that adds a movie object to the register.
    *
-   * @param title a string
-   * @param genre a string
+   * @param movie movie
    * @throws IllegalArgumentException if the movie exists already
    */
   public void addMovie(Movie movie) { 
@@ -77,7 +76,7 @@ public class MovieRegister {
         moviesByGenre.add(movie);
       }
     }
-    if (moviesByGenre.isEmpty()){
+    if (moviesByGenre.isEmpty()) {
       throw new IllegalArgumentException("No movies with genre " + genre);
     }
     return new ArrayList<>(moviesByGenre);
