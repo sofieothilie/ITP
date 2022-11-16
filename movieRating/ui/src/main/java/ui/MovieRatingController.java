@@ -311,7 +311,7 @@ public class MovieRatingController {
   private void handleSearchMovie() {
     moviesFound.getItems().clear();
     if (this.genreBox.getSelectionModel().isEmpty() || movieName.getText().isEmpty()) {
-      try{
+      try { 
         List<Movie> moviesFoundList = new ArrayList<Movie>();
         if (genreBox.getSelectionModel().isEmpty()) {
           moviesFoundList = springController.searchMovieTitle(movieName.getText());
@@ -337,10 +337,10 @@ public class MovieRatingController {
         errorActivation(e.getMessage());
         if (this.user != null) {
           addRatingButton.setVisible(true);
-          }
         }
       }
     }
+  }
 
 
   /**
