@@ -258,7 +258,7 @@ public class MovieRatingController {
     backToLogIn.setVisible(true);
     loggedOut.setVisible(false);
     createUserDone.setVisible(true);
-    createUserDone.setDisable(true);
+    //createUserDone.setDisable(true);
     infoUserLabel.setVisible(false);
   }
 
