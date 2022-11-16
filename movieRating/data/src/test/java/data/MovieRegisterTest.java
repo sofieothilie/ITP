@@ -46,7 +46,7 @@ public class MovieRegisterTest {
   @DisplayName("Testing to add a movie to the register")
   @Test
   public void testAddMovie() {
-    movieRegister.addMovie(m1.getTitle(), m1.getGenre());
+    movieRegister.addMovie(m1);
 
     assertEquals(
       m1,
@@ -58,7 +58,7 @@ public class MovieRegisterTest {
     Assertions.assertThrows(
       IllegalArgumentException.class,
       () -> {
-        movieRegister.addMovie(m1.getTitle(), m1.getGenre());
+        movieRegister.addMovie(m1);
       },
       "Movie already added to the register"
     );
@@ -76,7 +76,7 @@ public class MovieRegisterTest {
       "Register empty"
     );
 
-    movieRegister.addMovie(m1.getTitle(), m1.getGenre());
+    movieRegister.addMovie(m1);
 
     //Test IllegalArgumentException if the movie is not added to the register
     Assertions.assertThrows(
@@ -98,9 +98,9 @@ public class MovieRegisterTest {
   @DisplayName("Testing to search movies by genre")
   @Test
   public void testSearchGenre() {
-    movieRegister.addMovie(m1.getTitle(), m1.getGenre());
-    movieRegister.addMovie(m2.getTitle(), m2.getGenre());
-    movieRegister.addMovie(m3.getTitle(), m3.getGenre());
+    movieRegister.addMovie(m1);
+    movieRegister.addMovie(m2);
+    movieRegister.addMovie(m3);
     List<Movie> testList = new ArrayList<>();
     testList.add(m1);
     testList.add(m2);
@@ -123,9 +123,9 @@ public class MovieRegisterTest {
   @DisplayName("Testing to search movies by title")
   @Test
   public void testSearchMovieTitle() {
-    movieRegister.addMovie(m1.getTitle(), m1.getGenre());
-    movieRegister.addMovie(m2.getTitle(), m2.getGenre());
-    movieRegister.addMovie(m4.getTitle(), m4.getGenre());
+    movieRegister.addMovie(m1);
+    movieRegister.addMovie(m2);
+    movieRegister.addMovie(m4);
     List<Movie> testList = new ArrayList<>();
     testList.add(m1);
     testList.add(m4);
@@ -152,8 +152,8 @@ public class MovieRegisterTest {
   @DisplayName("Testing to get a movie")
   @Test
   public void testGetMovie() {
-    movieRegister.addMovie(m1.getTitle(), m1.getGenre());
-    movieRegister.addMovie(m2.getTitle(), m2.getGenre());
+    movieRegister.addMovie(m1);
+    movieRegister.addMovie(m2);
 
     //Test getMovie
     assertEquals(

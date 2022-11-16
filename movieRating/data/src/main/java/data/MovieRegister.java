@@ -28,13 +28,12 @@ public class MovieRegister {
    * @param genre a string
    * @throws IllegalArgumentException if the movie exists already
    */
-  public void addMovie(String title, String genre) { 
+  public void addMovie(Movie movie) { 
     this.movies = getAllMovies();
-    Movie m = new Movie(title, genre);
-    if (movieExists(m)) {
+    if (movieExists(movie)) {
       throw new IllegalArgumentException("The movie already exists");
     }
-    movieHandler.writeMovieToRegister(m);
+    movieHandler.writeMovieToRegister(movie);
   }
 
   /**
