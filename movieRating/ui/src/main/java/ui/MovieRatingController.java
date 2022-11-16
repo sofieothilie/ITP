@@ -300,6 +300,7 @@ public class MovieRatingController {
     loggedOut.visibleProperty().set(true);
     clearAllSearchFields();
     moviesRated.getItems().clear();
+    addRatingButton.visibleProperty().set(false);
   }
 
   /**
