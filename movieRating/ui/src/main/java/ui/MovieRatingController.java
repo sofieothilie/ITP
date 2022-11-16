@@ -2,9 +2,9 @@ package ui;
 
 import core.Movie;
 import core.User;
-import data.MovieRegister;
-import data.UserRegister;
 import restapi.MovieRatingSpringController;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -34,23 +34,17 @@ public class MovieRatingController {
   private User user;
   private final String userFilename;
   private MovieRatingSpringController springController;
-
   private static List<String> genresList = Arrays.asList("action", "comedy",
       "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
   private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);  
 
   //FXML fields
-  
   @FXML private Pane ratePane;
   @FXML private Pane searchPane;
   @FXML private Pane ratedMoviesPane;
-  
-
   @FXML private PasswordField password;
-
   @FXML private TextField username;
   @FXML private TextField movieName;
-
   @FXML private Button logIn;
   @FXML private Button createUser;
   @FXML private Button logOut;
@@ -62,16 +56,11 @@ public class MovieRatingController {
   @FXML private Button addRatingButton;
   @FXML private Button cancelRatingButton;
   @FXML private Button deleteRatingButton;
-
-  
   @FXML private ChoiceBox<String> genreBox;
   @FXML private ChoiceBox<Integer> rateBox;
-  
   @FXML private TextArea ratedMovie;
-
   @FXML private ListView<Object> moviesFound;
   @FXML private ListView<Object> moviesRated;
-
   @FXML private Label loggedIn;
   @FXML private Label loggedOut;
   @FXML private Label usernameLabel;
@@ -113,7 +102,7 @@ public class MovieRatingController {
     ratePane.setVisible(false);
     setGenres();
     setRating();  
-    checkLogiIn(logIn); 
+    checkLogIn(logIn); 
     addRatingButton.setVisible(false);
     loggedOut.visibleProperty().set(false);
   }
@@ -166,7 +155,7 @@ public class MovieRatingController {
    */
   public void loggedIn(boolean value) {
     setLoginPossibility(!value);
-    loggedOut.visibleProperty().set(!value);
+    loggedOut.setVisible(!value);
     backToLogIn.setVisible(!value);
     createNewUserText.setVisible(!value);
     ratedMoviesPane.setVisible(value);
@@ -203,7 +192,6 @@ public class MovieRatingController {
     genreBox.setValue(null);
     rateBox.setValue(null);   
     moviesFound.getItems().clear();
-    //moviesRated.getItems().clear();
   }
 
   /**
@@ -222,7 +210,7 @@ public class MovieRatingController {
    *
    * @param event the event that triggers the method
    */
-  private void checkLogiIn(Button button) {
+  private void checkLogIn(Button button) {
     logIn.setDisable(true);
     ChangeListener<String> listener = new ChangeListener<String>() {
       @Override
@@ -252,8 +240,8 @@ public class MovieRatingController {
       moviesRated();
     } catch (IllegalArgumentException e) {
       errorActivation(e.getMessage());
-      username.clear();
-      password.clear();
+      // username.clear();
+      // password.clear();
     }          
   }
   
@@ -262,7 +250,7 @@ public class MovieRatingController {
    */
   @FXML
   public void handleCreateUser() { 
-    checkLogiIn(createUserDone);
+    checkLogIn(createUserDone);
     logIn.setVisible(false);
     createNewUserText.setVisible(true);
     newUserLabel.setVisible(false);
@@ -308,11 +296,10 @@ public class MovieRatingController {
    */
   @FXML 
   private void handleLogOut() {
-    this.user = null; //må vi ha denne
+    //this.user = null; //må vi ha denne
     setLoginPossibility(true);
     setRateVisibility(false, null);
     loggedOut.visibleProperty().set(true);
-    //addRatingButton.setVisible(false);
     clearAllSearchFields();
     moviesRated.getItems().clear();
   }
@@ -322,44 +309,38 @@ public class MovieRatingController {
    */
   @FXML
   private void handleSearchMovie() {
-    //kan legge til at delvise treff vises
     moviesFound.getItems().clear();
-    //addRatingButton.setVisible(true);
-    if (genreBox.getSelectionModel().isEmpty()) {
-      List<Movie> movieList = springController.searchMovieTitle(movieName.getText());
-      if (movieList.isEmpty()) { 
-        errorActivation("No movies with title: " + movieName.getText()
-            + " found in the register");
+    if (this.genreBox.getSelectionModel().isEmpty() || movieName.getText().isEmpty()){
+      try {
+        List<Movie> moviesFoundList = new ArrayList<Movie>();
+        if (genreBox.getSelectionModel().isEmpty()) {
+          moviesFoundList = springController.searchMovieTitle(movieName.getText());
+        }
+        else {
+          moviesFoundList = springController.searchGenre((String) genreBox.getValue());
+        }
+        for (Movie movie : moviesFoundList) {
+          moviesFound.getItems().add(movie);
+        }   
+      } catch (Exception e) {
+        errorActivation(e.getMessage());
         movieName.clear();
-      } 
-      for (Movie movie : movieList) {
-        moviesFound.getItems().add(movie);
-      }
-    } else if (movieName.getText().isEmpty()) {
-      List<Movie> genreList = springController.searchGenre((String) genreBox.getValue());
-      if (genreList.isEmpty()) {
-        errorActivation("No movies with genre: " + (String) genreBox.getValue()
-            + " found in the register");
         genreBox.setValue(null);
       }
-      for (Movie movie : genreList) {
-        moviesFound.getItems().add(movie);
-      }
-    } else {
-      try {
-        Movie foundMovie = springController.getMovie(movieName.getText(), 
-            (String) genreBox.getValue());
-        moviesFound.getItems().add(foundMovie);
-      } catch (IllegalArgumentException e) {
-        errorActivation("No movies with title: " + movieName.getText() 
-            + " and  genre: " + (String) genreBox.getValue() 
-            + " found in the register. Click on 'Add rating' to add the movie to the register.");
-        if (this.user != null) {
-          addRatingButton.setVisible(true);
+    } 
+    else {
+        try {
+          Movie foundMovie = springController.getMovie(movieName.getText(), (String) genreBox.getValue());
+          moviesFound.getItems().add(foundMovie);
+        } catch (IllegalArgumentException e) {
+          errorActivation(e.getMessage());
+          if (this.user != null) {
+            addRatingButton.setVisible(true);
+          }
         }
       }
-    }
   }
+
 
   /**
    * Displays a movie when it is selected if a user is logged in.
@@ -374,7 +355,7 @@ public class MovieRatingController {
     if (this.user == null) {
       errorActivation("You must log in or create user to rate a movie.");
     }
-    if (moviesFound.getSelectionModel().getSelectedItem() != null && this.user != null) {
+    else if (moviesFound.getSelectionModel().getSelectedItem() != null) {
       this.movie = (Movie) convertSelectedItemToMovieObject(moviesFound);
       if (!this.user.hasRatedMovie(this.movie)) {
         setRateVisibility(true, this.movie);
@@ -392,7 +373,6 @@ public class MovieRatingController {
    * @return the movie object to retrieve
    */
   private Movie convertSelectedItemToMovieObject(ListView<Object> view) {
-    //når handleRateButton trykkes må denne oppdateres, lage en update metode 
     String[] movieStr = view.getSelectionModel().getSelectedItem().toString().split(" ");
     String title = "";
     int length = movieStr.length;
@@ -444,10 +424,10 @@ public class MovieRatingController {
   private void handleRateButton() {
     //legge til oppdatering
     try {
-      this.user.rateMovie(movie, rateBox.getValue());
+      //this.user.rateMovie(movie, rateBox.getValue());
       this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rateBox.getValue(), "add");
       confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
-      moviesRated();
+      moviesRated.getItems().add(movie);
       clearAllSearchFields();
       ratePane.visibleProperty().set(false);
     } catch (Exception e) {
@@ -462,9 +442,7 @@ public class MovieRatingController {
   private void handleCancelRating() {
     ratePane.setVisible(false);
     clearAllSearchFields();
-
   }
-
 
   @FXML
   private void handleEditMovie() {
@@ -473,31 +451,26 @@ public class MovieRatingController {
 
   @FXML
   private void handleDeleteRating() {
-    String deleteMovie = (String) moviesRated.getSelectionModel().getSelectedItem();
-    String[] deleteMovieList = deleteMovie.split(" ");
-    Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length - 1]);
-    Movie movie = convertSelectedItemToMovieObject(moviesRated);
-    if (confirmation(movie)) {
-      this.user.deleteMovie(movie);
-      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rating, "delete");
-      moviesRated.getItems().remove(deleteMovie);
+    Movie deleteMovie = (Movie) moviesRated.getSelectionModel().getSelectedItem();
+    Optional<ButtonType> delete = confirmationActivation("Are you sure you want to delete " 
+    + deleteMovie.getTitle() + ", " + deleteMovie.getGenre() + "?");
+    if (delete.isPresent() || delete.get() != ButtonType.OK) {
+      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), 1, "delete");
+      moviesRated.getItems().remove(movie);
     }
   }
 
-  private boolean confirmation(Movie movie) {
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("Delete " + movie.getTitle() + ", " + movie.getGenre());
-    alert.setContentText("Are you sure you want to delete " 
-        + movie.getTitle() + ", " + movie.getGenre() + "?");
-    Optional<ButtonType> result = alert.showAndWait();
-    if (!result.isPresent() || result.get() != ButtonType.OK) {
-      return false;
-    }
-    return true; 
-  }
-
-
-
+  // private boolean confirmationToDelete(Movie movie) {
+  //   Alert alert = new Alert(AlertType.CONFIRMATION);
+  //   alert.setTitle("Delete " + movie.getTitle() + ", " + movie.getGenre());
+  //   alert.setContentText("Are you sure you want to delete " 
+  //       + movie.getTitle() + ", " + movie.getGenre() + "?");
+  //   Optional<ButtonType> result = alert.showAndWait();
+  //   if (!result.isPresent() || result.get() != ButtonType.OK) {
+  //     return false;
+  //   }
+  //   return true; 
+  // }
 
   /**
    * When called, displays an error message.
@@ -516,10 +489,11 @@ public class MovieRatingController {
    *
    * @param message the warning message that shows
    */
-  private void confirmationActivation(String message) {
+  private Optional<ButtonType> confirmationActivation(String message) {
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.setTitle("Movie Rating");
     alert.setContentText(message);
-    alert.showAndWait();
+    Optional<ButtonType> result = alert.showAndWait();
+    return result;
   }
 }

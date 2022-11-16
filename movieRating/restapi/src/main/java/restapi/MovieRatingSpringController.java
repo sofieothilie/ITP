@@ -105,6 +105,10 @@ public class MovieRatingSpringController {
    */
   @GetMapping(path = "movieTitle")
   public List<Movie> searchMovieTitle(@RequestParam("title") final String title) {
+    if (this.movReg.searchMovieTitle(title).isEmpty()){
+      throw new IllegalArgumentException(("No movies with title: " + title
+      + " found in the register"));
+    }
     return new ArrayList<Movie>(this.movReg.searchMovieTitle(title));
   }
 

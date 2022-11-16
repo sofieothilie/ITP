@@ -78,6 +78,9 @@ public class MovieRegister {
         moviesByGenre.add(movie);
       }
     }
+    if (moviesByGenre.isEmpty()){
+      throw new IllegalArgumentException("No movies with genre " + genre);
+    }
     return new ArrayList<>(moviesByGenre);
   }
 
@@ -114,7 +117,9 @@ public class MovieRegister {
       }
     }
     throw new IllegalArgumentException(
-      "No movie with title " + title + " and genre " + genre + "."
+      "No movies with title: " + title 
+              + " and genre: " + genre
+              + " found in the register. Click on 'Add rating' to add the movie to the register."
     );
   }
 
