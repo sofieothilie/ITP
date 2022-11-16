@@ -4,7 +4,6 @@ import core.Movie;
 import core.User;
 import data.MovieRegister;
 import data.UserRegister;
-import restapi.MovieRatingSpringController;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +21,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import restapi.MovieRatingSpringController;
 
 
 /**
@@ -207,14 +207,16 @@ public class MovieRatingController {
   }
 
   /**
-   * Method that shows all movies the user has rated.
+   * Method that shows all movies the user has rated sorted
+   * with the highest ratings on top.
+   *
    */
   private void moviesRated() { 
     moviesRated.getItems().clear();
-    for (Movie mov : user.getRatedMovies().keySet()) {
-      moviesRated.getItems().add(mov.getTitle() + "; " + mov.getGenre() 
-          + "; " + user.getRatedMovies().get(mov));
-    }
+    user.getRatedMovies().keySet().stream().sorted((m1, m2) -> user
+        .getRatedMovies().get(m2).compareTo(user.getRatedMovies().get(m1)))
+        .forEach(m1 -> moviesRated.getItems().add(m1.getTitle() + "; " + m1
+        .getGenre() + "; " + user.getRatedMovies().get(m1)));
   }
 
   /**
@@ -445,7 +447,8 @@ public class MovieRatingController {
     //legge til oppdatering
     try {
       this.user.rateMovie(movie, rateBox.getValue());
-      this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rateBox.getValue(), "add");
+      this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(),
+          movie.getGenre(), rateBox.getValue(), "add");
       confirmationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
       moviesRated();
       //rateBox.setValue(null);
@@ -487,7 +490,8 @@ public class MovieRatingController {
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
     if (confirmation(movie)) {
       this.user.deleteMovie(movie);
-      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rating, "delete");
+      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(),
+          movie.getGenre(), rating, "delete");
       moviesRated.getItems().remove(deleteMovie);
     }
   }
