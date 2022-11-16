@@ -157,6 +157,6 @@ public class MovieRatingSpringController {
       @PathVariable("movie") Movie movie,
       @PathVariable("rating") final Integer rating,
       @PathVariable("action") final String action) {
-    this.userReg.updateMovieAndUser(user, movie, rating, action);
+    this.userReg.updateMovieAndUser(user, movie);
   } 
 }
