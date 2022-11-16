@@ -114,12 +114,13 @@ public class MovieRegister {
     for (Movie movie : movies) {
       if (movie.getTitle().equals(title) && movie.getGenre().equals(genre)) {
         return movie;
-      }
+      } 
     }
     throw new IllegalArgumentException(
       "No movies with title: " + title 
               + " and genre: " + genre
-              + " found in the register. Click on 'Add rating' to add the movie to the register."
+              + " found in the register." + "\n"
+              + "Click on 'Add rating' to add the movie to the register."
     );
   }
 

@@ -5,7 +5,9 @@ import core.User;
 import data.MovieRegister;
 import data.UserRegister;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,28 +74,6 @@ public class MovieRatingSpringController {
   @GetMapping(path = "movies/{title}&{genre}")
   public Movie getMovie(@PathVariable("title") final String title, @PathVariable("genre") final String genre) {
     return movReg.getMovie(title, genre);
- 
-  }
-
-  /**
-   * Returns a list of movies with desired genre.
-   *
-   * @param genre a string
-   * @return List of movies
-   */
-  public List<Movie> searchGenre(String genre) {
-    return this.getMovieRegister().stream().filter(movie -> movie.getGenre().equals(genre)).collect(Collectors.toList());
-  }
-
-  /**
-   * Returns a list of movies with desired genre.
-   *
-   * @param title a string
-   * @return List of movies with title matching input
-   */
-
-  public List<Movie> searchMovieTitle(String title){
-    return this.getMovieRegister().stream().filter(movie -> movie.getTitle().equals(title)).collect(Collectors.toList());
   }
 
   /**

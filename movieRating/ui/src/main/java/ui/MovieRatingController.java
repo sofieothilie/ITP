@@ -258,6 +258,7 @@ public class MovieRatingController {
     backToLogIn.setVisible(true);
     loggedOut.setVisible(false);
     createUserDone.setVisible(true);
+    createUserDone.setDisable(true);
     infoUserLabel.setVisible(false);
   }
 
@@ -310,7 +311,7 @@ public class MovieRatingController {
   private void handleSearchMovie() {
     moviesFound.getItems().clear();
     if (this.genreBox.getSelectionModel().isEmpty() || movieName.getText().isEmpty()) {
-      try {
+      try { 
         List<Movie> moviesFoundList = new ArrayList<Movie>();
         if (genreBox.getSelectionModel().isEmpty()) {
           moviesFoundList = springController.searchMovieTitle(movieName.getText());
@@ -324,8 +325,10 @@ public class MovieRatingController {
         errorActivation(e.getMessage());
         movieName.clear();
         genreBox.setValue(null);
-      }
-    } else {
+      } 
+    }
+
+    if (!(this.genreBox.getSelectionModel().isEmpty() || movieName.getText().isEmpty())) {
       try {
         Movie foundMovie = springController.getMovie(movieName.getText(), 
               (String) genreBox.getValue());
@@ -399,15 +402,11 @@ public class MovieRatingController {
    */
   @FXML
   private void handleAddRating() {
-    try {
-      springController.addMovie(movieName.getText(), genreBox.getValue());
-      this.movie = new Movie(movieName.getText(), genreBox.getValue());
-      movieLabel.setText(": " + this.movie.getTitle());
-      informationActivation(this.movie.getTitle() + " was added to the register.");
-      setRateVisibility(true, this.movie);
-    } catch (Exception e) {
-      errorActivation(e.getMessage());
-    }
+    springController.addMovie(movieName.getText(), genreBox.getValue());
+    this.movie = new Movie(movieName.getText(), genreBox.getValue());
+    movieLabel.setText(": " + this.movie.getTitle());
+    informationActivation(this.movie.getTitle() + " was added to the register.");
+    setRateVisibility(true, this.movie);
   }
 
   /**
