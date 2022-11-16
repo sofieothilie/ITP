@@ -1,115 +1,78 @@
 package ui;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import data.MovieHandler;
+import data.UserHandler;
+
+import java.io.IOException;
+import java.nio.file.Files;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import restapi.MovieRatingSpringController;
+
+import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
-
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertFalse;
-// import static org.junit.jupiter.api.Assertions.assertTrue;
-
-// import org.junit.jupiter.api.AfterAll;
-// import org.junit.jupiter.api.AfterEach;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.DisplayName;
-// import org.junit.jupiter.api.Test;
-
-// import core.User;
-// import core.UserTest;
-// import data.MovieHandler;
-// import data.MovieRegister;
-// import data.UserHandler;
-// import data.UserRegister;
-
-// import java.io.IOException;
-// import java.nio.file.Files;
-// import java.util.ArrayList;
-// import java.util.List;
-
-// import javafx.fxml.FXMLLoader;
-// import javafx.scene.Parent;
-// import javafx.scene.Scene;
-// import javafx.scene.control.Button;
-// import javafx.scene.control.ChoiceBox;
-// import javafx.scene.control.Label;
-// import javafx.scene.control.ListView;
-// import javafx.scene.control.PasswordField;
-// import javafx.scene.control.TextArea;
-// import javafx.scene.control.TextField;
-// import javafx.scene.layout.Pane;
-// import javafx.stage.Stage;
-// import restapi.MovieRatingSpringController;
-
-// import org.testfx.api.FxRobot;
-// import org.testfx.framework.junit5.ApplicationTest;
-// import org.testfx.matcher.control.LabeledMatchers;
-
-// import core.Movie;
-// import core.User;
+import org.testfx.matcher.control.LabeledMatchers;
 
 public class MovieRatingControllerTest extends ApplicationTest {
 
-  
+  private FxRobot robot = new FxRobot();
+  public MovieRatingSpringController springController = new MovieRatingSpringController();
+  private Pane ratePane;
+  private Pane searchPane;
+  private Pane ratedMoviesPane;
+  private PasswordField password;
+  private TextField username;
+  private TextField movieName;
+  private Button logIn;
+  private Button createUser;
+  private Button logOut;
+  private Button rateButton;
+  private Button createUserDone;
+  private Button backToLogIn;
+  private Button searchMovie;
+  private Button resetButton;
+  private Button addRatingButton;
+  private Button cancelRatingButton;
+  private Button deleteRatingButton;
+  private ChoiceBox<String> genreBox;
+  private ChoiceBox<Integer> rateBox;
+  private TextArea ratedMovie;
+  private Label loggedIn;
+  private Label loggedOut;
+  private Label usernameLabel;
+  private Label passwordLabel;
+  private Label movieLabel;
+  private Label createNewUserText;
+  private Label newUserLabel;
+  private Label infoUserLabel;
 
-  // private FxRobot robot = new FxRobot();
-  
-
-  // private final String userFilename = "userTest";
-  // private final String movieFilename = "movieTest";
-
-  
-  // private Pane ratePane;
-  // private Pane searchPane;
-  // private Pane ratedMoviesPane;
-  
-
-  // private PasswordField password;
-
-  // private TextField username;
-  // private TextField movieName;
-
-  // private Button logIn;
-  // private Button createUser;
-  // private Button logOut;
-  // private Button rateButton;
-  // private Button createUserDone;
-  // private Button backToLogIn;
-  // private Button searchMovie;
-  // private Button resetButton;
-  // private Button addRatingButton;
-  // private Button cancelRatingButton;
-  // private Button deleteRatingButton;
-
-  
-  // private ChoiceBox<String> genreBox;
-  // private ChoiceBox<Integer> rateBox;
-  
-  // private TextArea ratedMovie;
-
-  // private ListView<Object> moviesFound;
-  // private ListView<Object> moviesRated;
-
-  // private Label loggedIn;
-  // private Label loggedOut;
-  // private Label usernameLabel;
-  // private Label passwordLabel;
-  // private Label rateLabel;
-  // private Label movieLabel;
-  // private Label ratingscaleLabel;
-  // private Label createNewUserText;
-  // private Label newUserLabel;
-  // private Label infoUserLabel;
-
-/* 
   @BeforeEach
   public void intitFields() {
     ratePane = lookup("#ratePane").query();
     searchPane = lookup("#searchPane").query();
     ratedMoviesPane = lookup("#ratedMoviesPane").query();
-
     password = lookup("#password").query();
-
     username = lookup("#username").query();
     movieName = lookup("#movieName").query();
-
     logIn = lookup("#logIn").query();
     createUser = lookup("#createUser").query();
     logOut = lookup("#logOut").query();
@@ -121,59 +84,31 @@ public class MovieRatingControllerTest extends ApplicationTest {
     addRatingButton = lookup("#addRatingButton").query();
     cancelRatingButton = lookup("#cancelRatingButton").query();
     deleteRatingButton = lookup("#deleteRatingButton").query();
-
     ratedMovie = lookup("#ratedMovie").query();
-
     genreBox = lookup("#genreBox").query();
     rateBox = lookup("#rateBox").query();
-
     loggedIn = lookup("#loggedIn").query();
     loggedOut = lookup("#loggedOut").query();
     usernameLabel = lookup("#usernameLabel").query();
     passwordLabel = lookup("#usernameLabel").query();
-    rateLabel = lookup("#rateLabel").query();
     movieLabel = lookup("#movieLabel").query();
-    ratingscaleLabel = lookup("#ratingscaleLabel").query();
     createNewUserText = lookup("#createNewUserText").query();
     newUserLabel = lookup("#newUserLabel").query();
     infoUserLabel = lookup("#infoUserLabel").query();
-    
   }
-  */
-  /* 
+
   @BeforeEach
   public void initeUserAndMovie() {
-
-    // UserHandler userHandler = new UserHandler("userTest");
-    // MovieHandler movieHandler = new MovieHandler("movieTest");
-
     MovieRatingSpringController springController = new MovieRatingSpringController("movieTest", "userTest");
     springController.addMovie("Madagaskar", "action");
     springController.addMovie("The Notebook", "romance");
     springController.addMovie("Harry Potter", "fantasy");
     springController.registerNewUser("per", "123");
+    springController.registerNewUser("laila", "123");
+    springController.updateMovieAndUser("laila", "The Notebook", "romance", 1, "add");
     springController.updateMovieAndUser("per", "Madagaskar", "action", 3, "add");
-
-
-
-    // mov
-
-    // User user1 = new User("per", "123");
-    // userHandler.writeUserToRegister(user1);
-
-    // List<Integer> allRatings = new ArrayList<>();
-    // allRatings.add(3);
-
-    // Movie movie1 = new Movie("The Notebook", "romance", allRatings);
-    // Movie movie2 = new Movie("Harry Potter", "fantasy");
-    // Movie movie3 = new Movie("Madagaskar", "drama", allRatings);
-
-    // movieHandler.writeMovieToRegister(movie1);
-    // movieHandler.writeMovieToRegister(movie2);
-    // movieHandler.writeMovieToRegister(movie3);
   }
 
-  /*
   @Override
   public void start(Stage stage) throws IOException {
     FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MovieRating.fxml"));
@@ -183,23 +118,21 @@ public class MovieRatingControllerTest extends ApplicationTest {
     stage.setScene(new Scene(parent));
     stage.show();
   }
-  */
 
   /** 
-  *closes an alert window
+  *closes an alert window.
   */
-  /* 
   private void closeAlert() {
     robot.clickOn("OK");
   }
-  */
  
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to create new user") 
   public void testCreateNewUser() {
     robot.clickOn(createUser);
     assertFalse(searchPane.isVisible());
+    assertFalse(newUserLabel.isVisible());
     assertTrue(createUserDone.isVisible());
     assertTrue(backToLogIn.isVisible());
     assertTrue(createNewUserText.isVisible());
@@ -242,22 +175,17 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(passwordLabel.isVisible());
   }
   //*/
-  /* 
-  private void createUserStandard() {
-    robot.clickOn(createUser);
-    robot.clickOn(this.username).write("Sina");
-    robot.clickOn(this.password).write("123");
-    robot.clickOn(createUserDone);
-  }
 
+  /** 
+  * automatically log in
+  */
   private void logInStandard() {
     robot.clickOn(this.username).write("per");
     robot.clickOn(this.password).write("123");
     robot.clickOn(logIn);
   }
-  */
 
-  /* 
+  ///* 
   @Test 
   @DisplayName("Test to log in")
   public void logIn() {
@@ -298,13 +226,16 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(usernameLabel.isVisible());
     assertFalse(password.isVisible());
     assertFalse(passwordLabel.isVisible());
+    assertFalse(infoUserLabel.isVisible());
+    assertFalse(newUserLabel.isVisible());
     assertTrue(loggedIn.isVisible());
     assertTrue(logOut.isVisible());
     assertTrue(ratedMoviesPane.isVisible());
+
   }
   //*/
 
-   /* 
+   ///* 
   @Test
   @DisplayName("Test log out")
   public void testLogOut() {
@@ -324,10 +255,13 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   public void testcreateUserandLogIn() {
-    createUserStandard();
+    robot.clickOn(createUser);
+    robot.clickOn(this.username).write("Sina");
+    robot.clickOn(this.password).write("123");
+    robot.clickOn(createUserDone);
     sleep(700);
     robot.clickOn(logOut);
     sleep(700);
@@ -340,7 +274,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to search up movies in register")
   public void testsearchMovie() {
@@ -373,23 +307,27 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
   
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to add a rating")
   public void testAddRating() {
     logInStandard();
+
+    robot.clickOn(genreBox).clickOn("action");
+    robot.clickOn(searchMovie);
+    clickOn(LabeledMatchers.hasText("Madagaskar; action; 3,00"));
+    this.closeAlert();
+
     robot.clickOn(genreBox).clickOn("romance");
     robot.clickOn(searchMovie);
-    sleep(6000);
-    clickOn(LabeledMatchers.hasText("The Notebook; romance; 0.0"));
+    clickOn(LabeledMatchers.hasText("The Notebook; romance; 1,00"));
     assertTrue(ratePane.isVisible());
     assertEquals(": The Notebook", movieLabel.getText());
-    assertEquals("The Notebook; romance; 0.0", ratedMovie.getText());
+    assertEquals("The Notebook; romance; 1,00", ratedMovie.getText());
     robot.clickOn(rateBox).clickOn("4");
     robot.clickOn(rateButton);
     this.closeAlert();
     assertFalse(ratePane.isVisible());
-    //her må det sjekkes at en rating kommer i listview
     
     robot.clickOn(movieName).write("Avengers");
     robot.clickOn(genreBox).clickOn("action");
@@ -405,8 +343,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(rateButton);
     this.closeAlert();
     assertFalse(ratePane.isVisible());
-    //test her må det sjekkes at en rating kommer i listview
-
     robot.clickOn(movieName).write("History");
     robot.clickOn(genreBox).clickOn("drama");
     robot.clickOn(searchMovie);
@@ -418,8 +354,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(ratePane.isVisible());
     assertEquals("", movieLabel.getText());
     assertEquals(null, genreBox.getValue());
-    //også her skal listview bli empty, må sjekke
-
     robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
     clickOn(LabeledMatchers.hasText("Avengers; action; 1,00"));
@@ -427,18 +361,29 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to delete a rating")
   public void testDeleteRating() {
     logInStandard();
     sleep(400);
-    clickOn(LabeledMatchers.hasText("Madagaskar; action; 3"));
-    clickOn(deleteRatingButton);   
+    robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3"));
+    robot.clickOn(deleteRatingButton);   
     this.closeAlert(); 
+    //sjekke at listview da blir blir empty
+    robot.clickOn(genreBox).clickOn("action");
+    robot.clickOn(searchMovie);
+    sleep(400);
+    robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 0.0"));
+    assertTrue(ratePane.isVisible());
+    robot.clickOn(rateBox).clickOn("4");
+    robot.clickOn(rateButton);
+    this.closeAlert();
+    assertFalse(ratePane.isVisible());
+    //få opp denne ratingen på listviewen
   }
   //*/
-  /* 
+  
   @AfterEach
   @DisplayName("After each test reset files")
   public void resetData() {
@@ -455,5 +400,4 @@ public class MovieRatingControllerTest extends ApplicationTest {
       throw new IllegalArgumentException();
     }
   } 
-  */
 }
