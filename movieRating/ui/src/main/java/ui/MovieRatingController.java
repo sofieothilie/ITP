@@ -268,7 +268,7 @@ public class MovieRatingController {
   @FXML
   private void handleCreateUserDone() {
     try {
-      this.springController.registerNewUser(username.getText(), password.getText());
+      this.springController.registerNewUser(new User(username.getText(), password.getText()));
       this.user = new User(username.getText(), password.getText());
       loggedIn(true);
       createNewUserText.setVisible(false);
@@ -314,9 +314,9 @@ public class MovieRatingController {
       try { 
         List<Movie> moviesFoundList = new ArrayList<Movie>();
         if (genreBox.getSelectionModel().isEmpty()) {
-          moviesFoundList = springController.searchMovieTitle(movieName.getText());
+          //moviesFoundList = springController.searchMovieTitle(movieName.getText());
         } else {
-          moviesFoundList = springController.searchGenre((String) genreBox.getValue());
+          //moviesFoundList = springController.searchGenre((String) genreBox.getValue());
         }
         for (Movie movie : moviesFoundList) {
           moviesFound.getItems().add(movie);
@@ -402,7 +402,7 @@ public class MovieRatingController {
    */
   @FXML
   private void handleAddRating() {
-    springController.addMovie(movieName.getText(), genreBox.getValue());
+    springController.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
     this.movie = new Movie(movieName.getText(), genreBox.getValue());
     movieLabel.setText(": " + this.movie.getTitle());
     informationActivation(this.movie.getTitle() + " was added to the register.");
@@ -417,8 +417,7 @@ public class MovieRatingController {
     //legge til oppdatering
     try {
       this.user.rateMovie(movie, rateBox.getValue());
-      this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(),
-          movie.getGenre(), rateBox.getValue(), "add");
+      this.springController.updateMovieAndUser(user, movie);
       informationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
       moviesRated();
       //rateBox.setValue(null);
@@ -451,8 +450,7 @@ public class MovieRatingController {
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
     if (confirmationActivation(movie)) {
       this.user.deleteMovie(movie);
-      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(),
-          movie.getGenre(), rating, "delete");
+      springController.updateMovieAndUser(user, movie);
       moviesRated.getItems().remove(deleteMovie);
       deleteRatingButton.setDisable(true);
     }
