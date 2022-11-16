@@ -103,10 +103,10 @@ public class MovieRatingControllerTest extends ApplicationTest {
     springController.addMovie("Madagaskar", "action");
     springController.addMovie("The Notebook", "romance");
     springController.addMovie("Harry Potter", "fantasy");
-    springController.registerNewUser("per", "123");
-    springController.registerNewUser("laila", "123");
+    springController.registerNewUser("perolav", "12345678");
+    springController.registerNewUser("laila", "12345678");
     springController.updateMovieAndUser("laila", "The Notebook", "romance", 1, "add");
-    springController.updateMovieAndUser("per", "Madagaskar", "action", 3, "add");
+    springController.updateMovieAndUser("perolav", "Madagaskar", "action", 3, "add");
   }
 
   @Override
@@ -141,7 +141,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertTrue(backToLogIn.isVisible());
     assertTrue(createNewUserText.isVisible());
     robot.clickOn(createUserDone);
-    this.closeAlert();
+    //this.closeAlert();
 
     robot.clickOn(password).write("1234567");
     robot.clickOn(createUserDone);
@@ -156,16 +156,16 @@ public class MovieRatingControllerTest extends ApplicationTest {
     username.clear();
     password.clear();
 
-    robot.clickOn(username).write("per");
-    robot.clickOn(password).write("123");
+    robot.clickOn(username).write("perolav");
+    robot.clickOn(password).write("12345678");
     robot.clickOn(createUserDone);
     this.closeAlert();
     username.clear();
     password.clear();
 
     robot.clickOn(createUser);
-    robot.clickOn(username).write("NTNU");
-    robot.clickOn(password).write("123");
+    robot.clickOn(username).write("NTNUTEST");
+    robot.clickOn(password).write("12345678");
     robot.clickOn(createUserDone);
     assertTrue(loggedIn.isVisible());
     assertTrue(logOut.isVisible());
@@ -186,8 +186,8 @@ public class MovieRatingControllerTest extends ApplicationTest {
   * automatically log in
   */
   private void logInStandard() {
-    robot.clickOn(this.username).write("per");
-    robot.clickOn(this.password).write("123");
+    robot.clickOn(this.username).write("perolav");
+    robot.clickOn(this.password).write("12345678");
     robot.clickOn(logIn);
   }
 
@@ -196,13 +196,13 @@ public class MovieRatingControllerTest extends ApplicationTest {
   @DisplayName("Test to log in")
   public void logIn() {
     robot.clickOn(this.username).write("elizabeth");
-    robot.clickOn(this.password).write("123");
+    robot.clickOn(this.password).write("12345678");
     robot.clickOn(logIn);
     this.closeAlert();
     username.clear();
     password.clear();
 
-    robot.clickOn(this.password).write("123");
+    robot.clickOn(this.password).write("12345678");
     robot.clickOn(logIn);
     this.closeAlert();
 
@@ -223,8 +223,8 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(createNewUserText.isVisible());
     assertTrue(searchPane.isVisible());
 
-    robot.clickOn(this.username).write("per");
-    robot.clickOn(this.password).write("123");
+    robot.clickOn(this.username).write("perolav");
+    robot.clickOn(this.password).write("12345678");
     robot.clickOn(logIn);
     assertFalse(logIn.isVisible());
     assertFalse(createUser.isVisible());
@@ -265,14 +265,14 @@ public class MovieRatingControllerTest extends ApplicationTest {
   @Test
   public void testcreateUserandLogIn() {
     robot.clickOn(createUser);
-    robot.clickOn(this.username).write("Sina");
-    robot.clickOn(this.password).write("123");
+    robot.clickOn(this.username).write("Solveig1");
+    robot.clickOn(this.password).write("12345678");
     robot.clickOn(createUserDone);
     sleep(700);
     robot.clickOn(logOut);
     sleep(700);
-    robot.clickOn(username).write("Sina");
-    robot.clickOn(password).write("123");
+    robot.clickOn(username).write("Solveig1");
+    robot.clickOn(password).write("12345678");
     robot.clickOn(logIn);
     sleep(700);
     assertTrue(loggedIn.isVisible());
