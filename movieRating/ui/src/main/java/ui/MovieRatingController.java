@@ -456,6 +456,11 @@ public class MovieRatingController {
     }
   }
 
+  @FXML
+  private void handleEditMovie() {
+    deleteRatingButton.setVisible(true);
+  }
+
   /**
    * When called, displays an confirmation message.
    *
