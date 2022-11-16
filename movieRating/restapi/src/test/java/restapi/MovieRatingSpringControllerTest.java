@@ -62,7 +62,7 @@ public class MovieRatingSpringControllerTest {
   @DisplayName("Tests adding and fetching movies from server")
   public void testMovie(){
     for (Movie movie : this.movieList) {
-      mrsc.addMovie(movie.getTitle(), movie.getGenre());   
+      mrsc.addMovie(movie);   
     }
     List<Movie> moviesFromServer = this.mrsc.getMovieRegister();
     assertTrue(moviesFromServer.containsAll(this.movieList), "All movies weren't retrieved from server");
@@ -77,7 +77,7 @@ public class MovieRatingSpringControllerTest {
   @DisplayName("Test adding and fetching users from server")
   public void testUsers() throws Exception {
     for (User  user : this.userList) {
-      mrsc.registerNewUser(user.getUsername(), user.getPassword());   
+      mrsc.registerNewUser(user);   
     }
     List<User> usersFromServer = this.mrsc.getUserRegister();
     assertTrue(usersFromServer.containsAll(this.userList), "All users weren't retrieved from server");
@@ -93,19 +93,19 @@ public class MovieRatingSpringControllerTest {
   @Test
   public void testUpdate(){
     for (User  user : this.userList) {
-      mrsc.registerNewUser(user.getUsername(), user.getPassword());   
+      mrsc.registerNewUser(user);   
     }
     for (Movie movie : this.movieList) {
-      mrsc.addMovie(movie.getTitle(), movie.getGenre());   
+      mrsc.addMovie(movie);   
     }
-    this.mrsc.updateMovieAndUser(user1.getUsername(), m1.getTitle(), m1.getGenre(), 4, "add");
-    this.mrsc.updateMovieAndUser(user2.getUsername(), m1.getTitle(), m1.getGenre(), 2, "add");
+    this.mrsc.updateMovieAndUser(user1, m1, 4, "add");
+    this.mrsc.updateMovieAndUser(user2, m1, 2, "add");
     user1.rateMovie(m1, 4);
     user2.rateMovie(m1, 2);
     assertEquals(user1.getRatedMovies(), this.mrsc.getUser(user1.getUsername()).getRatedMovies(), "user1 locally and on server aren't equal");
     assertEquals(user2.getRatedMovies(), this.mrsc.getUser(user2.getUsername()).getRatedMovies(), "user2 locally and on server aren't equal");
     assertEquals(m1.getAllRatings(), this.mrsc.getMovie(m1.getTitle(), m1.getGenre()).getAllRatings(), "m1 locally and on server aren't equal");
-    this.mrsc.updateMovieAndUser(user2.getUsername(), m1.getTitle(), m1.getGenre(), 2, "delete");
+    this.mrsc.updateMovieAndUser(user2, m1, 2, "delete");
     user2.deleteMovie(m1);
     assertEquals(m1.getAllRatings(), this.mrsc.getMovie(m1.getTitle(), m1.getGenre()).getAllRatings(), "m1 locally and on server aren't equal");
     assertEquals(user2.getRatedMovies(), this.mrsc.getUser(user2.getUsername()).getRatedMovies(), "user2 locally and on server aren't equal");
