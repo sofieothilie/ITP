@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/api/v1/movieRating")
+@RequestMapping("/api/v1/movieRating/")
 public class MovieRatingSpringController {
   /**
    * Fields for controller class.
@@ -45,9 +45,9 @@ public class MovieRatingSpringController {
     this.userReg = new UserRegister(userFile, movFile);
   }
 
-  /**
-   * WORKING
-   * Writes movies to localhost:8080/movieRating/movies.
+  /**WORKING
+   * Writes movies to server
+   * http://localhost:8080/api/v1/movieRating/movies
    *
    * @return List of Movies
    */
@@ -56,10 +56,9 @@ public class MovieRatingSpringController {
     return new ArrayList<Movie>(movReg.getAllMovies());
   }
 
-  /**
-   * WORKING
+  /** WORKING
    * Get movie by title and genre if it exists.
-   * http://localhost:8080/movieRating/movies
+   * http://localhost:8080/api/v1/movieRating/movies/{title}&{genre}
    * 
    *
    * @param title a string
@@ -74,7 +73,7 @@ public class MovieRatingSpringController {
 
   /**
    * Add movie to rest.
-   * localhost:8080/movieRating/movies/{movie}
+   * http://localhost:8080/api/v1/movieRating/movies/{movie}
    *
    * @param movie adds a movie to server
    */
@@ -85,7 +84,7 @@ public class MovieRatingSpringController {
   
   /**
    * Writes movies to server.
-   * localhost:8080/movieRating/users
+   * http://localhost:8080/api/v1/movieRating/users/
    *
    * @return List of Users
    */
@@ -97,7 +96,7 @@ public class MovieRatingSpringController {
   
   /**
    * Get user by username if it exists.
-   * localhost:8080/movieRating/users/{username}
+   * http://localhost:8080/api/v1/movieRating/users/{username}
    *
    * @param username a string
    * @return User
@@ -119,7 +118,7 @@ public class MovieRatingSpringController {
 
   /**
    * Creates a new user.
-   * localhost:8080/movieRating/users/{user}
+   * http://localhost:8080/api/v1/movieRating/users/{user}
    *
    * @param user a user
    */
@@ -130,7 +129,7 @@ public class MovieRatingSpringController {
 
   /**
    * Adds rating for movie.
-   * localhost:8080/movieRating/rate/{user}&{movie}&{rating}&{action}
+   * http://localhost:8080/api/v1/movieRating/rate/{user}&{movie}&{rating}&{action}
    *
    * @param user a user
    * @param movie a movie
@@ -139,5 +138,5 @@ public class MovieRatingSpringController {
   public void updateMovieAndUser(@PathVariable("user") User user,
       @PathVariable("movie") Movie movie) {
     this.userReg.updateMovieAndUser(user, movie);
-  } 
+  } post
 }
