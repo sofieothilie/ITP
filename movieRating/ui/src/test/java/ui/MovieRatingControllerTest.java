@@ -1,102 +1,104 @@
 package ui;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import core.User;
-import core.UserTest;
-import data.MovieHandler;
-import data.MovieRegister;
-import data.UserHandler;
-import data.UserRegister;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import restapi.MovieRatingSpringController;
-
-import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.matcher.control.LabeledMatchers;
 
-import core.Movie;
-import core.User;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.junit.jupiter.api.Assertions.assertFalse;
+// import static org.junit.jupiter.api.Assertions.assertTrue;
+
+// import org.junit.jupiter.api.AfterAll;
+// import org.junit.jupiter.api.AfterEach;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.DisplayName;
+// import org.junit.jupiter.api.Test;
+
+// import core.User;
+// import core.UserTest;
+// import data.MovieHandler;
+// import data.MovieRegister;
+// import data.UserHandler;
+// import data.UserRegister;
+
+// import java.io.IOException;
+// import java.nio.file.Files;
+// import java.util.ArrayList;
+// import java.util.List;
+
+// import javafx.fxml.FXMLLoader;
+// import javafx.scene.Parent;
+// import javafx.scene.Scene;
+// import javafx.scene.control.Button;
+// import javafx.scene.control.ChoiceBox;
+// import javafx.scene.control.Label;
+// import javafx.scene.control.ListView;
+// import javafx.scene.control.PasswordField;
+// import javafx.scene.control.TextArea;
+// import javafx.scene.control.TextField;
+// import javafx.scene.layout.Pane;
+// import javafx.stage.Stage;
+// import restapi.MovieRatingSpringController;
+
+// import org.testfx.api.FxRobot;
+// import org.testfx.framework.junit5.ApplicationTest;
+// import org.testfx.matcher.control.LabeledMatchers;
+
+// import core.Movie;
+// import core.User;
 
 public class MovieRatingControllerTest extends ApplicationTest {
 
   
 
-  private FxRobot robot = new FxRobot();
+  // private FxRobot robot = new FxRobot();
   
 
-  private final String userFilename = "userTest";
-  private final String movieFilename = "movieTest";
+  // private final String userFilename = "userTest";
+  // private final String movieFilename = "movieTest";
 
   
-  private Pane ratePane;
-  private Pane searchPane;
-  private Pane ratedMoviesPane;
+  // private Pane ratePane;
+  // private Pane searchPane;
+  // private Pane ratedMoviesPane;
   
 
-  private PasswordField password;
+  // private PasswordField password;
 
-  private TextField username;
-  private TextField movieName;
+  // private TextField username;
+  // private TextField movieName;
 
-  private Button logIn;
-  private Button createUser;
-  private Button logOut;
-  private Button rateButton;
-  private Button createUserDone;
-  private Button backToLogIn;
-  private Button searchMovie;
-  private Button resetButton;
-  private Button addRatingButton;
-  private Button cancelRatingButton;
-  private Button deleteRatingButton;
+  // private Button logIn;
+  // private Button createUser;
+  // private Button logOut;
+  // private Button rateButton;
+  // private Button createUserDone;
+  // private Button backToLogIn;
+  // private Button searchMovie;
+  // private Button resetButton;
+  // private Button addRatingButton;
+  // private Button cancelRatingButton;
+  // private Button deleteRatingButton;
 
   
-  private ChoiceBox<String> genreBox;
-  private ChoiceBox<Integer> rateBox;
+  // private ChoiceBox<String> genreBox;
+  // private ChoiceBox<Integer> rateBox;
   
-  private TextArea ratedMovie;
+  // private TextArea ratedMovie;
 
-  private ListView<Object> moviesFound;
-  private ListView<Object> moviesRated;
+  // private ListView<Object> moviesFound;
+  // private ListView<Object> moviesRated;
 
-  private Label loggedIn;
-  private Label loggedOut;
-  private Label usernameLabel;
-  private Label passwordLabel;
-  private Label rateLabel;
-  private Label movieLabel;
-  private Label ratingscaleLabel;
-  private Label createNewUserText;
-  private Label newUserLabel;
-  private Label infoUserLabel;
+  // private Label loggedIn;
+  // private Label loggedOut;
+  // private Label usernameLabel;
+  // private Label passwordLabel;
+  // private Label rateLabel;
+  // private Label movieLabel;
+  // private Label ratingscaleLabel;
+  // private Label createNewUserText;
+  // private Label newUserLabel;
+  // private Label infoUserLabel;
 
-
+/* 
   @BeforeEach
   public void intitFields() {
     ratePane = lookup("#ratePane").query();
@@ -137,7 +139,8 @@ public class MovieRatingControllerTest extends ApplicationTest {
     infoUserLabel = lookup("#infoUserLabel").query();
     
   }
-
+  */
+  /* 
   @BeforeEach
   public void initeUserAndMovie() {
 
@@ -170,6 +173,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     // movieHandler.writeMovieToRegister(movie3);
   }
 
+  /*
   @Override
   public void start(Stage stage) throws IOException {
     FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MovieRating.fxml"));
@@ -179,13 +183,16 @@ public class MovieRatingControllerTest extends ApplicationTest {
     stage.setScene(new Scene(parent));
     stage.show();
   }
+  */
 
   /** 
   *closes an alert window
   */
+  /* 
   private void closeAlert() {
     robot.clickOn("OK");
   }
+  */
  
   /* 
   @Test
@@ -235,7 +242,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(passwordLabel.isVisible());
   }
   //*/
-  
+  /* 
   private void createUserStandard() {
     robot.clickOn(createUser);
     robot.clickOn(this.username).write("Sina");
@@ -248,6 +255,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(this.password).write("123");
     robot.clickOn(logIn);
   }
+  */
 
   /* 
   @Test 
@@ -365,7 +373,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
   
-  ///* 
+  /* 
   @Test
   @DisplayName("Test to add a rating")
   public void testAddRating() {
@@ -430,7 +438,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     this.closeAlert(); 
   }
   //*/
-  
+  /* 
   @AfterEach
   @DisplayName("After each test reset files")
   public void resetData() {
@@ -447,4 +455,5 @@ public class MovieRatingControllerTest extends ApplicationTest {
       throw new IllegalArgumentException();
     }
   } 
+  */
 }

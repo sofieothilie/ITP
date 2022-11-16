@@ -2,7 +2,9 @@ package ui;
 
 import core.Movie;
 import core.User;
-import data.UserRegister;
+//import data.UserRegister;
+import restapi.MovieRatingSpringController;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +23,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import restapi.MovieRatingSpringController;
+
 
 /**
  * MovieRating controller class.
@@ -31,7 +33,7 @@ public class MovieRatingController {
   private Movie movie;
   private final String movieFilename;
   private User user;
-  private UserRegister userRegister;
+  //private UserRegister userRegister;
   private final String userFilename;
   private MovieRatingSpringController springController;
   private static List<String> genresList = Arrays.asList("action", "comedy",
@@ -191,14 +193,16 @@ public class MovieRatingController {
   }
 
   /**
-   * Method that shows all movies the user has rated.
+   * Method that shows all movies the user has rated sorted
+   * with the highest ratings on top.
+   *
    */
   private void moviesRated() { 
     moviesRated.getItems().clear();
-    for (Movie mov : user.getRatedMovies().keySet()) {
-      moviesRated.getItems().add(mov.getTitle() + "; " + mov.getGenre() 
-          + "; " + user.getRatedMovies().get(mov));
-    }
+    user.getRatedMovies().keySet().stream().sorted((m1, m2) -> user
+        .getRatedMovies().get(m2).compareTo(user.getRatedMovies().get(m1)))
+        .forEach(m1 -> moviesRated.getItems().add(m1.getTitle() + "; " + m1
+        .getGenre() + "; " + user.getRatedMovies().get(m1)));
   }
 
   /**
@@ -413,11 +417,13 @@ public class MovieRatingController {
   private void handleRateButton() {
     //legge til oppdatering
     try {
-      //this.user.rateMovie(movie, rateBox.getValue());
-      this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), 
-          + movie.getGenre(), rateBox.getValue(), "add");
+      this.user.rateMovie(movie, rateBox.getValue());
+      this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rateBox.getValue(), "add");
       informationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
-      moviesRated.getItems().add(movie);
+      moviesRated();
+      //rateBox.setValue(null);
+      ratedMovie.setText(this.movie.toString());
+      cancelRatingButton.visibleProperty().set(false);
       clearAllSearchFields();
       ratePane.visibleProperty().set(false);
     } catch (Exception e) {
@@ -443,10 +449,9 @@ public class MovieRatingController {
     String[] deleteMovieList = deleteMovie.split(" ");
     Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length - 1]);
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
-    if (confirmation(movie)) {
+    if (confirmationActivation(movie)) {
       this.user.deleteMovie(movie);
-      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), 
-          movie.getGenre(), rating, "delete");
+      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rating, "delete");
       moviesRated.getItems().remove(deleteMovie);
     }
   }
@@ -456,7 +461,7 @@ public class MovieRatingController {
    *
    * @param movie the movie which is deleted.
    */
-  private boolean confirmation(Movie movie) {
+  private boolean confirmationActivation(Movie movie) {
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.setTitle("Delete " + movie.getTitle() + ", " + movie.getGenre());
     alert.setContentText("Are you sure you want to delete " 
