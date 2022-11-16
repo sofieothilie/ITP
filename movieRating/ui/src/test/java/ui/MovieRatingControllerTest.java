@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.hamcrest.Matcher;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,12 +27,15 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import restapi.MovieRatingSpringController;
 
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
+
+import restapi.MovieRatingSpringController;
 
 public class MovieRatingControllerTest extends ApplicationTest {
 
@@ -64,9 +69,12 @@ public class MovieRatingControllerTest extends ApplicationTest {
   private Label createNewUserText;
   private Label newUserLabel;
   private Label infoUserLabel;
+  //Node dialogPane = lookup(".dialog.pane").query();
+  //private Node dialogePane;
 
   @BeforeEach
   public void intitFields() {
+    //Node dialogPane = lookup(".dialog.pane").query();
     ratePane = lookup("#ratePane").query();
     searchPane = lookup("#searchPane").query();
     ratedMoviesPane = lookup("#ratedMoviesPane").query();
@@ -135,11 +143,15 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertTrue(backToLogIn.isVisible());
     assertTrue(createNewUserText.isVisible());
     robot.clickOn(createUserDone);
+    verifyThat("OK", NodeMatchers.isVisible());
     this.closeAlert();
+    //assertEquals("Username and password can not be empty", from(dialogPane).lookup((Text t) -> t.getText().startsWith("Username and password")));
+    
 
     robot.clickOn(password).write("1234567");
     robot.clickOn(createUserDone);
     this.closeAlert();
+    verifyThat("OK", NodeMatchers.isVisible());
     username.clear();
     password.clear();
 
@@ -147,6 +159,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(username).write("hello");
     robot.clickOn(createUserDone);
     this.closeAlert();
+    verifyThat("OK", NodeMatchers.isVisible());
     username.clear();
     password.clear();
 
@@ -154,6 +167,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(password).write("123");
     robot.clickOn(createUserDone);
     this.closeAlert();
+    verifyThat("OK", NodeMatchers.isVisible());
     username.clear();
     password.clear();
 
@@ -174,8 +188,11 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
+  private void verifyThat(String string, Matcher<Node> visible) {
+  }
+
   /** 
-  * automatically log in
+  * standard log in, used in other methods.
   */
   private void logInStandard() {
     robot.clickOn(this.username).write("per");
@@ -183,7 +200,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(logIn);
   }
 
-  ///* 
+  /* 
   @Test 
   @DisplayName("Test to log in")
   public void logIn() {
@@ -229,11 +246,10 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertTrue(loggedIn.isVisible());
     assertTrue(logOut.isVisible());
     assertTrue(ratedMoviesPane.isVisible());
-
   }
   //*/
 
-   ///* 
+   /* 
   @Test
   @DisplayName("Test log out")
   public void testLogOut() {
@@ -253,7 +269,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  ///* 
+  /* 
   @Test
   public void testcreateUserandLogIn() {
     robot.clickOn(createUser);
@@ -272,13 +288,12 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  ///* 
+  /* 
   @Test
   @DisplayName("Test to search up movies in register")
   public void testsearchMovie() {
     robot.clickOn(searchMovie);
     this.closeAlert();
-
     robot.clickOn(genreBox).clickOn("horror");
     robot.clickOn(searchMovie);
     this.closeAlert();
@@ -305,12 +320,11 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
   
-  ///* 
+  /* 
   @Test
   @DisplayName("Test to add a rating")
   public void testAddRating() {
     logInStandard();
-
     robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
     clickOn(LabeledMatchers.hasText("Madagaskar; action; 3,00"));
@@ -341,6 +355,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(rateButton);
     this.closeAlert();
     assertFalse(ratePane.isVisible());
+
     robot.clickOn(movieName).write("History");
     robot.clickOn(genreBox).clickOn("drama");
     robot.clickOn(searchMovie);
@@ -359,7 +374,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  ///* 
+  /* 
   @Test
   @DisplayName("Test to delete a rating")
   public void testDeleteRating() {
@@ -368,7 +383,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3"));
     robot.clickOn(deleteRatingButton);   
     this.closeAlert(); 
-    //sjekke at listview da blir blir empty
     robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
     sleep(400);
@@ -378,7 +392,6 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(rateButton);
     this.closeAlert();
     assertFalse(ratePane.isVisible());
-    //få opp denne ratingen på listviewen
   }
   //*/
   
