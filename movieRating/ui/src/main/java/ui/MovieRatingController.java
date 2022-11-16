@@ -3,8 +3,6 @@ package ui;
 import core.Movie;
 import core.User;
 //import data.UserRegister;
-import restapi.MovieRatingSpringController;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +21,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import restapi.MovieRatingSpringController;
 
 
 /**
@@ -301,6 +300,7 @@ public class MovieRatingController {
     loggedOut.visibleProperty().set(true);
     clearAllSearchFields();
     moviesRated.getItems().clear();
+    addRatingButton.visibleProperty().set(false);
   }
 
   /**
@@ -416,7 +416,8 @@ public class MovieRatingController {
     //legge til oppdatering
     try {
       this.user.rateMovie(movie, rateBox.getValue());
-      this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rateBox.getValue(), "add");
+      this.springController.updateMovieAndUser(user.getUsername(), movie.getTitle(),
+          movie.getGenre(), rateBox.getValue(), "add");
       informationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
       moviesRated();
       //rateBox.setValue(null);
@@ -449,14 +450,16 @@ public class MovieRatingController {
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
     if (confirmationActivation(movie)) {
       this.user.deleteMovie(movie);
-      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(), movie.getGenre(), rating, "delete");
+      springController.updateMovieAndUser(user.getUsername(), movie.getTitle(),
+          movie.getGenre(), rating, "delete");
       moviesRated.getItems().remove(deleteMovie);
+      deleteRatingButton.setDisable(true);
     }
   }
 
   @FXML
   private void handleEditMovie() {
-    deleteRatingButton.setVisible(true);
+    deleteRatingButton.setDisable(false);
   }
 
   /**
