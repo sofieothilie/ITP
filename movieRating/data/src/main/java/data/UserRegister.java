@@ -4,6 +4,7 @@ import core.Movie;
 import core.User;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * class that handles a register of User objects.
@@ -144,5 +145,13 @@ public class UserRegister {
     } else {
       return List.of();
     }
+  }
+
+  public Map<Movie,Integer> getUserMovies(String username) {
+    if (this.getUser(username) == null){
+      throw new IllegalArgumentException("No such user");
+    }
+    return this.getUser(username).getRatedMovies();
+    
   }
 }
