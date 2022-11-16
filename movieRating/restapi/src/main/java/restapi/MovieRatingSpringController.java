@@ -6,7 +6,6 @@ import data.MovieRegister;
 import data.UserRegister;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,7 +67,8 @@ public class MovieRatingSpringController {
    * @return Movie
    */
   @GetMapping(path = "movies/{title}&{genre}")
-  public Movie getMovie(@PathVariable("title") final String title, @PathVariable("genre") final String genre) {
+  public Movie getMovie(@PathVariable("title") final String title, 
+      @PathVariable("genre") final String genre) {
     return movReg.getMovie(title, genre);
   }
 
@@ -76,7 +76,7 @@ public class MovieRatingSpringController {
    * Add movie to rest.
    * localhost:8080/movieRating/movies/{movie}
    *
-   * @param Movie adds a movie to server
+   * @param movie adds a movie to server
    */
   @PostMapping(path = "movies/{movie}")
   public void addMovie(@PathVariable("movie") Movie movie) {
@@ -134,8 +134,6 @@ public class MovieRatingSpringController {
    *
    * @param user a user
    * @param movie a movie
-   * @param rating an int
-   * @param action a string which decideds what switch case to use
    */
   @PutMapping(path = "rate/{user}&{movie}&{rating}&{action}")
   public void updateMovieAndUser(@PathVariable("user") User user,

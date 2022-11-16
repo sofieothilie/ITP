@@ -445,8 +445,6 @@ public class MovieRatingController {
   @FXML
   private void handleDeleteRating() {
     String deleteMovie = (String) moviesRated.getSelectionModel().getSelectedItem();
-    String[] deleteMovieList = deleteMovie.split(" ");
-    Integer rating = Integer.parseInt(deleteMovieList[deleteMovieList.length - 1]);
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
     if (confirmationActivation(movie)) {
       this.user.deleteMovie(movie);
