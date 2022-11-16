@@ -47,7 +47,7 @@ public class User {
       this.username = username;
       this.password = password;
       ratedMovies = new HashMap<>();
-    } else if (username.isEmpty() && password.isEmpty()){
+    } else if (username.isEmpty() && password.isEmpty()) {
       throw new IllegalArgumentException("Username and password can not be empty");
     } else if (username.isEmpty()) {
       throw new IllegalArgumentException("Username can not be empty");

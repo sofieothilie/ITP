@@ -5,15 +5,12 @@ import core.User;
 import data.MovieRegister;
 import data.UserRegister;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -21,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/movieRating")
+@RequestMapping("/api/v1/movieRating")
 public class MovieRatingSpringController {
   /**
    * Fields for controller class.
@@ -54,150 +51,93 @@ public class MovieRatingSpringController {
    *
    * @return List of Movies
    */
-  @RequestMapping(path = "movies")
+  @GetMapping(path = "movies")
   public List<Movie> getMovieRegister() {
     return new ArrayList<Movie>(movReg.getAllMovies());
   }
 
   /**
    * WORKING
-   * Writes movies to localhost:8080/movieRating/users.
-   *
-   * @return List of Users
-   */
-  @RequestMapping(path = "users")
-  public List<User> getUserRegister() {
-    return new ArrayList<User>(userReg.getAllUsers());
-  }
-
-  /**
-   * WORKING
    * Get movie by title and genre if it exists.
-   * http://localhost:8080/movieRating/movie?title=title&genre=genre
+   * http://localhost:8080/movieRating/movies
+   * 
    *
    * @param title a string
    * @param genre a string
    * @return Movie
    */
-  @GetMapping(path = "movie")
-  public Movie getMovie(@RequestParam("title") final String title,
-      @RequestParam("genre") final String genre) {
+  @GetMapping(path = "movies/{title}&{genre}")
+  public Movie getMovie(@PathVariable("title") final String title, 
+      @PathVariable("genre") final String genre) {
     return movReg.getMovie(title, genre);
   }
 
   /**
-   * WORKING
-   * Returns a list of movies with desired genre.
-   * localhost:8080/movieRating/movieGenre?genre=genre
-   *
-   * @param genre a string
-   * @return List of movies
-   */
-  @GetMapping(path = "movieGenre")
-  public List<Movie> searchGenre(@RequestParam("genre") final String genre) {
-    return new ArrayList<Movie>(movReg.searchGenre(genre));
-  }
-
-  /**
-   * WORKING
-   * Returns a list of movies with desired genre.
-   * localhost:8080/movieRating/movieTitle?title=title
-   *
-   * @param title a string
-   * @return Listof movies
-   */
-  @GetMapping(path = "movieTitle")
-  public List<Movie> searchMovieTitle(@RequestParam("title") final String title) {
-    if (this.movReg.searchMovieTitle(title).isEmpty()){
-      throw new IllegalArgumentException(("No movies with title: " + title
-      + " found in the register"));
-    }
-    return new ArrayList<Movie>(this.movReg.searchMovieTitle(title));
-  }
-
-  /**
-   * WORKING
    * Add movie to rest.
-   * localhost:8080/movieRating/addMovie?title={title}&genre={genre}
+   * localhost:8080/movieRating/movies/{movie}
    *
-   * @param title a string
-   * @param genre a string
+   * @param movie adds a movie to server
    */
-  @PostMapping(path = "addMovie")
-  public void addMovie(@RequestParam("title") final String title,
-      @RequestParam("genre") final String genre) {
-    movReg.addMovie(title, genre);
+  @PostMapping(path = "movies/{movie}")
+  public void addMovie(@PathVariable("movie") Movie movie) {
+    movReg.addMovie(movie);
+  }
+  
+  /**
+   * Writes movies to server.
+   * localhost:8080/movieRating/users
+   *
+   * @return List of Users
+   */
+  @GetMapping(path = "users")
+  public List<User> getUserRegister() {
+    return new ArrayList<User>(userReg.getAllUsers());
   }
 
-  /** WORKING
+  
+  /**
    * Get user by username if it exists.
-   * http://localhost:8080/movieRating/user?username={username}
+   * localhost:8080/movieRating/users/{username}
    *
    * @param username a string
    * @return User
    */
-  @GetMapping(path = "user")
-  public User getUser(@RequestParam("username") final String username) {
+  @GetMapping(path = "users/{username}")
+  public User getUser(@PathVariable("username") final String username) {
     return userReg.getUser(username);
   }
 
-  /** WORKING
-   * Get user by username if it exists.
-   * http://localhost:8080/movieRating/user?username={username}
+  /**
+   * Throws if user already exists. 
    *
-   * @param username  a string
+   * @param username a string
    * @param password a string
    */
-  @PostMapping(path = "fullUser")
-  public void existingUser(@RequestParam("username") final String username, 
-      @RequestParam("password") final String password) {
+  public void existingUser(String username, String password) {
     userReg.existingUser(username, password);
   }
 
   /**
-   * WORKING
    * Creates a new user.
-   * http://localhost:8080/movieRating/
-   * newUser?username={username}&password={password}
+   * localhost:8080/movieRating/users/{user}
    *
-   * @param username a string
-   * @param password a string
+   * @param user a user
    */
-  @PostMapping(path = "newUser")
-  public void registerNewUser(@RequestParam("username") final String username,
-      @RequestParam("password") final String password) {
-    this.userReg.registerNewUser(username, password);
-  }
-
-    /**
-   * WORKING
-   * Writes movies to localhost:8080/movieRating/movies.
-   *
-   * @return List of Movies
-   */
-  @RequestMapping(path = "userMovies")
-  public Map<Movie, Integer> getUserMovies(@RequestParam("username") final String username) {
-    return new HashMap<Movie, Integer>(userReg.getUserMovies(username));
+  @PostMapping(path = "users/{user}")
+  public void registerNewUser(@PathVariable("user") User user) {
+    this.userReg.registerNewUser(user);
   }
 
   /**
-   * WORKING
    * Adds rating for movie.
-   * http://localhost:8080/movieRating/rateMovie?
-   * username={username}&movieTitle={title}&genre={genre}&rating={rating}
+   * localhost:8080/movieRating/rate/{user}&{movie}&{rating}&{action}
    *
-   * @param username a string
-   * @param title a string
-   * @param genre a string
-   * @param rating an int
-   * @param action a string which decideds what switch case to use
+   * @param user a user
+   * @param movie a movie
    */
-  @PutMapping(path = "rateMovie")
-  public void updateMovieAndUser(@RequestParam("username") final String username,
-      @RequestParam("movieTitle") final String title,
-      @RequestParam("movieGenre") final String genre,
-      @RequestParam("rating") final Integer rating,
-      @RequestParam("action") final String action) {
-    this.userReg.updateMovieAndUser(username, title, genre, rating, action);
+  @PutMapping(path = "rate/{user}&{movie}&{rating}&{action}")
+  public void updateMovieAndUser(@PathVariable("user") User user,
+      @PathVariable("movie") Movie movie) {
+    this.userReg.updateMovieAndUser(user, movie);
   } 
 }

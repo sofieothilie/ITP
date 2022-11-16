@@ -29,19 +29,17 @@ public class UserRegister {
   /**
    * Method that registers a new user to the register.
    *
-   * @param username a string
-   * @param password a string
+   * @param user a user
    * @throws IllegalArgumentException if user already exists
    */
-  public void registerNewUser(String username, String password) { 
+  public void registerNewUser(User user) { 
     this.users = getAllUsers();
-    for (User user : users) {
-      if (user.getUsername().equals(username)) {
+    for (User userInRegister : users) {
+      if (userInRegister.getUsername().equals(user.getUsername())) {
         throw new IllegalArgumentException("Username already exists.");
       }
     }
-    User u = new User(username, password);
-    userHandler.writeUserToRegister(u);
+    userHandler.writeUserToRegister(user);
   }
 
   /**
@@ -94,43 +92,27 @@ public class UserRegister {
   /**
    * Method that updates a user in the file if it already exists.
    *
-   * @param username a string
-   * @param title a string
-   * @param genre a string
-   * @param rating an integer
-   * @param action a string, used in switch case
+   * @param user user
+   * @param movie movie
    * @throws IllegalArgumentException if register is empty
    * @throws IllegalArgumentException if user is not found
    */
-  public void updateMovieAndUser(String username, String title, 
-        String genre, Integer rating, String action) { 
-    User u = this.getUser(username);
-    Movie m = movieRegister.getMovie(title, genre);
+  public void updateMovieAndUser(User user, Movie movie) { 
     this.users = getAllUsers();
     if (users.isEmpty()) {
       throw new IllegalArgumentException("No registered users yet");
     }
     boolean foundUser = false;
     for (User u1 : this.users) {
-      if (u1.equals(u)) {
-        switch (action) {
-          case "add":
-            u.rateMovie(m, rating);
-            break;
-          case "delete":
-            u.deleteMovie(m);
-            break;
-          default:
-            throw new IllegalArgumentException("Invalid action given, must be add or delete");
-        }
-        userHandler.updateRegister(u);
-        movieRegister.updateMovie(m);
+      if (u1.equals(user)) {
+        userHandler.updateRegister(user);
+        movieRegister.updateMovie(movie);
         foundUser = true;
       }
     }
     if (!foundUser) {
       throw new IllegalArgumentException(
-          "No user with username: " + u.getUsername());
+          "No user with username: " + user.getUsername());
     }
   }
 
@@ -145,13 +127,5 @@ public class UserRegister {
     } else {
       return List.of();
     }
-  }
-
-  public Map<Movie,Integer> getUserMovies(String username) {
-    if (this.getUser(username) == null){
-      throw new IllegalArgumentException("No such user");
-    }
-    return this.getUser(username).getRatedMovies();
-    
   }
 }
