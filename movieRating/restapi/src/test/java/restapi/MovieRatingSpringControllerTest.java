@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.test.context.ContextConfiguration;
 import org.junit.jupiter.api.AfterEach;
@@ -67,8 +66,6 @@ public class MovieRatingSpringControllerTest {
     List<Movie> moviesFromServer = this.mrsc.getMovieRegister();
     assertTrue(moviesFromServer.containsAll(this.movieList), "All movies weren't retrieved from server");
     assertTrue(m1.equals(this.mrsc.getMovie(m1.getTitle(), m1.getGenre())), "m1 should be on server and thus fetchable.");
-    List<Movie> fantasyMovies = this.movieList.stream().filter(movie -> movie.getGenre().equals("fantasy")).collect(Collectors.toList());
-    List<Movie> cinderellaMovies = this.movieList.stream().filter(movie -> movie.getTitle().equals("Cinderella")).collect(Collectors.toList());
   }
 
   @Test
@@ -96,15 +93,15 @@ public class MovieRatingSpringControllerTest {
     for (Movie movie : this.movieList) {
       mrsc.addMovie(movie);   
     }
-    this.mrsc.updateMovieAndUser(user1, m1, 4, "add");
-    this.mrsc.updateMovieAndUser(user2, m1, 2, "add");
     user1.rateMovie(m1, 4);
     user2.rateMovie(m1, 2);
+    this.mrsc.updateMovieAndUser(user1, m1);
+    this.mrsc.updateMovieAndUser(user2, m1);
     assertEquals(user1.getRatedMovies(), this.mrsc.getUser(user1.getUsername()).getRatedMovies(), "user1 locally and on server aren't equal");
     assertEquals(user2.getRatedMovies(), this.mrsc.getUser(user2.getUsername()).getRatedMovies(), "user2 locally and on server aren't equal");
     assertEquals(m1.getAllRatings(), this.mrsc.getMovie(m1.getTitle(), m1.getGenre()).getAllRatings(), "m1 locally and on server aren't equal");
-    this.mrsc.updateMovieAndUser(user2, m1, 2, "delete");
     user2.deleteMovie(m1);
+    this.mrsc.updateMovieAndUser(user2, m1);
     assertEquals(m1.getAllRatings(), this.mrsc.getMovie(m1.getTitle(), m1.getGenre()).getAllRatings(), "m1 locally and on server aren't equal");
     assertEquals(user2.getRatedMovies(), this.mrsc.getUser(user2.getUsername()).getRatedMovies(), "user2 locally and on server aren't equal");
   }

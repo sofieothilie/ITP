@@ -5,17 +5,13 @@ import core.User;
 import data.MovieRegister;
 import data.UserRegister;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -132,17 +128,6 @@ public class MovieRatingSpringController {
     this.userReg.registerNewUser(user);
   }
 
-    /**
-   * WORKING
-   * Writes movies to localhost:8080/movieRating/movies.
-   *
-   * @return List of Movies
-   */
-  @RequestMapping(path = "userMovies")
-  public Map<Movie, Integer> getUserMovies(@RequestParam("username") final String username) {
-    return new HashMap<Movie, Integer>(userReg.getUserMovies(username));
-  }
-
   /**
    * Adds rating for movie.
    * localhost:8080/movieRating/rate/{user}&{movie}&{rating}&{action}
@@ -154,9 +139,7 @@ public class MovieRatingSpringController {
    */
   @PutMapping(path = "rate/{user}&{movie}&{rating}&{action}")
   public void updateMovieAndUser(@PathVariable("user") User user,
-      @PathVariable("movie") Movie movie,
-      @PathVariable("rating") final Integer rating,
-      @PathVariable("action") final String action) {
+      @PathVariable("movie") Movie movie) {
     this.userReg.updateMovieAndUser(user, movie);
   } 
 }
