@@ -32,11 +32,11 @@
 5. We see that the Handler and Register classes of Movie and User have much of the same setup. For the next release, we will therefore look at the possibility of implementing inheritance on these classes.
 
 **Screenshot to illustrate the app:**
+![Illustration of the app](./images/MovieRatingApp_illustration.jpg)
 
-![Illustration of Application] **MISSING**
 
 
-## Implicit file storage
+## Implicit file storage and json format
 
 We have adopted implicit file storage in this project. For example, the user presses "Create new user", and then this user is saved to a file, without it saying "save" on the button. Another example is if a user wants to add a movie to the list of all movies. This movie is saved to a file, but the user is not notified that it is being saved. The button just says "Add movie to register". Our last example of implicit storage is where the user can add a rating to a movie. If the user clicks on the "Rate" button, the new average rating of that movie is saved to a file, without the user being notified of this.
 
@@ -78,10 +78,12 @@ User: \
 
 ## Work habits and code quality
 
-- We sit down together and go through work tasks and create issues for what we are going to do. When we work on the various tasks, we do this in separate branches with the name and number of the issue the task is associated with.
+We sit together and go through work tasks and create issues for what we are going to do. When we work on the various tasks, we do this in separate branches with the name and number of the issue the task is associated with. We use milestones linked to each assignment, i.e. assignment 1, assignment 2 etc.
 
-- We use milestones linked to each assignment, i.e. assignment 1, assignment 2 etc.
+When commiting a change we use a spesific set up for the commit message:
+ 1. line - Header with short description of the commit
+ 2. line - A more spesific description of the changes
+ 3. line - "This fixes #issueNumber
+ 4. co-authored-by (if necessary)
 
-- We sit together and work in longer working sessions. In that way, we can help each other and we get a lot done and familiarize ourselves properly with the project and work tasks. We then either sit and code in pairs, preferably two by two, but use everyone in the group if questions or problems arise. Where it is not as appropriate to work in pairs, we work independently, but ensure code quality by always making merge requests and one or more others in the group go through them.
-
-- We also comment on the codes along the way so that it is easier to get used to them
+We sit together and work in longer working sessions. In that way, we can help each other and we get a lot done and familiarize ourselves properly with the project and work tasks. We then either sit and code in pairs, preferably two by two, but use everyone in the group if questions or problems arises. Where it is not as convinient to work in pairs, we work induvidually, but we ensure code quality by always making merge requests and one other in the group must go through them. We have also added CItests on gitlab for Jacoco, Spotbugs and Checkstyle. The merge request i blocked when these pipelines  passes, or if there are test or build failures. We comment on the our code consecutively which makes it easier to understand each other codes. Before each submission, we have gone through each individual line of code together and clarified its purpose. This secure the quality of the code, and ensures that everyone in the group agrees on the code that is written.

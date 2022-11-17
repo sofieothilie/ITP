@@ -10,13 +10,14 @@
     - images 
         - [Class image](./images/class.png)
         - [Component image](./images/component.png)
-        - [ScreenApp image](./images/screenApp.png) **MISSING**
-        - [User story image](./images/user_story.png) **MÅ ENDRES**
+        - [ScreenApp image](./images/MovieRatingApp_illustration.jpg)
+ 
 
 - [App Description](./app_description.md)
     - This file includes the following:
         - a description of the functionlity of the app
-        - a illustation of the app and aboout implicit file storage
+        - a illustation of the app
+        - implicit file storage and json format
         - a small reflection about our work habits and code quality 
         - different diagrams 
 
@@ -26,7 +27,10 @@
 
 - [User stories](./user_stories.md)
     - 3 user stories about the app's functionality 
-    - one illustrated image of a more specific user story 
+
+-[REST-api documentation](./rest_doc.md)
+    - Description of the REST-api
+
     
 
 
