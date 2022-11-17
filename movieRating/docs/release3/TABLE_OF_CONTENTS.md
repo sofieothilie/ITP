@@ -28,9 +28,6 @@
 - [User stories](./user_stories.md)
     - 3 user stories about the app's functionality 
 
--[REST-api documentation](./rest_doc.md)
-    - Description of the REST-api
-
     
 
 
