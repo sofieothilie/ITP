@@ -18,4 +18,4 @@ To build the project, run `mvn clean install` in the project folder (**movieRati
 In gitpod: The application **does not** open automatically. After running mvn `javafx:run` in ui, you have to go into "Remote Explorer" and press open browser for port 6080
 
 ## All documents
-- [Table of contents](./movieRating/docs/release3/) includes a list of all doucment files and a small descripition of what each file includes. 
+- [Table of contents](./movieRating/docs/release3/TABLE_OF_CONTENTS.md) includes a list of all doucment files and a small descripition of what each file includes. 
