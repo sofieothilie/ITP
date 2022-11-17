@@ -3,6 +3,8 @@
 // import static org.junit.jupiter.api.Assertions.assertEquals;
 // import static org.junit.jupiter.api.Assertions.assertFalse;
 // import static org.junit.jupiter.api.Assertions.assertTrue;
+
+// import org.apache.tomcat.jni.User;
 // import org.junit.jupiter.api.AfterEach;
 // import org.junit.jupiter.api.BeforeEach;
 // import org.junit.jupiter.api.DisplayName;
@@ -10,6 +12,7 @@
 
 // import data.MovieHandler;
 // import data.UserHandler;
+
 // import java.io.IOException;
 // import java.nio.file.Files;
 
@@ -19,70 +22,100 @@
 // import javafx.scene.control.Button;
 // import javafx.scene.control.ChoiceBox;
 // import javafx.scene.control.Label;
+// import javafx.scene.control.PasswordField;
 // import javafx.scene.control.TextArea;
 // import javafx.scene.control.TextField;
 // import javafx.scene.layout.Pane;
 // import javafx.stage.Stage;
+// import restapi.MovieRatingSpringController;
 
 // import org.testfx.api.FxRobot;
 // import org.testfx.framework.junit5.ApplicationTest;
+// import org.testfx.matcher.control.LabeledMatchers;
+
+// import core.Movie;
 
 // public class MovieRatingControllerTest extends ApplicationTest {
 
 //   private FxRobot robot = new FxRobot();
-
-//   private final String userFilename = "userTest";
-//   private final String movieFilename = "movieTest";
-
-  
-//   private TextField username, password, movieName;
-//   private Button logIn, logOut, createUser, createUserDone, backToLogIn, addMovieRegister, rateButton;
+//   public MovieRatingSpringController springController = new MovieRatingSpringController();
+//   private Pane ratePane;
+//   private Pane searchPane;
+//   private Pane ratedMoviesPane;
+//   private PasswordField password;
+//   private TextField username;
+//   private TextField movieName;
+//   private Button logIn;
+//   private Button createUser;
+//   private Button logOut;
+//   private Button rateButton;
+//   private Button createUserDone;
+//   private Button backToLogIn;
+//   private Button searchMovie;
+//   private Button resetButton;
+//   private Button addRatingButton;
+//   private Button cancelRatingButton;
+//   private Button deleteRatingButton;
 //   private ChoiceBox<String> genreBox;
 //   private ChoiceBox<Integer> rateBox;
 //   private TextArea ratedMovie;
-//   private Label loggedIn, loggedOut, rateLabel, movieLabel, ratingscaleLabel;
-//   private Pane ratePane, searchPane, ratedMoviesPane;
-
+//   private Label loggedIn;
+//   private Label loggedOut;
+//   private Label usernameLabel;
+//   private Label passwordLabel;
+//   private Label movieLabel;
+//   private Label createNewUserText;
+//   private Label newUserLabel;
+//   private Label infoUserLabel;
 
 //   @BeforeEach
 //   public void intitFields() {
-//     username = lookup("#username").query();
-//     password = lookup("#password").query();
-//     movieName = lookup("#movieName").query();
-//     logIn = lookup("#logIn").query();
-//     addMovieRegister = lookup("#addMovieRegister").query();
-//     createUser = lookup("#createUser").query();
-//     //searchMovie = lookup("#searchMovie").query();
-//     //addMovieToRegister = lookup("#addMovieToRegister").query();
-//     logOut = lookup("#logOut").query();
-//     rateButton = lookup("#rateButton").query();
-//     genreBox = lookup("#genreBox").query();
-//     rateBox = lookup("#rateBox").query();
-//     //movieRegisterList = lookup("#movieRegisterList").query();
-//     ratedMovie = lookup("#ratedMovie").query();
-//     loggedIn = lookup("#loggedIn").query();
-//     loggedOut = lookup("#loggedOut").query();
-//     rateLabel = lookup("#rateLabel").query();
-//     movieLabel = lookup("#movieLabel").query();
-//     ratingscaleLabel = lookup("#ratingscaleLabel").query();
-//     createUserDone = lookup("#createUserDone").query();
-//     backToLogIn = lookup("#backToLogIn").query();
 //     ratePane = lookup("#ratePane").query();
 //     searchPane = lookup("#searchPane").query();
 //     ratedMoviesPane = lookup("#ratedMoviesPane").query();
+//     password = lookup("#password").query();
+//     username = lookup("#username").query();
+//     movieName = lookup("#movieName").query();
+//     logIn = lookup("#logIn").query();
+//     createUser = lookup("#createUser").query();
+//     logOut = lookup("#logOut").query();
+//     rateButton = lookup("#rateButton").query();
+//     createUserDone = lookup("#createUserDone").query();
+//     backToLogIn = lookup("#backToLogIn").query();
+//     searchMovie = lookup("#searchMovie").query();
+//     resetButton = lookup("#resetButton").query();
+//     addRatingButton = lookup("#addRatingButton").query();
+//     cancelRatingButton = lookup("#cancelRatingButton").query();
+//     deleteRatingButton = lookup("#deleteRatingButton").query();
+//     ratedMovie = lookup("#ratedMovie").query();
+//     genreBox = lookup("#genreBox").query();
+//     rateBox = lookup("#rateBox").query();
+//     loggedIn = lookup("#loggedIn").query();
+//     loggedOut = lookup("#loggedOut").query();
+//     usernameLabel = lookup("#usernameLabel").query();
+//     passwordLabel = lookup("#usernameLabel").query();
+//     movieLabel = lookup("#movieLabel").query();
+//     createNewUserText = lookup("#createNewUserText").query();
+//     newUserLabel = lookup("#newUserLabel").query();
+//     infoUserLabel = lookup("#infoUserLabel").query();
 //   }
 
 //   @BeforeEach
 //   public void initeUserAndMovie() {
-//     // MovieRegister movieRegister = new MovieRegister();
-//     // List <Movie> movieList = movieRegister.searchMovieTitle(movieName.getText());
-//     //UserRegister userRegister = new UserRegister();
-//     //User user1 = new User("Pauline", "1234567");
-//     // Movie movie1 = new Movie("The Notebook", "romance");
-//     // movieRegister.addMovie(movie1);
-//     // movieList.add(movie1);
-//     // movie1.addRating(5);
-//     // user1.rateMovie(movie1, 5);
+//     MovieRatingSpringController springController = new MovieRatingSpringController("movieTest", "userTest");
+//     Movie m1 = new Movie("Madagaskar", "action");
+//     Movie m2 = new Movie("The Notebook", "romance");
+//     Movie m3 = new Movie("Harry Potter", "fantasy");
+//     springController.addMovie(m1);
+//     springController.addMovie(m2);
+//     springController.addMovie(m3);
+//     User per = new User("perolav", "12345678");
+//     User laila = new User("laila", "12345678");
+//     springController.registerNewUser(per);
+//     springController.registerNewUser(laila);
+//     per.ra
+//     springController.updateMovieAndUser(per, m2);
+//     springController.updateMovieAndUser(new User("perolav", "Madagaskar", "action", 3, "add");
 //   }
 
 //   @Override
@@ -96,152 +129,291 @@
 //   }
 
 //   /** 
-//   *closes an alert window
+//   *closes an alert window.
 //   */
-//   private void closeAlert(){
+//   private void closeAlert() {
 //     robot.clickOn("OK");
 //   }
+
+//   private void cancelAlert() {
+//     robot.clickOn("Cancel");
+//   }
  
+//   ///* 
 //   @Test
 //   @DisplayName("Test to create new user") 
 //   public void testCreateNewUser() {
 //     robot.clickOn(createUser);
-//     robot.clickOn(username).write("Pauline");
-//     robot.clickOn(password).write("1234567");
+//     assertFalse(searchPane.isVisible());
+//     assertFalse(newUserLabel.isVisible());
+//     assertTrue(createUserDone.isVisible());
+//     assertTrue(backToLogIn.isVisible());
+//     assertTrue(createNewUserText.isVisible());
 //     robot.clickOn(createUserDone);
-//     sleep(500);
-//     //da skal dette skje
-//     assertFalse(logIn.isVisible());
-//     assertTrue(loggedIn.isVisible());
-//     assertTrue(addMovieRegister.isVisible());
-//     assertTrue(logOut.isVisible());
-
-//   }
-
-//   private void createUser() {
-//     robot.clickOn(createUser);
-//     robot.clickOn(this.username).write("Pauline");
-//     robot.clickOn(this.password).write("1234567");
-//     robot.clickOn(createUserDone);
-//     sleep(500);
-//   }
-  
-//   @Test
-//   @DisplayName("Test to create user with unvalid input")
-//   public void testFailCreateUser(){
-//     robot.clickOn(createUser);
-//     robot.clickOn(username).write("");
-//     robot.clickOn(password).write("1234567");
-//     robot.clickOn(createUserDone);
-//     sleep(500);
-//     this.closeAlert();
-//   }
-
-//   @Test
-//   @DisplayName("Test log out")
-//   public void testLogOut() {
-//     createUser();
-//     sleep(700);
-//     robot.clickOn(logOut);
-//     assertTrue(loggedOut.isVisible());
-//     assertFalse(logOut.isVisible());
-//     assertTrue(logIn.isVisible());
-//     assertFalse(addMovieRegister.isVisible());
-//     //assertFalse(rateLabel.isVisible());
-//     assertFalse(ratedMoviesPane.isVisible());
-//     assertFalse(ratePane.isVisible());
-//   }
-
-//   @Test 
-//   @DisplayName("Test to log in after creating an user")
-//   public void logInFirstTime(){
-//     createUser();
-//     sleep(700);
-//     robot.clickOn(logOut);
-//     sleep(700);
-//     robot.clickOn(username).write("Pauline");
-//     robot.clickOn(password).write("1234567");
-//     robot.clickOn(logIn);
-//     sleep(700);
-//     assertTrue(loggedIn.isVisible());
-//   }
-
-//   @Test
-//   @DisplayName("Test to try to create user with existing username")
-//   public void testCreateUserAlreadyExists() {
-//     createUser();
-//     robot.clickOn(logOut);
-//     sleep(500);
-//     robot.clickOn(createUser);
-//     robot.clickOn(username).write("Pauline");
-//     robot.clickOn(password).write("1234567");
-//     robot.clickOn(createUserDone);
-//     sleep(500);
-//     this.closeAlert();
-//   }
-  
-//   @Test
-//   @DisplayName("Test to add a movie to the register")
-//   public void addMovie(){
-//     createUser();
-//     sleep(500);
-//     robot.clickOn(movieName).write("Titanic");
-//     robot.clickOn(genreBox).clickOn("romance");
-//     sleep(500);
-//     robot.clickOn(addMovieRegister);
-//     sleep(400);
-//     movieName.clear();
-//     robot.clickOn(movieName).write("Titanic");
-//     robot.clickOn(genreBox).clickOn("romance");
-//     sleep(500);
-//     robot.clickOn(addMovieRegister);
 //     //this.closeAlert();
-//     //hiehei
+
+//     robot.clickOn(password).write("1234567");
+//     robot.clickOn(createUserDone);
+//     this.closeAlert();
+//     username.clear();
+//     password.clear();
+
+//     robot.clickOn(createUser);
+//     robot.clickOn(username).write("hello");
+//     robot.clickOn(createUserDone);
+//     this.closeAlert();
+//     username.clear();
+//     password.clear();
+
+//     robot.clickOn(username).write("perolav");
+//     robot.clickOn(password).write("12345678");
+//     robot.clickOn(createUserDone);
+//     this.closeAlert();
+//     username.clear();
+//     password.clear();
+
+//     robot.clickOn(createUser);
+//     robot.clickOn(username).write("NTNUTEST");
+//     robot.clickOn(password).write("12345678");
+//     robot.clickOn(createUserDone);
+//     assertTrue(loggedIn.isVisible());
+//     assertTrue(logOut.isVisible());
+//     assertTrue(ratedMoviesPane.isVisible());
+//     assertFalse(createUserDone.isVisible());
+//     assertFalse(backToLogIn.isVisible());
+//     assertFalse(createNewUserText.isVisible());
+//     assertFalse(username.isVisible());
+//     assertFalse(usernameLabel.isVisible());
+//     assertFalse(password.isVisible());
+//     assertFalse(passwordLabel.isVisible());
+//     assertFalse(infoUserLabel.isVisible());
+//     assertFalse(loggedOut.isVisible());
 //   }
+//   //*/
 
-//   // @Test
-//   // @DisplayName("Sucessful search for a movie")
-//   // public void searchMovie() {
-//   //     robot.clickOn(movieName).write("The Notebook");
-//   //     robot.clickOn(searchMovie);
-//   //     assertEquals("The Notebook", ratedMovie.getText());
-//   // }
-
-//   // @Test
-//   // @DisplayName("Unsucessful search for a movie")
-//   // public void searchMovieNotFound() {
-//   //     clickOn(movieName).write("The Notebook");
-//   //     clickOn(searchMovie);
-//   //     //assertEquals("No movies with the title" + movieName.getText(), controller.errorActivation().getText());
-//   // }
-
+//   /** 
+//   * automatically log in
+//   */
+//   private void logInStandard() {
+//     robot.clickOn(this.username).write("perolav");
+//     robot.clickOn(this.password).write("12345678");
+//     robot.clickOn(logIn);
+//   }
 
 //   ///* 
-//   @Test
-//   @DisplayName("Test to add a movie to the register with rating")
-//   public void addMovieToRegister() {
-//     createUser();
-//     robot.clickOn(movieName).write("The Notebook");
-//     robot.clickOn(genreBox).clickOn("romance");
-//     robot.clickOn(addMovieRegister);
-//     robot.clickOn(rateBox).clickOn("5");
-//     robot.clickOn(rateButton);
+//   @Test 
+//   @DisplayName("Test to log in")
+//   public void logIn() {
+//     robot.clickOn(this.username).write("elizabeth");
+//     robot.clickOn(this.password).write("12345678");
+//     robot.clickOn(logIn);
 //     this.closeAlert();
-    
-//     assertEquals("", movieName.getText());;
-//     assertEquals("", movieLabel.getText());
-//     assertEquals(null, ratedMovie.getText());
-//     assertEquals(null, genreBox.getValue());
-//     assertEquals(null, rateBox.getValue());
+//     username.clear();
+//     password.clear();
+
+//     robot.clickOn(this.password).write("12345678");
+//     robot.clickOn(logIn);
+//     this.closeAlert();
+
+//     robot.clickOn(this.username).write("fanny");
+//     robot.clickOn(logIn);
+//     this.closeAlert();
+//     username.clear();
+//     password.clear();
+
+//     robot.clickOn(createUser);
+//     assertFalse(searchPane.isVisible());
+//     assertTrue(createUserDone.isVisible());
+//     assertTrue(backToLogIn.isVisible());
+//     assertTrue(createNewUserText.isVisible());
+//     robot.clickOn(backToLogIn);
+//     assertFalse(createUserDone.isVisible());
+//     assertFalse(backToLogIn.isVisible());
+//     assertFalse(createNewUserText.isVisible());
+//     assertTrue(searchPane.isVisible());
+
+//     robot.clickOn(this.username).write("perolav");
+//     robot.clickOn(this.password).write("12345678");
+//     robot.clickOn(logIn);
+//     assertFalse(logIn.isVisible());
+//     assertFalse(createUser.isVisible());
+//     assertFalse(username.isVisible());
+//     assertFalse(usernameLabel.isVisible());
+//     assertFalse(password.isVisible());
+//     assertFalse(passwordLabel.isVisible());
+//     assertFalse(infoUserLabel.isVisible());
+//     assertFalse(newUserLabel.isVisible());
+//     assertTrue(loggedIn.isVisible());
+//     assertTrue(logOut.isVisible());
+//     assertTrue(ratedMoviesPane.isVisible());
+
 //   }
 //   //*/
 
 //   ///* 
+//   @Test
+//   @DisplayName("Test log out")
+//   public void testLogOut() {
+//     logInStandard();
+//     sleep(700);
+//     robot.clickOn(logOut);
+//     assertTrue(loggedOut.isVisible());
+//     assertFalse(logOut.isVisible());
+//     assertFalse(ratedMoviesPane.isVisible());
+//     assertFalse(ratePane.isVisible());
+//     assertTrue(logIn.isVisible());
+//     assertTrue(createUser.isVisible()); 
+//     assertTrue(username.isVisible());
+//     assertTrue(usernameLabel.isVisible());
+//     assertTrue(password.isVisible());
+//     assertTrue(passwordLabel.isVisible());
+//   }
+//   //*/
+
+//   ///* 
+//   @Test
+//   public void testcreateUserandLogIn() {
+//     robot.clickOn(createUser);
+//     robot.clickOn(this.username).write("Solveig1");
+//     robot.clickOn(this.password).write("12345678");
+//     robot.clickOn(createUserDone);
+//     sleep(700);
+//     robot.clickOn(logOut);
+//     sleep(700);
+//     robot.clickOn(username).write("Solveig1");
+//     robot.clickOn(password).write("12345678");
+//     robot.clickOn(logIn);
+//     sleep(700);
+//     assertTrue(loggedIn.isVisible());
+//     assertTrue(ratedMoviesPane.isVisible());
+//   }
+//   //*/
+
+//   ///* 
+//   @Test
+//   @DisplayName("Test to search up movies in register")
+//   public void testsearchMovie() {
+//     robot.clickOn(searchMovie);
+//     this.closeAlert();
+
+//     robot.clickOn(genreBox).clickOn("horror");
+//     robot.clickOn(searchMovie);
+//     this.closeAlert();
+//     robot.clickOn(movieName).write("Impressive");
+//     robot.clickOn(searchMovie);
+//     this.closeAlert();
+
+//     robot.clickOn(movieName).write("Zavannah");
+//     robot.clickOn(genreBox).clickOn("horror");
+//     robot.clickOn(resetButton);
+//     assertEquals("", movieLabel.getText());
+//     assertEquals(null, genreBox.getValue());
+
+//     robot.clickOn(genreBox).clickOn("fantasy");
+//     robot.clickOn(searchMovie);
+//     clickOn(LabeledMatchers.hasText("Harry Potter; fantasy; 0.0"));
+    
+//     this.closeAlert();
+
+//     logInStandard();
+//     clickOn(LabeledMatchers.hasText("Harry Potter; fantasy; 0.0"));
+//     assertTrue(ratePane.isVisible());
+//     assertEquals(": Harry Potter", movieLabel.getText());
+//     assertEquals("Harry Potter; fantasy; 0.0", ratedMovie.getText());
+//   }
+//   //*/
+  
+//   ///* 
+//   @Test
+//   @DisplayName("Test to add a rating")
+//   public void testAddRating() {
+//     logInStandard();
+
+//     robot.clickOn(genreBox).clickOn("action");
+//     robot.clickOn(searchMovie);
+//     clickOn(LabeledMatchers.hasText("Madagaskar; action; 3,00"));
+//     this.closeAlert();
+//     clickOn(resetButton);
+
+//     robot.clickOn(movieName).write("Harry Potter");
+//     robot.clickOn(searchMovie);
+//     clickOn(LabeledMatchers.hasText("Harry Potter; fantasy; 0.0"));
+//     clickOn(cancelRatingButton);
+
+//     robot.clickOn(genreBox).clickOn("romance");
+//     robot.clickOn(searchMovie);
+//     clickOn(LabeledMatchers.hasText("The Notebook; romance; 1,00"));
+//     assertTrue(ratePane.isVisible());
+//     assertEquals(": The Notebook", movieLabel.getText());
+//     assertEquals("The Notebook; romance; 1,00", ratedMovie.getText());
+//     robot.clickOn(rateBox).clickOn("4");
+//     robot.clickOn(rateButton);
+//     this.closeAlert();
+//     assertFalse(ratePane.isVisible());
+    
+//     robot.clickOn(movieName).write("Avengers");
+//     robot.clickOn(genreBox).clickOn("action");
+//     robot.clickOn(searchMovie);
+//     sleep(400);
+//     this.closeAlert();
+//     robot.clickOn(addRatingButton);
+//     this.closeAlert();
+//     assertTrue(ratePane.isVisible());
+//     robot.clickOn(rateButton);
+//     this.closeAlert();
+//     robot.clickOn(rateBox).clickOn("1");
+//     robot.clickOn(rateButton);
+//     this.closeAlert();
+//     assertFalse(ratePane.isVisible());
+//     robot.clickOn(movieName).write("History");
+//     robot.clickOn(genreBox).clickOn("drama");
+//     robot.clickOn(searchMovie);
+//     this.closeAlert();
+//     robot.clickOn(addRatingButton);
+//     this.closeAlert();
+//     assertTrue(ratePane.isVisible());
+//     robot.clickOn(cancelRatingButton);
+//     assertFalse(ratePane.isVisible());
+//     assertEquals("", movieLabel.getText());
+//     assertEquals(null, genreBox.getValue());
+//     robot.clickOn(genreBox).clickOn("action");
+//     robot.clickOn(searchMovie);
+//     clickOn(LabeledMatchers.hasText("Avengers; action; 1,00"));
+//     this.closeAlert();
+//   }
+//   //*/
+
+//   ///* 
+//   @Test
+//   @DisplayName("Test to delete a rating")
+//   public void testDeleteRating() {
+//     logInStandard();
+//     sleep(400);
+//     robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3"));
+//     robot.clickOn(deleteRatingButton); 
+//     this.cancelAlert(); 
+//     robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3"));
+//     robot.clickOn(deleteRatingButton);  
+//     this.closeAlert(); 
+//     //sjekke at listview da blir blir empty
+//     robot.clickOn(genreBox).clickOn("action");
+//     robot.clickOn(searchMovie);
+//     sleep(400);
+//     robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 0.0"));
+//     assertTrue(ratePane.isVisible());
+//     robot.clickOn(rateBox).clickOn("4");
+//     robot.clickOn(rateButton);
+//     this.closeAlert();
+//     assertFalse(ratePane.isVisible());
+//     //få opp denne ratingen på listviewen
+//   }
+//   //*/
+  
 //   @AfterEach
 //   @DisplayName("After each test reset files")
 //   public void resetData() {
-//     UserHandler userHandler = new UserHandler(userFilename);
-//     MovieHandler movieHandler = new MovieHandler(movieFilename);
+//     UserHandler userHandler = new UserHandler("userTest");
+//     MovieHandler movieHandler = new MovieHandler("movieTest");
 //     try {
 //       if(userHandler.fileExists()){
 //         Files.delete(userHandler.getFile().toPath());
@@ -252,6 +424,5 @@
 //     } catch (IOException e) {
 //       throw new IllegalArgumentException();
 //     }
-//   }
-//   //*/
+//   } 
 // }

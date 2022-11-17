@@ -43,13 +43,21 @@ public class User {
    * @throws IllegalArgumentException if username or password doesn't match regex
    */
   public User(String username, String password) { // constructor that creates User object
-    if (username.matches("[a-zA-Z0-9]+") && password.matches("[a-zA-Z0-9]+")) {
+    if (username.matches("[a-zA-Z0-9]{4,}") && password.matches("[a-zA-Z0-9]{8,}")) {
       this.username = username;
       this.password = password;
       ratedMovies = new HashMap<>();
-    } else if (username.isEmpty() || password.isEmpty()) {
+    } else if (username.isEmpty() && password.isEmpty()) {
       throw new IllegalArgumentException("Username and password can not be empty");
-    } else {
+    } else if (username.isEmpty()) {
+      throw new IllegalArgumentException("Username can not be empty");
+    } else if (password.isEmpty()) {
+      throw new IllegalArgumentException("Password can not be empty");
+    } else if (! username.matches("[a-zA-Z0-9]{4,}")) {
+      throw new IllegalArgumentException("Username must contain at least 4 characters");
+    } else if (! password.matches("[a-zA-Z0-9]{8,}")) {
+      throw new IllegalArgumentException("Password must contain at least 8 characters");
+    } else { 
       throw new IllegalArgumentException(
         "Username and password can only contain numbers and letters");
     }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
+/** 
  * class that writes and reads Movie objects to/from file.
  */
 public class MovieHandler {
