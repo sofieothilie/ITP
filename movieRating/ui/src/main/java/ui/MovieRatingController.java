@@ -2,6 +2,9 @@ package ui;
 
 import core.Movie;
 import core.User;
+
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +23,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import restapi.MovieRatingSpringController;
 
 
 /**
@@ -29,13 +31,11 @@ import restapi.MovieRatingSpringController;
 public class MovieRatingController {
   //Fields
   private Movie movie;
-  private final String movieFilename;
   private User user;
-  private final String userFilename;
-  private MovieRatingSpringController springController;
   private static List<String> genresList = Arrays.asList("action", "comedy",
       "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
   private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);
+  private RemoteMovieRatingAccess remoteAccess;
 
   //FXML fields
   @FXML private Pane ratePane;
@@ -75,18 +75,14 @@ public class MovieRatingController {
    * Constructor.
    */
   public MovieRatingController() {
-    this.userFilename = "userRegistry";
-    this.movieFilename = "movieRegistry";
-    this.springController = new MovieRatingSpringController(this.movieFilename, this.userFilename);
+    this.remoteAccess = new RemoteMovieRatingAccess(URI.create("http://localhost:8080/api/v1/movieRating/"));
   }
   
   /**
    * Constructor for ui test.
    */
-  public MovieRatingController(String userFilename, String movieFilename) {
-    this.userFilename = userFilename;
-    this.movieFilename = movieFilename;
-    this.springController = new MovieRatingSpringController(this.movieFilename, this.userFilename);
+  public MovieRatingController(URI uri) {
+    this.remoteAccess = new RemoteMovieRatingAccess(uri);
   }
 
 
@@ -230,8 +226,8 @@ public class MovieRatingController {
   @FXML
   public void handleLogIn() {
     try {
-      this.springController.existingUser(username.getText(), password.getText());  
-      this.user = this.springController.getUser(username.getText());
+      this.remoteAccess.existingUser(username.getText(), password.getText());  
+      this.user = this.remoteAccess.getUser(username.getText());
       setLoginPossibility(false);
       loggedIn(true);  
       moviesRated();
@@ -266,7 +262,7 @@ public class MovieRatingController {
   @FXML
   private void handleCreateUserDone() {
     try {
-      this.springController.registerNewUser(new User(username.getText(), password.getText()));
+      this.remoteAccess.registerNewUser(new User(username.getText(), password.getText()));
       this.user = new User(username.getText(), password.getText());
       loggedIn(true);
       createNewUserText.setVisible(false);
@@ -312,9 +308,9 @@ public class MovieRatingController {
       try { 
         List<Movie> moviesFoundList = new ArrayList<Movie>();
         if (genreBox.getSelectionModel().isEmpty()) {
-          //moviesFoundList = springController.searchMovieTitle(movieName.getText());
+          moviesFoundList = remoteAccess.searchMovieTitle(movieName.getText());
         } else {
-          //moviesFoundList = springController.searchGenre((String) genreBox.getValue());
+          moviesFoundList = remoteAccess.searchGenre((String) genreBox.getValue());
         }
         for (Movie movie : moviesFoundList) {
           moviesFound.getItems().add(movie);
@@ -328,7 +324,7 @@ public class MovieRatingController {
 
     if (!(this.genreBox.getSelectionModel().isEmpty() || movieName.getText().isEmpty())) {
       try {
-        Movie foundMovie = springController.getMovie(movieName.getText(), 
+        Movie foundMovie = remoteAccess.getMovie(movieName.getText(), 
               (String) genreBox.getValue());
         moviesFound.getItems().add(foundMovie);
       } catch (IllegalArgumentException e) {
@@ -381,7 +377,7 @@ public class MovieRatingController {
     }
     title += movieStr[length - 3].substring(0, movieStr[length - 3].length() - 1);
     String genre = movieStr[length - 2].substring(0, movieStr[length - 2].length() - 1);
-    return springController.getMovie(title, genre);
+    return this.remoteAccess.getMovie(title, genre);
   }
 
   /*
@@ -400,7 +396,7 @@ public class MovieRatingController {
    */
   @FXML
   private void handleAddRating() {
-    springController.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
+    this.remoteAccess.addMovie(new Movie(movieName.getText(), genreBox.getValue()));
     this.movie = new Movie(movieName.getText(), genreBox.getValue());
     movieLabel.setText(": " + this.movie.getTitle());
     informationActivation(this.movie.getTitle() + " was added to the register.");
@@ -415,7 +411,7 @@ public class MovieRatingController {
     //legge til oppdatering
     try {
       this.user.rateMovie(movie, rateBox.getValue());
-      this.springController.updateMovieAndUser(user, movie);
+      this.remoteAccess.updateMovieAndUser(user, movie);
       informationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
       moviesRated();
       //rateBox.setValue(null);
@@ -439,14 +435,17 @@ public class MovieRatingController {
 
   /**
    * Deletes a rating when a movie from rated movies is clicked.
+   * @throws InterruptedException
+   * @throws IOException
+   * @throws IllegalArgumentException
    */
   @FXML
-  private void handleDeleteRating() {
+  private void handleDeleteRating() throws IllegalArgumentException, IOException, InterruptedException {
     String deleteMovie = (String) moviesRated.getSelectionModel().getSelectedItem();
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
     if (confirmationActivation(movie)) {
       this.user.deleteMovie(movie);
-      springController.updateMovieAndUser(user, movie);
+      this.remoteAccess.updateMovieAndUser(user, movie);
       moviesRated.getItems().remove(deleteMovie);
       deleteRatingButton.setDisable(true);
     }
