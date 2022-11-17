@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <groupId>gr2240</groupId>
     <artifactId>movieRating-ui</artifactId>
 
     <parent>
@@ -18,29 +19,16 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>gr2240</groupId>
-            <artifactId>movieRating-data</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>gr2240</groupId>
-            <artifactId>movieRating-restapi</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        
-
         <!-- javafx -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>18</version>
+            <version>18.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>18</version>
+            <version>18.0.1</version>
         </dependency>
 
         <!-- junit testing with jupiter -->
@@ -139,8 +127,54 @@
                 <configuration>
                     <!-- syntax: module-name/full-app-class-name -->
                     <mainClass>movieRating.ui/ui.MovieRatingApp</mainClass>
+                    <!-- rest of options are for jlink -->
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <stripDebug>true</stripDebug>
+                    <noManPages>true</noManPages>
+                    <launcher>movieratingfx</launcher>
+                    <jlinkImageName>movieratingfx</jlinkImageName>
+                    <jlinkZipName>movieratingfx</jlinkZipName>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jlink-plugin</artifactId>
+                <version>3.0.0-alpha-1</version>
+                <extensions>true</extensions>
+                <dependencies>
+                    <dependency>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm</artifactId>
+                    <version>7.3.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <name>MovieRating</name>
+                    <appVersion>1.0.0</appVersion>
+                    <vendor>gr2240</vendor>
+                    <destination>target/dist</destination>
+                    <module>movieRating.ui/ui.MovieRatingApp</module>
+                    <runtimeImage>target/movieratingfx</runtimeImage>
+                    <javaOptions>
+                        <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+                    <!-- For running on Windows-->
+                    <winDirChooser>true</winDirChooser>
+                    <winShortcut>true</winShortcut>
+                    <winMenu>true</winMenu>
+                    <winMenuGroup>movieratingfx</winMenuGroup>
+                    <!-- For running on Linux-->
+                    <linuxShortcut>true</linuxShortcut>
+                    <linuxMenuGroup>movieratingfx</linuxMenuGroup>
+                </configuration>
+            </plugin>
+            
 
             <!-- Run the checkstyle code quality tool -->
             <plugin>
@@ -159,7 +193,9 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <configuration>
-                    <propertyName>jaCoCoArgLine</propertyName>
+                    <propertyName>
+                    jaCoCoArgLine
+                    </propertyName>
                 </configuration>
             </plugin>
 
