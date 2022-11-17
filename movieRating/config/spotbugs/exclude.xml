@@ -3,6 +3,7 @@
     <Match>
   
              <Bug pattern="RV_RETURN_VALUE_IGNORED"/>
+             <Bug pattern="2SBSC_USE_STRINGBUFFER_CONCATENATION"/>
 
   
     </Match>

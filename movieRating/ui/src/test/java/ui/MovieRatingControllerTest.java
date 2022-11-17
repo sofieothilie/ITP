@@ -9,9 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import data.MovieHandler;
-import data.UserHandler;
-
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -413,14 +411,14 @@ public class MovieRatingControllerTest extends ApplicationTest {
   @AfterEach
   @DisplayName("After each test reset files")
   public void resetData() {
-    UserHandler userHandler = new UserHandler("userTest");
-    MovieHandler movieHandler = new MovieHandler("movieTest");
+    File userFile = new File(System.getProperty("user.home") + "/" + "userTest");
+    File movieFile = new File(System.getProperty("user.home") + "/" + "movieTest");
     try {
-      if(userHandler.fileExists()){
-        Files.delete(userHandler.getFile().toPath());
+      if (userFile.isFile()) {
+        Files.delete(userFile.toPath());
       }
-      if (movieHandler.fileExists()) {
-        Files.delete(movieHandler.getFile().toPath());
+      if (movieFile.isFile()) {
+        Files.delete(userFile.toPath());
       }
     } catch (IOException e) {
       throw new IllegalArgumentException();

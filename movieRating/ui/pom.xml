@@ -19,19 +19,6 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>gr2240</groupId>
-            <artifactId>movieRating-data</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>gr2240</groupId>
-            <artifactId>movieRating-restapi</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        
-
         <!-- javafx -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -158,31 +145,25 @@
             <plugin>
                 <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <version>1.4.0</version>
                 <configuration>
-                    <name>MovieRatingFX</name>
+                    <name>MovieRating</name>
                     <appVersion>1.0.0</appVersion>
                     <vendor>gr2240</vendor>
                     <destination>target/dist</destination>
-                    <module>movieRating.ui/movieRating.ui.MovieRatingApp</module>
+                    <module>movieRating.ui/ui.MovieRatingApp</module>
                     <runtimeImage>target/movieratingfx</runtimeImage>
                     <javaOptions>
                         <option>-Dfile.encoding=UTF-8</option>
                     </javaOptions>
-                    <!-- linux options --> 
-                    <linuxShortcut>true</linuxShortcut>
-                    <linuxMenuGroup>movieratingfx</linuxMenuGroup>
-
-                    <!-- windows options --> 
+                    <!-- For running on Windows-->
                     <winDirChooser>true</winDirChooser>
                     <winShortcut>true</winShortcut>
                     <winMenu>true</winMenu>
                     <winMenuGroup>movieratingfx</winMenuGroup>
-
-                    <!-- mac options-->
-                    <macShortcut>true</macShortcut>
-                    <macMenuGroup>movieratingfx</macMenuGroup>
-
+                    <!-- For running on Linux-->
+                    <linuxShortcut>true</linuxShortcut>
+                    <linuxMenuGroup>movieratingfx</linuxMenuGroup>
                 </configuration>
             </plugin>
             
