@@ -4,11 +4,9 @@ import core.Movie;
 import core.User;
 import data.MovieRegister;
 import data.UserRegister;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,16 +27,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class MovieRatingSpringController {
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<String> excetionHandler(Exception exception){
+  public ResponseEntity<String> excetionHandler(Exception exception) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
-    
   }
+
   /**
    * Fields for controller class.
    *
    * @param movReg  MovieRegister
    * @param userReg UserRegister
    */
+
   private MovieRegister movReg;
   private UserRegister userReg;
 
@@ -54,7 +53,6 @@ public class MovieRatingSpringController {
 
   /**
    * Constructor for controller to initialize "test mode".
-   * 
    *
    * @param movFile  a string for filename
    * @param userFile a string for filename
@@ -142,9 +140,6 @@ public class MovieRatingSpringController {
    * http://localhost:8080/api/v1/movieRating/users/{user}
    *
    * @param user a user
-   * @throws Exception
-   * @throws IOException
-   * @throws IllegalArgumentException
    */
   @PostMapping(path = "users/add")
   public void registerNewUser(@RequestBody User user) {
@@ -152,6 +147,12 @@ public class MovieRatingSpringController {
 
   }
 
+  /**
+  * Updates both mvoie and user on server.
+  *
+  * @param user a user object
+  * @param movie a movie ojbect
+  */
   public void updateMovieAndUser(User user, Movie movie) {
     this.updateUser(user);
     this.updateMovie(movie);

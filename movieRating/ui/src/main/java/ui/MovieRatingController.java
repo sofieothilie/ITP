@@ -2,8 +2,6 @@ package ui;
 
 import core.Movie;
 import core.User;
-
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,52 +22,83 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
-
 /**
  * MovieRating controller class.
  */
 public class MovieRatingController {
-  //Fields
+  // Fields
   private Movie movie;
   private User user;
   private static List<String> genresList = Arrays.asList("action", "comedy",
-      "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
+      "drama", "fantasy", "horror", "mystery", "romance", "thriller");
   private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);
   private RemoteMovieRatingAccess remoteAccess;
 
-  //FXML fields
-  @FXML private Pane ratePane;
-  @FXML private Pane searchPane;
-  @FXML private Pane ratedMoviesPane;
-  @FXML private PasswordField password;
-  @FXML private TextField username;
-  @FXML private TextField movieName;
-  @FXML private Button logIn;
-  @FXML private Button createUser;
-  @FXML private Button logOut;
-  @FXML private Button rateButton;
-  @FXML private Button createUserDone;
-  @FXML private Button backToLogIn;
-  @FXML private Button searchMovie;
-  @FXML private Button resetButton;
-  @FXML private Button addRatingButton;
-  @FXML private Button cancelRatingButton;
-  @FXML private Button deleteRatingButton;
-  @FXML private ChoiceBox<String> genreBox;
-  @FXML private ChoiceBox<Integer> rateBox;
-  @FXML private TextArea ratedMovie;
-  @FXML private ListView<Object> moviesFound;
-  @FXML private ListView<Object> moviesRated;
-  @FXML private Label loggedIn;
-  @FXML private Label loggedOut;
-  @FXML private Label usernameLabel;
-  @FXML private Label passwordLabel;
-  @FXML private Label rateLabel;
-  @FXML private Label movieLabel;
-  @FXML private Label ratingscaleLabel;
-  @FXML private Label createNewUserText;
-  @FXML private Label newUserLabel;
-  @FXML private Label infoUserLabel;  
+  // FXML fields
+  @FXML
+  private Pane ratePane;
+  @FXML
+  private Pane searchPane;
+  @FXML
+  private Pane ratedMoviesPane;
+  @FXML
+  private PasswordField password;
+  @FXML
+  private TextField username;
+  @FXML
+  private TextField movieName;
+  @FXML
+  private Button logIn;
+  @FXML
+  private Button createUser;
+  @FXML
+  private Button logOut;
+  @FXML
+  private Button rateButton;
+  @FXML
+  private Button createUserDone;
+  @FXML
+  private Button backToLogIn;
+  @FXML
+  private Button searchMovie;
+  @FXML
+  private Button resetButton;
+  @FXML
+  private Button addRatingButton;
+  @FXML
+  private Button cancelRatingButton;
+  @FXML
+  private Button deleteRatingButton;
+  @FXML
+  private ChoiceBox<String> genreBox;
+  @FXML
+  private ChoiceBox<Integer> rateBox;
+  @FXML
+  private TextArea ratedMovie;
+  @FXML
+  private ListView<Object> moviesFound;
+  @FXML
+  private ListView<Object> moviesRated;
+  @FXML
+  private Label loggedIn;
+  @FXML
+  private Label loggedOut;
+  @FXML
+  private Label usernameLabel;
+  @FXML
+  private Label passwordLabel;
+  @FXML
+  private Label rateLabel;
+  @FXML
+  private Label movieLabel;
+  @FXML
+  private Label ratingscaleLabel;
+  @FXML
+  private Label createNewUserText;
+  @FXML
+  private Label newUserLabel;
+  @FXML
+  private Label infoUserLabel;
 
   /**
    * Constructor.
@@ -77,14 +106,13 @@ public class MovieRatingController {
   public MovieRatingController() {
     this.remoteAccess = new RemoteMovieRatingAccess(URI.create("http://localhost:8080/api/v1/movieRating/"));
   }
-  
+
   /**
    * Constructor for ui test.
    */
   public MovieRatingController(URI uri) {
     this.remoteAccess = new RemoteMovieRatingAccess(uri);
   }
-
 
   /**
    * Method that initializes the app with correct visibility.
@@ -95,12 +123,12 @@ public class MovieRatingController {
     searchPane.isVisible();
     ratePane.setVisible(false);
     setGenres();
-    setRating();  
-    checkLogIn(logIn); 
+    setRating();
+    checkLogIn(logIn);
     addRatingButton.setVisible(false);
     loggedOut.visibleProperty().set(false);
   }
-    
+
   /**
    * Method that fills choice box with genres.
    */
@@ -113,7 +141,7 @@ public class MovieRatingController {
   /**
    * Method that fills choice box with rating options 1 to 5.
    */
-  private void setRating() { 
+  private void setRating() {
     for (Integer integer : ratingList) {
       rateBox.getItems().add(integer);
     }
@@ -165,11 +193,11 @@ public class MovieRatingController {
     movieLabel.setText("");
     ratedMovie.setText(null);
     genreBox.setValue(null);
-    rateBox.setValue(null);   
+    rateBox.setValue(null);
     moviesFound.getItems().clear();
   }
 
-  //Sets the desired visibility based on rather a user is logged in or not:
+  // Sets the desired visibility based on rather a user is logged in or not:
   /**
    * Sets the desired visibility based on rather a user is logged in or not.
    *
@@ -190,16 +218,17 @@ public class MovieRatingController {
    * with the highest ratings on top.
    *
    */
-  private void moviesRated() { 
+  private void moviesRated() {
     moviesRated.getItems().clear();
     user.getRatedMovies().keySet().stream().sorted((m1, m2) -> user
         .getRatedMovies().get(m2).compareTo(user.getRatedMovies().get(m1)))
         .forEach(m1 -> moviesRated.getItems().add(m1.getTitle() + "; " + m1
-        .getGenre() + "; " + user.getRatedMovies().get(m1)));
+            .getGenre() + "; " + user.getRatedMovies().get(m1)));
   }
 
   /**
-   * Method that checks if user has typed in username and password, log in button gets enable.
+   * Method that checks if user has typed in username and password, log in button
+   * gets enable.
    *
    * @param event the event that triggers the method
    */
@@ -215,44 +244,46 @@ public class MovieRatingController {
           button.setDisable(false);
         }
       }
-    }; 
+    };
     username.textProperty().addListener(listener);
     password.textProperty().addListener(listener);
   }
 
   /**
-   * Tries to log in a user. If user excists: sets correct fields and visibility status.
+   * Tries to log in a user. If user excists: sets correct fields and visibility
+   * status.
    */
   @FXML
   public void handleLogIn() {
     try {
-      this.remoteAccess.existingUser(username.getText(), password.getText());  
+      this.remoteAccess.existingUser(username.getText(), password.getText());
       this.user = this.remoteAccess.getUser(username.getText());
       setLoginPossibility(false);
-      loggedIn(true);  
+      loggedIn(true);
       moviesRated();
     } catch (IllegalArgumentException e) {
       errorActivation(e.getMessage());
       // username.clear();
       // password.clear();
-    }          
+    }
   }
-  
+
   /**
    * Gets user to new windom where user can create a new user.
    */
   @FXML
-  public void handleCreateUser() { 
+  public void handleCreateUser() {
     checkLogIn(createUserDone);
     logIn.setVisible(false);
     createNewUserText.setVisible(true);
     newUserLabel.setVisible(false);
     createUser.setVisible(false);
-    searchPane.setVisible(false);;
+    searchPane.setVisible(false);
+    ;
     backToLogIn.setVisible(true);
     loggedOut.setVisible(false);
     createUserDone.setVisible(true);
-    //createUserDone.setDisable(true);
+    // createUserDone.setDisable(true);
     infoUserLabel.setVisible(false);
   }
 
@@ -287,9 +318,9 @@ public class MovieRatingController {
   /**
    * Logs user out. Resets desired fields and sets desired visibility.
    */
-  @FXML 
+  @FXML
   private void handleLogOut() {
-    //this.user = null; //må vi ha denne
+    // this.user = null; //må vi ha denne
     setLoginPossibility(true);
     setRateVisibility(false, null);
     loggedOut.visibleProperty().set(true);
@@ -305,7 +336,7 @@ public class MovieRatingController {
   private void handleSearchMovie() {
     moviesFound.getItems().clear();
     if (this.genreBox.getSelectionModel().isEmpty() || movieName.getText().isEmpty()) {
-      try { 
+      try {
         List<Movie> moviesFoundList = new ArrayList<Movie>();
         if (genreBox.getSelectionModel().isEmpty()) {
           moviesFoundList = remoteAccess.searchMovieTitle(movieName.getText());
@@ -314,18 +345,18 @@ public class MovieRatingController {
         }
         for (Movie movie : moviesFoundList) {
           moviesFound.getItems().add(movie);
-        }   
+        }
       } catch (Exception e) {
         errorActivation(e.getMessage());
         movieName.clear();
         genreBox.setValue(null);
-      } 
+      }
     }
 
     if (!(this.genreBox.getSelectionModel().isEmpty() || movieName.getText().isEmpty())) {
       try {
-        Movie foundMovie = remoteAccess.getMovie(movieName.getText(), 
-              (String) genreBox.getValue());
+        Movie foundMovie = remoteAccess.getMovie(movieName.getText(),
+            (String) genreBox.getValue());
         moviesFound.getItems().add(foundMovie);
       } catch (IllegalArgumentException e) {
         errorActivation(e.getMessage());
@@ -335,7 +366,6 @@ public class MovieRatingController {
       }
     }
   }
-
 
   /**
    * Displays a movie when it is selected if a user is logged in.
@@ -408,13 +438,13 @@ public class MovieRatingController {
    */
   @FXML
   private void handleRateButton() {
-    //legge til oppdatering
+    // legge til oppdatering
     try {
       this.user.rateMovie(movie, rateBox.getValue());
       this.remoteAccess.updateMovieAndUser(user, movie);
       informationActivation("You rated " + this.movie.getTitle() + ": " + rateBox.getValue());
       moviesRated();
-      //rateBox.setValue(null);
+      // rateBox.setValue(null);
       ratedMovie.setText(this.movie.toString());
       cancelRatingButton.visibleProperty().set(false);
       clearAllSearchFields();
@@ -435,12 +465,9 @@ public class MovieRatingController {
 
   /**
    * Deletes a rating when a movie from rated movies is clicked.
-   * @throws InterruptedException
-   * @throws IOException
-   * @throws IllegalArgumentException
    */
   @FXML
-  private void handleDeleteRating() throws IllegalArgumentException, IOException, InterruptedException {
+  private void handleDeleteRating() {
     String deleteMovie = (String) moviesRated.getSelectionModel().getSelectedItem();
     Movie movie = convertSelectedItemToMovieObject(moviesRated);
     if (confirmationActivation(movie)) {
@@ -464,13 +491,13 @@ public class MovieRatingController {
   private boolean confirmationActivation(Movie movie) {
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.setTitle("Delete " + movie.getTitle() + ", " + movie.getGenre());
-    alert.setContentText("Are you sure you want to delete " 
+    alert.setContentText("Are you sure you want to delete "
         + movie.getTitle() + ", " + movie.getGenre() + "?");
     Optional<ButtonType> result = alert.showAndWait();
     if (!result.isPresent() || result.get() != ButtonType.OK) {
       return false;
     }
-    return true; 
+    return true;
   }
 
   /**

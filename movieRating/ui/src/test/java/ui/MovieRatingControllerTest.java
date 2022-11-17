@@ -142,7 +142,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn("Cancel");
   }
  
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to create new user") 
   public void testCreateNewUser() {
@@ -203,7 +203,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(logIn);
   }
 
-  /* 
+  ///* 
   @Test 
   @DisplayName("Test to log in")
   public void logIn() {
@@ -253,7 +253,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   @DisplayName("Test log out")
   public void testLogOut() {
@@ -273,7 +273,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   public void testcreateUserandLogIn() {
     robot.clickOn(createUser);
@@ -324,7 +324,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
   
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to add a rating")
   public void testAddRating() {
@@ -384,7 +384,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
   }
   //*/
 
-  /* 
+  ///* 
   @Test
   @DisplayName("Test to delete a rating")
   public void testDeleteRating() {

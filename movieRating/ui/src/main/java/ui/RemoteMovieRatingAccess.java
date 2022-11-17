@@ -61,6 +61,12 @@ public class RemoteMovieRatingAccess {
     }
     return new ArrayList<Movie>(this.movieList);
   }
+  /**
+   * Initialize test mode.
+   *
+   * @param movieFilename a string
+   * @param userFilename a string
+   */
 
   public void initializeTestMode(String movieFilename, String userFilename) {
     try {
@@ -132,7 +138,12 @@ public class RemoteMovieRatingAccess {
    * @return a list of movies with genre
    */
   public List<Movie> searchGenre(String genre) {
-    return getMovieRegister().stream().filter(m -> m.getGenre().equals(genre)).toList();
+    List<Movie> moviesFound = getMovieRegister()
+        .stream().filter(m -> m.getGenre().equals(genre)).toList();
+    if (moviesFound.size() < 1) {
+      throw new IllegalArgumentException("No movies with genre " + genre);
+    }
+    return moviesFound;
   }
 
   /**
@@ -142,7 +153,12 @@ public class RemoteMovieRatingAccess {
    * @return a list of movies with a spesific title
    */
   public List<Movie> searchMovieTitle(String title) {
-    return getMovieRegister().stream().filter(m -> m.getTitle().equals(title)).toList();
+    List<Movie> moviesFound =  getMovieRegister()
+        .stream().filter(m -> m.getTitle().equals(title)).toList();
+    if (moviesFound.size() < 1) {
+      throw new IllegalArgumentException("No movies with title " + title);
+    }
+    return moviesFound;
   }
 
   /**
@@ -150,7 +166,7 @@ public class RemoteMovieRatingAccess {
    *
    * @param movie a Movie
    */
-  public void addMovie(Movie movie) throws IllegalArgumentException{
+  public void addMovie(Movie movie) {
     String getMappingPath = "movies/add";
     try {
       String json = objectMapper.writeValueAsString(movie);
@@ -207,15 +223,9 @@ public class RemoteMovieRatingAccess {
     if (usersFound.size() == 0) {
       throw new IllegalArgumentException("User not found");
     }
-    for (User user2 : usersFound) {
-      System.out.println(user2.getUsername() +  "+" + user2.getPassword());
-    }
     usersFound.stream()
         .filter(user -> user.getPassword().equals(password))
         .toList();
-    for (User user2 : usersFound) {
-      System.out.println(user2.getUsername() +  "+2" + user2.getPassword());
-    }
     if (usersFound.size() == 0) {
       throw new IllegalArgumentException("Incorrect password");
     } else if (usersFound.size() > 1) {
@@ -230,7 +240,7 @@ public class RemoteMovieRatingAccess {
    *
    * @param user a User
    */
-  public void registerNewUser(User user) throws IllegalArgumentException {
+  public void registerNewUser(User user) {
     try {
       String postString = objectMapper.writeValueAsString(user);
       HttpRequest httpRequest = HttpRequest.newBuilder(resolveUri("users/add"))
@@ -254,11 +264,8 @@ public class RemoteMovieRatingAccess {
    *
    * @param user a user
    * @param movie a movie
-   * @throws InterruptedException
-   * @throws IOException
-   * @throws IllegalArgumentException
    */
-  public void updateMovieAndUser(User user, Movie movie) throws IllegalArgumentException, IOException, InterruptedException {
+  public void updateMovieAndUser(User user, Movie movie) {
     updateUser(user);
     updateMovie(movie);
 
@@ -293,7 +300,7 @@ public class RemoteMovieRatingAccess {
    *
    * @param movie a Movie
    */
-  public void updateMovie(Movie movie) throws IllegalArgumentException, IOException, InterruptedException {
+  public void updateMovie(Movie movie) {
     try {
       String postString = objectMapper.writeValueAsString(movie);
       HttpRequest httpRequest = HttpRequest.newBuilder(resolveUri("movies/update"))
@@ -310,12 +317,22 @@ public class RemoteMovieRatingAccess {
     }
   }
 
-  private void checkStatus(HttpResponse<String> response){
-    if (response.statusCode() != 200){
+  /**
+   * Throws IllegalArgumentException if statuscode is not 200.
+   *
+   * @param response a httpresponse
+   */
+  private void checkStatus(HttpResponse<String> response) {
+    if (response.statusCode() != 200) {
       throw new IllegalArgumentException(response.body());
     }
   }
 
+  /**
+   * Converts a string with spaces to a string with %20.
+   *
+   * @param name a string
+   */
   private String nameConverter(String name) {
     if (name.contains(" ")) {
       return name.replaceAll(" ", "%20");
