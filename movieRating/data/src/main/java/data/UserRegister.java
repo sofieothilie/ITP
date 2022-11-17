@@ -4,7 +4,6 @@ import core.Movie;
 import core.User;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * class that handles a register of User objects.
@@ -98,6 +97,16 @@ public class UserRegister {
    * @throws IllegalArgumentException if user is not found
    */
   public void updateMovieAndUser(User user, Movie movie) { 
+    this.updateUser(user);
+    movieRegister.updateMovie(movie);
+  }
+
+  /**
+   * Updates a user in userregister.
+   *
+   * @param user a user
+   */
+  public void updateUser(User user) {
     this.users = getAllUsers();
     if (users.isEmpty()) {
       throw new IllegalArgumentException("No registered users yet");
@@ -106,7 +115,6 @@ public class UserRegister {
     for (User u1 : this.users) {
       if (u1.equals(user)) {
         userHandler.updateRegister(user);
-        movieRegister.updateMovie(movie);
         foundUser = true;
       }
     }
@@ -114,6 +122,7 @@ public class UserRegister {
       throw new IllegalArgumentException(
           "No user with username: " + user.getUsername());
     }
+
   }
 
   /**

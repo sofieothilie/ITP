@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,8 +46,8 @@ public class MovieRatingSpringController {
     this.userReg = new UserRegister(userFile, movFile);
   }
 
-  /**WORKING
-   * Writes movies to server
+  /**
+   * Writes movies to server.
    * http://localhost:8080/api/v1/movieRating/movies
    *
    * @return List of Movies
@@ -73,12 +74,12 @@ public class MovieRatingSpringController {
 
   /**
    * Add movie to rest.
-   * http://localhost:8080/api/v1/movieRating/movies/{movie}
+   * http://localhost:8080/api/v1/movieRating/movies/add
    *
    * @param movie adds a movie to server
    */
-  @PostMapping(path = "movies/{movie}")
-  public void addMovie(@PathVariable("movie") Movie movie) {
+  @PostMapping(path = "movies/add")
+  public void addMovie(@RequestBody Movie movie) {
     movReg.addMovie(movie);
   }
   
@@ -122,21 +123,35 @@ public class MovieRatingSpringController {
    *
    * @param user a user
    */
-  @PostMapping(path = "users/{user}")
-  public void registerNewUser(@PathVariable("user") User user) {
+  @PostMapping(path = "users/add")
+  public void registerNewUser(@RequestBody User user) {
     this.userReg.registerNewUser(user);
   }
 
+  public void updateMovieAndUser(User user, Movie movie) {
+    this.updateUser(user);
+    this.updateMovie(movie);
+  }
+
   /**
-   * Adds rating for movie.
-   * http://localhost:8080/api/v1/movieRating/rate/{user}&{movie}&{rating}&{action}
+   * Updates rating for user.
+   * http://localhost:8080/api/v1/movieRating/users/update
    *
    * @param user a user
+   */
+  @PutMapping(path = "users/update")
+  public void updateUser(@RequestBody User user) {
+    this.userReg.updateUser(user);
+  }
+
+  /**
+   * Uupdates rating for movie.
+   * http://localhost:8080/api/v1/movieRating/movies/update
+   *
    * @param movie a movie
    */
-  @PutMapping(path = "rate/{user}&{movie}&{rating}&{action}")
-  public void updateMovieAndUser(@PathVariable("user") User user,
-      @PathVariable("movie") Movie movie) {
-    this.userReg.updateMovieAndUser(user, movie);
-  } post
+  @PutMapping(path = "movies/update")
+  public void updateMovie(@RequestBody Movie movie) {
+    this.movReg.updateMovie(movie);
+  }
 }

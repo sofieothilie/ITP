@@ -2,7 +2,6 @@ package ui;
 
 import core.Movie;
 import core.User;
-//import data.UserRegister;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,12 +31,11 @@ public class MovieRatingController {
   private Movie movie;
   private final String movieFilename;
   private User user;
-  //private UserRegister userRegister;
   private final String userFilename;
   private MovieRatingSpringController springController;
   private static List<String> genresList = Arrays.asList("action", "comedy",
       "drama", "fantasy", "horror", "mystery", "romance", "thriller"); 
-  private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);  
+  private static List<Integer> ratingList = Arrays.asList(1, 2, 3, 4, 5);
 
   //FXML fields
   @FXML private Pane ratePane;
