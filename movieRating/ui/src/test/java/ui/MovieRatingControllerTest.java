@@ -408,7 +408,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(ratePane.isVisible());
     //få opp denne ratingen på listviewen
   }
-  //*/
+
   
   @AfterEach
   @DisplayName("After each test reset files")
