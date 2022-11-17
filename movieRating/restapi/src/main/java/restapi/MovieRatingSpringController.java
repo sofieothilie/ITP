@@ -4,8 +4,12 @@ import core.Movie;
 import core.User;
 import data.MovieRegister;
 import data.UserRegister;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,27 +25,41 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/movieRating/")
 public class MovieRatingSpringController {
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<String> excetionHandler(Exception exception) {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
+  }
+
   /**
    * Fields for controller class.
    *
-   * @param movReg MovieRegister
+   * @param movReg  MovieRegister
    * @param userReg UserRegister
    */
-  private final MovieRegister movReg;
-  private final UserRegister userReg;
+
+  private MovieRegister movReg;
+  private UserRegister userReg;
 
   public MovieRatingSpringController() {
     this.movReg = new MovieRegister("movieRegistry");
     this.userReg = new UserRegister("userRegistry", "movieRegistry");
   }
 
+  public MovieRatingSpringController(String moviefilename, String userfilename) {
+    this.movReg = new MovieRegister(moviefilename);
+    this.userReg = new UserRegister(userfilename, moviefilename);
+  }
+
   /**
-   * Constructor for controller.
+   * Constructor for controller to initialize "test mode".
    *
-   * @param movFile a string for filename
+   * @param movFile  a string for filename
    * @param userFile a string for filename
    */
-  public MovieRatingSpringController(String movFile, String userFile) {
+  @GetMapping(path = "test/{movieFilename}&{userFilename}")
+  public void initializeTestMode(@PathVariable("movieFilename") final String movFile,
+      @PathVariable("userFilename") final String userFile) {
     this.movReg = new MovieRegister(movFile);
     this.userReg = new UserRegister(userFile, movFile);
   }
@@ -57,7 +75,8 @@ public class MovieRatingSpringController {
     return new ArrayList<Movie>(movReg.getAllMovies());
   }
 
-  /** WORKING
+  /**
+   * WORKING
    * Get movie by title and genre if it exists.
    * http://localhost:8080/api/v1/movieRating/movies/{title}&{genre}
    * 
@@ -67,7 +86,7 @@ public class MovieRatingSpringController {
    * @return Movie
    */
   @GetMapping(path = "movies/{title}&{genre}")
-  public Movie getMovie(@PathVariable("title") final String title, 
+  public Movie getMovie(@PathVariable("title") final String title,
       @PathVariable("genre") final String genre) {
     return movReg.getMovie(title, genre);
   }
@@ -82,7 +101,7 @@ public class MovieRatingSpringController {
   public void addMovie(@RequestBody Movie movie) {
     movReg.addMovie(movie);
   }
-  
+
   /**
    * Writes movies to server.
    * http://localhost:8080/api/v1/movieRating/users/
@@ -94,7 +113,6 @@ public class MovieRatingSpringController {
     return new ArrayList<User>(userReg.getAllUsers());
   }
 
-  
   /**
    * Get user by username if it exists.
    * http://localhost:8080/api/v1/movieRating/users/{username}
@@ -108,7 +126,7 @@ public class MovieRatingSpringController {
   }
 
   /**
-   * Throws if user already exists. 
+   * Throws if user already exists.
    *
    * @param username a string
    * @param password a string
@@ -126,11 +144,19 @@ public class MovieRatingSpringController {
   @PostMapping(path = "users/add")
   public void registerNewUser(@RequestBody User user) {
     this.userReg.registerNewUser(user);
+
   }
 
+  /**
+  * Updates both mvoie and user on server.
+  *
+  * @param user a user object
+  * @param movie a movie ojbect
+  */
   public void updateMovieAndUser(User user, Movie movie) {
     this.updateUser(user);
     this.updateMovie(movie);
+
   }
 
   /**
