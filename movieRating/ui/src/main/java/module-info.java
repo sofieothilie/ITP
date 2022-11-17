@@ -4,6 +4,10 @@ module movieRating.ui {
   requires movieRating.restapi;
   requires javafx.controls;
   requires javafx.fxml;
-
-  opens ui;
+  requires java.net.http;
+  requires com.fasterxml.jackson.core;
+  requires com.fasterxml.jackson.databind;
+  requires com.fasterxml.jackson.annotation;
+  
+  opens ui to javafx.graphics, javafx.fxml;
 }

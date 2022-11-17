@@ -24,17 +24,15 @@ public class MovieRegister {
   /**
    * Method that adds a movie object to the register.
    *
-   * @param title a string
-   * @param genre a string
+   * @param movie movie
    * @throws IllegalArgumentException if the movie exists already
    */
-  public void addMovie(String title, String genre) { 
+  public void addMovie(Movie movie) { 
     this.movies = getAllMovies();
-    Movie m = new Movie(title, genre);
-    if (movieExists(m)) {
+    if (movieExists(movie)) {
       throw new IllegalArgumentException("The movie already exists");
     }
-    movieHandler.writeMovieToRegister(m);
+    movieHandler.writeMovieToRegister(movie);
   }
 
   /**
@@ -78,6 +76,9 @@ public class MovieRegister {
         moviesByGenre.add(movie);
       }
     }
+    if (moviesByGenre.isEmpty()) {
+      throw new IllegalArgumentException("No movies with genre " + genre);
+    }
     return new ArrayList<>(moviesByGenre);
   }
 
@@ -111,10 +112,13 @@ public class MovieRegister {
     for (Movie movie : movies) {
       if (movie.getTitle().equals(title) && movie.getGenre().equals(genre)) {
         return movie;
-      }
+      } 
     }
     throw new IllegalArgumentException(
-      "No movie with title " + title + " and genre " + genre + "."
+      "No movies with title: " + title 
+              + " and genre: " + genre
+              + " found in the register." + "\n"
+              + "Click on 'Add rating' to add the movie to the register."
     );
   }
 
