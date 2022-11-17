@@ -50,15 +50,38 @@ public class RemoteMovieRatingAccess {
         .GET()
         .build();
     try {
-      final HttpResponse<String> httpResponse = HttpClient.newBuilder()
+      final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(httpRequest, HttpResponse.BodyHandlers.ofString());
-      Movie[] movies = objectMapper.readValue(httpResponse.body(), Movie[].class);
+      this.checkStatus(response);
+      Movie[] movies = objectMapper.readValue(response.body(), Movie[].class);
       this.movieList = new ArrayList<Movie>(Arrays.asList(movies));
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
     return new ArrayList<Movie>(this.movieList);
+  }
+  /**
+   * Initialize test mode.
+   *
+   * @param movieFilename a string
+   * @param userFilename a string
+   */
+
+  public void initializeTestMode(String movieFilename, String userFilename) {
+    try {
+      HttpRequest request = HttpRequest
+          .newBuilder(endpointBaseUri.resolve("test/" + movieFilename + "&" + userFilename))
+          .header("Accept", "application/json")
+          .GET()
+          .build();
+      final HttpResponse<String> response = HttpClient.newBuilder()
+          .build()
+          .send(request, HttpResponse.BodyHandlers.ofString());
+      this.checkStatus(response);
+    } catch (IOException | InterruptedException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -72,10 +95,11 @@ public class RemoteMovieRatingAccess {
         .GET()
         .build();
     try {
-      final HttpResponse<String> httpResponse = HttpClient.newBuilder()
+      final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(httpRequest, HttpResponse.BodyHandlers.ofString());
-      User[] users = objectMapper.readValue(httpResponse.body(), User[].class);
+      this.checkStatus(response);
+      User[] users = objectMapper.readValue(response.body(), User[].class);
       this.userList = new ArrayList<User>(Arrays.asList(users));
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
@@ -90,24 +114,18 @@ public class RemoteMovieRatingAccess {
    * @param genre a string
    * @return movie
    */
-  public Movie getMovie(String title, String genre) { // movie?title=title&genre=genre
-    String getMappingPath = "movie?";
-    String t = "title=";
-    String g = "genre=";
-    String tit = title;
-    String gen = genre;
+  public Movie getMovie(String title, String genre) { 
     try {
       HttpRequest request = HttpRequest
-          .newBuilder(resolveUri(getMappingPath + t + tit + "&" + g + gen))
+          .newBuilder(endpointBaseUri.resolve("movies/" + this.nameConverter(title) + "&" + genre))
           .header("Accept", "application/json")
           .GET()
           .build();
-      final HttpResponse<String> httpResponse = HttpClient.newBuilder()
+      final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(request, HttpResponse.BodyHandlers.ofString());
-
-      return objectMapper.readValue(httpResponse.body(), Movie.class);
-
+      this.checkStatus(response);
+      return objectMapper.readValue(response.body(), Movie.class);
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
@@ -120,7 +138,12 @@ public class RemoteMovieRatingAccess {
    * @return a list of movies with genre
    */
   public List<Movie> searchGenre(String genre) {
-    return getMovieRegister().stream().filter(m -> m.getGenre().equals(genre)).toList();
+    List<Movie> moviesFound = getMovieRegister()
+        .stream().filter(m -> m.getGenre().equals(genre)).toList();
+    if (moviesFound.size() < 1) {
+      throw new IllegalArgumentException("No movies with genre " + genre);
+    }
+    return moviesFound;
   }
 
   /**
@@ -130,7 +153,12 @@ public class RemoteMovieRatingAccess {
    * @return a list of movies with a spesific title
    */
   public List<Movie> searchMovieTitle(String title) {
-    return getMovieRegister().stream().filter(m -> m.getTitle().equals(title)).toList();
+    List<Movie> moviesFound =  getMovieRegister()
+        .stream().filter(m -> m.getTitle().equals(title)).toList();
+    if (moviesFound.size() < 1) {
+      throw new IllegalArgumentException("No movies with title " + title);
+    }
+    return moviesFound;
   }
 
   /**
@@ -148,11 +176,11 @@ public class RemoteMovieRatingAccess {
           .POST(BodyPublishers.ofString(json))
           .build();
 
-      HttpClient.newBuilder()
+      HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(request, HttpResponse.BodyHandlers.ofString());
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException(e.getMessage());
+      this.checkStatus(response);
+
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
@@ -170,12 +198,39 @@ public class RemoteMovieRatingAccess {
         .GET()
         .build();
     try {
-      final HttpResponse<String> httpResponse = HttpClient.newBuilder()
+      final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(httpRequest, HttpResponse.BodyHandlers.ofString());
-      return objectMapper.readValue(httpResponse.body(), User.class);
+      this.checkStatus(response);
+      return objectMapper.readValue(response.body(), User.class);
+    } catch (IllegalArgumentException exception) {
+      throw new IllegalArgumentException(exception.getMessage());
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  /**
+  * Throws if user already exists, invalid password or invalid file.
+  *
+  * @param username a string
+  * @param password a string
+  */
+  public void existingUser(String username, String password) {
+    List<User> usersFound = this.getAllUsers().stream()
+        .filter(user -> user.getUsername().equals(username))
+        .toList();
+    if (usersFound.size() == 0) {
+      throw new IllegalArgumentException("User not found");
+    }
+    usersFound.stream()
+        .filter(user -> user.getPassword().equals(password))
+        .toList();
+    if (usersFound.size() == 0) {
+      throw new IllegalArgumentException("Incorrect password");
+    } else if (usersFound.size() > 1) {
+      throw new IllegalStateException(
+        "More than one user with same username and  password in file. Unable to fetch user.");
     }
   }
 
@@ -185,7 +240,7 @@ public class RemoteMovieRatingAccess {
    *
    * @param user a User
    */
-  public void registerNewUser(User user) throws IllegalArgumentException {
+  public void registerNewUser(User user) {
     try {
       String postString = objectMapper.writeValueAsString(user);
       HttpRequest httpRequest = HttpRequest.newBuilder(resolveUri("users/add"))
@@ -194,14 +249,13 @@ public class RemoteMovieRatingAccess {
           .POST(BodyPublishers.ofString(postString))
           .build();
 
-      final HttpResponse<String> httpResponse = HttpClient.newBuilder()
+      final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(httpRequest, HttpResponse.BodyHandlers.ofString());
-      objectMapper.readValue(httpResponse.body(), User.class);
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException(e.getMessage());
+
+      this.checkStatus(response);
     } catch (IOException | InterruptedException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException(e.getMessage());
     }
   }
 
@@ -230,9 +284,10 @@ public class RemoteMovieRatingAccess {
           .header("Content-Type", "application/json")
           .PUT(BodyPublishers.ofString(postString))
           .build();
-      HttpClient.newBuilder()
+      final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(httpRequest, HttpResponse.BodyHandlers.ofString());
+      this.checkStatus(response);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(e.getMessage());
     } catch (IOException | InterruptedException e) {
@@ -253,13 +308,35 @@ public class RemoteMovieRatingAccess {
           .header("Content-Type", "application/json")
           .PUT(BodyPublishers.ofString(postString))
           .build();
-      HttpClient.newBuilder()
+      final HttpResponse<String> response = HttpClient.newBuilder()
           .build()
           .send(httpRequest, HttpResponse.BodyHandlers.ofString());
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException(e.getMessage());
+      this.checkStatus(response);
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * Throws IllegalArgumentException if statuscode is not 200.
+   *
+   * @param response a httpresponse
+   */
+  private void checkStatus(HttpResponse<String> response) {
+    if (response.statusCode() != 200) {
+      throw new IllegalArgumentException(response.body());
+    }
+  }
+
+  /**
+   * Converts a string with spaces to a string with %20.
+   *
+   * @param name a string
+   */
+  private String nameConverter(String name) {
+    if (name.contains(" ")) {
+      return name.replaceAll(" ", "%20");
+    }
+    return name;
   }
 }

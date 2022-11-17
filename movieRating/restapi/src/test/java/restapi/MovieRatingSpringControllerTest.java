@@ -86,7 +86,7 @@ public class MovieRatingSpringControllerTest {
   }
 
   @Test
-  public void testUpdate(){
+  public void testUpdate() {
     for (User  user : this.userList) {
       mrsc.registerNewUser(user);   
     }
