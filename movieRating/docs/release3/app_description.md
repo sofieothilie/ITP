@@ -73,7 +73,6 @@ The file containing users contains a list of user objects, where each user objec
 } ]
 
 ## Work habits and code quality
-
 We sit together and go through work tasks and create issues for what we are going to do. When we work on the various tasks, we do this in separate branches with the name and number of the issue the task is associated with. We use milestones linked to each assignment, i.e. assignment 1, assignment 2 etc. In addition each issue will have labels which describes the task and the status. E.g. all issues will either be marked as todo, doing, onhold or closed.
 
 When commiting a change we use a spesific set up for the commit message:
@@ -83,3 +82,9 @@ When commiting a change we use a spesific set up for the commit message:
  4. co-authored-by (if necessary)
 
 We sit together and work in longer working sessions. In that way, we can help each other and we get a lot done and familiarize ourselves properly with the project and work tasks. We then either sit and code in pairs, preferably two by two, but use everyone in the group if questions or problems arises. Where it is not as convinient to work in pairs, we work induvidually, but we ensure code quality by always making merge requests and one other in the group must go through them. We have also added CItests on gitlab for Jacoco, Spotbugs and Checkstyle. The merge request is blocked when these pipelines aren´t passed, or if there are test or build failures. We comment on our code consecutively which makes it easier to understand each other codes. Before each submission, we have gone through each individual line of code together and clarified its purpose. This secure the quality of the code, and ensures that everyone in the group agrees on the code that is written.
+
+**Test coverage - jacoco**
+ - core: Over 90% test coverage.
+ - data: Over 85% test coverage. A reason why UserHandler and MovieHandler has lower coverage rate in jacoco is because these java classes are already tested in UserRegister and MovieRegister
+ - restapi: Over 80% test coverage.
+ - ui: RemoteMovieRatingAccess has 35% test coverage. This is beacause we only test four of the methods. The other methods are already testet in MovieRatingControllTest. MovieRatingAccess has **TODO** test coverage
