@@ -32,6 +32,8 @@ import org.testfx.matcher.control.LabeledMatchers;
 
 import core.Movie;
 import core.User;
+import data.MovieHandler;
+import data.UserHandler;
 
 public class MovieRatingControllerTest extends ApplicationTest {
 
@@ -328,9 +330,9 @@ public class MovieRatingControllerTest extends ApplicationTest {
   public void testAddRating() {
     logInStandard();
 
-    robot.clickOn(genreBox).clickOn("action");
+    robot.clickOn(genreBox).clickOn("romance");
     robot.clickOn(searchMovie);
-    clickOn(LabeledMatchers.hasText("Madagaskar; action; 3,00"));
+    clickOn(LabeledMatchers.hasText("The Notebook; romance; 1.00"));
     this.closeAlert();
     clickOn(resetButton);
 
@@ -377,7 +379,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertEquals(null, genreBox.getValue());
     robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
-    clickOn(LabeledMatchers.hasText("Avengers; action; 1,00"));
+    clickOn(LabeledMatchers.hasText("Avengers; action; 1.00"));
     this.closeAlert();
   }
   //*/
@@ -398,7 +400,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
     sleep(400);
-    robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3,00"));
+    robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3.00"));
     assertTrue(ratePane.isVisible());
     robot.clickOn(rateBox).clickOn("4");
     robot.clickOn(rateButton);
@@ -406,22 +408,20 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(ratePane.isVisible());
     //få opp denne ratingen på listviewen
   }
-
-  
+//*/
   @AfterEach
-  @DisplayName("After each test reset files")
-  public void resetData() {
-    File userFile = new File(System.getProperty("user.home") + "/" + "userTest");
-    File movieFile = new File(System.getProperty("user.home") + "/" + "movieTest");
+  public void tearDown() {
+    UserHandler userHandler = new UserHandler("userTest");
+    MovieHandler movieHandler = new MovieHandler("movieTest");
     try {
-      if (userFile.isFile()) {
-        Files.delete(userFile.toPath());
+      if(userHandler.fileExists()){
+        Files.delete(userHandler.getFile().toPath());
       }
-      if (movieFile.isFile()) {
-        Files.delete(userFile.toPath());
+      if (movieHandler.fileExists()) {
+        Files.delete(movieHandler.getFile().toPath());
       }
     } catch (IOException e) {
       throw new IllegalArgumentException();
     }
-  } 
+  }
 }
