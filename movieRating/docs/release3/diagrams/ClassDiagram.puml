@@ -13,12 +13,13 @@ class User
 {
     Fields
     --
-    - String username;
-    - String password;
+    - String final username;
+    - String final password;
     - HashMap<Movie, Integer> ratedMovies;
     ==
     Methods
     --
+    +User()
     +User(String username, String password, HashMap<Movie, Integer> ratedMovies)
     +User(String username, String password)
     +String getUsername()
@@ -27,8 +28,8 @@ class User
     +void rateMovie(Movie movie, Integer myRating)
     +boolean hasRatedMovie(Movie movie)
     +void deleteMovie(Movie movie)
-    +boolean equals(Obejct object)
-    +int hashCode()
+    +boolean equals(Object object)
+    +int HashCode()
 
 }
 class UserRegister
@@ -41,14 +42,14 @@ class UserRegister
     ==
     Methods
     --
-    +UserRegister(String userFileName, String MovieFileName)
+    +UserRegister(String userFileName, String movieFileName)
     +void registerNewUser(User user)
     +List<User> getUsers()
     +User getUser(String username)
-    +void existingUser(String username, String password)
+    +existingUser(String username, String password)
     +void updateMovieAndUser(User user, Movie movie)
     +void updateUser(User user)
-    +List<User> getAllUsers()
+    +List>User> getAllUsers()
 }
 class UserHandler
 {
@@ -58,7 +59,7 @@ class UserHandler
     ==
     Methods
     --
-    +UserHandler(String fileName)
+    +UserHandler(String filename)
     +File getFile()
     +void writeUserToRegister(User user)
     +List<User> readUsersFromRegister()
@@ -79,13 +80,14 @@ class Movie
     ==
     Methods
     --
+    +Movie()
     +Movie(String title, String genre, List<Integer> allRatings)
     +Movie(String title, String genre)
     +String getTitle()
     +String getGenre()
     +List<Integer> getAllRatings()
     +void addRating(int rating)
-    +Double getAverageRating()
+    +Double averageRating()
     +String toString()  
     +void deleteMovie(int rating)
     +boolean equals(Object object)  
@@ -97,18 +99,18 @@ class MovieRegister
     Fields
     --
     -List<Movie> movies
-    -MovieHandler movieHandler
+    -MovieHandler handler
     ==
     Methods
     --
-    +MovieRegister(String fileName)
+    +MovieRegister(String filename)
     +void addMovie(Movie movie)
     +void updateMovie(Movie movie)
     +List<Movie> searchGenre(String genre)
     +List<Movie> searchMovieTitle(String title)
     +Movie getMovie(String title, String genre)
     -boolean movieExists(Movie movie)
-    +List<Movie> getAllMovies()
+    -List<Movie> getAllMovies()
     
 }
 class MovieHandler
@@ -123,10 +125,49 @@ class MovieHandler
     +File getFile()
     +void writeMovieToRegister(Movie movie)
     +void updateMovieInRegister(Movie movie)
-    -List<Movie> updateMovieListWithNewMovie(Movie movie)
+    -List<Movie> updateMovieListWithNewMovie()
     +List<Movie> readMovieAndRatingFromRegister()
     +Boolean fileExists()
 }
+
+class MovieRatingSpringController
+{
+ /** methods to connect users ui-actions to server
+}
+
+class MovieRatingController
+{
+   /** methods to connect users ui-actions to classes
+}
+
+class RemoteMovieRatingAccess
+{
+    Fields
+    --
+    -final URI endpointBaseUri
+    -Objectmapper obejctmapper
+    -List<User> userList;
+    -List<Movie> movieList;
+    ==
+    Methods
+    --
+    +URI resolveUri(String uri)
+    +RemoteMovieRatingAccess(URI endpointbaseUri)
+    +List<Movie> getMovieRegister() 
+    +List<User> getAllUsers()
+    +Movie getMovie(String title, String genre)
+    +List<Movie> searchGenre(String genre)
+    +List<Movie> searchMovieTitle(String title)
+    +void addMovie(Movie movie)
+    +User getUser(String username)
+    +void registerNewUser(User user)
+    +void updateMovieAndUser(User user, Movie movie) 
+    +void updateUser(User user)
+    +void updateMovie(Movie movie)
+
+}
+
+
 
 UserRegister "1..*" --|> "n..*" User : > Enables handling of \nusers to and from register
 /': label 1'/
@@ -138,7 +179,9 @@ MovieRegister "1..*" --|> "n..*" MovieHandler : > instruction read/write
 MovieHandler "1..*" --|> "n..*" Movie : > Saves and loads \numovie objects
 MovieRegister "n..*" <|--  "1..*" UserRegister : < updates rating in movie register
 MovieRegister "1..*" --|> "n..*" Movie : > Enables handling of \nmovies to and from register
-
-
+RemoteMovieRatingAccess "1..*" --|> "n..*" User : > gets user objects
+RemoteMovieRatingAccess "1..*" --|> "n..*" Movie : > gets movie objects
+MovieRatingSpringController
+MovieRatingController
 
 @@enduml

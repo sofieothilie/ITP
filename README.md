@@ -11,7 +11,7 @@
 - **ui** - All user interfaces are stored here: MovieRatingController.java, MovieRatingApp.java. In addition this folder contains file for remote data access; RemoteMovieRatingAccess.java.  In resources is the MovieRating.fxml file.
 
 ## Run the project
-Always start with running the following command in **gr2240/movieRating**: `mvn clean install -DskipTests`. After this, the server can be started by in **gr2240/movieRating/restapi**, by running: `mvn spring-boot:run`. Once the server is started, `mvn test` can be run in all folders, and the application can be started by entering **gr2240/movieRating/ui** and running: `mvn javafx:run`.
+Always start with running the following command in **gr2240/movieRating**: `mvn clean install -DskipTests`. After this, the server can be started by in **gr2240/movieRating/restapi**, by running: `mvn spring-boot:run`. Once the server is started, a new terminal can be opened and `mvn test` can be run in all folders, and the application can be started by entering **gr2240/movieRating/ui** and running: `mvn javafx:run`.
 
  **NB**:
 In gitpod: The application **does not** open automatically. After running mvn `javafx:run` in **ui**, you have to go into "Remote Explorer" and press open browser for port 6080
@@ -23,4 +23,4 @@ After running `mvn clean install -DskipTests`, the application can be downloaded
 In order to properly use the application, the server must be started after this. See above.
 
 ## All documents
-- [Table of contents](./movieRating/docs/release3/TABLE_OF_CONTENTS.md) includes a list of all doucment files and a small descripition of what each file includes. 
+- [Table of contents](./movieRating/docs/release3/TABLE_OF_CONTENTS.md) includes a list of all document files and a small descripition of what each file includes. 

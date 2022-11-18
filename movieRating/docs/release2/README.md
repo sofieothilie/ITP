@@ -31,8 +31,12 @@
 3. Utvide med fysiske stjerner som rating
 4. Utvide slik at delvis søk kommer opp, for eksempel ved et matchende ord el.
 
-## Klassediagram ved release 2
+## Diagram ved release 2
 
 Viser sammenheng mellom klassene med felt, metoder og assosiasjoner slik applikasjonen er ved release 2.
 
 ![Klassediagram over applikasjonen](class2release.png)
+
+Viser sammenheng mellom komponentene ved release 2.
+
+![Komponentdiagram](component2.png)

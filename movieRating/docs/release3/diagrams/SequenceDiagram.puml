@@ -3,9 +3,10 @@ skinparam maxNoteSize 50
 actor       Actor            as actor
 participant UI              as ui
 participant Controller      as controller
-participant MovieRegister   as movieRegister
-participant MovieHandler   as movieHandler
-participant Movie           as movie
+participant RemoteMovieRatingAcces   as remote
+participant MovieRatingSpringController   as server
+participant MovieRegister   as movreg
+participant MovieHandler as movieHandler
 database    Database        as database 
 
 activate actor
@@ -16,21 +17,25 @@ deactivate actor
 ui              ->  controller :        handleAddMovieToRegister()
 deactivate ui
 activate controller
-controller      ->  movie :             new movie("title", "genre")
+controller      ->  remote :     addMovie(movie)
 deactivate controller
-activate movie
-movie           ->  controller :        movie      
-deactivate movie
-activate controller
-controller      ->  movieRegister :     addMovie(movie)
-deactivate controller
-activate movieRegister
-movieRegister   ->  movieRegister :     updateMovieList()
+activate remote
+remote --> server : HttpRequest to add Movie to server
+deactivate remote
+activate server 
+server -> movreg :     addMovie(movie)
+deactivate server
+activate movreg
+
+
+
+activate movreg
+movreg   ->  movreg :     updateMovieList()
 
 alt #SkyBlue movie already exists in register
 
-    movieRegister   --> actor :          "The movie already exists."
-    deactivate movieRegister
+    movreg   --> actor :          "The movie already exists."
+    deactivate movreg
     activate actor
 
     note over actor
@@ -42,8 +47,8 @@ alt #SkyBlue movie already exists in register
 
 else #Orange movie doesn't exist in register
     
-    movieRegister   -> movieHandler :   writeMovieToRegister(movie)
-    deactivate movieRegister
+    movreg   -> movieHandler :   writeMovieToRegister(movie)
+    deactivate movreg
     activate movieHandler
     movieHandler    -> database :       movie
     deactivate movieHandler
