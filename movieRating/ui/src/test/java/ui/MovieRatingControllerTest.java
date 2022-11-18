@@ -330,9 +330,9 @@ public class MovieRatingControllerTest extends ApplicationTest {
   public void testAddRating() {
     logInStandard();
 
-    robot.clickOn(genreBox).clickOn("action");
+    robot.clickOn(genreBox).clickOn("romance");
     robot.clickOn(searchMovie);
-    clickOn(LabeledMatchers.hasText("Madagaskar; action; 3,00"));
+    clickOn(LabeledMatchers.hasText("The Notebook; romance; 1.00"));
     this.closeAlert();
     clickOn(resetButton);
 
@@ -379,7 +379,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertEquals(null, genreBox.getValue());
     robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
-    clickOn(LabeledMatchers.hasText("Avengers; action; 1,00"));
+    clickOn(LabeledMatchers.hasText("Avengers; action; 1.00"));
     this.closeAlert();
   }
   //*/
@@ -400,7 +400,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     robot.clickOn(genreBox).clickOn("action");
     robot.clickOn(searchMovie);
     sleep(400);
-    robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3,00"));
+    robot.clickOn(LabeledMatchers.hasText("Madagaskar; action; 3.00"));
     assertTrue(ratePane.isVisible());
     robot.clickOn(rateBox).clickOn("4");
     robot.clickOn(rateButton);
@@ -408,7 +408,7 @@ public class MovieRatingControllerTest extends ApplicationTest {
     assertFalse(ratePane.isVisible());
     //få opp denne ratingen på listviewen
   }
-
+//*/
   @AfterEach
   public void tearDown() {
     UserHandler userHandler = new UserHandler("userTest");
