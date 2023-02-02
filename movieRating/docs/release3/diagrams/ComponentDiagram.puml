@@ -3,29 +3,41 @@ skinparam BackgroundColor transparent
 skinparam componentStyle uml2
 node core #LightGray {
    component "Movie" #ForestGreen
-   component "MovieRegister" #ForestGreen
    component "User" #Orange
-   component "UserRegister" #Orange
-   [MovieRegister]->[Movie]
-   [UserRegister]->[User]
-   [UserRegister]->[MovieRegister]
+   [User] -> [Movie]
+   
 }
 node UI #LightGray {
    component "MovieRatingApp" #SkyBlue
    component "MovieRatingController" #SkyBlue
-   [MovieRatingController] <- [MovieRatingApp]
+   component "RemoteMovingRatingAccess" #White
+   [MovieRatingApp] -right-> [MovieRatingController]
    [MovieRatingController] -down-> [Movie]
    [MovieRatingController] ->[User]
-   [MovieRatingController] ->[MovieRegister]
-   [MovieRatingController] ->[UserRegister]
+   [MovieRatingController] ->[RemoteMovingRatingAccess]
 
 }
-node persistens #LightGray {
+node data #LightGray {
     /'Endre navn på denne'/
    component "UserHandler" #Orange
+   component "UserRegister" #Orange
    component "MovieHandler" #ForestGreen
-   [User] <- [UserHandler]
-   [Movie] <- [MovieHandler]
+   component "MovieRegister" #ForestGreen
+   [MovieRegister]-down->[MovieHandler]
+   [UserRegister]-down-> [UserHandler]
+   [UserRegister] -> [MovieRegister]
+   [MovieRegister] -> [Movie]
+   [UserRegister] -> [Movie]
+   [UserRegister] -> [User]
+}
+node restapi #LightGray {
+    /'Endre navn på denne'/
+   component "MovieRatingSpringController" #White
+   component "MovieRatingApplication" #White
+   [MovieRatingApplication] -left-> [MovieRatingSpringController]
+   [MovieRatingSpringController] <-> [RemoteMovingRatingAccess]
+   [MovieRatingSpringController] <- [UserRegister]
+   [MovieRatingSpringController] <- [MovieRegister]
    [MovieRegister]->[MovieHandler]
    [UserRegister]-down-> [UserHandler]
 }

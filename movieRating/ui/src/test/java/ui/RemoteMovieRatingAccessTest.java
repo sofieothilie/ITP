@@ -1,11 +1,9 @@
 package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows; 
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +16,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import core.Movie;
 import core.User;
-import data.MovieHandler;
-import data.UserHandler;
 
 public class RemoteMovieRatingAccessTest {
   private WireMockConfiguration wireMockConfig;
@@ -143,26 +139,10 @@ public class RemoteMovieRatingAccessTest {
 
 
   @AfterEach
+  @DisplayName("Stops wiremock server after each test")
   public void stopWireMockServer() {
    wireMockServer.stop();
   }
-
-  @AfterEach
-  @DisplayName("After each test reset files")
-  public void resetData() {
-    UserHandler userHandler = new UserHandler("testUserRegister");
-    MovieHandler movieHandler = new MovieHandler("testMovieRegister");
-    try {
-      if(userHandler.fileExists()){
-        Files.delete(userHandler.getFile().toPath());
-      }
-      if (movieHandler.fileExists()) {
-        Files.delete(movieHandler.getFile().toPath());
-      }
-    } catch (IOException e) {
-      throw new IllegalArgumentException();
-    }
-  } 
 
   private String getUrl(String... segments) {
   String url = "/api/v1";
@@ -176,4 +156,3 @@ public class RemoteMovieRatingAccessTest {
       return remoteMovieRatingAccess;
   }
 }
-
